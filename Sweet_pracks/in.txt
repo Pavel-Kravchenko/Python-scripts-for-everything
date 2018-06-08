@@ -1,0 +1,5 @@
+id -> res1
+abc 123
+id -> res2
+bcd 2.7182818284
+abc 123
