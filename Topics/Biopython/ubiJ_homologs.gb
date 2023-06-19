@@ -1,0 +1,116 @@
+
+1. ubiJ
+aerobic ubiquinone synthesis protein, SCP2 family protein [Escherichia coli str. K-12 substr. MG1655]
+Other Aliases: b3834, ECK3828, JW3811, yigP
+Annotation:  NC_000913.3 (4019624..4020229)
+ID: 948915
+
+2. BEE12_RS07670
+SCP2 domain-containing protein [Pantoea agglomerans]
+Other Aliases: BEE12_RS07670, BEE12_07670
+ID: 31704956
+
+3. VVCECT4999_RS16215
+SCP2 domain-containing protein [Vibrio vulnificus]
+Other Aliases: VVCECT4999_RS16215, VVCECT4999_15205
+Chromosome: I
+ID: 33954693
+
+4. CSK29544_RS03385
+SCP2 domain-containing protein [Cronobacter sakazakii]
+Other Aliases: CSK29544_RS03385, CSK29544_00687
+ID: 29458024
+
+5. DR93_RS03305
+SCP2 domain-containing protein [Pasteurella multocida]
+Other Aliases: DR93_RS03305, DR93_674
+ID: 29388939
+
+6. AL471_RS12070
+SCP2 domain-containing protein [Vibrio alginolyticus]
+Other Aliases: AL471_RS12070, AL471_12070
+ID: 31650389
+
+7. IX91_RS14815
+SCP2 domain-containing protein [Vibrio tubiashii ATCC 19109]
+Other Aliases: IX91_RS14815, IX91_15120
+Chromosome: 1
+ID: 23446056
+
+8. XF_RS07930
+SCP2 domain-containing protein [Xylella fastidiosa 9a5c]
+Other Aliases: XF_RS07930, XF1832
+Annotation:  NC_002488.3 (1748175..1748822)
+ID: 1127382
+
+9. Q7S_RS21015
+SCP2 domain-containing protein [Rahnella aquatilis HX2]
+Other Aliases: Q7S_RS21015, Q7S_21140
+Annotation:  NC_017047.1 (4638758..4639366, complement)
+ID: 34351826
+
+10. H681_RS01990
+SCP2 domain-containing protein [Pseudomonas sp. ATCC 13867]
+Other Aliases: H681_RS01990, H681_01995
+Annotation:  NC_020829.1 (440147..440770, complement)
+ID: 32563224
+
+11. AXX16_RS01505
+SCP2 domain-containing protein [Serratia rubidaea]
+Other Aliases: AXX16_RS01505, AXX16_0301
+ID: 32372104
+
+12. S70_RS07615
+SCP2 domain-containing protein [Providencia stuartii MRSN 2154]
+Other Aliases: S70_RS07615, S70_07745
+Annotation:  NC_017731.1 (1642059..1642712, complement)
+ID: 31516416
+
+13. N646_RS11385
+SCP2 domain-containing protein [Vibrio alginolyticus NBRC 15630 = ATCC 17749]
+Other Aliases: N646_RS11385, N646_2285
+Chromosome: 1
+Annotation: Chromosome 1 NC_022349.1 (2474864..2475499)
+ID: 29867730
+
+14. C813_RS45005
+SCP2 domain-containing protein [Kosakonia sacchari SP1]
+Other Aliases: C813_RS45005, C813_14370
+ID: 23845930
+
+15. MU9_RS03955
+SCP2 domain-containing protein [Morganella morganii subsp. morganii KT]
+Other Aliases: MU9_RS03955, MU9_761
+Annotation:  NC_020418.1 (846901..847575)
+ID: 14669972
+
+16. DDA3937_RS20325
+SCP2 domain-containing protein [Dickeya dadantii 3937]
+Other Aliases: DDA3937_RS20325, Dda3937_02063
+Annotation:  NC_014500.1 (4627791..4628399, complement)
+ID: 9735804
+
+17. EAMY_RS18345
+SCP2 domain-containing protein [Erwinia amylovora CFBP1430]
+Other Aliases: EAMY_RS18345, EAMY_0213
+Annotation:  NC_013961.1 (249520..250125)
+ID: 8914156
+
+18. XBJ1_RS02190
+SCP2 domain-containing protein [Xenorhabdus bovienii SS-2004]
+Other Aliases: XBJ1_RS02190, XBJ1_0507
+Annotation:  NC_013892.1 (508801..509451)
+ID: 8830130
+
+19. NT01EI_RS00615
+SCP2 domain-containing protein [Edwardsiella ictaluri 93-146]
+Other Aliases: NT01EI_RS00615, NT01EI_0141
+Annotation:  NC_012779.2 (140018..140623)
+ID: 7958741
+
+20. PMI_RS17580
+SCP2 domain-containing protein [Proteus mirabilis HI4320]
+Other Aliases: PMI_RS17580, PMI3537
+Annotation:  NC_010554.1 (3859033..3859674)
+ID: 6799949
+

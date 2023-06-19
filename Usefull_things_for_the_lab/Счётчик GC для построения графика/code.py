@@ -1,0 +1,1 @@
+"GC" or "CT" or "AT" or "GT" or "TC" or "CC" or "AC" or "GG" or "CG" and not "ATG" and not "TTA" and not "TTG"

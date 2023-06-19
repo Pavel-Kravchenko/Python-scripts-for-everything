@@ -1,0 +1,2 @@
+The program takes number of sequences, bottom-lenght, top-lenght and name of out file.
+It makes random sequences.

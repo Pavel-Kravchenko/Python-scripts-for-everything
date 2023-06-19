@@ -1,0 +1,1000 @@
+KX341966.1 18114 0 KX341966.1 Gmelinoides fasciatus mitochondrion, complete genome
+MG970575.2 16570 0 MG970575.2 Homo sapiens haplogroup H mitochondrion, complete genome
+KU956960.1 18628 0 KU956960.1 Porites sverdrupi isolate Psv1_BCO mitochondrion, complete genome
+NC_037527.1 16920 0 NC_037527.1 Bradypus tridactylus voucher ISEM_T-5013 mitochondrion, complete genome
+NC_037525.1 14401 0 NC_037525.1 Ornithodoros savignyi clone Contig419_14401_988 mitochondrion, complete genome
+NC_037524.1 14433 0 NC_037524.1 Carios faini clone Contig32/39/56/177/529_144433_259 mitochondrion, complete genome
+NC_037523.1 14437 0 NC_037523.1 Argas walkerae clone Contig195_14437_284 mitochondrion, complete genome
+NC_037522.1 14487 0 NC_037522.1 Argas striatus clone Contig8/39_14426_3638 mitochondrion, complete genome
+NC_037521.1 16805 0 NC_037521.1 Serinus canaria mitochondrion, complete genome
+NC_037520.1 16462 0 NC_037520.1 Syngnathus schlegeli mitochondrion, complete genome
+NC_037516.1 16578 0 NC_037516.1 Schizothorax taliensis mitochondrion, complete genome
+NC_037515.1 15427 0 NC_037515.1 Paraona staudingeri strain Guanshan mitochondrion, complete genome
+NC_037513.1 17160 0 NC_037513.1 Streptopelia decaocto mitochondrion, complete genome
+NC_037512.1 15472 0 NC_037512.1 Aglaomorpha histrio mitochondrion, complete genome
+NC_037511.1 15970 0 NC_037511.1 Incisitermes minor mitochondrion, complete genome
+NC_037509.1 16592 0 NC_037509.1 Psammomys obesus mitochondrion, complete genome
+NC_037505.1 16486 0 NC_037505.1 Pagellus acarne mitochondrion, complete genome
+NC_037502.1 16652 0 NC_037502.1 Salvelinus malma mitochondrion, complete genome
+NC_037501.1 15201 0 NC_037501.1 Endotricha consocia mitochondrion, complete genome
+NC_037500.1 15620 0 NC_037500.1 Sabethes glaucodaemon mitochondrion, complete genome
+NC_037499.1 15609 0 NC_037499.1 Sabethes chloropterus mitochondrion, complete genome
+NC_037498.1 15911 0 NC_037498.1 Sabethes belisarioi mitochondrion, complete genome
+NC_037496.1 15322 0 NC_037496.1 Cryptocercus meridianus mitochondrion, complete genome
+NC_037493.1 14718 0 NC_037493.1 Haemaphysalis longicornis mitochondrion, complete genome
+NC_037488.1 16362 0 NC_037488.1 Diaphanosoma dubium mitochondrion, complete genome
+NC_037487.1 15903 0 NC_037487.1 Shinkaicaris leurokolos mitochondrion, complete genome
+NC_037486.1 16928 0 NC_037486.1 Urocissa caerulea mitochondrion, complete genome
+NC_037481.1 16073 0 NC_037481.1 Gammarus roeselii mitochondrion, complete genome
+NC_037476.1 242410 0 NC_037476.1 Anthoceros angustus mitochondrion, complete genome
+NC_037470.1 16718 0 NC_037470.1 Bagre panamensis mitochondrion, complete genome
+NC_037469.1 16714 0 NC_037469.1 Occidentarius platypogon mitochondrion, complete genome
+NC_037468.1 617195 0 NC_037468.1 Nymphaea colorata mitochondrion, complete genome
+NC_037467.1 14268 0 NC_037467.1 Gyge ovalis mitochondrion, complete genome
+NC_037466.1 16565 0 NC_037466.1 Macaca mulatta vestita mitochondrion, complete genome
+NC_037464.1 17870 0 NC_037464.1 Garrulax albogularis mitochondrion, complete genome
+NC_037463.1 640906 0 NC_037463.1 Citrus sinensis mitochondrion, complete genome
+NC_037454.1 39464 0 NC_037454.1 Cryptomonas curvata strain CNUKR mitochondrion, complete genome
+NC_037453.1 48236 0 NC_037453.1 Proteomonas sulcata strain CCMP705 mitochondrion, complete genome
+NC_037452.1 61567 0 NC_037452.1 Storeatula sp. CCMP1868 mitochondrion, complete genome
+NC_037451.1 46700 0 NC_037451.1 Chroomonas placoidea strain CCAP978/8 mitochondrion, complete genome
+NC_037449.1 38164 0 NC_037449.1 Prototheca zopfii strain SAG 2063 mitochondrion, complete genome
+NC_037445.1 15252 0 NC_037445.1 Psilogramma increta mitochondrion, complete genome
+NC_037444.1 16386 0 NC_037444.1 Eubalaena glacialis mitochondrion, complete genome
+NC_037441.1 15290 0 NC_037441.1 Macroglossum stellatarum mitochondrion, complete genome
+NC_037437.1 16525 0 NC_037437.1 Macaca sinica mitochondrion, complete genome
+NC_037436.1 43442 0 NC_037436.1 Teleaulax amphioxeia strain HACCP-CR01 mitochondrion, complete genome
+NC_037435.1 18630 0 NC_037435.1 Porites harrisoni mitochondrion, complete genome
+NC_037434.1 18658 0 NC_037434.1 Porites fontanesii voucher SO114 mitochondrion, complete genome
+NC_037431.1 15909 0 NC_037431.1 Alasmidonta heterodon mitochondrion, complete genome
+NC_037408.1 16598 0 NC_037408.1 Semilabeo obscurus mitochondrion, complete genome
+NC_037406.1 16955 0 NC_037406.1 Porzana paykullii mitochondrion, complete genome
+NC_037405.1 16622 0 NC_037405.1 Ancherythroculter wangi mitochondrion, complete genome
+NC_037404.1 16774 0 NC_037404.1 Acheilognathus omeiensis mitochondrion, complete genome
+NC_037403.1 16675 0 NC_037403.1 Sarcocheilichthys davidi mitochondrion, complete genome
+NC_037402.1 16603 0 NC_037402.1 Microphysogobio kiatingensis mitochondrion, complete genome
+NC_037399.1 16677 0 NC_037399.1 Salmo ischchan isolate BO1 mitochondrion, complete genome
+NC_037398.1 15002 0 NC_037398.1 Tetraclita rufotincta mitochondrion, complete genome
+NC_037397.1 15544 0 NC_037397.1 Choristoneura rosaceana mitochondrion, complete genome
+NC_037396.1 15540 0 NC_037396.1 Choristoneura murinana mitochondrion, complete genome
+NC_037395.1 15304 0 NC_037395.1 Choristoneura fumiferana mitochondrion, complete genome
+NC_037394.1 15533 0 NC_037394.1 Choristoneura biennis mitochondrion, complete genome
+NC_037393.1 15536 0 NC_037393.1 Choristoneura occidentalis mitochondrion, complete genome
+NC_037391.1 20722 0 NC_037391.1 Halichondria okadai mitochondrion, complete genome
+NC_037390.1 15495 0 NC_037390.1 Cirriformia cf. tentaculata HK-2018 mitochondrion, complete genome
+NC_037387.1 16568 0 NC_037387.1 Chelodina oblonga mitochondrion, complete genome
+NC_037386.1 16503 0 NC_037386.1 Chelodina pritchardi mitochondrion, complete genome
+NC_037385.1 16523 0 NC_037385.1 Chelodina parkeri mitochondrion, complete genome
+NC_037384.1 16508 0 NC_037384.1 Chelodina mccordi mitochondrion, complete genome
+NC_037383.1 16503 0 NC_037383.1 Chelodina expansa mitochondrion, complete genome
+NC_037382.1 17358 0 NC_037382.1 Oreolalax multipunctatus voucher CIB2013wb091 mitochondrion, complete genome
+NC_037381.1 15616 0 NC_037381.1 Toxodera hauseri mitochondrion, complete genome
+NC_037380.1 17702 0 NC_037380.1 Phyllobates terribilis mitochondrion, complete genome
+NC_037379.1 16751 0 NC_037379.1 Hyloxalus subpunctatus mitochondrion, complete genome
+NC_037378.1 18005 0 NC_037378.1 Melanophryniscus moreirae mitochondrion, complete genome
+NC_037377.1 16881 0 NC_037377.1 Scaphiopus holbrookii mitochondrion, complete genome
+NC_037376.1 15862 0 NC_037376.1 Notopteryx soror mitochondrion, complete genome
+NC_037375.1 15067 0 NC_037375.1 Neolethaeus assamensis mitochondrion, complete genome
+NC_037374.1 15614 0 NC_037374.1 Dalsira scabrata mitochondrion, complete genome
+NC_037373.1 15744 0 NC_037373.1 Metatropis longirostris mitochondrion, complete genome
+NC_037372.1 15303 0 NC_037372.1 Macrosaldula sp. PJ-2017 mitochondrion, complete genome
+NC_037371.1 16366 0 NC_037371.1 Nabicula flavomarginata mitochondrion, complete genome
+NC_037370.1 15168 0 NC_037370.1 Aphelocheirus jendeki mitochondrion, complete genome
+NC_037369.1 15846 0 NC_037369.1 Acanthaspis ruficeps mitochondrion, complete genome
+NC_037368.1 15573 0 NC_037368.1 Melophagus ovinus mitochondrion, complete genome
+NC_037359.1 17886 0 NC_037359.1 Montipora aequituberculata mitochondrion, complete genome
+MG602719.1 80736 0 MG602719.1 Cantharellus lutescens isolate s144 mitochondrion, complete genome
+MG602718.1 56811 0 MG602718.1 Cantharellus cibarius isolate s28 mitochondrion, complete genome
+MG602717.1 56786 0 MG602717.1 Cantharellus cibarius isolate s75 mitochondrion, complete genome
+MG602716.1 73562 0 MG602716.1 Cantharellus appalachiensis isolate s38 mitochondrion, complete genome
+MG519331.1 101111 0 MG519331.1 UNVERIFIED: Laetiporus sulphureus mitochondrion sequence
+MF198253.1 16146 0 MF198253.1 Suwallia teleckojensis mitochondrion, complete genome
+MG922856.1 36396 0 MG922856.1 Fucus vesiculosus var. spiralis voucher UC 2050586 mitochondrion, complete genome
+NC_036219.1 13934 0 NC_036219.1 Moniezia expansa strain Guangxi20151207-2 mitochondrion, complete genome
+NC_025757.1 15349 0 NC_025757.1 Papilio helenus mitochondrion, complete genome
+NC_015641.1 18875 0 NC_015641.1 Euphyllia ancora mitochondrion, complete genome
+NC_008159.1 21376 0 NC_008159.1 Ricordea florida mitochondrion, complete genome
+MG912997.1 16504 0 MG912997.1 Paroster microsturtensis mitochondrion, complete genome
+MG912996.1 16663 0 MG912996.1 Paroster mesosturtensis mitochondrion, complete genome
+MG912995.1 16676 0 MG912995.1 Paroster macrosturtensis mitochondrion, complete genome
+MG912994.1 16868 0 MG912994.1 Limbodessus palmulaoides mitochondrion, complete genome
+KY069970.1 15638 0 KY069970.1 Urostylis flavoannulata mitochondrion, complete genome
+KY069969.1 16477 0 KY069969.1 Reduvius gregoryi mitochondrion, complete genome
+KY069968.1 15743 0 KY069968.1 Canthesancus helluo mitochondrion, complete genome
+KY069967.1 15660 0 KY069967.1 Scipinia horrida mitochondrion, complete genome
+KY069966.1 15707 0 KY069966.1 Rhynocoris incertis mitochondrion, complete genome
+KY069965.1 15565 0 KY069965.1 Tessaratoma papillosa mitochondrion, complete genome
+KY069964.1 15233 0 KY069964.1 Carbula sinica mitochondrion, complete genome
+KY069963.1 15682 0 KY069963.1 Saldula burmanica mitochondrion, complete genome
+KY069962.1 15422 0 KY069962.1 Cyclopelta parva mitochondrion, complete genome
+KY069961.1 15904 0 KY069961.1 Velinus nodipes mitochondrion, complete genome
+KY069960.1 15312 0 KY069960.1 Tapeinus singularis mitochondrion, complete genome
+KY069959.1 15436 0 KY069959.1 Inara alboguttata mitochondrion, complete genome
+KY069958.1 15686 0 KY069958.1 Acanthaspis cincticrus mitochondrion, complete genome
+KY069957.1 15335 0 KY069957.1 Carcinochelis bannaensis mitochondrion, complete genome
+KY069956.1 15228 0 KY069956.1 Amblythyreus gestroi mitochondrion, complete genome
+MG727892.1 16656 0 MG727892.1 Dentex dentex mitochondrion, complete genome
+MF953479.1 17864 0 MF953479.1 UNVERIFIED: Oreolalax jingdongensis mitochondrion sequence
+MF100157.1 16988 0 MF100157.1 UNVERIFIED: Cyrtodactylus peguensis mitochondrion sequence
+MG748599.1 15294 0 MG748599.1 UNVERIFIED: Lepidoptera sp. 1 TS-2018 mitochondrion sequence
+MG570047.1 14303 0 MG570047.1 Trichobilharzia szidati mitochondrion, complete genome
+MG699124.1 47279 0 MG699124.1 UNVERIFIED: Lecanora rugosella mitochondrion sequence
+MG979470.1 15149 0 MG979470.1 Potamopyrgus antipodarum isolate Ianthe_2_2x mitochondrion, complete genome
+MG979469.1 15145 0 MG979469.1 Potamopyrgus antipodarum isolate Waikaremoana_4_3x mitochondrion, complete genome
+MG979468.1 15149 0 MG979468.1 Potamopyrgus antipodarum isolate Alexandrina_Yellow_2x mitochondrion, complete genome
+MG979467.1 15141 0 MG979467.1 Potamopyrgus antipodarum isolate Kaniere_3x mitochondrion, complete genome
+MF770485.1 18676 0 MF770485.1 UNVERIFIED: Oreolalax rhodostigmatus mitochondrion sequence
+MH094667.1 16578 0 MH094667.1 Schizothorax taliensis mitochondrion, complete genome
+KY827330.1 15427 0 KY827330.1 Paraona staudingeri strain Guanshan mitochondrion, complete genome
+KY827037.1 17102 0 KY827037.1 Streptopelia orientalis mitochondrion, complete genome
+KY827036.1 17160 0 KY827036.1 Streptopelia decaocto mitochondrion, complete genome
+KY800518.1 15472 0 KY800518.1 Aglaomorpha histrio mitochondrion, complete genome
+KX686496.1 16565 0 KX686496.1 Macaca mulatta vestita mitochondrion, complete genome
+KY126309.1 105340 0 KY126309.1 Physcomitrella patens mitochondrion, complete genome
+KX082660.1 17870 0 KX082660.1 Garrulax albogularis mitochondrion, complete genome
+CP028778.1 51340 0 CP028778.1 Pichia kudriavzevii strain CBS573 mitochondrion, complete genome
+MF563963.1 18064 0 MF563963.1 Gonioctena intermedia mitochondrion, complete genome
+MF563962.1 18293 0 MF563962.1 Gonioctena intermedia mitochondrion, complete genome
+MG557850.1 15970 0 MG557850.1 Incisitermes minor mitochondrion, complete genome
+MG736621.1 640906 0 MG736621.1 Citrus sinensis mitochondrion, complete genome
+MF673131.1 16729 0 MF673131.1 UNVERIFIED: Microhyla fissipes mitochondrion sequence
+MH102403.1 16805 0 MH102403.1 Ailuropoda melanoleuca mitochondrion, complete genome
+MG558461.1 16592 0 MG558461.1 Psammomys obesus mitochondrion, complete genome
+MH161386.1 16567 0 MH161386.1 Homo sapiens haplogroup L1b1a mitochondrion, complete genome
+MH161387.1 16562 0 MH161387.1 Homo sapiens haplogroup B2 mitochondrion, complete genome
+MH118552.1 16569 0 MH118552.1 Homo sapiens haplogroup T2b mitochondrion, complete genome
+MH142589.1 16570 0 MH142589.1 Homo sapiens haplogroup W3a1 mitochondrion, complete genome
+MH178741.1 16569 0 MH178741.1 Homo sapiens haplogroup U5a1f1a1 mitochondrion, complete genome
+MH166336.1 16570 0 MH166336.1 Homo sapiens haplogroup H mitochondrion, complete genome
+MH161389.1 16567 0 MH161389.1 Homo sapiens haplogroup M20 mitochondrion, complete genome
+MH118550.1 16570 0 MH118550.1 Homo sapiens haplogroup H mitochondrion, complete genome
+MH158249.1 16567 0 MH158249.1 Homo sapiens haplogroup U5a1b1h mitochondrion, complete genome
+MH102415.1 16569 0 MH102415.1 Homo sapiens haplogroup T1a1 mitochondrion, complete genome
+MH161385.1 16569 0 MH161385.1 Homo sapiens haplogroup J1c5 mitochondrion, complete genome
+MH158239.1 16569 0 MH158239.1 Homo sapiens haplogroup U2e1e mitochondrion, complete genome
+MH118551.1 16569 0 MH118551.1 Homo sapiens haplogroup z1a1a mitochondrion, complete genome
+MH057392.1 16569 0 MH057392.1 Homo sapiens haplogroup U5b1b1a mitochondrion, complete genome
+MH158251.1 16574 0 MH158251.1 Homo sapiens haplogroup I2 mitochondrion, complete genome
+MH161390.1 16569 0 MH161390.1 Homo sapiens haplogroup U5a2e mitochondrion, complete genome
+MH087473.1 16571 0 MH087473.1 Homo sapiens haplogroup H13a1a1d mitochondrion, complete genome
+MH135324.1 16570 0 MH135324.1 Homo sapiens haplogroup T2b23 mitochondrion, complete genome
+MH168104.1 16576 0 MH168104.1 Homo sapiens haplogroup I5a2 mitochondrion, complete genome
+MH087470.1 16570 0 MH087470.1 Homo sapiens haplogroup T2b17a mitochondrion, complete genome
+MH161391.1 16571 0 MH161391.1 Homo sapiens haplogroup H1t mitochondrion, complete genome
+MH087468.1 16576 0 MH087468.1 Homo sapiens haplogroup I1b mitochondrion, complete genome
+MH158238.1 16569 0 MH158238.1 Homo sapiens haplogroup K2b1a1a mitochondrion, complete genome
+MH142590.1 16569 0 MH142590.1 Homo sapiens haplogroup H64 mitochondrion, complete genome
+MH087474.1 16573 0 MH087474.1 Homo sapiens haplogroup I2d mitochondrion, complete genome
+MH158250.1 16570 0 MH158250.1 Homo sapiens haplogroup U8a1a1 mitochondrion, complete genome
+MG736083.1 16486 0 MG736083.1 Pagellus acarne mitochondrion, complete genome
+MF680544.1 16652 0 MF680544.1 Salvelinus malma mitochondrion, complete genome
+KY038053.1 14268 0 KY038053.1 Gyge ovalis mitochondrion, complete genome
+NR_136399.1 6020 0 NR_136399.1 Homo sapiens insulin degrading enzyme (IDE), transcript variant 8, non-coding RNA
+NM_001322796.1 6060 0 NM_001322796.1 Homo sapiens insulin degrading enzyme (IDE), transcript variant 6, mRNA
+NM_001322795.1 6078 0 NM_001322795.1 Homo sapiens insulin degrading enzyme (IDE), transcript variant 5, mRNA
+NM_001322797.1 4480 0 NM_001322797.1 Homo sapiens insulin degrading enzyme (IDE), transcript variant 7, mRNA
+NM_001322794.1 5779 0 NM_001322794.1 Homo sapiens insulin degrading enzyme (IDE), transcript variant 4, mRNA
+NM_001322793.1 5896 0 NM_001322793.1 Homo sapiens insulin degrading enzyme (IDE), transcript variant 3, mRNA
+NM_001151.3 4420 0 NM_001151.3 Homo sapiens solute carrier family 25 member 4 (SLC25A4), mRNA
+NW_020185340.1 3256781 0 NW_020185340.1 Sordaria macrospora k-hell, WGS project CABT00000000 data, contig 2.1, whole genome shotgun sequence
+CP021330.1 3380026 0 CP021330.1 Maritalea myrionectae strain HL2708#5 chromosome, complete genome
+MF568544.1 15201 0 MF568544.1 Endotricha consocia mitochondrion, complete genome
+MF143597.1 16828 0 MF143597.1 Sus scrofa breed Kele mitochondrion, complete genome
+MF957173.1 15620 0 MF957173.1 Sabethes glaucodaemon mitochondrion, complete genome
+MF957172.1 15609 0 MF957172.1 Sabethes chloropterus mitochondrion, complete genome
+MF957171.1 15911 0 MF957171.1 Sabethes belisarioi mitochondrion, complete genome
+MG770607.1 316586 0 MG770607.1 Helianthus annuus mitochondrion, complete genome
+MG523272.1 16602 0 MG523272.1 Onychostoma sp. n. FH-2018 mitochondrion, complete genome
+MG822727.1 16528 0 MG822727.1 UNVERIFIED: Hippocampus fuscus mitochondrion sequence
+MG489916.1 14999 0 MG489916.1 Diaphorina citri mitochondrion, complete genome
+MG257490.1 585493 0 MG257490.1 UNVERIFIED: Phoenix dactylifera mitochondrion sequence
+MG851822.1 60062 0 MG851822.1 UNVERIFIED: Cladonia stipitata mitochondrion sequence
+MG518617.1 15322 0 MG518617.1 Cryptocercus meridianus mitochondrion, complete genome
+MG515171.1 16843 0 MG515171.1 Abalistes stellaris mitochondrion, complete genome
+NC_036878.1 16670 0 NC_036878.1 Nodularia douglasiae mitochondrion, complete genome
+NC_036512.1 16586 0 NC_036512.1 Tor douronensis mitochondrion, complete genome
+NC_036511.1 16581 0 NC_036511.1 Tor tambra mitochondrion, complete genome
+KY889142.1 617195 0 KY889142.1 Nymphaea colorata mitochondrion, complete genome
+MF597774.1 16569 0 MF597774.1 Homo sapiens isolate CAP-M2 mitochondrion, complete genome
+CM008198.1 16340 0 CM008198.1 Bos taurus isolate L1 Dominette 01449 registration number 42190680 breed Hereford mitochondrion, complete sequence, whole genome shotgun sequence
+NC_031962.1 27817 0 NC_031962.1 Blastocystis sp. subtype 4 strain DMP/10-212 mitochondrion, complete genome
+CM003499.1 16589 0 CM003499.1 Maylandia zebra isolate #2_Kocher and #3_Kocher ecotype Mazinzi reef mitochondrion, complete sequence, whole genome shotgun sequence
+NC_026111.1 15767 0 NC_026111.1 Nodularia douglasiae mitochondrion, complete genome
+KJ880045.1 16586 0 KJ880045.1 Tor douronensis mitochondrion, complete genome
+KJ880044.1 16581 0 KJ880044.1 Tor tambra mitochondrion, complete genome
+NC_018045.1 16601 0 NC_018045.1 Lateolabrax maculatus mitochondrion, complete genome
+NC_006692.1 1347793 0 NC_006692.1 Cryptococcus neoformans var. neoformans JEC21 chromosome 7 sequence
+NC_006691.1 1438950 0 NC_006691.1 Cryptococcus neoformans var. neoformans JEC21 chromosome 6 sequence
+NC_006687.1 1507550 0 NC_006687.1 Cryptococcus neoformans var. neoformans JEC21 chromosome 5 sequence
+NC_006686.1 1783081 0 NC_006686.1 Cryptococcus neoformans var. neoformans JEC21 chromosome 4 sequence
+NC_006685.1 2105742 0 NC_006685.1 Cryptococcus neoformans var. neoformans JEC21 chromosome 3 sequence
+NC_006683.1 762694 0 NC_006683.1 Cryptococcus neoformans var. neoformans JEC21 chromosome 14 sequence
+NC_006681.1 906719 0 NC_006681.1 Cryptococcus neoformans var. neoformans JEC21 chromosome 12 sequence
+NC_006680.1 1019846 0 NC_006680.1 Cryptococcus neoformans var. neoformans JEC21 chromosome 11 sequence
+NC_006679.1 1085720 0 NC_006679.1 Cryptococcus neoformans var. neoformans JEC21 chromosome 10 sequence
+NC_006670.1 2300533 0 NC_006670.1 Cryptococcus neoformans var. neoformans JEC21 chromosome 1, complete sequence
+MF409249.1 16411 0 MF409249.1 Balaenoptera borealis isolate E91 mitochondrion, complete genome
+MF409248.1 16411 0 MF409248.1 Balaenoptera borealis isolate D27 mitochondrion, complete genome
+MF409247.1 16386 0 MF409247.1 Eubalaena glacialis mitochondrion, complete genome
+MF409246.1 16391 0 MF409246.1 Megaptera novaeangliae mitochondrion, complete genome
+MF409245.1 16412 0 MF409245.1 Eschrichtius robustus voucher UAM:Mamm:99577 mitochondrion, complete genome
+MF409244.1 16413 0 MF409244.1 Eschrichtius robustus voucher UAM:Mamm:117578 mitochondrion, complete genome
+MF409243.1 16401 0 MF409243.1 Balaenoptera physalus mitochondrion, complete genome
+MF409242.1 16403 0 MF409242.1 Balaenoptera musculus mitochondrion, complete genome
+NC_001148.4 948066 0 NC_001148.4 Saccharomyces cerevisiae S288C chromosome XVI, complete sequence
+NC_001147.6 1091291 0 NC_001147.6 Saccharomyces cerevisiae S288C chromosome XV, complete sequence
+NC_001145.3 924431 0 NC_001145.3 Saccharomyces cerevisiae S288C chromosome XIII, complete sequence
+NC_001144.5 1078177 0 NC_001144.5 Saccharomyces cerevisiae S288C chromosome XII, complete sequence
+NC_001143.9 666816 0 NC_001143.9 Saccharomyces cerevisiae S288C chromosome XI, complete sequence
+NC_001142.9 745751 0 NC_001142.9 Saccharomyces cerevisiae S288C chromosome X, complete sequence
+NC_001137.3 576874 0 NC_001137.3 Saccharomyces cerevisiae S288C chromosome V, complete sequence
+NC_001136.10 1531933 0 NC_001136.10 Saccharomyces cerevisiae S288C chromosome IV, complete sequence
+NC_001133.9 230218 0 NC_001133.9 Saccharomyces cerevisiae S288C chromosome I, complete sequence
+CP021098.1 51126 0 CP021098.1 Pichia kudriavzevii strain SJP mitochondrion, complete genome
+MH142591.1 16569 0 MH142591.1 Homo sapiens haplotype H1b1e mitochondrion, complete genome
+MG783568.1 146712 0 MG783568.1 Termitomyces sp. T132 mitochondrion, complete genome
+MF997424.1 103605 0 MF997424.1 Halamphora sp. CSP-2018a mitochondrion, complete genome
+MF997423.1 42867 0 MF997423.1 Surirella sp. mitochondrion, complete genome
+MF997422.1 36252 0 MF997422.1 Nitzschia alba mitochondrion, complete genome
+MF997421.1 32777 0 MF997421.1 Melosira undulata mitochondrion, complete genome
+MF997420.1 44653 0 MF997420.1 Halamphora coffeaeformis mitochondrion, complete genome
+MF997419.1 36078 0 MF997419.1 Entomoneis sp. mitochondrion, complete genome
+CP022335.1 24923 0 CP022335.1 Cryptococcus neoformans var. grubii strain KN99 mitochondrion, complete genome
+NC_001139.9 1090940 0 NC_001139.9 Saccharomyces cerevisiae S288C chromosome VII, complete sequence
+NC_001135.5 316620 0 NC_001135.5 Saccharomyces cerevisiae S288C chromosome III, complete sequence
+NC_001134.8 813184 0 NC_001134.8 Saccharomyces cerevisiae S288C chromosome II, complete sequence
+NM_001181549.1 1014 0 NM_001181549.1 Saccharomyces cerevisiae S288C SUN family protein NCA3 (NCA3), partial mRNA
+AF304200.1 15978 0 AF304200.1 Sus scrofa breed Chinese Meishan mitochondrion, partial genome
+NC_037304.1 367808 0 NC_037304.1 Arabidopsis thaliana ecotype Col-0 mitochondrion, complete genome
+MF521835.1 15742 0 MF521835.1 Callipogon relictus voucher NHC-A-2016-120 mitochondrion, complete genome
+MG772559.1 15966 0 MG772559.1 Marsupenaeus japonicus mitochondrion, complete genome
+MG551591.1 16676 0 MG551591.1 Salmo ischchan isolate 30 mitochondrion, complete genome
+MG551590.1 16677 0 MG551590.1 Salmo ischchan isolate 26 mitochondrion, complete genome
+MG551589.1 16677 0 MG551589.1 Salmo ischchan gegarkuni isolate sevan4 mitochondrion, complete genome
+KY782249.1 16573 0 KY782249.1 Homo sapiens isolate 10712 mitochondrion, complete genome
+KY782248.1 16570 0 KY782248.1 Homo sapiens isolate 10710 mitochondrion, complete genome
+KY782247.1 16569 0 KY782247.1 Homo sapiens isolate 10709 mitochondrion, complete genome
+KY782246.1 16569 0 KY782246.1 Homo sapiens isolate 10706 mitochondrion, complete genome
+KY782245.1 16570 0 KY782245.1 Homo sapiens isolate 10704 mitochondrion, complete genome
+KY782244.1 16569 0 KY782244.1 Homo sapiens isolate 10703 mitochondrion, complete genome
+KY782243.1 16570 0 KY782243.1 Homo sapiens isolate 10701 mitochondrion, complete genome
+KY782242.1 16569 0 KY782242.1 Homo sapiens isolate 10700 mitochondrion, complete genome
+KY782241.1 16569 0 KY782241.1 Homo sapiens isolate 10698 mitochondrion, complete genome
+KY782240.1 16569 0 KY782240.1 Homo sapiens isolate 10697 mitochondrion, complete genome
+KY782239.1 16568 0 KY782239.1 Homo sapiens isolate 10695 mitochondrion, complete genome
+KY782238.1 16570 0 KY782238.1 Homo sapiens isolate 10694 mitochondrion, complete genome
+KY782237.1 16574 0 KY782237.1 Homo sapiens isolate 10692 mitochondrion, complete genome
+KY782236.1 16569 0 KY782236.1 Homo sapiens isolate 10691 mitochondrion, complete genome
+KY782235.1 16569 0 KY782235.1 Homo sapiens isolate 10688 mitochondrion, complete genome
+KY782234.1 16569 0 KY782234.1 Homo sapiens isolate 10686 mitochondrion, complete genome
+KY782233.1 16572 0 KY782233.1 Homo sapiens isolate 10685 mitochondrion, complete genome
+KY782232.1 16567 0 KY782232.1 Homo sapiens isolate 10683 mitochondrion, complete genome
+KY782231.1 16569 0 KY782231.1 Homo sapiens isolate 10682 mitochondrion, complete genome
+KY782230.1 16571 0 KY782230.1 Homo sapiens isolate 10680 mitochondrion, complete genome
+KY782229.1 16569 0 KY782229.1 Homo sapiens isolate 10679 mitochondrion, complete genome
+KY782228.1 16569 0 KY782228.1 Homo sapiens isolate 10676 mitochondrion, complete genome
+KY782227.1 16571 0 KY782227.1 Homo sapiens isolate 10675 mitochondrion, complete genome
+KY782226.1 16569 0 KY782226.1 Homo sapiens isolate 10672 mitochondrion, complete genome
+KY782225.1 16576 0 KY782225.1 Homo sapiens isolate 10670 mitochondrion, complete genome
+KY782224.1 16571 0 KY782224.1 Homo sapiens isolate 10664 mitochondrion, complete genome
+KY782223.1 16569 0 KY782223.1 Homo sapiens isolate 10662 mitochondrion, complete genome
+KY782222.1 16570 0 KY782222.1 Homo sapiens isolate 10659 mitochondrion, complete genome
+KY782221.1 16570 0 KY782221.1 Homo sapiens isolate 10657 mitochondrion, complete genome
+KY782220.1 16569 0 KY782220.1 Homo sapiens isolate 10648 mitochondrion, complete genome
+KY782219.1 16568 0 KY782219.1 Homo sapiens isolate 10645 mitochondrion, complete genome
+KY782218.1 16570 0 KY782218.1 Homo sapiens isolate 10643 mitochondrion, complete genome
+KY782217.1 16569 0 KY782217.1 Homo sapiens isolate 10642 mitochondrion, complete genome
+KY782216.1 16569 0 KY782216.1 Homo sapiens isolate 10640 mitochondrion, complete genome
+KY782215.1 16570 0 KY782215.1 Homo sapiens isolate 10639 mitochondrion, complete genome
+KY782214.1 16570 0 KY782214.1 Homo sapiens isolate 10637 mitochondrion, complete genome
+KY782213.1 16570 0 KY782213.1 Homo sapiens isolate 10636 mitochondrion, complete genome
+KY782212.1 16570 0 KY782212.1 Homo sapiens isolate 10634 mitochondrion, complete genome
+KY782211.1 16570 0 KY782211.1 Homo sapiens isolate 10633 mitochondrion, complete genome
+KY782210.1 16571 0 KY782210.1 Homo sapiens isolate 10631 mitochondrion, complete genome
+KY782209.1 16569 0 KY782209.1 Homo sapiens isolate 10630 mitochondrion, complete genome
+KY782208.1 16570 0 KY782208.1 Homo sapiens isolate 10627 mitochondrion, complete genome
+KY782207.1 16569 0 KY782207.1 Homo sapiens isolate 10626 mitochondrion, complete genome
+KY782206.1 16570 0 KY782206.1 Homo sapiens isolate 10624 mitochondrion, complete genome
+KY782205.1 16569 0 KY782205.1 Homo sapiens isolate 10623 mitochondrion, complete genome
+KY782204.1 16567 0 KY782204.1 Homo sapiens isolate 10621 mitochondrion, complete genome
+KY782203.1 16571 0 KY782203.1 Homo sapiens isolate 10620 mitochondrion, complete genome
+KY782202.1 16570 0 KY782202.1 Homo sapiens isolate 10618 mitochondrion, complete genome
+KY782201.1 16573 0 KY782201.1 Homo sapiens isolate 10617 mitochondrion, complete genome
+KY782200.1 16571 0 KY782200.1 Homo sapiens isolate 10614 mitochondrion, complete genome
+KY782199.1 16571 0 KY782199.1 Homo sapiens isolate 10612 mitochondrion, complete genome
+KY782198.1 16569 0 KY782198.1 Homo sapiens isolate 10611 mitochondrion, complete genome
+KY782197.1 16570 0 KY782197.1 Homo sapiens isolate 10609 mitochondrion, complete genome
+KY782196.1 16571 0 KY782196.1 Homo sapiens isolate 10603 mitochondrion, complete genome
+KY782195.1 16570 0 KY782195.1 Homo sapiens isolate 10601 mitochondrion, complete genome
+KY782194.1 16570 0 KY782194.1 Homo sapiens isolate 10598 mitochondrion, complete genome
+KY782193.1 16570 0 KY782193.1 Homo sapiens isolate 10596 mitochondrion, complete genome
+KY782192.1 16571 0 KY782192.1 Homo sapiens isolate 10595 mitochondrion, complete genome
+KY782191.1 16570 0 KY782191.1 Homo sapiens isolate 10593 mitochondrion, complete genome
+KY782190.1 16568 0 KY782190.1 Homo sapiens isolate 10592 mitochondrion, complete genome
+KY782189.1 16570 0 KY782189.1 Homo sapiens isolate 10590 mitochondrion, complete genome
+KY782188.1 16569 0 KY782188.1 Homo sapiens isolate 10583 mitochondrion, complete genome
+KY782187.1 16571 0 KY782187.1 Homo sapiens isolate 10581 mitochondrion, complete genome
+KY782186.1 16568 0 KY782186.1 Homo sapiens isolate 10580 mitochondrion, complete genome
+KY782185.1 16569 0 KY782185.1 Homo sapiens isolate 10578 mitochondrion, complete genome
+KY782184.1 16567 0 KY782184.1 Homo sapiens isolate 10577 mitochondrion, complete genome
+KY782183.1 16571 0 KY782183.1 Homo sapiens isolate 10575 mitochondrion, complete genome
+KY782182.1 16570 0 KY782182.1 Homo sapiens isolate 10570 mitochondrion, complete genome
+KY782181.1 16570 0 KY782181.1 Homo sapiens isolate 10568 mitochondrion, complete genome
+KY782180.1 16571 0 KY782180.1 Homo sapiens isolate 10567 mitochondrion, complete genome
+KY782179.1 16571 0 KY782179.1 Homo sapiens isolate 10565 mitochondrion, complete genome
+KY782178.1 16570 0 KY782178.1 Homo sapiens isolate 10564 mitochondrion, complete genome
+KY782177.1 16569 0 KY782177.1 Homo sapiens isolate 10562 mitochondrion, complete genome
+KY782176.1 16570 0 KY782176.1 Homo sapiens isolate 10561 mitochondrion, complete genome
+KY782175.1 16571 0 KY782175.1 Homo sapiens isolate 10559 mitochondrion, complete genome
+KY782174.1 16570 0 KY782174.1 Homo sapiens isolate 10558 mitochondrion, complete genome
+KY782173.1 16569 0 KY782173.1 Homo sapiens isolate 10556 mitochondrion, complete genome
+KY782172.1 16567 0 KY782172.1 Homo sapiens isolate 10554 mitochondrion, complete genome
+KY782171.1 16569 0 KY782171.1 Homo sapiens isolate 10552 mitochondrion, complete genome
+KY782170.1 16570 0 KY782170.1 Homo sapiens isolate 10548 mitochondrion, complete genome
+KY782169.1 16574 0 KY782169.1 Homo sapiens isolate 10546 mitochondrion, complete genome
+KY782168.1 16569 0 KY782168.1 Homo sapiens isolate 10545 mitochondrion, complete genome
+KY782167.1 16571 0 KY782167.1 Homo sapiens isolate 10543 mitochondrion, complete genome
+KY782166.1 16570 0 KY782166.1 Homo sapiens isolate 10542 mitochondrion, complete genome
+KY782165.1 16570 0 KY782165.1 Homo sapiens isolate 10540 mitochondrion, complete genome
+KY782164.1 16569 0 KY782164.1 Homo sapiens isolate 10538 mitochondrion, complete genome
+KY782163.1 16568 0 KY782163.1 Homo sapiens isolate 10536 mitochondrion, complete genome
+KY782162.1 16570 0 KY782162.1 Homo sapiens isolate 10535 mitochondrion, complete genome
+KY782161.1 16569 0 KY782161.1 Homo sapiens isolate 10533 mitochondrion, complete genome
+KY782160.1 16569 0 KY782160.1 Homo sapiens isolate 10531 mitochondrion, complete genome
+KY782159.1 16570 0 KY782159.1 Homo sapiens isolate 10529 mitochondrion, complete genome
+KY782158.1 16571 0 KY782158.1 Homo sapiens isolate 10528 mitochondrion, complete genome
+KY782157.1 16569 0 KY782157.1 Homo sapiens isolate 10526 mitochondrion, complete genome
+KY782156.1 16570 0 KY782156.1 Homo sapiens isolate 10519 mitochondrion, complete genome
+KY782155.1 16570 0 KY782155.1 Homo sapiens isolate 10517 mitochondrion, complete genome
+KY782154.1 16567 0 KY782154.1 Homo sapiens isolate 10514 mitochondrion, complete genome
+KY782153.1 16570 0 KY782153.1 Homo sapiens isolate 10513 mitochondrion, complete genome
+KY782152.1 16570 0 KY782152.1 Homo sapiens isolate 10511 mitochondrion, complete genome
+KY782151.1 16571 0 KY782151.1 Homo sapiens isolate 10509 mitochondrion, complete genome
+KY782150.1 16570 0 KY782150.1 Homo sapiens isolate 10363 mitochondrion, complete genome
+MG049920.1 15999 0 MG049920.1 Paratoxodera polyacantha mitochondrion, complete genome
+KY671126.1 16572 0 KY671126.1 Homo sapiens isolate II_55_BG haplogroup H1n mitochondrion, complete genome
+KY671125.1 16569 0 KY671125.1 Homo sapiens isolate II_54_BG haplogroup H11a1 mitochondrion, complete genome
+KY671124.1 16569 0 KY671124.1 Homo sapiens isolate II_52_BG haplogroup HV0 mitochondrion, complete genome
+KY671123.1 16570 0 KY671123.1 Homo sapiens isolate II_50_BG haplogroup W5a mitochondrion, complete genome
+KY671122.1 16576 0 KY671122.1 Homo sapiens isolate II_49_BG haplogroup I2 mitochondrion, complete genome
+KY671121.1 16575 0 KY671121.1 Homo sapiens isolate II_48_BG haplogroup I1b mitochondrion, complete genome
+KY671120.1 16569 0 KY671120.1 Homo sapiens isolate II_45_BG haplogroup J1c5 mitochondrion, complete genome
+KY671119.1 16570 0 KY671119.1 Homo sapiens isolate II_41_BG haplogroup T2 mitochondrion, complete genome
+KY671118.1 16571 0 KY671118.1 Homo sapiens isolate II_39_BG haplogroup H41a mitochondrion, complete genome
+KY671117.1 16570 0 KY671117.1 Homo sapiens isolate II_36_BG haplogroup J1c3 mitochondrion, complete genome
+KY671116.1 16571 0 KY671116.1 Homo sapiens isolate II_35_BG haplogroup H11a1 mitochondrion, complete genome
+KY671115.1 16570 0 KY671115.1 Homo sapiens isolate II_34_BG haplogroup V1a mitochondrion, complete genome
+KY671114.1 16575 0 KY671114.1 Homo sapiens isolate II_33_BG haplogroup I1a1 mitochondrion, complete genome
+KY671113.1 16571 0 KY671113.1 Homo sapiens isolate II_31_BG haplogroup H mitochondrion, complete genome
+KY671112.1 16570 0 KY671112.1 Homo sapiens isolate II_29_BG haplogroup T2 mitochondrion, complete genome
+KY671111.1 16570 0 KY671111.1 Homo sapiens isolate II_28_BG haplogroup H3 mitochondrion, complete genome
+KY671110.1 16574 0 KY671110.1 Homo sapiens isolate II_27_BG haplogroup I1a1 mitochondrion, complete genome
+KY671109.1 16567 0 KY671109.1 Homo sapiens isolate II_26_BG haplogroup X2b mitochondrion, complete genome
+KY671108.1 16569 0 KY671108.1 Homo sapiens isolate II_24_BG haplogroup V1a1 mitochondrion, complete genome
+KY671107.1 16570 0 KY671107.1 Homo sapiens isolate II_18_BG haplogroup H2a5 mitochondrion, complete genome
+KY671106.1 16569 0 KY671106.1 Homo sapiens isolate II_17_BG haplogroup H56a1 mitochondrion, complete genome
+KY671105.1 16570 0 KY671105.1 Homo sapiens isolate II_16_BG haplogroup H2a1 mitochondrion, complete genome
+KY671104.1 16570 0 KY671104.1 Homo sapiens isolate II_15_BG haplogroup T2e1 mitochondrion, complete genome
+KY671103.1 16569 0 KY671103.1 Homo sapiens isolate II_13_BG haplogroup H28a mitochondrion, complete genome
+KY671102.1 16568 0 KY671102.1 Homo sapiens isolate II_11_BG haplogroup H81 mitochondrion, complete genome
+KY671101.1 16569 0 KY671101.1 Homo sapiens isolate II_10_BG haplogroup V7a mitochondrion, complete genome
+KY671100.1 16569 0 KY671100.1 Homo sapiens isolate II_9_BG haplogroup J1c3 mitochondrion, complete genome
+KY671099.1 16569 0 KY671099.1 Homo sapiens isolate II_6_BG haplogroup H3h1 mitochondrion, complete genome
+KY671098.1 16570 0 KY671098.1 Homo sapiens isolate II_5_BG haplogroup K1d mitochondrion, complete genome
+KY671097.1 16567 0 KY671097.1 Homo sapiens isolate II_4_BG haplogroup H1c mitochondrion, complete genome
+KY671096.1 16567 0 KY671096.1 Homo sapiens isolate II_2_BG haplogroup J1c5 mitochondrion, complete genome
+KY671095.1 16570 0 KY671095.1 Homo sapiens isolate II_1_BG haplogroup H14a2 mitochondrion, complete genome
+KY671094.1 16569 0 KY671094.1 Homo sapiens isolate I_18_BG haplogroup T2a1 mitochondrion, complete genome
+KY671093.1 16568 0 KY671093.1 Homo sapiens isolate I_17_BG haplogroup H1b1 mitochondrion, complete genome
+KY671092.1 16569 0 KY671092.1 Homo sapiens isolate I_16_BG haplogroup J1c2 mitochondrion, complete genome
+KY671091.1 16569 0 KY671091.1 Homo sapiens isolate I_11_BG haplogroup H1 mitochondrion, complete genome
+KY671090.1 16570 0 KY671090.1 Homo sapiens isolate I_9_BG haplogroup V7a mitochondrion, complete genome
+KY671089.1 16569 0 KY671089.1 Homo sapiens isolate I_7_BG haplogroup J1c2 mitochondrion, complete genome
+KY671088.1 16569 0 KY671088.1 Homo sapiens isolate I_6_BG haplogroup H1c mitochondrion, complete genome
+KY671087.1 16568 0 KY671087.1 Homo sapiens isolate I_3_BG haplogroup H11a2 mitochondrion, complete genome
+KY671086.1 16570 0 KY671086.1 Homo sapiens isolate I_2_BG haplogroup T1a1 mitochondrion, complete genome
+KY671085.1 16571 0 KY671085.1 Homo sapiens isolate 821_Vl haplogroup I1a mitochondrion, complete genome
+KY671084.1 16567 0 KY671084.1 Homo sapiens isolate 531_Ps haplogroup H5a1 mitochondrion, complete genome
+KY671083.1 16571 0 KY671083.1 Homo sapiens isolate 164_VN haplogroup H1n mitochondrion, complete genome
+KY671082.1 16569 0 KY671082.1 Homo sapiens isolate 150_VN haplogroup H1 mitochondrion, complete genome
+KY671081.1 16569 0 KY671081.1 Homo sapiens isolate 147_VN haplogroup J1c3 mitochondrion, complete genome
+KY671080.1 16568 0 KY671080.1 Homo sapiens isolate 133_VN haplogroup H5a1 mitochondrion, complete genome
+KY671079.1 16569 0 KY671079.1 Homo sapiens isolate 132_T haplogroup J1c mitochondrion, complete genome
+KY671078.1 16569 0 KY671078.1 Homo sapiens isolate 131_Vl haplogroup H5u mitochondrion, complete genome
+KY671077.1 16569 0 KY671077.1 Homo sapiens isolate 131_T haplogroup H7 mitochondrion, complete genome
+KY671076.1 16569 0 KY671076.1 Homo sapiens isolate 130_VN haplogroup U5b1e mitochondrion, complete genome
+KY671075.1 16569 0 KY671075.1 Homo sapiens isolate 129_Vl haplogroup J1b1 mitochondrion, complete genome
+KY671074.1 16570 0 KY671074.1 Homo sapiens isolate 128_VN haplogroup H24a mitochondrion, complete genome
+KY671073.1 16570 0 KY671073.1 Homo sapiens isolate 128_T haplogroup T2b mitochondrion, complete genome
+KY671072.1 16569 0 KY671072.1 Homo sapiens isolate 125_Vl haplogroup W1e mitochondrion, complete genome
+KY671071.1 16570 0 KY671071.1 Homo sapiens isolate 122_VN haplogroup H1a2 mitochondrion, complete genome
+KY671070.1 16567 0 KY671070.1 Homo sapiens isolate 122_Vl haplogroup H1u mitochondrion, complete genome
+KY671069.1 16569 0 KY671069.1 Homo sapiens isolate 121_VN haplogroup H1c22 mitochondrion, complete genome
+KY671068.1 16571 0 KY671068.1 Homo sapiens isolate 120_Vl haplogroup H mitochondrion, complete genome
+KY671067.1 16569 0 KY671067.1 Homo sapiens isolate 120_T haplogroup T2b mitochondrion, complete genome
+KY671066.1 16572 0 KY671066.1 Homo sapiens isolate 119_VN haplogroup U5a1c mitochondrion, complete genome
+KY671065.1 16575 0 KY671065.1 Homo sapiens isolate 118_Vl haplogroup I1a1 mitochondrion, complete genome
+KY671064.1 16569 0 KY671064.1 Homo sapiens isolate 117_Vl haplogroup H mitochondrion, complete genome
+KY671063.1 16571 0 KY671063.1 Homo sapiens isolate 116_Vl haplogroup T1a1 mitochondrion, complete genome
+KY671062.1 16573 0 KY671062.1 Homo sapiens isolate 115_Vl haplogroup I2 mitochondrion, complete genome
+KY671061.1 16571 0 KY671061.1 Homo sapiens isolate 115_T haplogroup H6a1 mitochondrion, complete genome
+KY671060.1 16569 0 KY671060.1 Homo sapiens isolate 114_VN haplogroup J1b1 mitochondrion, complete genome
+KY671059.1 16570 0 KY671059.1 Homo sapiens isolate 114_T haplogroup H11a2 mitochondrion, complete genome
+KY671058.1 16571 0 KY671058.1 Homo sapiens isolate 112_Vl haplogroup T1a mitochondrion, complete genome
+KY671057.1 16568 0 KY671057.1 Homo sapiens isolate 112_T haplogroup U5b1b1 mitochondrion, complete genome
+KY671056.1 16569 0 KY671056.1 Homo sapiens isolate 111_T haplogroup H36 mitochondrion, complete genome
+KY671055.1 16570 0 KY671055.1 Homo sapiens isolate 110_Vl haplogroup T1a2 mitochondrion, complete genome
+KY671054.1 16569 0 KY671054.1 Homo sapiens isolate 110_T haplogroup H1c mitochondrion, complete genome
+KY671053.1 16570 0 KY671053.1 Homo sapiens isolate 108_VN haplogroup H1a7 mitochondrion, complete genome
+KY671052.1 16571 0 KY671052.1 Homo sapiens isolate 108_Vl haplogroup H13b mitochondrion, complete genome
+KY671051.1 16569 0 KY671051.1 Homo sapiens isolate 108_T haplogroup H3h mitochondrion, complete genome
+KY671050.1 16573 0 KY671050.1 Homo sapiens isolate 107_Vl haplogroup H5e mitochondrion, complete genome
+KY671049.1 16569 0 KY671049.1 Homo sapiens isolate 106_T haplogroup H11a2 mitochondrion, complete genome
+KY671048.1 16569 0 KY671048.1 Homo sapiens isolate 105_VN haplogroup K1a3 mitochondrion, complete genome
+KY671047.1 16571 0 KY671047.1 Homo sapiens isolate 105_Vl haplogroup I1a1 mitochondrion, complete genome
+KY671046.1 16570 0 KY671046.1 Homo sapiens isolate 104_Vl haplogroup T2b mitochondrion, complete genome
+KY671045.1 16570 0 KY671045.1 Homo sapiens isolate 103_VN haplogroup U5a1a mitochondrion, complete genome
+KY671044.1 16569 0 KY671044.1 Homo sapiens isolate 103_Vl haplogroup H mitochondrion, complete genome
+KY671043.1 16569 0 KY671043.1 Homo sapiens isolate 102_Vl haplogroup H2a1 mitochondrion, complete genome
+KY671042.1 16569 0 KY671042.1 Homo sapiens isolate 102_T haplogroup H5f mitochondrion, complete genome
+KY671041.1 16570 0 KY671041.1 Homo sapiens isolate 101_Vl haplogroup U5a2b mitochondrion, complete genome
+KY671040.1 16571 0 KY671040.1 Homo sapiens isolate 100_Vl haplogroup T1a1 mitochondrion, complete genome
+KY671039.1 16571 0 KY671039.1 Homo sapiens isolate 99_Vl haplogroup H2a1 mitochondrion, complete genome
+KY671038.1 16571 0 KY671038.1 Homo sapiens isolate 98_Vl haplogroup H mitochondrion, complete genome
+KY671037.1 16569 0 KY671037.1 Homo sapiens isolate 98_T haplogroup H107 mitochondrion, complete genome
+KY671036.1 16569 0 KY671036.1 Homo sapiens isolate 97_T haplogroup H1b mitochondrion, complete genome
+KY671035.1 16568 0 KY671035.1 Homo sapiens isolate 96_Vl haplogroup HV0a1 mitochondrion, complete genome
+KY671034.1 16567 0 KY671034.1 Homo sapiens isolate 95_T haplogroup U5b1e mitochondrion, complete genome
+KY671033.1 16571 0 KY671033.1 Homo sapiens isolate 94_T haplogroup V mitochondrion, complete genome
+KY671032.1 16574 0 KY671032.1 Homo sapiens isolate 90_T haplogroup I1a mitochondrion, complete genome
+KY671031.1 16570 0 KY671031.1 Homo sapiens isolate 89_Vl haplogroup K1a2 mitochondrion, complete genome
+KY671030.1 16569 0 KY671030.1 Homo sapiens isolate 89_T haplogroup H35 mitochondrion, complete genome
+KY671029.1 16570 0 KY671029.1 Homo sapiens isolate 87_Vl haplogroup H1c mitochondrion, complete genome
+KY671028.1 16571 0 KY671028.1 Homo sapiens isolate 86_Vl haplogroup H mitochondrion, complete genome
+KY671027.1 16572 0 KY671027.1 Homo sapiens isolate 86_Ps haplogroup V3 mitochondrion, complete genome
+KY671026.1 16569 0 KY671026.1 Homo sapiens isolate 85_Vl haplogroup H1a3 mitochondrion, complete genome
+KY671025.1 16571 0 KY671025.1 Homo sapiens isolate 85_T haplogroup H11a1 mitochondrion, complete genome
+KY671024.1 16569 0 KY671024.1 Homo sapiens isolate 84_Ps haplogroup V7a mitochondrion, complete genome
+KY671023.1 16569 0 KY671023.1 Homo sapiens isolate 81_Vl haplogroup H7b mitochondrion, complete genome
+KY671022.1 16569 0 KY671022.1 Homo sapiens isolate 81_Ps haplogroup J1c4 mitochondrion, complete genome
+KY671021.1 16570 0 KY671021.1 Homo sapiens isolate 79_OR haplogroup H1aj mitochondrion, complete genome
+KY671020.1 16569 0 KY671020.1 Homo sapiens isolate 78_T haplogroup H1 mitochondrion, complete genome
+KY671019.1 16569 0 KY671019.1 Homo sapiens isolate 78_Ps haplogroup H1 mitochondrion, complete genome
+KY671018.1 16569 0 KY671018.1 Homo sapiens isolate 78_OR haplogroup T1a1 mitochondrion, complete genome
+KY671017.1 16571 0 KY671017.1 Homo sapiens isolate 77_Vl haplogroup T2b1 mitochondrion, complete genome
+KY671016.1 16570 0 KY671016.1 Homo sapiens isolate 77_Ps haplogroup J1c3 mitochondrion, complete genome
+KY671015.1 16570 0 KY671015.1 Homo sapiens isolate 77_OR haplogroup H6a1 mitochondrion, complete genome
+KY671014.1 16573 0 KY671014.1 Homo sapiens isolate 75_Vl haplogroup W6a mitochondrion, complete genome
+KY671013.1 16570 0 KY671013.1 Homo sapiens isolate 75_T haplogroup H13a mitochondrion, complete genome
+KY671012.1 16569 0 KY671012.1 Homo sapiens isolate 75_Ps haplogroup H11a1 mitochondrion, complete genome
+KY671011.1 16569 0 KY671011.1 Homo sapiens isolate 73_Vl haplogroup H11a mitochondrion, complete genome
+KY671010.1 16574 0 KY671010.1 Homo sapiens isolate 73_T haplogroup I1a mitochondrion, complete genome
+KY671009.1 16574 0 KY671009.1 Homo sapiens isolate 73_Ps haplogroup U4d1 mitochondrion, complete genome
+KY671008.1 16569 0 KY671008.1 Homo sapiens isolate 72_Vl haplogroup H1b mitochondrion, complete genome
+KY671007.1 16569 0 KY671007.1 Homo sapiens isolate 71_Vl haplogroup T2b mitochondrion, complete genome
+KY671006.1 16570 0 KY671006.1 Homo sapiens isolate 70_T haplogroup J1c mitochondrion, complete genome
+KY671005.1 16569 0 KY671005.1 Homo sapiens isolate 70_Ps haplogroup T1a1 mitochondrion, complete genome
+KY671004.1 16571 0 KY671004.1 Homo sapiens isolate 70_OR haplogroup H1 mitochondrion, complete genome
+KY671003.1 16569 0 KY671003.1 Homo sapiens isolate 69_Vl haplogroup H1a2 mitochondrion, complete genome
+KY671002.1 16567 0 KY671002.1 Homo sapiens isolate 69_T haplogroup H5a1 mitochondrion, complete genome
+KY671001.1 16569 0 KY671001.1 Homo sapiens isolate 68_Vl haplogroup T2b mitochondrion, complete genome
+KY671000.1 16567 0 KY671000.1 Homo sapiens isolate 68_T haplogroup H4a1 mitochondrion, complete genome
+KY670999.1 16568 0 KY670999.1 Homo sapiens isolate 68_Ps haplogroup H79b mitochondrion, complete genome
+KY670998.1 16569 0 KY670998.1 Homo sapiens isolate 68_OR haplogroup T2b4 mitochondrion, complete genome
+KY670997.1 16569 0 KY670997.1 Homo sapiens isolate 67_OR haplogroup T2b4 mitochondrion, complete genome
+KY670996.1 16569 0 KY670996.1 Homo sapiens isolate 66_Vl haplogroup T1a mitochondrion, complete genome
+KY670995.1 16569 0 KY670995.1 Homo sapiens isolate 66_T haplogroup H11a2 mitochondrion, complete genome
+KY670994.1 16571 0 KY670994.1 Homo sapiens isolate 66_OR haplogroup J1c mitochondrion, complete genome
+KY670993.1 16572 0 KY670993.1 Homo sapiens isolate 65_Ps haplogroup W6a1 mitochondrion, complete genome
+KY670992.1 16570 0 KY670992.1 Homo sapiens isolate 64_VN haplogroup J1c mitochondrion, complete genome
+KY670991.1 16570 0 KY670991.1 Homo sapiens isolate 64_Ps haplogroup H2a2 mitochondrion, complete genome
+KY670990.1 16570 0 KY670990.1 Homo sapiens isolate 64_OR haplogroup J1c2 mitochondrion, complete genome
+KY670989.1 16571 0 KY670989.1 Homo sapiens isolate 63_VN haplogroup X2e mitochondrion, complete genome
+KY670988.1 16569 0 KY670988.1 Homo sapiens isolate 63_Ps haplogroup U5a2a mitochondrion, complete genome
+KY670987.1 16566 0 KY670987.1 Homo sapiens isolate 63_OR haplogroup H1b1 mitochondrion, complete genome
+KY670986.1 16570 0 KY670986.1 Homo sapiens isolate 62_VN haplogroup H28a mitochondrion, complete genome
+KY670985.1 16570 0 KY670985.1 Homo sapiens isolate 62_Vl haplogroup H1b mitochondrion, complete genome
+KY670984.1 16571 0 KY670984.1 Homo sapiens isolate 62_OR haplogroup V3 mitochondrion, complete genome
+KY670983.1 16569 0 KY670983.1 Homo sapiens isolate 61_Ps haplogroup T2b mitochondrion, complete genome
+KY670982.1 16569 0 KY670982.1 Homo sapiens isolate 61_OR haplogroup HV mitochondrion, complete genome
+KY670981.1 16569 0 KY670981.1 Homo sapiens isolate 60_VN haplogroup H mitochondrion, complete genome
+KY670980.1 16571 0 KY670980.1 Homo sapiens isolate 60_Ps haplogroup H1 mitochondrion, complete genome
+KY670979.1 16567 0 KY670979.1 Homo sapiens isolate 59_VN haplogroup H1b mitochondrion, complete genome
+KY670978.1 16569 0 KY670978.1 Homo sapiens isolate 59_T haplogroup H35 mitochondrion, complete genome
+KY670977.1 16568 0 KY670977.1 Homo sapiens isolate 59_Ps haplogroup H1c mitochondrion, complete genome
+KY670976.1 16568 0 KY670976.1 Homo sapiens isolate 59_OR haplogroup H1c mitochondrion, complete genome
+KY670975.1 16571 0 KY670975.1 Homo sapiens isolate 58_VN haplogroup V3 mitochondrion, complete genome
+KY670974.1 16570 0 KY670974.1 Homo sapiens isolate 58_T haplogroup U3b3 mitochondrion, complete genome
+KY670973.1 16569 0 KY670973.1 Homo sapiens isolate 58_Ps haplogroup J1c4 mitochondrion, complete genome
+KY670972.1 16568 0 KY670972.1 Homo sapiens isolate 58_OR haplogroup H4a mitochondrion, complete genome
+KY670971.1 16568 0 KY670971.1 Homo sapiens isolate 57_Vl haplogroup H23 mitochondrion, complete genome
+KY670970.1 16569 0 KY670970.1 Homo sapiens isolate 57_OR haplogroup J1b1 mitochondrion, complete genome
+KY670969.1 16571 0 KY670969.1 Homo sapiens isolate 56_T haplogroup T2b mitochondrion, complete genome
+KY670968.1 16569 0 KY670968.1 Homo sapiens isolate 56_OR haplogroup H1 mitochondrion, complete genome
+KY670967.1 16567 0 KY670967.1 Homo sapiens isolate 55_Vl haplogroup T1a mitochondrion, complete genome
+KY670966.1 16569 0 KY670966.1 Homo sapiens isolate 54_VN haplogroup H11a1 mitochondrion, complete genome
+KY670965.1 16569 0 KY670965.1 Homo sapiens isolate 54_Ps haplogroup H32 mitochondrion, complete genome
+KY670964.1 16569 0 KY670964.1 Homo sapiens isolate 53_Ps haplogroup H1c mitochondrion, complete genome
+KY670963.1 16570 0 KY670963.1 Homo sapiens isolate 52_Vl haplogroup W1j mitochondrion, complete genome
+KY670962.1 16569 0 KY670962.1 Homo sapiens isolate 52_Ps haplogroup H1c mitochondrion, complete genome
+KY670961.1 16570 0 KY670961.1 Homo sapiens isolate 52_OR haplogroup H1c mitochondrion, complete genome
+KY670960.1 16570 0 KY670960.1 Homo sapiens isolate 51_OR haplogroup H1 mitochondrion, complete genome
+KY670959.1 16567 0 KY670959.1 Homo sapiens isolate 50_Vl haplogroup N1b mitochondrion, complete genome
+KY670958.1 16572 0 KY670958.1 Homo sapiens isolate 50_Ps haplogroup H1aj mitochondrion, complete genome
+KY670957.1 16570 0 KY670957.1 Homo sapiens isolate 50_OR haplogroup V1a mitochondrion, complete genome
+KY670956.1 16570 0 KY670956.1 Homo sapiens isolate 49_VN haplogroup H1 mitochondrion, complete genome
+KY670955.1 16571 0 KY670955.1 Homo sapiens isolate 49_OR haplogroup U5a1d mitochondrion, complete genome
+KY670954.1 16570 0 KY670954.1 Homo sapiens isolate 48_Ps haplogroup H89 mitochondrion, complete genome
+KY670953.1 16570 0 KY670953.1 Homo sapiens isolate 48_OR haplogroup U5a1a mitochondrion, complete genome
+KY670952.1 16570 0 KY670952.1 Homo sapiens isolate 47_Vl haplogroup H1u mitochondrion, complete genome
+KY670951.1 16569 0 KY670951.1 Homo sapiens isolate 47_Ps haplogroup H1a2 mitochondrion, complete genome
+KY670950.1 16569 0 KY670950.1 Homo sapiens isolate 46_VN haplogroup J1c5 mitochondrion, complete genome
+KY670949.1 16570 0 KY670949.1 Homo sapiens isolate 46_Ps haplogroup U8a1 mitochondrion, complete genome
+KY670948.1 16570 0 KY670948.1 Homo sapiens isolate 46_OR haplogroup R2 mitochondrion, complete genome
+KY670947.1 16570 0 KY670947.1 Homo sapiens isolate 45_VN haplogroup H mitochondrion, complete genome
+KY670946.1 16570 0 KY670946.1 Homo sapiens isolate 45_Vl haplogroup T2i mitochondrion, complete genome
+KY670945.1 16570 0 KY670945.1 Homo sapiens isolate 44_VN haplogroup V15a mitochondrion, complete genome
+KY670944.1 16568 0 KY670944.1 Homo sapiens isolate 44_OR haplogroup U4a2 mitochondrion, complete genome
+KY670943.1 16575 0 KY670943.1 Homo sapiens isolate 43_Vl haplogroup J2a mitochondrion, complete genome
+KY670942.1 16569 0 KY670942.1 Homo sapiens isolate 43_Ps haplogroup H2a5 mitochondrion, complete genome
+KY670941.1 16570 0 KY670941.1 Homo sapiens isolate 43_OR haplogroup H6b2 mitochondrion, complete genome
+KY670940.1 16571 0 KY670940.1 Homo sapiens isolate 42_VN haplogroup H6a1 mitochondrion, complete genome
+KY670939.1 16571 0 KY670939.1 Homo sapiens isolate 42_OR haplogroup H7c1 mitochondrion, complete genome
+KY670938.1 16569 0 KY670938.1 Homo sapiens isolate 41_VN haplogroup H2a2 mitochondrion, complete genome
+KY670937.1 16572 0 KY670937.1 Homo sapiens isolate 40_Vl haplogroup J2a1 mitochondrion, complete genome
+KY670936.1 16570 0 KY670936.1 Homo sapiens isolate 40_Ps haplogroup G2a1 mitochondrion, complete genome
+KY670935.1 16570 0 KY670935.1 Homo sapiens isolate 39_Vl haplogroup T2b mitochondrion, complete genome
+KY670934.1 16570 0 KY670934.1 Homo sapiens isolate 39_T haplogroup H1a3 mitochondrion, complete genome
+KY670933.1 16569 0 KY670933.1 Homo sapiens isolate 38_Vl haplogroup H16 mitochondrion, complete genome
+KY670932.1 16570 0 KY670932.1 Homo sapiens isolate 37_VN haplogroup H2a1 mitochondrion, complete genome
+KY670931.1 16569 0 KY670931.1 Homo sapiens isolate 37_T haplogroup J1c mitochondrion, complete genome
+KY670930.1 16570 0 KY670930.1 Homo sapiens isolate 37_Ps haplogroup T2b mitochondrion, complete genome
+KY670929.1 16569 0 KY670929.1 Homo sapiens isolate 37_OR haplogroup U5b1b1 mitochondrion, complete genome
+KY670928.1 16567 0 KY670928.1 Homo sapiens isolate 36_Vl haplogroup U5a1 mitochondrion, complete genome
+KY670927.1 16570 0 KY670927.1 Homo sapiens isolate 36_Ps haplogroup H6a1 mitochondrion, complete genome
+KY670926.1 16572 0 KY670926.1 Homo sapiens isolate 36_OR haplogroup H1b2 mitochondrion, complete genome
+KY670925.1 16569 0 KY670925.1 Homo sapiens isolate 35_Vl haplogroup X2c mitochondrion, complete genome
+KY670924.1 16570 0 KY670924.1 Homo sapiens isolate 35_T haplogroup H2a1 mitochondrion, complete genome
+KY670923.1 16569 0 KY670923.1 Homo sapiens isolate 34_VN haplogroup H11a2 mitochondrion, complete genome
+KY670922.1 16569 0 KY670922.1 Homo sapiens isolate 34_Vl haplogroup T2b mitochondrion, complete genome
+KY670921.1 16571 0 KY670921.1 Homo sapiens isolate 33_VN haplogroup Z1a1 mitochondrion, complete genome
+KY670920.1 16568 0 KY670920.1 Homo sapiens isolate 33_T haplogroup T2c mitochondrion, complete genome
+KY670919.1 16569 0 KY670919.1 Homo sapiens isolate 33_Ps haplogroup H3h1 mitochondrion, complete genome
+KY670918.1 16569 0 KY670918.1 Homo sapiens isolate 33_OR haplogroup T2b5 mitochondrion, complete genome
+KY670917.1 16570 0 KY670917.1 Homo sapiens isolate 32_VN haplogroup H2a1 mitochondrion, complete genome
+KY670916.1 16570 0 KY670916.1 Homo sapiens isolate 32_T haplogroup N1b1 mitochondrion, complete genome
+KY670915.1 16571 0 KY670915.1 Homo sapiens isolate 32_OR haplogroup U1a1c mitochondrion, complete genome
+KY670914.1 16570 0 KY670914.1 Homo sapiens isolate 31_Vl haplogroup J2b mitochondrion, complete genome
+KY670913.1 16570 0 KY670913.1 Homo sapiens isolate 31_Ps haplogroup U5a2b mitochondrion, complete genome
+KY670912.1 16569 0 KY670912.1 Homo sapiens isolate 31_OR haplogroup W1e mitochondrion, complete genome
+KY670911.1 16573 0 KY670911.1 Homo sapiens isolate 30_Ps haplogroup U5a1a mitochondrion, complete genome
+KY670910.1 16569 0 KY670910.1 Homo sapiens isolate 30_OR haplogroup H1b mitochondrion, complete genome
+KY670909.1 16570 0 KY670909.1 Homo sapiens isolate 29_Ps haplogroup J1c2 mitochondrion, complete genome
+KY670908.1 16569 0 KY670908.1 Homo sapiens isolate 28_VN haplogroup H79b mitochondrion, complete genome
+KY670907.1 16569 0 KY670907.1 Homo sapiens isolate 28_Ps haplogroup J1c3 mitochondrion, complete genome
+KY670906.1 16569 0 KY670906.1 Homo sapiens isolate 27_Vl haplogroup J1c mitochondrion, complete genome
+KY670905.1 16573 0 KY670905.1 Homo sapiens isolate 27_OR haplogroup H5e1 mitochondrion, complete genome
+KY670904.1 16569 0 KY670904.1 Homo sapiens isolate 26_T haplogroup T2b mitochondrion, complete genome
+KY670903.1 16570 0 KY670903.1 Homo sapiens isolate 26_OR haplogroup T2b4 mitochondrion, complete genome
+KY670902.1 16569 0 KY670902.1 Homo sapiens isolate 25_OR haplogroup H1a3 mitochondrion, complete genome
+KY670901.1 16570 0 KY670901.1 Homo sapiens isolate 24_VN haplogroup U5a2b mitochondrion, complete genome
+KY670900.1 16569 0 KY670900.1 Homo sapiens isolate 24_Ps haplogroup J1b1 mitochondrion, complete genome
+KY670899.1 16570 0 KY670899.1 Homo sapiens isolate 24_OR haplogroup U4a2 mitochondrion, complete genome
+KY670898.1 16570 0 KY670898.1 Homo sapiens isolate 23_Vl haplogroup H14a mitochondrion, complete genome
+KY670897.1 16570 0 KY670897.1 Homo sapiens isolate 23_T haplogroup H13a1 mitochondrion, complete genome
+KY670896.1 16569 0 KY670896.1 Homo sapiens isolate 23_Ps haplogroup H107 mitochondrion, complete genome
+KY670895.1 16569 0 KY670895.1 Homo sapiens isolate 23_OR haplogroup K1c1 mitochondrion, complete genome
+KY670894.1 16570 0 KY670894.1 Homo sapiens isolate 22_VN haplogroup H10e mitochondrion, complete genome
+KY670893.1 16569 0 KY670893.1 Homo sapiens isolate 22_Vl haplogroup H1c mitochondrion, complete genome
+KY670892.1 16569 0 KY670892.1 Homo sapiens isolate 22_Ps haplogroup H1b mitochondrion, complete genome
+KY670891.1 16570 0 KY670891.1 Homo sapiens isolate 21_T haplogroup H1c mitochondrion, complete genome
+KY670890.1 16573 0 KY670890.1 Homo sapiens isolate 20_VN haplogroup H1 mitochondrion, complete genome
+KY670889.1 16573 0 KY670889.1 Homo sapiens isolate 20_T haplogroup T1a1 mitochondrion, complete genome
+KY670888.1 16570 0 KY670888.1 Homo sapiens isolate 20_Ps haplogroup H44b mitochondrion, complete genome
+KY670887.1 16571 0 KY670887.1 Homo sapiens isolate 19_Vl haplogroup H2a1 mitochondrion, complete genome
+KY670886.1 16569 0 KY670886.1 Homo sapiens isolate 19_OR haplogroup H27 mitochondrion, complete genome
+KY670885.1 16570 0 KY670885.1 Homo sapiens isolate 18_Vl haplogroup H2a1 mitochondrion, complete genome
+KY670884.1 16570 0 KY670884.1 Homo sapiens isolate 18_OR haplogroup U5b1b1 mitochondrion, complete genome
+KY670883.1 16570 0 KY670883.1 Homo sapiens isolate 17_Ps haplogroup V7a mitochondrion, complete genome
+KY670882.1 16569 0 KY670882.1 Homo sapiens isolate 16_VN haplogroup H28a mitochondrion, complete genome
+KY670881.1 16569 0 KY670881.1 Homo sapiens isolate 16_Vl haplogroup H1c mitochondrion, complete genome
+KY670880.1 16570 0 KY670880.1 Homo sapiens isolate 16_T haplogroup H1c mitochondrion, complete genome
+KY670879.1 16570 0 KY670879.1 Homo sapiens isolate 16_Ps haplogroup H2a1 mitochondrion, complete genome
+KY670878.1 16569 0 KY670878.1 Homo sapiens isolate 15_T haplogroup H1c mitochondrion, complete genome
+KY670877.1 16567 0 KY670877.1 Homo sapiens isolate 15_Ps haplogroup J1c5 mitochondrion, complete genome
+KY670876.1 16569 0 KY670876.1 Homo sapiens isolate 14_VN haplogroup H1a8 mitochondrion, complete genome
+KY670875.1 16570 0 KY670875.1 Homo sapiens isolate 14_Ps haplogroup T1a5 mitochondrion, complete genome
+KY670874.1 16569 0 KY670874.1 Homo sapiens isolate 14_OR haplogroup V7a mitochondrion, complete genome
+KY670873.1 16570 0 KY670873.1 Homo sapiens isolate 13_VN haplogroup T2b mitochondrion, complete genome
+KY670872.1 16571 0 KY670872.1 Homo sapiens isolate 13_Ps haplogroup V1a mitochondrion, complete genome
+KY670871.1 16569 0 KY670871.1 Homo sapiens isolate 13_OR haplogroup H11a1 mitochondrion, complete genome
+KY670870.1 16569 0 KY670870.1 Homo sapiens isolate 12_T haplogroup H1 mitochondrion, complete genome
+KY670869.1 16567 0 KY670869.1 Homo sapiens isolate 12_Ps haplogroup H4a1 mitochondrion, complete genome
+KY670868.1 16568 0 KY670868.1 Homo sapiens isolate 11_Ps haplogroup U5b1e mitochondrion, complete genome
+KY670867.1 16571 0 KY670867.1 Homo sapiens isolate 10_T haplogroup H3 mitochondrion, complete genome
+KY670866.1 16573 0 KY670866.1 Homo sapiens isolate 10_Ps haplogroup W6a mitochondrion, complete genome
+KY670865.1 16568 0 KY670865.1 Homo sapiens isolate 10_OR haplogroup J1b1 mitochondrion, complete genome
+KY670864.1 16571 0 KY670864.1 Homo sapiens isolate 9_VN haplogroup H1n4 mitochondrion, complete genome
+KY670863.1 16570 0 KY670863.1 Homo sapiens isolate 9_Vl haplogroup U5b2 mitochondrion, complete genome
+KY670862.1 16579 0 KY670862.1 Homo sapiens isolate 9_T haplogroup U2e1 mitochondrion, complete genome
+KY670861.1 16560 0 KY670861.1 Homo sapiens isolate 9_Ps haplogroup T2f mitochondrion, complete genome
+KY670860.1 16570 0 KY670860.1 Homo sapiens isolate 9_OR haplogroup U5a1g mitochondrion, complete genome
+KY670859.1 16560 0 KY670859.1 Homo sapiens isolate 8_VN haplogroup T2f mitochondrion, complete genome
+KY670858.1 16570 0 KY670858.1 Homo sapiens isolate 8_T haplogroup H6a1 mitochondrion, complete genome
+KY670857.1 16568 0 KY670857.1 Homo sapiens isolate 8_Ps haplogroup H1a2 mitochondrion, complete genome
+KY670856.1 16570 0 KY670856.1 Homo sapiens isolate 8_OR haplogroup H11a1 mitochondrion, complete genome
+KY670855.1 16570 0 KY670855.1 Homo sapiens isolate 7_VN haplogroup H24a mitochondrion, complete genome
+KY670854.1 16568 0 KY670854.1 Homo sapiens isolate 7_Ps haplogroup H1a2 mitochondrion, complete genome
+KY670853.1 16569 0 KY670853.1 Homo sapiens isolate 6_VN haplogroup W1j mitochondrion, complete genome
+KY670852.1 16568 0 KY670852.1 Homo sapiens isolate 5_VN haplogroup T2b mitochondrion, complete genome
+KY670851.1 16569 0 KY670851.1 Homo sapiens isolate 5_OR haplogroup J1c5 mitochondrion, complete genome
+KY670850.1 16571 0 KY670850.1 Homo sapiens isolate 4_VN haplogroup H7a1 mitochondrion, complete genome
+KY670849.1 16570 0 KY670849.1 Homo sapiens isolate 4_Vl haplogroup K1c mitochondrion, complete genome
+KY670848.1 16567 0 KY670848.1 Homo sapiens isolate 4_Ps haplogroup H5a1 mitochondrion, complete genome
+KY670847.1 16569 0 KY670847.1 Homo sapiens isolate 4_OR haplogroup J1c2 mitochondrion, complete genome
+KY670846.1 16567 0 KY670846.1 Homo sapiens isolate 3_VN haplogroup T2b mitochondrion, complete genome
+KY670845.1 16569 0 KY670845.1 Homo sapiens isolate 3_Vl haplogroup U4a1 mitochondrion, complete genome
+KY670844.1 16568 0 KY670844.1 Homo sapiens isolate 3_T haplogroup H44b mitochondrion, complete genome
+KY670843.1 16570 0 KY670843.1 Homo sapiens isolate 2_VN haplogroup T2b mitochondrion, complete genome
+KY670842.1 16570 0 KY670842.1 Homo sapiens isolate 2_Ps haplogroup H13a1 mitochondrion, complete genome
+KY670841.1 16569 0 KY670841.1 Homo sapiens isolate 2_OR haplogroup T2a1 mitochondrion, complete genome
+KY670840.1 16568 0 KY670840.1 Homo sapiens isolate 1_VN haplogroup H1b mitochondrion, complete genome
+KY670839.1 16570 0 KY670839.1 Homo sapiens isolate 1_Vl haplogroup T1a mitochondrion, complete genome
+KY670838.1 16569 0 KY670838.1 Homo sapiens isolate 1_Ps haplogroup J1b1 mitochondrion, complete genome
+NM_001040613.2 2110 0 NM_001040613.2 Homo sapiens transmembrane protein 70 (TMEM70), transcript variant 2, mRNA
+NM_017866.5 2096 0 NM_017866.5 Homo sapiens transmembrane protein 70 (TMEM70), transcript variant 1, mRNA
+MG450794.1 16461 0 MG450794.1 Cynomys gunnisoni gunnisoni mitochondrion, complete genome
+MG489891.1 15714 0 MG489891.1 Charybdis bimaculata mitochondrion, complete genome
+KY767672.1 16496 0 KY767672.1 Clarias batrachus mitochondrion, complete genome
+KY800118.1 16722 0 KY800118.1 Sus scrofa breed Ha Lang pig mitochondrion, complete genome
+KY349100.1 16754 0 KY349100.1 Emberiza leucocephalos mitochondrion, complete genome
+NC_037241.1 15330 0 NC_037241.1 Tesseropora rosea mitochondrion, complete genome
+NC_037238.1 15802 0 NC_037238.1 Clithon retropictum voucher MABIK MO00163493 mitochondrion, complete genome
+NC_037237.1 15249 0 NC_037237.1 Penion maximus mitochondrion, complete genome
+NC_037236.1 15163 0 NC_037236.1 Marphysa tamurai mitochondrion, complete genome
+NC_037234.1 15801 0 NC_037234.1 Creobroter jiangxiensis mitochondrion, complete genome
+NC_037225.1 14864 0 NC_037225.1 Mycopsylla proxima voucher MPROX20161215 mitochondrion, complete genome
+NC_037224.1 14815 0 NC_037224.1 Mycopsylla fici voucher MFICI20161215 mitochondrion, complete genome
+NC_037222.1 14602 0 NC_037222.1 Centruroides vittatus mitochondrion, complete genome
+NC_037221.1 15272 0 NC_037221.1 Indothais lacera mitochondrion, complete genome
+NC_037220.1 16733 0 NC_037220.1 Mene maculata mitochondrion, complete genome
+NC_037219.1 17610 0 NC_037219.1 Mobula thurstoni mitochondrion, complete genome
+NC_037218.1 17965 0 NC_037218.1 Rhadinosa nigrocyanea mitochondrion, complete genome
+NC_037210.1 15167 0 NC_037210.1 Empoasca onukii mitochondrion, complete genome
+NC_037208.1 15466 0 NC_037208.1 Eomantis yunnanensis mitochondrion, complete genome
+NC_037207.1 16026 0 NC_037207.1 Schizocephala bicornis mitochondrion, complete genome
+NC_037206.1 15548 0 NC_037206.1 Sceptuchus simplex mitochondrion, complete genome
+NC_037205.1 15609 0 NC_037205.1 Tropidomantis tenera mitochondrion, complete genome
+NC_037204.1 15475 0 NC_037204.1 Sphodromantis lineola mitochondrion, complete genome
+NC_037203.1 15684 0 NC_037203.1 Amantis nawai mitochondrion, complete genome
+NC_037202.1 16065 0 NC_037202.1 Deroplatys desiccata mitochondrion, complete genome
+NC_037201.1 16180 0 NC_037201.1 Atergatis floridus mitochondrion, complete genome
+NC_037200.1 16390 0 NC_037200.1 Dermestes maculatus mitochondrion, complete genome
+NC_037197.1 16577 0 NC_037197.1 Sinocyclocheilus jii mitochondrion, complete genome
+NC_037196.1 15771 0 NC_037196.1 Tenebrio obscurus mitochondrion, complete genome
+NC_037195.1 17026 0 NC_037195.1 Hydrotaea ignava mitochondrion, complete genome
+NC_037193.1 16514 0 NC_037193.1 Clarias dussumieri mitochondrion, complete genome
+NC_037189.1 16880 0 NC_037189.1 Abrornis proregulus mitochondrion, complete genome
+NC_037188.1 15405 0 NC_037188.1 Charonia lampas voucher MABIK MO00163735 mitochondrion, complete genome
+NC_037183.1 16585 0 NC_037183.1 Oreinus molesworthi mitochondrion, complete genome
+NC_037182.1 16279 0 NC_037182.1 Peregrinus maidis mitochondrion, complete genome
+NC_037181.1 16449 0 NC_037181.1 Changeondelphax velitchkovskyi mitochondrion, complete genome
+NC_037178.1 19545 0 NC_037178.1 Anemonia majano mitochondrion, complete genome
+NC_037177.1 20108 0 NC_037177.1 Anemonia viridis mitochondrion, complete genome
+NC_037175.1 15184 0 NC_037175.1 Euzophera pyriella mitochondrion, complete genome
+NC_037174.1 17216 0 NC_037174.1 Sorex sinalis mitochondrion, complete genome
+NC_037173.1 15878 0 NC_037173.1 Monomia gladiator mitochondrion, complete genome
+NC_037154.1 16973 0 NC_037154.1 Lepidocolaptes angustirostris voucher MPEG_68210 mitochondrion, complete genome
+NC_037153.1 16768 0 NC_037153.1 Sicalis olivascens voucher MACN_1307 mitochondrion, complete genome
+NC_037149.1 15801 0 NC_037149.1 Bombyx lemeepauli mitochondrion, complete genome
+NC_037144.1 16503 0 NC_037144.1 Rhinogobius rubromaculatus mitochondrion, complete genome
+NC_037143.1 16500 0 NC_037143.1 Exyrias puntang mitochondrion, complete genome
+NC_037142.1 16472 0 NC_037142.1 Brachygobius doriae mitochondrion, complete genome
+NC_037141.1 16681 0 NC_037141.1 Bathygobius coalitus mitochondrion, complete genome
+NC_037140.1 16521 0 NC_037140.1 Eleotris fusca mitochondrion, complete genome
+NC_037139.1 16655 0 NC_037139.1 Glyphonycteris daviesi voucher Royal Ontario Museum ROM-41125 mitochondrion, complete genome
+NC_037138.1 16618 0 NC_037138.1 Diphylla ecaudata voucher American Museum of Natural History, AMNH-M-261777 mitochondrion, complete genome
+NC_037137.1 16659 0 NC_037137.1 Noctilio leporinus voucher Institut des Sciences de l'Evolution de Montpellier, ISEM-V-1890, ISEM-T-4573 mitochondrion, complete genome
+NC_037136.1 16691 0 NC_037136.1 Macrotus californicus voucher Museum of Southwestern Biology, MSB-140888 mitochondrion, complete genome
+NC_037135.1 16661 0 NC_037135.1 Lonchorhina aurita voucher Museum of Vertebrate Zoology at Berkeley, MVZ-185587 mitochondrion, complete genome
+NC_037134.1 16661 0 NC_037134.1 Hsunycteris thomasi voucher Institut des Sciences de l'Evolution de Montpellier, ISEM-V-1646, ISEM-T-3845 mitochondrion, complete genome
+NC_037133.1 16628 0 NC_037133.1 Diaemus youngi voucher Museum of Southwestern Biology:MSB-56205 mitochondrion, complete genome
+NC_037132.1 16707 0 NC_037132.1 Chrotopterus auritus mitochondrion, complete genome
+BK010421.1 367808 0 BK010421.1 TPA_asm: Arabidopsis thaliana ecotype Col-0 mitochondrion, complete genome
+KY008698.1 16640 0 KY008698.1 Pomacea bridgesi mitochondrion, complete genome
+KX863671.1 15352 0 KX863671.1 Cryptopygus terranovus mitochondrion, complete genome
+NC_006133.1 16004 0 NC_006133.1 Pteronarcys princeps mitochondrion, complete genome
+NC_005944.1 16324 0 NC_005944.1 Philaenus spumarius mitochondrion, complete genome
+NC_016005.1 1555935 0 NC_016005.1 Cucumis sativus mitochondrion chromosome 1, complete sequence
+NC_016004.1 83817 0 NC_016004.1 Cucumis sativus mitochondrion chromosome 2, complete sequence
+NC_037249.1 18012 0 NC_037249.1 Triphoturus mexicanus voucher CSULA 16-33 mitochondrion, complete genome
+NC_037248.1 17596 0 NC_037248.1 Stomias atriventer voucher CSULA 16-01 mitochondrion, complete genome
+NC_037246.1 14685 0 NC_037246.1 Haemaphysalis japonica mitochondrion, complete genome
+NC_037244.1 15976 0 NC_037244.1 Altiverruca navicula mitochondrion, complete genome
+NC_037187.1 16073 0 NC_037187.1 Armillifer grandis voucher ZMB_arachids_48784 mitochondrion, complete genome
+NC_037186.1 16663 0 NC_037186.1 Ochotona erythrotis mitochondrion, complete genome
+NC_037185.1 15227 0 NC_037185.1 Penion sulcatus mitochondrion, complete genome
+NC_037180.1 16326 0 NC_037180.1 Peromyscus leucopus strain GS16A1 stock mitochondrion, complete genome
+NC_037172.1 15924 0 NC_037172.1 Atergatis integerrimus mitochondrion, complete genome
+NC_037156.1 16608 0 NC_037156.1 Candidia barbatus mitochondrion, complete genome
+NC_037150.1 14567 0 NC_037150.1 Artyfechinostomum sufrartyfex isolate Shillong mitochondrion, complete genome
+NC_037131.1 16658 0 NC_037131.1 Sardinella gibbosa mitochondrion, complete genome
+MG450553.1 14718 0 MG450553.1 Haemaphysalis longicornis mitochondrion, complete genome
+MG428405.1 16362 0 MG428405.1 Diaphanosoma dubium mitochondrion, complete genome
+MF627741.1 15903 0 MF627741.1 Shinkaicaris leurokolos mitochondrion, complete genome
+KY923500.1 5884 0 KY923500.1 Plasmodium falciparum isolate Pm01Panama mitochondrion, complete genome
+KY923499.1 5884 0 KY923499.1 Plasmodium falciparum isolate PB14Panama mitochondrion, complete genome
+KY923498.1 5884 0 KY923498.1 Plasmodium falciparum isolate P009Panama mitochondrion, complete genome
+KY923497.1 5884 0 KY923497.1 Plasmodium falciparum isolate DA04Panama mitochondrion, complete genome
+KY923496.1 5884 0 KY923496.1 Plasmodium falciparum isolate DA03Panama mitochondrion, complete genome
+KY923495.1 5884 0 KY923495.1 Plasmodium falciparum isolate DA02Panama mitochondrion, complete genome
+KY923494.1 5884 0 KY923494.1 Plasmodium falciparum isolate 413Indo mitochondrion, complete genome
+KY923493.1 5884 0 KY923493.1 Plasmodium falciparum isolate 411Indo mitochondrion, complete genome
+KY923492.1 5884 0 KY923492.1 Plasmodium falciparum isolate 406Indo mitochondrion, complete genome
+KY923491.1 5884 0 KY923491.1 Plasmodium falciparum isolate 254Indo mitochondrion, complete genome
+KY923490.1 5884 0 KY923490.1 Plasmodium falciparum isolate 230Indo mitochondrion, complete genome
+KY923489.1 5884 0 KY923489.1 Plasmodium falciparum isolate 172Indo mitochondrion, complete genome
+KY923488.1 5884 0 KY923488.1 Plasmodium falciparum isolate 165Indo mitochondrion, complete genome
+KY923487.1 5884 0 KY923487.1 Plasmodium falciparum isolate 164Indo mitochondrion, complete genome
+KY923486.1 5884 0 KY923486.1 Plasmodium falciparum isolate 132Indo mitochondrion, complete genome
+KY923485.1 5884 0 KY923485.1 Plasmodium falciparum isolate 128Indo mitochondrion, complete genome
+KY923484.1 5884 0 KY923484.1 Plasmodium falciparum isolate 127Indo mitochondrion, complete genome
+KY923483.1 5884 0 KY923483.1 Plasmodium falciparum isolate 125Indo mitochondrion, complete genome
+KY923482.1 5884 0 KY923482.1 Plasmodium falciparum isolate 123Indo mitochondrion, complete genome
+KY923481.1 5884 0 KY923481.1 Plasmodium falciparum isolate 120Indo mitochondrion, complete genome
+KY923480.1 5884 0 KY923480.1 Plasmodium falciparum isolate 53Indo mitochondrion, complete genome
+KY923479.1 5884 0 KY923479.1 Plasmodium falciparum isolate 48Indo mitochondrion, complete genome
+KY923478.1 5884 0 KY923478.1 Plasmodium falciparum isolate 41Indo mitochondrion, complete genome
+KY923477.1 5884 0 KY923477.1 Plasmodium falciparum isolate 36Indo mitochondrion, complete genome
+KY923476.1 5884 0 KY923476.1 Plasmodium falciparum isolate 9Indo mitochondrion, complete genome
+KY923475.1 5884 0 KY923475.1 Plasmodium falciparum isolate 4Indo mitochondrion, complete genome
+KY923474.1 5884 0 KY923474.1 Plasmodium falciparum isolate B036_TAN mitochondrion, complete genome
+KY923473.1 5884 0 KY923473.1 Plasmodium falciparum isolate B032_TAN mitochondrion, complete genome
+KY923472.1 5884 0 KY923472.1 Plasmodium falciparum isolate C147_TAN mitochondrion, complete genome
+KY923471.1 5884 0 KY923471.1 Plasmodium falciparum isolate C114_TAN mitochondrion, complete genome
+KY923470.1 5884 0 KY923470.1 Plasmodium falciparum isolate A111_TAN mitochondrion, complete genome
+KY923469.1 5884 0 KY923469.1 Plasmodium falciparum isolate B151_TAN mitochondrion, complete genome
+KY923468.1 5884 0 KY923468.1 Plasmodium falciparum isolate AO40_TAN mitochondrion, complete genome
+KY923467.1 5884 0 KY923467.1 Plasmodium falciparum isolate A117_TAN mitochondrion, complete genome
+KY923466.1 5884 0 KY923466.1 Plasmodium falciparum isolate B024_TAN mitochondrion, complete genome
+KY923465.1 5884 0 KY923465.1 Plasmodium falciparum isolate B131_TAN mitochondrion, complete genome
+KY923464.1 5884 0 KY923464.1 Plasmodium falciparum isolate C153_TAN mitochondrion, complete genome
+KY923463.1 5884 0 KY923463.1 Plasmodium falciparum isolate C113_TAN mitochondrion, complete genome
+KY923462.1 5884 0 KY923462.1 Plasmodium falciparum isolate B175_TAN mitochondrion, complete genome
+KY923461.1 5884 0 KY923461.1 Plasmodium falciparum isolate B047_TAN mitochondrion, complete genome
+KY923460.1 5884 0 KY923460.1 Plasmodium falciparum isolate B063_TAN mitochondrion, complete genome
+KY923459.1 5884 0 KY923459.1 Plasmodium falciparum isolate C154_TAN mitochondrion, complete genome
+KY923458.1 5884 0 KY923458.1 Plasmodium falciparum isolate B133_TAN mitochondrion, complete genome
+KY923457.1 5884 0 KY923457.1 Plasmodium falciparum isolate B097_TAN mitochondrion, complete genome
+KY923456.1 5884 0 KY923456.1 Plasmodium falciparum isolate B143_TAN mitochondrion, complete genome
+KY923455.1 5884 0 KY923455.1 Plasmodium falciparum isolate C159_TAN mitochondrion, complete genome
+KY923454.1 5884 0 KY923454.1 Plasmodium falciparum isolate C115_TAN mitochondrion, complete genome
+KY923453.1 5884 0 KY923453.1 Plasmodium falciparum isolate C152_TAN mitochondrion, complete genome
+KY923452.1 5884 0 KY923452.1 Plasmodium falciparum isolate C103_TAN mitochondrion, complete genome
+KY923451.1 5884 0 KY923451.1 Plasmodium falciparum isolate C139_TAN mitochondrion, complete genome
+KY923450.1 5884 0 KY923450.1 Plasmodium falciparum isolate B168_TAN mitochondrion, complete genome
+KY923449.1 5775 0 KY923449.1 Plasmodium falciparum isolate C156_TAN mitochondrion, complete genome
+KY923448.1 5884 0 KY923448.1 Plasmodium falciparum isolate C116_TAN mitochondrion, complete genome
+KY923447.1 5884 0 KY923447.1 Plasmodium falciparum isolate XOA10PNG mitochondrion, complete genome
+KY923446.1 5884 0 KY923446.1 Plasmodium falciparum isolate XOA133PNG mitochondrion, complete genome
+KY923445.1 5884 0 KY923445.1 Plasmodium falciparum isolate XOA126PNG mitochondrion, complete genome
+KY923444.1 5884 0 KY923444.1 Plasmodium falciparum isolate XOA160PNG mitochondrion, complete genome
+KY923443.1 5884 0 KY923443.1 Plasmodium falciparum isolate XOA135PNG mitochondrion, complete genome
+KY923442.1 5884 0 KY923442.1 Plasmodium falciparum isolate XOA166PNG mitochondrion, complete genome
+KY923441.1 5884 0 KY923441.1 Plasmodium falciparum isolate XOH35PNG mitochondrion, complete genome
+KY923440.1 5884 0 KY923440.1 Plasmodium falciparum isolate XOA162PNG mitochondrion, complete genome
+KY923439.1 5884 0 KY923439.1 Plasmodium falciparum isolate XOH356PNG mitochondrion, complete genome
+KY923438.1 5884 0 KY923438.1 Plasmodium falciparum isolate XOH353PNG mitochondrion, complete genome
+KY923437.1 5884 0 KY923437.1 Plasmodium falciparum isolate XOH387PNG mitochondrion, complete genome
+KY923436.1 5884 0 KY923436.1 Plasmodium falciparum isolate XOH418PNG mitochondrion, complete genome
+KY923435.1 5884 0 KY923435.1 Plasmodium falciparum isolate XOH370PNG mitochondrion, complete genome
+KY923434.1 5884 0 KY923434.1 Plasmodium falciparum isolate XOH393PNG mitochondrion, complete genome
+KY923433.1 5884 0 KY923433.1 Plasmodium falciparum isolate XOH366PNG mitochondrion, complete genome
+KY923432.1 5884 0 KY923432.1 Plasmodium falciparum isolate XOH421PNG mitochondrion, complete genome
+KY923431.1 5884 0 KY923431.1 Plasmodium falciparum isolate XOH419PNG mitochondrion, complete genome
+KY923430.1 5884 0 KY923430.1 Plasmodium falciparum isolate XOH362PNG mitochondrion, complete genome
+KY923429.1 5884 0 KY923429.1 Plasmodium falciparum isolate XOH360PNG mitochondrion, complete genome
+KY923428.1 5884 0 KY923428.1 Plasmodium falciparum isolate XOH400PNG mitochondrion, complete genome
+KY923427.1 5884 0 KY923427.1 Plasmodium falciparum isolate XOH355PNG mitochondrion, complete genome
+KY923426.1 5884 0 KY923426.1 Plasmodium falciparum isolate XOH398PNG mitochondrion, complete genome
+KY923425.1 5884 0 KY923425.1 Plasmodium falciparum isolate XOH37PNG mitochondrion, complete genome
+MG426188.1 16654 0 MG426188.1 Equus caballus breed Hequ mitochondrion, partial genome
+MF983539.1 16729 0 MF983539.1 Sphyrna zygaena voucher OC-462 mitochondrion, complete genome
+MF983538.1 16729 0 MF983538.1 Sphyrna zygaena voucher OC-448 mitochondrion, complete genome
+NC_036381.1 14275 0 NC_036381.1 Microceramus pontificus mitochondrion, complete genome
+NC_036426.1 14260 0 NC_036426.1 Chromodoris annae voucher 642 mitochondrion, complete genome
+NC_036401.1 16830 0 NC_036401.1 Lonchura grandis isolate JSB013 mitochondrion, complete genome
+NC_036345.1 16707 0 NC_036345.1 Sterna hirundo mitochondrion, complete genome
+NC_036315.1 16984 0 NC_036315.1 Myotis ruber mitochondrion, complete genome
+NC_036302.1 15273 0 NC_036302.1 Calophya californica voucher DP2.idba.199 mitochondrion, complete genome
+NC_036283.1 16246 0 NC_036283.1 Xylosandrus morigerus voucher BMNH 1040336 mitochondrion, complete genome
+NC_036277.1 15946 0 NC_036277.1 Pelecotoma fennica voucher BMNH 842676 mitochondrion, complete genome
+NC_036275.1 15672 0 NC_036275.1 Dryops ernesti voucher BMNH 833433 mitochondrion, complete genome
+NC_036274.1 15754 0 NC_036274.1 Vincenzellus ruficollis voucher BMNH 833403 mitochondrion, complete genome
+NC_008151.3 43079 0 NC_008151.3 Trichoplax adhaerens isolate Grell Red Sea mitochondrion, complete genome
+NC_036022.1 18853 0 NC_036022.1 Dendronephthya putteri mitochondrion, complete genome
+NC_036008.1 15570 0 NC_036008.1 Culex camposi isolate MS04_38 mitochondrion, complete genome
+NC_036007.1 15574 0 NC_036007.1 Culex usquatissimus isolate RO25_19 mitochondrion, complete genome
+NC_036006.1 15576 0 NC_036006.1 Culex coronator isolate RS10_109 mitochondrion, complete genome
+NC_036005.1 15573 0 NC_036005.1 Culex usquatus isolate SP29_156 mitochondrion, complete genome
+NC_036004.1 15048 0 NC_036004.1 Anabolia bimaculata voucher JBWM0362999 mitochondrion, complete genome
+NC_035987.1 17070 0 NC_035987.1 Donax vittatus mitochondrion, complete genome
+NC_035986.1 17195 0 NC_035986.1 Donax variegatus mitochondrion, complete genome
+NC_035985.1 17365 0 NC_035985.1 Donax trunculus mitochondrion, complete genome
+NC_035984.1 17044 0 NC_035984.1 Donax semiestriatus mitochondrion, complete genome
+NC_035983.1 20320 0 NC_035983.1 Oscarella pearsei mitochondrion, complete genome
+NC_034939.1 16602 0 NC_034939.1 Nemoura nankinensis mitochondrion, complete genome
+NC_034839.1 16928 0 NC_034839.1 Corvus cryptoleucus isolate 83690 mitochondrion, complete genome
+NC_033998.1 15706 0 NC_033998.1 Homogryllacris anelytra mitochondrion, complete genome
+NC_033995.1 15875 0 NC_033995.1 Kuwayamaea chinensis mitochondrion, complete genome
+NC_033994.1 15876 0 NC_033994.1 Phryganogryllacris xiai mitochondrion, complete genome
+NC_033993.1 15899 0 NC_033993.1 Holochlora fruhstorferi mitochondrion, complete genome
+NC_033992.1 16056 0 NC_033992.1 Pseudorhynchus acuminatus mitochondrion, complete genome
+NC_033990.1 15865 0 NC_033990.1 Pseudorhynchus crassiceps mitochondrion, complete genome
+NC_033982.1 16077 0 NC_033982.1 Pseudokuzicus pieli mitochondrion, complete genome
+NC_033886.1 13355 0 NC_033886.1 Nippostrongylus brasiliensis mitochondrion, complete genome
+NC_033853.1 16044 0 NC_033853.1 Pseudocosmetura anjiensis mitochondrion, complete genome
+NC_031873.1 15304 0 NC_031873.1 Echinoderes svetlanae mitochondrion, complete genome
+NC_031862.1 17755 0 NC_031862.1 Omphalius nigerrimus mitochondrion, complete genome
+NC_031859.1 17780 0 NC_031859.1 Chlorostoma argyrostomum mitochondrion, complete genome
+NC_031652.1 16276 0 NC_031652.1 Ducetia japonica mitochondrion, complete genome
+NC_031649.1 14010 0 NC_031649.1 Contracaecum ogmorhini sensu lato Pacific Canada mitochondrion, complete genome
+NC_031648.1 14012 0 NC_031648.1 Contracaecum ogmorhini sensu lato South Africa mitochondrion, complete genome
+NC_031647.1 14019 0 NC_031647.1 Contracaecum ogmorhini sensu lato Australia mitochondrion, complete genome
+NC_031646.1 13948 0 NC_031646.1 Pseudoterranova krabbei mitochondrion, complete genome
+NC_031645.1 13962 0 NC_031645.1 Pseudoterranova decipiens sensu lato Germany mitochondrion, complete genome
+NC_031644.1 13950 0 NC_031644.1 Pseudoterranova cattani mitochondrion, complete genome
+NC_031643.1 13957 0 NC_031643.1 Pseudoterranova bulbosa mitochondrion, complete genome
+NC_031642.1 17300 0 NC_031642.1 Ellopostoma mystax isolate UAIC 14301.34 mitochondrion, complete genome
+NC_031641.1 16570 0 NC_031641.1 Tuberoschistura baenzigeri isolate UAIC 14301.35 mitochondrion, complete genome
+NC_031460.1 16825 0 NC_031460.1 Sahyadria denisonii isolate CBM ZF 11295 mitochondrion, complete genome
+NC_030723.1 14147 0 NC_030723.1 Cernuella virgata mitochondrion, complete genome
+NC_015365.1 16624 0 NC_015365.1 Leiodon cutcutia mitochondrion, complete genome
+NC_015351.1 16406 0 NC_015351.1 Marilyna darwinii mitochondrion, complete genome
+NC_014175.1 16544 0 NC_014175.1 Acanthosaura armata mitochondrion, complete genome
+NC_008674.1 16637 0 NC_008674.1 Moxostoma poecilurum mitochondrion, complete genome
+NC_006922.1 16751 0 NC_006922.1 Pogona vitticeps voucher Kumazawa lab collection mitochondrion, complete genome
+NC_006159.1 14496 0 NC_006159.1 Neomaskellia andropogonis mitochondrion, complete genome
+NC_004412.1 16496 0 NC_004412.1 Salarias fasciatus mitochondrion, complete genome
+KY923647.1 5884 0 KY923647.1 Plasmodium falciparum isolate 49CS mitochondrion, complete genome
+KY923646.1 5884 0 KY923646.1 Plasmodium falciparum isolate 48CS mitochondrion, complete genome
+KY923645.1 5884 0 KY923645.1 Plasmodium falciparum isolate 47CS mitochondrion, complete genome
+KY923644.1 5884 0 KY923644.1 Plasmodium falciparum isolate 46CS mitochondrion, complete genome
+KY923643.1 5884 0 KY923643.1 Plasmodium falciparum isolate 45CS mitochondrion, complete genome
+KY923642.1 5884 0 KY923642.1 Plasmodium falciparum isolate 44CS mitochondrion, complete genome
+KY923641.1 5884 0 KY923641.1 Plasmodium falciparum isolate 43CS mitochondrion, complete genome
+KY923640.1 5884 0 KY923640.1 Plasmodium falciparum isolate 42CS mitochondrion, complete genome
+KY923639.1 5884 0 KY923639.1 Plasmodium falciparum isolate 41CS mitochondrion, complete genome
+KY923638.1 5884 0 KY923638.1 Plasmodium falciparum isolate 40CS mitochondrion, complete genome
+KY923637.1 5884 0 KY923637.1 Plasmodium falciparum isolate 38CS mitochondrion, complete genome
+KY923636.1 5884 0 KY923636.1 Plasmodium falciparum isolate 35CS mitochondrion, complete genome
+KY923635.1 5884 0 KY923635.1 Plasmodium falciparum isolate 36CS mitochondrion, complete genome
+KY923634.1 5884 0 KY923634.1 Plasmodium falciparum isolate 34CS mitochondrion, complete genome
+KY923633.1 5884 0 KY923633.1 Plasmodium falciparum isolate 32CS mitochondrion, complete genome
+KY923632.1 5884 0 KY923632.1 Plasmodium falciparum isolate 31CS mitochondrion, complete genome
+KY923631.1 5884 0 KY923631.1 Plasmodium falciparum isolate 30CS mitochondrion, complete genome
+KY923630.1 5884 0 KY923630.1 Plasmodium falciparum isolate 29CS mitochondrion, complete genome
+KY923629.1 5884 0 KY923629.1 Plasmodium falciparum isolate 28CS mitochondrion, complete genome
+KY923628.1 5884 0 KY923628.1 Plasmodium falciparum isolate 27CS mitochondrion, complete genome
+KY923627.1 5884 0 KY923627.1 Plasmodium falciparum isolate 26CS mitochondrion, complete genome
+KY923626.1 5884 0 KY923626.1 Plasmodium falciparum isolate 25CS mitochondrion, complete genome
+KY923625.1 5884 0 KY923625.1 Plasmodium falciparum isolate 24CS mitochondrion, complete genome
+KY923624.1 5884 0 KY923624.1 Plasmodium falciparum isolate 23CS mitochondrion, complete genome
+KY923623.1 5884 0 KY923623.1 Plasmodium falciparum isolate 22CS mitochondrion, complete genome
+KY923622.1 5884 0 KY923622.1 Plasmodium falciparum isolate 20CS mitochondrion, complete genome
+KY923621.1 5884 0 KY923621.1 Plasmodium falciparum isolate 18CS mitochondrion, complete genome
+KY923620.1 5884 0 KY923620.1 Plasmodium falciparum isolate 17CS mitochondrion, complete genome
+KY923619.1 5884 0 KY923619.1 Plasmodium falciparum isolate 16CS mitochondrion, complete genome
+KY923618.1 5884 0 KY923618.1 Plasmodium falciparum isolate 14CS mitochondrion, complete genome
+KY923617.1 5884 0 KY923617.1 Plasmodium falciparum isolate 13CS mitochondrion, complete genome
+KY923616.1 5884 0 KY923616.1 Plasmodium falciparum isolate 12CS mitochondrion, complete genome
+KY923615.1 5884 0 KY923615.1 Plasmodium falciparum isolate 10CS mitochondrion, complete genome
+KY923614.1 5884 0 KY923614.1 Plasmodium falciparum isolate 09CS mitochondrion, complete genome
+KY923613.1 5884 0 KY923613.1 Plasmodium falciparum isolate 08CS mitochondrion, complete genome
+KY923612.1 5884 0 KY923612.1 Plasmodium falciparum isolate 05CS mitochondrion, complete genome
+KY923611.1 5884 0 KY923611.1 Plasmodium falciparum isolate 03CS mitochondrion, complete genome
+KY923610.1 5884 0 KY923610.1 Plasmodium falciparum isolate 02CS mitochondrion, complete genome
+KY923609.1 5884 0 KY923609.1 Plasmodium falciparum isolate 01CS mitochondrion, complete genome
+KY923608.1 5884 0 KY923608.1 Plasmodium falciparum isolate MARA871 mitochondrion, complete genome
+KY923607.1 5884 0 KY923607.1 Plasmodium falciparum isolate MARA872 mitochondrion, complete genome
+KY923606.1 5884 0 KY923606.1 Plasmodium falciparum isolate MARA953 mitochondrion, complete genome
+KY923605.1 5884 0 KY923605.1 Plasmodium falciparum isolate MARA965 mitochondrion, complete genome
+KY923604.1 5884 0 KY923604.1 Plasmodium falciparum isolate MARA960 mitochondrion, complete genome
+KY923603.1 5884 0 KY923603.1 Plasmodium falciparum isolate MBA977 mitochondrion, complete genome
+KY923602.1 5884 0 KY923602.1 Plasmodium falciparum isolate MBA964 mitochondrion, complete genome
+KY923601.1 5884 0 KY923601.1 Plasmodium falciparum isolate MBA972 mitochondrion, complete genome
+KY923600.1 5884 0 KY923600.1 Plasmodium falciparum isolate MBA955 mitochondrion, complete genome
+KY923599.1 5884 0 KY923599.1 Plasmodium falciparum isolate MBA952 mitochondrion, complete genome
+KY923598.1 5884 0 KY923598.1 Plasmodium falciparum isolate MBA958 mitochondrion, complete genome
+KY923597.1 5884 0 KY923597.1 Plasmodium falciparum isolate MBA966 mitochondrion, complete genome
+KY923596.1 5884 0 KY923596.1 Plasmodium falciparum isolate MBA957 mitochondrion, complete genome
+KY923595.1 5884 0 KY923595.1 Plasmodium falciparum isolate MBA975 mitochondrion, complete genome
+KY923594.1 5884 0 KY923594.1 Plasmodium falciparum isolate MBA974 mitochondrion, complete genome
+KY923593.1 5884 0 KY923593.1 Plasmodium falciparum isolate MBA9969 mitochondrion, complete genome
+KY923592.1 5884 0 KY923592.1 Plasmodium falciparum isolate MBA967 mitochondrion, complete genome
+KY923591.1 5884 0 KY923591.1 Plasmodium falciparum isolate PVL814 mitochondrion, complete genome
+KY923590.1 5884 0 KY923590.1 Plasmodium falciparum isolate PVL679 mitochondrion, complete genome
+KY923589.1 5884 0 KY923589.1 Plasmodium falciparum isolate PVL815 mitochondrion, complete genome
+KY923588.1 5884 0 KY923588.1 Plasmodium falciparum isolate PVL840 mitochondrion, complete genome
+KY923587.1 5884 0 KY923587.1 Plasmodium falciparum isolate PVL838 mitochondrion, complete genome
+KY923586.1 5884 0 KY923586.1 Plasmodium falciparum isolate PVL837 mitochondrion, complete genome
+KY923585.1 5884 0 KY923585.1 Plasmodium falciparum isolate PVL835 mitochondrion, complete genome
+KY923584.1 5884 0 KY923584.1 Plasmodium falciparum isolate PVL820 mitochondrion, complete genome
+KY923583.1 5884 0 KY923583.1 Plasmodium falciparum isolate PVL826 mitochondrion, complete genome
+KY923582.1 5884 0 KY923582.1 Plasmodium falciparum isolate PVL844 mitochondrion, complete genome
+KY923581.1 5884 0 KY923581.1 Plasmodium falciparum isolate PVL813 mitochondrion, complete genome
+KY923580.1 5884 0 KY923580.1 Plasmodium falciparum isolate PVL812 mitochondrion, complete genome
+KY923579.1 5884 0 KY923579.1 Plasmodium falciparum isolate PVL801 mitochondrion, complete genome
+KY923578.1 5884 0 KY923578.1 Plasmodium falciparum isolate PVL832 mitochondrion, complete genome
+KY923577.1 5884 0 KY923577.1 Plasmodium falciparum isolate PVL827 mitochondrion, complete genome
+KY923576.1 5884 0 KY923576.1 Plasmodium falciparum isolate PVL682 mitochondrion, complete genome
+KY923575.1 5884 0 KY923575.1 Plasmodium falciparum isolate PVL683 mitochondrion, complete genome
+KY923574.1 5884 0 KY923574.1 Plasmodium falciparum isolate PVL824 mitochondrion, complete genome
+KY923573.1 5884 0 KY923573.1 Plasmodium falciparum isolate PVL828 mitochondrion, complete genome
+KY923572.1 5884 0 KY923572.1 Plasmodium falciparum isolate PVL841 mitochondrion, complete genome
+KY923571.1 5884 0 KY923571.1 Plasmodium falciparum isolate PVL680 mitochondrion, complete genome
+KY923570.1 5884 0 KY923570.1 Plasmodium falciparum isolate PVL678 mitochondrion, complete genome
+KY923569.1 5884 0 KY923569.1 Plasmodium falciparum isolate PVL816 mitochondrion, complete genome
+KY923568.1 5884 0 KY923568.1 Plasmodium falciparum isolate PVL829 mitochondrion, complete genome
+KY923567.1 5884 0 KY923567.1 Plasmodium falciparum isolate PVL831 mitochondrion, complete genome
+KY923566.1 5884 0 KY923566.1 Plasmodium falciparum isolate ITB1011 mitochondrion, complete genome
+KY923565.1 5884 0 KY923565.1 Plasmodium falciparum isolate ITB1012 mitochondrion, complete genome
+KY923564.1 5884 0 KY923564.1 Plasmodium falciparum isolate ITB1013 mitochondrion, complete genome
+KY923563.1 5884 0 KY923563.1 Plasmodium falciparum isolate ITB10133 mitochondrion, complete genome
+KY923562.1 5884 0 KY923562.1 Plasmodium falciparum isolate ITB1032 mitochondrion, complete genome
+KY923561.1 5884 0 KY923561.1 Plasmodium falciparum isolate ITB1029 mitochondrion, complete genome
+KY923560.1 5884 0 KY923560.1 Plasmodium falciparum isolate ITB1022 mitochondrion, complete genome
+KY923559.1 5884 0 KY923559.1 Plasmodium falciparum isolate ITB1021 mitochondrion, complete genome
+KY923558.1 5884 0 KY923558.1 Plasmodium falciparum isolate ITB1020 mitochondrion, complete genome
+KY923557.1 5884 0 KY923557.1 Plasmodium falciparum isolate ITB1019 mitochondrion, complete genome
+KY923556.1 5884 0 KY923556.1 Plasmodium falciparum isolate ITB1018 mitochondrion, complete genome
+KY923555.1 5884 0 KY923555.1 Plasmodium falciparum isolate ITB1017 mitochondrion, complete genome
+KY923554.1 5884 0 KY923554.1 Plasmodium falciparum isolate ITB1014 mitochondrion, complete genome
+KY923553.1 5884 0 KY923553.1 Plasmodium falciparum isolate ITB995 mitochondrion, complete genome
+KY923552.1 5884 0 KY923552.1 Plasmodium falciparum isolate ITB988 mitochondrion, complete genome
+KY923551.1 5884 0 KY923551.1 Plasmodium falciparum isolate ITB987 mitochondrion, complete genome
+KY923550.1 5884 0 KY923550.1 Plasmodium falciparum isolate ITB986 mitochondrion, complete genome
+KY923549.1 5884 0 KY923549.1 Plasmodium falciparum isolate ITB1024 mitochondrion, complete genome
+KY923548.1 5884 0 KY923548.1 Plasmodium falciparum isolate ITB1015 mitochondrion, complete genome
+KY923547.1 5884 0 KY923547.1 Plasmodium falciparum isolate ITB990 mitochondrion, complete genome
+KY923546.1 5884 0 KY923546.1 Plasmodium falciparum isolate ITB1025 mitochondrion, complete genome
+KY923545.1 5884 0 KY923545.1 Plasmodium falciparum isolate ITB1028 mitochondrion, complete genome
+KY923544.1 5884 0 KY923544.1 Plasmodium falciparum isolate ITB1023 mitochondrion, complete genome
+KY923543.1 5884 0 KY923543.1 Plasmodium falciparum isolate ITB984 mitochondrion, complete genome
+KY923542.1 5884 0 KY923542.1 Plasmodium falciparum isolate ITB1031 mitochondrion, complete genome
+KY923541.1 5884 0 KY923541.1 Plasmodium falciparum isolate TAI807 mitochondrion, complete genome
+KY923540.1 5884 0 KY923540.1 Plasmodium falciparum isolate TAI1002 mitochondrion, complete genome
+KY923539.1 5884 0 KY923539.1 Plasmodium falciparum isolate TAI799 mitochondrion, complete genome
+KY923538.1 5884 0 KY923538.1 Plasmodium falciparum isolate TAI803 mitochondrion, complete genome
+KY923537.1 5884 0 KY923537.1 Plasmodium falciparum isolate TAI847 mitochondrion, complete genome
+KY923536.1 5884 0 KY923536.1 Plasmodium falciparum isolate TAI858 mitochondrion, complete genome
+KY923535.1 5884 0 KY923535.1 Plasmodium falciparum isolate TAI1003 mitochondrion, complete genome
+KY923534.1 5884 0 KY923534.1 Plasmodium falciparum isolate TAI800 mitochondrion, complete genome
+KY923533.1 5884 0 KY923533.1 Plasmodium falciparum isolate TAI188 mitochondrion, complete genome
+KY923532.1 5884 0 KY923532.1 Plasmodium falciparum isolate TAI685 mitochondrion, complete genome
+KY923531.1 5884 0 KY923531.1 Plasmodium falciparum isolate TAI780 mitochondrion, complete genome
+KY923530.1 5884 0 KY923530.1 Plasmodium falciparum isolate TAI801 mitochondrion, complete genome
+KY923529.1 5884 0 KY923529.1 Plasmodium falciparum isolate TAI809 mitochondrion, complete genome
+KY923528.1 5884 0 KY923528.1 Plasmodium falciparum isolate TAI810 mitochondrion, complete genome
+KY923527.1 5884 0 KY923527.1 Plasmodium falciparum isolate TAI848 mitochondrion, complete genome
+KY923526.1 5884 0 KY923526.1 Plasmodium falciparum isolate TAI849 mitochondrion, complete genome
+KY923525.1 5884 0 KY923525.1 Plasmodium falciparum isolate TAI850 mitochondrion, complete genome
+KY923524.1 5884 0 KY923524.1 Plasmodium falciparum isolate TAI853 mitochondrion, complete genome
+KY923523.1 5884 0 KY923523.1 Plasmodium falciparum isolate TAI854 mitochondrion, complete genome
+KY923522.1 5884 0 KY923522.1 Plasmodium falciparum isolate TAI856 mitochondrion, complete genome
+KY923521.1 5884 0 KY923521.1 Plasmodium falciparum isolate TAI1020 mitochondrion, complete genome
+KY923520.1 5884 0 KY923520.1 Plasmodium falciparum isolate TAI857 mitochondrion, complete genome
+KY923519.1 5884 0 KY923519.1 Plasmodium falciparum isolate TAI860 mitochondrion, complete genome
+KY923518.1 5884 0 KY923518.1 Plasmodium falciparum isolate TAI802 mitochondrion, complete genome
+KY923517.1 5884 0 KY923517.1 Plasmodium falciparum isolate TAI866 mitochondrion, complete genome
+KY923516.1 5884 0 KY923516.1 Plasmodium falciparum isolate TAI808 mitochondrion, complete genome
+KY923515.1 5884 0 KY923515.1 Plasmodium falciparum isolate TAI855 mitochondrion, complete genome
+KY923514.1 5884 0 KY923514.1 Plasmodium falciparum isolate TAI1007 mitochondrion, complete genome
+KY923513.1 5884 0 KY923513.1 Plasmodium falciparum isolate TAI996 mitochondrion, complete genome
+KY923512.1 5884 0 KY923512.1 Plasmodium falciparum isolate TAI859 mitochondrion, complete genome
+KY923511.1 5884 0 KY923511.1 Plasmodium falciparum isolate TAI1005 mitochondrion, complete genome
+KY923510.1 5884 0 KY923510.1 Plasmodium falciparum isolate TAI1000 mitochondrion, complete genome
+KY923509.1 5884 0 KY923509.1 Plasmodium falciparum isolate TAI851 mitochondrion, complete genome
+KY923508.1 5884 0 KY923508.1 Plasmodium falciparum isolate TAI846 mitochondrion, complete genome
+KY923507.1 5884 0 KY923507.1 Plasmodium falciparum isolate TAI806 mitochondrion, complete genome
+KY923506.1 5884 0 KY923506.1 Plasmodium falciparum isolate TAI805 mitochondrion, complete genome
