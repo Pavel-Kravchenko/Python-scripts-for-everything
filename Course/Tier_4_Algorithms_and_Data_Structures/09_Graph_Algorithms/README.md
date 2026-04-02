@@ -44,12 +44,11 @@ This module covers fundamental graph algorithms and data structures essential fo
 
 | Notebook | Description |
 |----------|-------------|
-| [01-Graph-Representations.ipynb](01-Graph-Representations.ipynb) | Adjacency matrix, list, and edge list |
-| [02-BFS-DFS.ipynb](02-BFS-DFS.ipynb) | Breadth-first and depth-first traversals |
-| [03-Dijkstra.ipynb](03-Dijkstra.ipynb) | Shortest path with priority queue |
-| [04-Bellman-Ford.ipynb](04-Bellman-Ford.ipynb) | Handling negative weights |
-| [05-MST-Kruskal-Prim.ipynb](05-MST-Kruskal-Prim.ipynb) | Minimum spanning tree algorithms |
-| [06-Topological-Sort.ipynb](06-Topological-Sort.ipynb) | DAG ordering algorithms |
+| [01_graph_representations.ipynb](01_graph_representations.ipynb) | Adjacency matrix, list, and edge list |
+| [02_bfs_dfs.ipynb](02_bfs_dfs.ipynb) | Breadth-first and depth-first traversals |
+| [03_dijkstra.ipynb](03_dijkstra.ipynb) | Shortest path with priority queue |
+| [04_mst_kruskal_prim.ipynb](04_mst_kruskal_prim.ipynb) | Minimum spanning tree algorithms |
+| [05_topological_sort.ipynb](05_topological_sort.ipynb) | DAG ordering and cycle detection |
 
 ## Interactive Visualizations
 

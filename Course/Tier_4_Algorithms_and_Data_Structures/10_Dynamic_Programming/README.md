@@ -56,12 +56,10 @@ Dynamic Programming (DP) is an algorithmic technique that solves complex problem
 
 | Notebook | Description |
 |----------|-------------|
-| [01-Intro-Memoization.ipynb](01-Intro-Memoization.ipynb) | Fibonacci, recursion vs memoization |
-| [02-Tabulation.ipynb](02-Tabulation.ipynb) | Bottom-up approach, space optimization |
-| [03-LCS-LIS.ipynb](03-LCS-LIS.ipynb) | Longest common/increasing subsequence |
-| [04-Knapsack.ipynb](04-Knapsack.ipynb) | 0/1 and unbounded knapsack |
-| [05-Edit-Distance.ipynb](05-Edit-Distance.ipynb) | String transformation with DP |
-| [06-Advanced-DP.ipynb](06-Advanced-DP.ipynb) | Matrix chain, partitioning problems |
+| [01_intro_memoization.ipynb](01_intro_memoization.ipynb) | Fibonacci, recursion vs memoization |
+| [02_tabulation.ipynb](02_tabulation.ipynb) | Bottom-up approach, LCS, edit distance |
+| [03_knapsack.ipynb](03_knapsack.ipynb) | 0/1 knapsack and subset sum |
+| [04_sequence_alignment.ipynb](04_sequence_alignment.ipynb) | Needleman-Wunsch and Smith-Waterman |
 
 ## Interactive Visualizations
 
