@@ -25,3 +25,12 @@ ipykernel>=6.0.0
 # Optional: Data handling
 openpyxl>=3.0.0    # Excel support
 xlrd>=2.0.0        # Legacy Excel
+
+# Modern Bioinformatics (Tier 3)
+scanpy>=1.9.0           # Single-cell analysis
+anndata>=0.8.0          # Annotated data matrices
+snakemake>=7.0.0        # Workflow engine
+
+# Testing & CI
+pytest>=7.0.0
+pytest-cov>=4.0.0
