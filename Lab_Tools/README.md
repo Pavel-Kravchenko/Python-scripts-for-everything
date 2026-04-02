@@ -7,13 +7,7 @@ Utility scripts and templates for bioinformatics work.
 ### `rosalind.py`
 Python wrapper for working with Rosalind bioinformatics problems (rosalind.info).
 
-**Features:**
-- List available problems from any track (Stronghold, Python Village, Armory, etc.)
-- Fetch problem details including sample input/output
-- Test solutions against sample data
-- Generate Jupyter notebook templates for problems
-
-**Quick Start:**
+#### Basic Usage
 ```python
 from Lab_Tools.rosalind import Rosalind
 
@@ -40,7 +34,61 @@ ros.test_solution("DNA", solve_dna)
 ros.create_notebook("RNA", output_dir="./problems")
 ```
 
-**Available Tracks:**
+#### 🎓 AI-Assisted Learning Mode (Copilot Compatible)
+
+The tutor module helps you **learn** without giving away answers:
+
+```python
+from Lab_Tools.rosalind import RosalindTutor, copilot_help, learning_mode
+
+# Get learning guidance (concepts, not solutions)
+print(learning_mode("GC"))
+
+# Get progressive hints
+tutor = RosalindTutor()
+print(tutor.get_hint("GC", level=1))  # Vague hint
+print(tutor.get_hint("GC", level=2))  # More specific
+print(tutor.get_hint("GC", level=3))  # Most direct (still no answer!)
+
+# Generate AI prompt for help (Socratic, no spoilers)
+prompt = copilot_help("GC", stuck_on="parsing FASTA format")
+print(prompt)  # Paste this to Copilot for guided learning
+
+# Create a learning notebook with built-in scaffolds
+tutor.create_tutor_notebook("DNA", output_dir="./learn")
+```
+
+#### AI Prompt Types
+
+**1. Learning Assistant Prompt** - For when you're stuck
+```python
+prompt = tutor.copilot_prompt("PROT", stuck_on="codon translation")
+```
+
+**2. Code Review Prompt** - Socratic feedback on your code
+```python
+prompt = tutor.review_prompt("DNA", code=my_solution_code)
+```
+
+**3. Debug Assistance Prompt** - Teaches debugging skills
+```python
+prompt = tutor.debug_prompt("GC", code=my_code, error="IndexError...")
+```
+
+**4. Concept Explanation Prompt** - Understand underlying concepts
+```python
+prompt = tutor.explain_concept("dynamic programming")
+```
+
+#### Learning Path
+```python
+# Get a recommended sequence of problems
+path = tutor.learning_path("DNA")
+for p in path:
+    print(f"{p['id']} ({'⭐'*p['difficulty']}) - {p['title']}")
+```
+
+#### Available Tracks
 - `stronghold` - Bioinformatics Stronghold (default)
 - `python-village` - Python basics
 - `armory` - Bioinformatics tools

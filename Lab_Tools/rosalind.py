@@ -720,6 +720,911 @@ COURSE_MAPPING = {
 }
 
 
+# =============================================================================
+# PROBLEM KNOWLEDGE BASE
+# =============================================================================
+# Detailed metadata for pedagogical guidance - concepts, hints, common mistakes
+
+PROBLEM_KNOWLEDGE = {
+    'DNA': {
+        'concepts': ['string manipulation', 'counting', 'iteration'],
+        'biology': ['nucleotides', 'DNA composition', 'base pairing'],
+        'difficulty': 1,
+        'hints': [
+            "Think about what Python method counts occurrences of a character in a string.",
+            "You need to count each of the four nucleotides: A, C, G, T.",
+            "The output format matters - four integers separated by spaces.",
+        ],
+        'questions': [
+            "What are the four nucleotides that make up DNA?",
+            "How would you count how many times the letter 'A' appears in a string?",
+            "What's the difference between a list and a string in Python?",
+        ],
+        'common_mistakes': [
+            "Forgetting to handle newlines in input",
+            "Wrong output format (commas instead of spaces)",
+            "Case sensitivity issues",
+        ],
+        'next_problems': ['RNA', 'REVC'],
+        'python_concepts': ['str.count()', 'string iteration', 'f-strings'],
+    },
+    'RNA': {
+        'concepts': ['string manipulation', 'character replacement'],
+        'biology': ['transcription', 'thymine vs uracil', 'DNA to RNA'],
+        'difficulty': 1,
+        'hints': [
+            "Transcription replaces one nucleotide with another.",
+            "Think about which base in DNA becomes which base in RNA.",
+            "Python has a simple method for replacing characters in strings.",
+        ],
+        'questions': [
+            "What is the biological process of creating RNA from DNA called?",
+            "Which nucleotide in DNA is replaced during transcription, and with what?",
+            "Does Python's replace() method modify the original string or return a new one?",
+        ],
+        'common_mistakes': [
+            "Replacing the wrong nucleotide",
+            "Forgetting that strings are immutable in Python",
+        ],
+        'next_problems': ['REVC', 'PROT'],
+        'python_concepts': ['str.replace()', 'string immutability'],
+    },
+    'REVC': {
+        'concepts': ['string reversal', 'complementation', 'mapping'],
+        'biology': ['base pairing', 'complementary strands', 'antiparallel'],
+        'difficulty': 1,
+        'hints': [
+            "This problem has two steps: complement AND reverse.",
+            "A pairs with T, and G pairs with C.",
+            "Think about the order - does it matter if you complement first or reverse first?",
+        ],
+        'questions': [
+            "What does 'antiparallel' mean in the context of DNA strands?",
+            "If you have 'ATGC', what is its complement?",
+            "How do you reverse a string in Python?",
+        ],
+        'common_mistakes': [
+            "Only complementing without reversing",
+            "Only reversing without complementing",
+            "Getting the complement pairs wrong",
+        ],
+        'next_problems': ['GC', 'HAMM'],
+        'python_concepts': ['string slicing [::-1]', 'str.translate()', 'dictionary mapping'],
+    },
+    'GC': {
+        'concepts': ['FASTA parsing', 'percentage calculation', 'max finding'],
+        'biology': ['GC content', 'genome composition', 'FASTA format'],
+        'difficulty': 2,
+        'hints': [
+            "First, you need to parse the FASTA format to separate sequences.",
+            "GC content is (G + C) / total length * 100.",
+            "You need to find the sequence with the HIGHEST GC content.",
+        ],
+        'questions': [
+            "What does a FASTA header line start with?",
+            "Why is GC content biologically significant?",
+            "How would you split text by a delimiter in Python?",
+        ],
+        'common_mistakes': [
+            "Not handling multi-line sequences in FASTA",
+            "Integer division instead of float division",
+            "Forgetting to multiply by 100 for percentage",
+        ],
+        'next_problems': ['HAMM', 'CONS'],
+        'python_concepts': ['file parsing', 'str.split()', 'max() with key'],
+    },
+    'HAMM': {
+        'concepts': ['string comparison', 'counting differences', 'zip'],
+        'biology': ['point mutations', 'genetic distance', 'evolution'],
+        'difficulty': 1,
+        'hints': [
+            "You need to compare two strings position by position.",
+            "Count positions where the characters differ.",
+            "Python's zip() function is useful for parallel iteration.",
+        ],
+        'questions': [
+            "What is a point mutation in biology?",
+            "How does Hamming distance relate to evolutionary distance?",
+            "What does zip() do with two sequences of the same length?",
+        ],
+        'common_mistakes': [
+            "Not handling strings of different lengths",
+            "Off-by-one errors in indexing",
+        ],
+        'next_problems': ['SUBS', 'TRAN'],
+        'python_concepts': ['zip()', 'list comprehension', 'sum()'],
+    },
+    'SUBS': {
+        'concepts': ['substring search', 'multiple occurrences', '1-based indexing'],
+        'biology': ['motifs', 'regulatory sequences', 'pattern recognition'],
+        'difficulty': 2,
+        'hints': [
+            "You need to find ALL positions where the pattern occurs.",
+            "Rosalind uses 1-based indexing, not 0-based.",
+            "Overlapping occurrences count as separate matches.",
+        ],
+        'questions': [
+            "What is a motif in bioinformatics?",
+            "If 'ATA' appears at position 0 in 'ATATA', where else does it appear?",
+            "What's the difference between 1-based and 0-based indexing?",
+        ],
+        'common_mistakes': [
+            "Missing overlapping occurrences",
+            "Forgetting to convert to 1-based indexing",
+            "Using find() which only returns first occurrence",
+        ],
+        'next_problems': ['CONS', 'LCSM'],
+        'python_concepts': ['str.find()', 'while loops', 'sliding window'],
+    },
+    'PROT': {
+        'concepts': ['codon translation', 'genetic code', 'dictionary lookup'],
+        'biology': ['translation', 'codons', 'amino acids', 'stop codons'],
+        'difficulty': 2,
+        'hints': [
+            "RNA is read in groups of 3 nucleotides (codons).",
+            "Each codon maps to an amino acid (or stop signal).",
+            "You can use a dictionary to store the genetic code.",
+        ],
+        'questions': [
+            "How many nucleotides make up a codon?",
+            "What happens when a ribosome encounters a stop codon?",
+            "How would you iterate through a string 3 characters at a time?",
+        ],
+        'common_mistakes': [
+            "Including the stop codon in the output",
+            "Using DNA codons instead of RNA codons",
+            "Off-by-one errors in codon extraction",
+        ],
+        'next_problems': ['MRNA', 'ORF', 'SPLC'],
+        'python_concepts': ['dictionary', 'range() with step', 'string slicing'],
+    },
+    'CONS': {
+        'concepts': ['profile matrix', 'consensus sequence', '2D data'],
+        'biology': ['multiple alignment', 'conservation', 'consensus'],
+        'difficulty': 3,
+        'hints': [
+            "Build a count matrix: for each position, count each nucleotide.",
+            "The consensus picks the most frequent nucleotide at each position.",
+            "Make sure to parse FASTA format correctly first.",
+        ],
+        'questions': [
+            "What does a consensus sequence represent biologically?",
+            "How would you represent a matrix in Python?",
+            "What if two nucleotides are tied for most frequent?",
+        ],
+        'common_mistakes': [
+            "Incorrect matrix dimensions",
+            "Output format not matching expected format",
+            "Not handling ties consistently",
+        ],
+        'next_problems': ['PROB', 'LCSM'],
+        'python_concepts': ['nested lists', 'collections.Counter', 'zip()'],
+    },
+    'IPRB': {
+        'concepts': ['probability', 'Mendelian inheritance', 'combinatorics'],
+        'biology': ['dominant/recessive', 'Punnett square', 'genotype'],
+        'difficulty': 3,
+        'hints': [
+            "Calculate the probability of each possible mating.",
+            "Use the law of total probability.",
+            "Consider all possible pairs and their offspring probabilities.",
+        ],
+        'questions': [
+            "What's the probability of a dominant phenotype from Aa × Aa?",
+            "How do you calculate the probability of selecting two individuals?",
+            "What does 'dominant' mean in Mendelian genetics?",
+        ],
+        'common_mistakes': [
+            "Forgetting that selecting two individuals changes the pool",
+            "Not considering all mating combinations",
+            "Probability arithmetic errors",
+        ],
+        'next_problems': ['IEV', 'LIA'],
+        'python_concepts': ['probability calculation', 'combinatorics'],
+    },
+    'GRPH': {
+        'concepts': ['graph construction', 'suffix-prefix matching', 'output format'],
+        'biology': ['overlap graphs', 'genome assembly', 'sequence similarity'],
+        'difficulty': 3,
+        'hints': [
+            "An edge exists if the suffix of one equals the prefix of another.",
+            "The overlap length k is given (usually 3).",
+            "A sequence cannot have an edge to itself.",
+        ],
+        'questions': [
+            "What is an overlap graph used for in bioinformatics?",
+            "How do you get the last k characters of a string?",
+            "Why can't a node connect to itself in this problem?",
+        ],
+        'common_mistakes': [
+            "Including self-loops",
+            "Wrong overlap length",
+            "Output format issues",
+        ],
+        'next_problems': ['LONG', 'DBRU'],
+        'python_concepts': ['string slicing', 'nested loops', 'set operations'],
+    },
+    'EDIT': {
+        'concepts': ['dynamic programming', 'edit distance', '2D table'],
+        'biology': ['sequence alignment', 'mutations', 'evolutionary distance'],
+        'difficulty': 4,
+        'hints': [
+            "Build a 2D table where cell (i,j) is the edit distance of prefixes.",
+            "Consider three operations: insert, delete, substitute.",
+            "The recurrence relation is key - think about the last character.",
+        ],
+        'questions': [
+            "What are the three edit operations?",
+            "Why is dynamic programming more efficient than brute force here?",
+            "What does cell (i,j) represent in the DP table?",
+        ],
+        'common_mistakes': [
+            "Off-by-one errors in table indexing",
+            "Incorrect base cases",
+            "Wrong recurrence relation",
+        ],
+        'next_problems': ['EDTA', 'LCSQ'],
+        'python_concepts': ['2D arrays', 'nested loops', 'min()'],
+    },
+}
+
+
+# =============================================================================
+# TUTOR CLASS - AI-ASSISTED LEARNING
+# =============================================================================
+
+class RosalindTutor:
+    """
+    AI-compatible tutor for Rosalind problems.
+    
+    Generates Socratic prompts that guide learning without giving answers.
+    Designed to work with AI assistants like GitHub Copilot.
+    
+    Usage:
+        tutor = RosalindTutor()
+        
+        # Get learning guidance (not answers!)
+        guidance = tutor.get_guidance("DNA")
+        print(guidance)
+        
+        # Get progressive hints
+        hint = tutor.get_hint("DNA", level=1)
+        
+        # Generate AI prompt for assistance
+        prompt = tutor.copilot_prompt("DNA", stuck_on="parsing input")
+    """
+    
+    def __init__(self, rosalind: Optional[Rosalind] = None):
+        self.rosalind = rosalind or Rosalind()
+        self.knowledge = PROBLEM_KNOWLEDGE
+    
+    def get_knowledge(self, problem_id: str) -> dict:
+        """Get pedagogical knowledge for a problem."""
+        pid = problem_id.upper()
+        return self.knowledge.get(pid, {})
+    
+    def get_guidance(self, problem_id: str) -> str:
+        """
+        Get learning guidance for a problem - concepts to understand,
+        NOT the solution.
+        """
+        pid = problem_id.upper()
+        problem = self.rosalind.get_problem(pid)
+        knowledge = self.get_knowledge(pid)
+        
+        lines = [
+            f"# Learning Guide: {problem.title} ({pid})",
+            "",
+            "## What You'll Learn",
+            ""
+        ]
+        
+        if knowledge.get('biology'):
+            lines.append("**Biology concepts:**")
+            for concept in knowledge['biology']:
+                lines.append(f"  • {concept}")
+            lines.append("")
+        
+        if knowledge.get('concepts'):
+            lines.append("**Programming concepts:**")
+            for concept in knowledge['concepts']:
+                lines.append(f"  • {concept}")
+            lines.append("")
+        
+        if knowledge.get('python_concepts'):
+            lines.append("**Python tools you might use:**")
+            for tool in knowledge['python_concepts']:
+                lines.append(f"  • `{tool}`")
+            lines.append("")
+        
+        if knowledge.get('questions'):
+            lines.append("## Questions to Consider")
+            lines.append("*Answer these before coding:*")
+            lines.append("")
+            for q in knowledge['questions']:
+                lines.append(f"  1. {q}")
+            lines.append("")
+        
+        if knowledge.get('common_mistakes'):
+            lines.append("## Common Pitfalls")
+            lines.append("*Watch out for:*")
+            lines.append("")
+            for mistake in knowledge['common_mistakes']:
+                lines.append(f"  ⚠ {mistake}")
+            lines.append("")
+        
+        if knowledge.get('next_problems'):
+            lines.append("## After This Problem")
+            lines.append(f"Try: {', '.join(knowledge['next_problems'])}")
+        
+        return '\n'.join(lines)
+    
+    def get_hint(self, problem_id: str, level: int = 1) -> str:
+        """
+        Get a progressive hint. Level 1 is vaguest, level 3 is most specific.
+        Still doesn't give the answer!
+        """
+        pid = problem_id.upper()
+        knowledge = self.get_knowledge(pid)
+        hints = knowledge.get('hints', [])
+        
+        if not hints:
+            return f"No hints available for {pid}. Try breaking down the problem step by step."
+        
+        # Clamp level to available hints
+        level = max(1, min(level, len(hints)))
+        
+        return f"💡 Hint {level}/{len(hints)}: {hints[level - 1]}"
+    
+    def copilot_prompt(
+        self, 
+        problem_id: str, 
+        stuck_on: Optional[str] = None,
+        code_so_far: Optional[str] = None,
+        error_message: Optional[str] = None
+    ) -> str:
+        """
+        Generate a prompt for AI assistants that encourages learning
+        without giving away the answer.
+        
+        Args:
+            problem_id: The Rosalind problem ID
+            stuck_on: What the student is stuck on
+            code_so_far: Student's current code attempt
+            error_message: Any error they're encountering
+        
+        Returns:
+            A prompt string to paste to an AI assistant
+        """
+        pid = problem_id.upper()
+        problem = self.rosalind.get_problem(pid)
+        knowledge = self.get_knowledge(pid)
+        
+        prompt_parts = [
+            "=" * 60,
+            "ROSALIND LEARNING ASSISTANT - SOCRATIC MODE",
+            "=" * 60,
+            "",
+            "I am working on a Rosalind bioinformatics problem and need",
+            "GUIDANCE, not a complete solution. Please help me LEARN by:",
+            "",
+            "  ✓ Asking me clarifying questions",
+            "  ✓ Explaining concepts I'm missing",
+            "  ✓ Pointing out what to think about",
+            "  ✓ Suggesting what to Google/research",
+            "  ✓ Reviewing my approach (not writing code for me)",
+            "",
+            "  ✗ Do NOT write the complete solution",
+            "  ✗ Do NOT give me code to copy-paste", 
+            "  ✗ Do NOT solve the problem for me",
+            "",
+            "-" * 60,
+            f"PROBLEM: {problem.title} ({pid})",
+            "-" * 60,
+            "",
+            problem.problem_statement[:500] + "..." if len(problem.problem_statement) > 500 else problem.problem_statement,
+            "",
+        ]
+        
+        if knowledge.get('concepts'):
+            prompt_parts.extend([
+                "Key concepts involved:",
+                f"  {', '.join(knowledge['concepts'])}",
+                ""
+            ])
+        
+        if stuck_on:
+            prompt_parts.extend([
+                f"WHAT I'M STUCK ON: {stuck_on}",
+                ""
+            ])
+        
+        if code_so_far:
+            prompt_parts.extend([
+                "MY CURRENT ATTEMPT:",
+                "```python",
+                code_so_far,
+                "```",
+                ""
+            ])
+        
+        if error_message:
+            prompt_parts.extend([
+                f"ERROR I'M GETTING: {error_message}",
+                ""
+            ])
+        
+        prompt_parts.extend([
+            "-" * 60,
+            "Please help me understand what I'm missing, but let me",
+            "write the solution myself. Ask me questions to guide my thinking.",
+            "=" * 60,
+        ])
+        
+        return '\n'.join(prompt_parts)
+    
+    def review_prompt(self, problem_id: str, code: str) -> str:
+        """
+        Generate a prompt for AI to review student code without
+        giving away improvements unless asked.
+        """
+        pid = problem_id.upper()
+        problem = self.rosalind.get_problem(pid)
+        knowledge = self.get_knowledge(pid)
+        
+        prompt = f"""
+{'=' * 60}
+ROSALIND CODE REVIEW - LEARNING MODE
+{'=' * 60}
+
+I've written a solution for Rosalind problem {pid}: {problem.title}
+
+Please review my code using the SOCRATIC METHOD:
+
+  ✓ Ask questions about my design choices
+  ✓ Point out potential issues as QUESTIONS, not fixes
+  ✓ Help me discover improvements myself
+  ✓ Check if I've considered edge cases (ask, don't tell)
+  
+  ✗ Do NOT rewrite my code
+  ✗ Do NOT give me the "correct" solution
+  ✗ Do NOT fix bugs directly - help me find them
+
+{'-' * 60}
+MY CODE:
+{'-' * 60}
+
+```python
+{code}
+```
+
+{'-' * 60}
+REVIEW QUESTIONS TO CONSIDER:
+{'-' * 60}
+
+1. Does my code handle all edge cases?
+2. Is my approach efficient enough for large inputs?
+3. Did I understand the problem correctly?
+4. Are there any bugs I should look for?
+
+Common mistakes for this problem:
+{chr(10).join('  • ' + m for m in knowledge.get('common_mistakes', ['(no specific mistakes documented)']))}
+
+{'=' * 60}
+"""
+        return prompt
+    
+    def explain_concept(self, concept: str) -> str:
+        """
+        Generate a prompt asking AI to explain a concept
+        in the context of bioinformatics.
+        """
+        return f"""
+{'=' * 60}
+CONCEPT EXPLANATION REQUEST
+{'=' * 60}
+
+Please explain the concept of "{concept}" for a bioinformatics student.
+
+Include:
+1. What it is (simple definition)
+2. Why it matters in biology/bioinformatics  
+3. A simple example
+4. How it's typically implemented in Python
+
+Keep the explanation educational - I want to understand it,
+not just use it mechanically.
+
+{'=' * 60}
+"""
+    
+    def debug_prompt(self, problem_id: str, code: str, error: str) -> str:
+        """
+        Generate a prompt for AI-assisted debugging that
+        teaches debugging skills rather than fixing the bug.
+        """
+        pid = problem_id.upper()
+        
+        return f"""
+{'=' * 60}
+ROSALIND DEBUGGING ASSISTANT - TEACHING MODE
+{'=' * 60}
+
+I'm debugging my solution for Rosalind problem {pid}.
+
+IMPORTANT: Help me LEARN to debug, don't just fix it!
+
+  ✓ Ask what I've tried so far
+  ✓ Suggest debugging strategies (print statements, etc.)
+  ✓ Help me narrow down where the bug might be
+  ✓ Explain how to read the error message
+  ✓ Guide me to find the bug myself
+
+  ✗ Do NOT tell me exactly what's wrong
+  ✗ Do NOT write the fix for me
+  ✗ Do NOT give away the answer
+
+{'-' * 60}
+MY CODE:
+{'-' * 60}
+
+```python
+{code}
+```
+
+{'-' * 60}
+THE ERROR:
+{'-' * 60}
+
+{error}
+
+{'-' * 60}
+Help me develop my debugging skills by guiding my investigation!
+{'=' * 60}
+"""
+    
+    def learning_path(self, start_problem: str = 'DNA') -> list[dict]:
+        """
+        Generate a recommended learning path starting from a problem.
+        """
+        path = []
+        visited = set()
+        queue = [start_problem.upper()]
+        
+        while queue and len(path) < 20:
+            pid = queue.pop(0)
+            if pid in visited:
+                continue
+            visited.add(pid)
+            
+            knowledge = self.get_knowledge(pid)
+            if not knowledge:
+                continue
+            
+            try:
+                problem = self.rosalind.get_problem(pid)
+                path.append({
+                    'id': pid,
+                    'title': problem.title,
+                    'difficulty': knowledge.get('difficulty', 1),
+                    'concepts': knowledge.get('concepts', []),
+                    'biology': knowledge.get('biology', []),
+                })
+                
+                # Add next problems to queue
+                for next_pid in knowledge.get('next_problems', []):
+                    if next_pid not in visited:
+                        queue.append(next_pid)
+            except Exception:
+                continue
+        
+        # Sort by difficulty
+        path.sort(key=lambda x: x['difficulty'])
+        return path
+    
+    def create_tutor_notebook(
+        self,
+        problem_id: str,
+        output_dir: str = ".",
+        overwrite: bool = False
+    ) -> Path:
+        """
+        Create a Jupyter notebook with AI-assisted learning scaffolds.
+        Includes Copilot-compatible prompts and learning guidance.
+        """
+        pid = problem_id.upper()
+        problem = self.rosalind.get_problem(pid)
+        knowledge = self.get_knowledge(pid)
+        
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
+        notebook_path = output_path / f"learn_{pid.lower()}.ipynb"
+        
+        if notebook_path.exists() and not overwrite:
+            raise FileExistsError(f"Notebook exists: {notebook_path}")
+        
+        cells = []
+        
+        # Title with learning mode indicator
+        cells.append({
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                f"# 🎓 Rosalind Learning Mode: {problem.title}\n",
+                "\n",
+                f"**Problem ID:** {pid}  \n",
+                f"**Difficulty:** {'⭐' * knowledge.get('difficulty', 1)}  \n",
+                f"**URL:** [{problem.url}]({problem.url})\n",
+                "\n",
+                "---\n",
+                "\n",
+                "> 💡 **Learning Mode Active**  \n",
+                "> This notebook is designed to help you LEARN, not just solve.  \n",
+                "> Use the AI prompts to get guidance without spoilers!\n",
+            ]
+        })
+        
+        # Learning objectives
+        cells.append({
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "## 📚 What You'll Learn\n",
+                "\n",
+                "**Biology:**\n",
+            ] + [f"- {c}\n" for c in knowledge.get('biology', ['(explore the problem)'])] +
+            [
+                "\n**Programming:**\n",
+            ] + [f"- {c}\n" for c in knowledge.get('concepts', ['(discover through solving)'])]
+        })
+        
+        # Pre-flight questions
+        if knowledge.get('questions'):
+            cells.append({
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## ✋ Before You Code\n",
+                    "\n",
+                    "*Answer these questions first (write your answers below):*\n",
+                    "\n",
+                ] + [f"{i}. {q}\n" for i, q in enumerate(knowledge['questions'], 1)]
+            })
+            
+            cells.append({
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "**Your answers:**\n",
+                    "\n",
+                    "1. \n",
+                    "2. \n",
+                    "3. \n",
+                ]
+            })
+        
+        # Problem statement
+        cells.append({
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "## 📋 Problem\n",
+                "\n",
+                problem.problem_statement + "\n",
+            ]
+        })
+        
+        # Sample data
+        cells.append({
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "## 📊 Sample Data\n",
+                "\n",
+                "**Input:**\n",
+                "```\n",
+                problem.sample_input + "\n",
+                "```\n",
+                "\n",
+                "**Expected Output:**\n",
+                "```\n",
+                problem.sample_output + "\n",
+                "```\n",
+            ]
+        })
+        
+        # Hints section (collapsed)
+        cells.append({
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "## 💡 Hints (Reveal Gradually)\n",
+                "\n",
+                "*Try to solve without hints first! Click to reveal only if stuck.*\n",
+                "\n",
+                "<details>\n",
+                "<summary>Hint 1 (Gentlest)</summary>\n",
+                "\n",
+                knowledge.get('hints', ['Think about breaking the problem into steps.'])[0] + "\n",
+                "\n",
+                "</details>\n",
+            ] + (
+                [
+                    "\n<details>\n",
+                    "<summary>Hint 2 (More Specific)</summary>\n",
+                    "\n",
+                    knowledge.get('hints', ['', 'Consider the data structures you need.'])[1] + "\n" if len(knowledge.get('hints', [])) > 1 else "",
+                    "\n</details>\n",
+                ] if len(knowledge.get('hints', [])) > 1 else []
+            ) + (
+                [
+                    "\n<details>\n",
+                    "<summary>Hint 3 (Most Direct)</summary>\n",
+                    "\n",
+                    knowledge.get('hints', ['', '', 'Almost there...'])[2] + "\n" if len(knowledge.get('hints', [])) > 2 else "",
+                    "\n</details>\n",
+                ] if len(knowledge.get('hints', [])) > 2 else []
+            )
+        })
+        
+        # AI assistance prompt
+        cells.append({
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "## 🤖 AI Learning Assistant\n",
+                "\n",
+                "If you're stuck, copy the prompt below to get GUIDANCE (not answers):\n",
+                "\n",
+                "```\n",
+                self.copilot_prompt(pid, stuck_on="[describe what you're stuck on]").replace('```', '~~~') + "\n",
+                "```\n",
+            ]
+        })
+        
+        # Solution workspace
+        cells.append({
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": ["## ✏️ Your Solution\n"]
+        })
+        
+        cells.append({
+            "cell_type": "code",
+            "metadata": {},
+            "source": [
+                "# Step 1: Understand the input format\n",
+                "# What does the input look like? What do you need to extract?\n",
+                "\n",
+                f'sample_input = """{problem.sample_input}"""\n',
+                "\n",
+                "# Parse the input here:\n",
+                "\n",
+            ],
+            "execution_count": None,
+            "outputs": []
+        })
+        
+        cells.append({
+            "cell_type": "code",
+            "metadata": {},
+            "source": [
+                "# Step 2: Implement your solution logic\n",
+                "# What's your algorithm? Write it step by step.\n",
+                "\n",
+                f"def solve_{pid.lower()}(data: str) -> str:\n",
+                '    """Your solution here."""\n',
+                "    # TODO: Implement\n",
+                "    pass\n",
+            ],
+            "execution_count": None,
+            "outputs": []
+        })
+        
+        cells.append({
+            "cell_type": "code",
+            "metadata": {},
+            "source": [
+                "# Step 3: Test with sample data\n",
+                "\n",
+                f"result = solve_{pid.lower()}(sample_input)\n",
+                f'expected = """{problem.sample_output}"""\n',
+                "\n",
+                "print(f'Your result: {result}')\n",
+                "print(f'Expected:    {expected}')\n",
+                "print(f'Match: {str(result).strip() == expected.strip()}')\n",
+            ],
+            "execution_count": None,
+            "outputs": []
+        })
+        
+        # Reflection section
+        cells.append({
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": [
+                "## 🔍 Reflection\n",
+                "\n",
+                "*After solving, answer these:*\n",
+                "\n",
+                "1. What was the trickiest part?\n",
+                "2. What would you do differently next time?\n",
+                "3. What concepts do you need to review?\n",
+                "\n",
+                "**Your reflection:**\n",
+                "\n",
+            ]
+        })
+        
+        # Next steps
+        if knowledge.get('next_problems'):
+            cells.append({
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "## ➡️ Next Problems\n",
+                    "\n",
+                    "Ready for more? Try these:\n",
+                ] + [f"- **{p}** - builds on what you learned here\n" 
+                     for p in knowledge['next_problems']]
+            })
+        
+        # Build notebook
+        notebook = {
+            "cells": cells,
+            "metadata": {
+                "kernelspec": {
+                    "display_name": "Python 3",
+                    "language": "python",
+                    "name": "python3"
+                },
+                "rosalind_tutor": {
+                    "problem_id": pid,
+                    "mode": "learning",
+                    "difficulty": knowledge.get('difficulty', 1),
+                }
+            },
+            "nbformat": 4,
+            "nbformat_minor": 4
+        }
+        
+        with open(notebook_path, 'w') as f:
+            json.dump(notebook, f, indent=2)
+        
+        return notebook_path
+
+
+# =============================================================================
+# COPILOT INTEGRATION HELPERS  
+# =============================================================================
+
+def get_tutor() -> RosalindTutor:
+    """Get a tutor instance for quick access."""
+    return RosalindTutor()
+
+
+def copilot_help(problem_id: str, stuck_on: str = None) -> str:
+    """
+    Quick helper to generate a Copilot-compatible learning prompt.
+    
+    Usage:
+        print(copilot_help("DNA", stuck_on="parsing the input"))
+    """
+    tutor = RosalindTutor()
+    return tutor.copilot_prompt(problem_id, stuck_on=stuck_on)
+
+
+def learning_mode(problem_id: str) -> str:
+    """
+    Get comprehensive learning guidance for a problem.
+    
+    Usage:
+        print(learning_mode("GC"))
+    """
+    tutor = RosalindTutor()
+    return tutor.get_guidance(problem_id)
+
+
 if __name__ == "__main__":
     # Demo usage
     print("Rosalind Problem Wrapper Demo\n")
