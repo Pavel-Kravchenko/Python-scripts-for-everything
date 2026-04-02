@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search - Interactive Visualization</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .search-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .search-info h3 { margin-top: 0; }
+        .target-display {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        .range-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-family: monospace;
+        }
+        .pointer-markers {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .pointer {
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .pointer.left { background: #3498db; color: white; }
+        .pointer.mid { background: #9b59b6; color: white; }
+        .pointer.right { background: #e74c3c; color: white; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔍 Binary Search</h1>
+        <p>Divide and conquer search: eliminate half the remaining elements with each comparison</p>
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>›</span>
+            <a href="../index.html#searching">Searching</a>
+            <span>›</span>
+            Binary Search
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Visualization Panel -->
+            <div class="visualization-panel">
+                <div class="card">
+                    <h2>📊 Visualization</h2>
+                    
+                    <!-- Search Target -->
+                    <div class="search-info">
+                        <h3>🎯 Search Target</h3>
+                        <div class="target-display" id="target-display">?</div>
+                        <div class="range-display">
+                            <span>Left: <span id="left-ptr">0</span></span>
+                            <span>Mid: <span id="mid-ptr">-</span></span>
+                            <span>Right: <span id="right-ptr">-</span></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Controls -->
+                    <div class="controls">
+                        <button id="btn-search" class="btn btn-primary" onclick="startSearch()">
+                            🔍 Search
+                        </button>
+                        <button id="btn-step" class="btn btn-secondary" onclick="stepSearch()">
+                            ⏭️ Step
+                        </button>
+                        <button id="btn-reset" class="btn btn-danger" onclick="resetSearch()">
+                            🔄 Reset
+                        </button>
+                        <button id="btn-random" class="btn btn-success" onclick="generateNew()">
+                            🎲 New Array
+                        </button>
+                    </div>
+
+                    <div class="controls">
+                        <div class="input-group">
+                            <label for="array-size">Size:</label>
+                            <input type="number" id="array-size" value="15" min="5" max="25" onchange="generateNew()">
+                        </div>
+                        <div class="input-group">
+                            <label for="target-input">Target:</label>
+                            <input type="number" id="target-input" value="" min="1" max="100">
+                            <button class="btn btn-secondary" onclick="setCustomTarget()">Set</button>
+                        </div>
+                        <div class="input-group">
+                            <label for="speed">Speed:</label>
+                            <input type="range" id="speed" min="100" max="1500" value="700" onchange="updateSpeed()">
+                            <span id="speed-label">700ms</span>
+                        </div>
+                    </div>
+
+                    <!-- Pointer Markers -->
+                    <div class="pointer-markers">
+                        <span class="pointer left">L = Left</span>
+                        <span class="pointer mid">M = Mid</span>
+                        <span class="pointer right">R = Right</span>
+                    </div>
+
+                    <!-- Visualization Area -->
+                    <div id="visualization" class="visualization-canvas"></div>
+
+                    <!-- Legend -->
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color default"></div>
+                            <span>Active Range</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color current"></div>
+                            <span>Checking (Mid)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: rgba(52,152,219,0.3);"></div>
+                            <span>Eliminated</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color sorted"></div>
+                            <span>Found!</span>
+                        </div>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="stats">
+                        <div class="stat-box">
+                            <div class="label">Comparisons</div>
+                            <div class="value" id="comparisons">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Elements Remaining</div>
+                            <div class="value" id="remaining">-</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Max Possible Steps</div>
+                            <div class="value" id="max-steps">-</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Result</div>
+                            <div class="value" id="result">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Algorithm Steps -->
+                <div class="card">
+                    <h2>📝 Execution Steps</h2>
+                    <div id="steps-list" class="steps-list"></div>
+                </div>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="info-panel">
+                <!-- How It Works -->
+                <div class="card">
+                    <h2>💡 How It Works</h2>
+                    <ol>
+                        <li><strong>Require sorted array</strong></li>
+                        <li>Set <code>left = 0</code>, <code>right = n-1</code></li>
+                        <li>Calculate <code>mid = (left + right) / 2</code></li>
+                        <li>Compare target with <code>arr[mid]</code>:
+                            <ul>
+                                <li>If equal → <strong>found!</strong></li>
+                                <li>If target &lt; mid → search left half</li>
+                                <li>If target &gt; mid → search right half</li>
+                            </ul>
+                        </li>
+                        <li>Repeat until found or range is empty</li>
+                    </ol>
+                    
+                    <div style="background: #d4edda; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <strong>🚀 Power of Halving:</strong> For 1 billion elements, binary search needs at most <strong>30 comparisons</strong>!
+                    </div>
+                </div>
+
+                <!-- Complexity -->
+                <div class="card">
+                    <h2>⏱️ Complexity Analysis</h2>
+                    <table class="complexity-table">
+                        <tr>
+                            <th>Case</th>
+                            <th>Time</th>
+                        </tr>
+                        <tr>
+                            <td>Best</td>
+                            <td class="good">O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Average</td>
+                            <td class="good">O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Worst</td>
+                            <td class="good">O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Space</td>
+                            <td class="good">O(1) iterative</td>
+                        </tr>
+                    </table>
+                    
+                    <h3>Logarithmic Growth</h3>
+                    <table class="complexity-table">
+                        <tr>
+                            <th>n</th>
+                            <th>log₂(n)</th>
+                        </tr>
+                        <tr><td>16</td><td>4</td></tr>
+                        <tr><td>1,024</td><td>10</td></tr>
+                        <tr><td>1,000,000</td><td>20</td></tr>
+                        <tr><td>1,000,000,000</td><td>30</td></tr>
+                    </table>
+                </div>
+
+                <!-- Code -->
+                <div class="card">
+                    <h2>💻 Python Code</h2>
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>binary_search.py</span>
+                            <span class="language">Python</span>
+                        </div>
+                        <pre><code><span class="code-line"><span class="line-number">1</span><span class="keyword">def</span> <span class="function">binary_search</span>(arr, target):</span>
+<span class="code-line"><span class="line-number">2</span>    left, right = <span class="number">0</span>, <span class="function">len</span>(arr) - <span class="number">1</span></span>
+<span class="code-line"><span class="line-number">3</span>    </span>
+<span class="code-line"><span class="line-number">4</span>    <span class="keyword">while</span> left <= right:</span>
+<span class="code-line"><span class="line-number">5</span>        mid = (left + right) // <span class="number">2</span></span>
+<span class="code-line"><span class="line-number">6</span>        </span>
+<span class="code-line"><span class="line-number">7</span>        <span class="keyword">if</span> arr[mid] == target:</span>
+<span class="code-line"><span class="line-number">8</span>            <span class="keyword">return</span> mid  <span class="comment"># Found!</span></span>
+<span class="code-line"><span class="line-number">9</span>        <span class="keyword">elif</span> arr[mid] < target:</span>
+<span class="code-line"><span class="line-number">10</span>            left = mid + <span class="number">1</span>  <span class="comment"># Search right</span></span>
+<span class="code-line"><span class="line-number">11</span>        <span class="keyword">else</span>:</span>
+<span class="code-line"><span class="line-number">12</span>            right = mid - <span class="number">1</span>  <span class="comment"># Search left</span></span>
+<span class="code-line"><span class="line-number">13</span>    </span>
+<span class="code-line"><span class="line-number">14</span>    <span class="keyword">return</span> -<span class="number">1</span>  <span class="comment"># Not found</span></span></code></pre>
+                    </div>
+                </div>
+
+                <!-- Variations -->
+                <div class="card">
+                    <h2>🔄 Common Variations</h2>
+                    <ul>
+                        <li><strong>Lower Bound:</strong> Find first element ≥ target</li>
+                        <li><strong>Upper Bound:</strong> Find first element > target</li>
+                        <li><strong>Rotated Array:</strong> Search in rotated sorted array</li>
+                        <li><strong>2D Search:</strong> Search in row/column sorted matrix</li>
+                    </ul>
+                </div>
+
+                <!-- When to Use -->
+                <div class="card">
+                    <h2>🤔 When to Use</h2>
+                    <h3>✅ Requirements:</h3>
+                    <ul>
+                        <li>Array must be <strong>sorted</strong></li>
+                        <li>Random access (arrays, not linked lists)</li>
+                    </ul>
+                    
+                    <h3>✅ Good For:</h3>
+                    <ul>
+                        <li>Large sorted datasets</li>
+                        <li>Repeated searches on same data</li>
+                        <li>Finding boundaries/ranges</li>
+                    </ul>
+                    
+                    <h3>❌ Use Linear Search When:</h3>
+                    <ul>
+                        <li>Data is unsorted</li>
+                        <li>Array is very small (n < 10)</li>
+                        <li>Only searching once (sorting cost)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        let visualizer;
+        let currentArray = [];
+        let target = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            visualizer = new SearchingVisualizer('visualization', {
+                speed: 700,
+                onComplete: onSearchComplete
+            });
+            generateNew();
+        });
+
+        function generateNew() {
+            const size = parseInt(document.getElementById('array-size').value) || 15;
+            // Generate sorted array
+            currentArray = generateRandomArray(size, 1, 99).sort((a, b) => a - b);
+            // Remove duplicates
+            currentArray = [...new Set(currentArray)];
+            
+            visualizer.setArray(currentArray);
+            visualizer.render();
+            
+            // Pick a random target (might or might not exist)
+            const pickExisting = Math.random() > 0.2; // 80% chance to pick existing
+            if (pickExisting && currentArray.length > 0) {
+                target = currentArray[Math.floor(Math.random() * currentArray.length)];
+            } else {
+                target = Math.floor(Math.random() * 100) + 1;
+            }
+            
+            document.getElementById('target-input').value = target;
+            document.getElementById('target-display').textContent = target;
+            document.getElementById('max-steps').textContent = Math.ceil(Math.log2(currentArray.length + 1));
+            document.getElementById('remaining').textContent = currentArray.length;
+            document.getElementById('result').textContent = '-';
+            document.getElementById('left-ptr').textContent = '0';
+            document.getElementById('mid-ptr').textContent = '-';
+            document.getElementById('right-ptr').textContent = currentArray.length - 1;
+            
+            resetButtons();
+            visualizer.clearSteps();
+        }
+
+        function setCustomTarget() {
+            const input = parseInt(document.getElementById('target-input').value);
+            if (!isNaN(input) && input >= 1 && input <= 100) {
+                target = input;
+                document.getElementById('target-display').textContent = target;
+                resetSearch();
+            }
+        }
+
+        async function startSearch() {
+            visualizer.setArray(currentArray);
+            visualizer.setTarget(target);
+            updateButtonStates(true);
+            
+            const result = await visualizer.binarySearch();
+            
+            if (result !== -1) {
+                document.getElementById('result').textContent = `Found at index ${result}`;
+                document.getElementById('result').style.color = '#2ecc71';
+            } else {
+                document.getElementById('result').textContent = 'Not Found';
+                document.getElementById('result').style.color = '#e74c3c';
+            }
+        }
+
+        function stepSearch() {
+            if (!visualizer.isRunning) {
+                visualizer.isStepping = true;
+                visualizer.setArray(currentArray);
+                visualizer.setTarget(target);
+                updateButtonStates(true);
+                visualizer.binarySearch();
+            } else {
+                visualizer.step();
+            }
+        }
+
+        function resetSearch() {
+            visualizer.stop();
+            visualizer.setArray(currentArray);
+            visualizer.render();
+            document.getElementById('remaining').textContent = currentArray.length;
+            document.getElementById('result').textContent = '-';
+            document.getElementById('result').style.color = '';
+            document.getElementById('left-ptr').textContent = '0';
+            document.getElementById('mid-ptr').textContent = '-';
+            document.getElementById('right-ptr').textContent = currentArray.length - 1;
+            resetButtons();
+            visualizer.clearSteps();
+        }
+
+        function updateSpeed() {
+            const speed = parseInt(document.getElementById('speed').value);
+            visualizer.setSpeed(speed);
+            document.getElementById('speed-label').textContent = speed + 'ms';
+        }
+
+        function updateButtonStates(running) {
+            document.getElementById('btn-search').disabled = running;
+        }
+
+        function resetButtons() {
+            document.getElementById('btn-search').disabled = false;
+        }
+
+        function onSearchComplete() {
+            resetButtons();
+        }
+    </script>
+</body>
+</html>

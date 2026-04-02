@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trees - Practice Exercises</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>🌳 Tree Exercises</h1>
+        <p>Practice problems for binary trees, BST, and balanced trees</p>
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>›</span>
+            <a href="../index.html#exercises">Exercises</a>
+            <span>›</span>
+            Trees
+        </div>
+    </header>
+
+    <div class="container" style="max-width: 900px;">
+        
+        <!-- Exercise 1 -->
+        <div class="exercise">
+            <h3>Exercise 1: BST Property Verification</h3>
+            <div class="question">
+                <p>Which of these trees are valid Binary Search Trees?</p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; display: flex; justify-content: space-around;">
+Tree A:        Tree B:        Tree C:
+    5              5              5
+   / \            / \            / \
+  3   7          3   7          3   8
+ / \   \        / \   \        / \   \
+1   4   8      1   6   8      1   4   7
+                </pre>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(1)">Show Solution</button>
+            <div class="solution" id="solution-1">
+                <h4>✅ Solution</h4>
+                <ul>
+                    <li><strong>Tree A: ✅ Valid BST</strong>
+                        <br>Left subtree: 1, 3, 4 (all < 5)
+                        <br>Right subtree: 7, 8 (all > 5)
+                        <br>Each subtree also satisfies BST property</li>
+                    
+                    <li><strong>Tree B: ❌ Invalid BST</strong>
+                        <br>6 is in the left subtree of 5, but 6 > 5
+                        <br>The BST property requires ALL nodes in left subtree < root</li>
+                    
+                    <li><strong>Tree C: ❌ Invalid BST</strong>
+                        <br>7 is in the right subtree of 8, but 7 < 8
+                        <br>7 should be the left child of 8, not right child</li>
+                </ul>
+                <p><strong>Common mistake:</strong> Only checking immediate children. You must verify the property for the entire subtree!</p>
+            </div>
+        </div>
+
+        <!-- Exercise 2 -->
+        <div class="exercise">
+            <h3>Exercise 2: Tree Traversals</h3>
+            <div class="question">
+                <p>Given this tree:</p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+        1
+       / \
+      2   3
+     / \   \
+    4   5   6
+                </pre>
+                <p>Write out the nodes visited for each traversal:</p>
+                <ol>
+                    <li>Pre-order</li>
+                    <li>In-order</li>
+                    <li>Post-order</li>
+                    <li>Level-order (BFS)</li>
+                </ol>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(2)">Show Solution</button>
+            <div class="solution" id="solution-2">
+                <h4>✅ Solution</h4>
+                <table class="complexity-table">
+                    <tr>
+                        <th>Traversal</th>
+                        <th>Order Rule</th>
+                        <th>Result</th>
+                    </tr>
+                    <tr>
+                        <td>Pre-order</td>
+                        <td>Root → Left → Right</td>
+                        <td><strong>1, 2, 4, 5, 3, 6</strong></td>
+                    </tr>
+                    <tr>
+                        <td>In-order</td>
+                        <td>Left → Root → Right</td>
+                        <td><strong>4, 2, 5, 1, 3, 6</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Post-order</td>
+                        <td>Left → Right → Root</td>
+                        <td><strong>4, 5, 2, 6, 3, 1</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Level-order</td>
+                        <td>Level by level</td>
+                        <td><strong>1, 2, 3, 4, 5, 6</strong></td>
+                    </tr>
+                </table>
+                
+                <p><strong>Memory trick:</strong></p>
+                <ul>
+                    <li>Pre = root PRE-cedes children</li>
+                    <li>In = root is IN between children</li>
+                    <li>Post = root POST-cedes (comes after) children</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Exercise 3 -->
+        <div class="exercise">
+            <h3>Exercise 3: BST Insertion Order</h3>
+            <div class="question">
+                <p>Given the insertion order <code>[50, 30, 70, 20, 40, 60, 80]</code>, draw the resulting BST.</p>
+                <p>Then answer: What is the height of the tree?</p>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(3)">Show Solution</button>
+            <div class="solution" id="solution-3">
+                <h4>✅ Solution</h4>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+        50
+       /  \
+      30   70
+     / \   / \
+    20 40 60 80
+
+Height = 3 (or 2 if counting edges)
+                </pre>
+                <p><strong>Step by step:</strong></p>
+                <ol>
+                    <li>Insert 50 → root</li>
+                    <li>Insert 30 → 30 < 50, left child of 50</li>
+                    <li>Insert 70 → 70 > 50, right child of 50</li>
+                    <li>Insert 20 → 20 < 50, 20 < 30, left child of 30</li>
+                    <li>Insert 40 → 40 < 50, 40 > 30, right child of 30</li>
+                    <li>Insert 60 → 60 > 50, 60 < 70, left child of 70</li>
+                    <li>Insert 80 → 80 > 50, 80 > 70, right child of 70</li>
+                </ol>
+                <p><strong>Note:</strong> This is a perfectly balanced BST! Different insertion orders can produce very different tree shapes.</p>
+            </div>
+        </div>
+
+        <!-- Exercise 4 -->
+        <div class="exercise">
+            <h3>Exercise 4: AVL Balance Factors</h3>
+            <div class="question">
+                <p>Calculate the balance factor for each node:</p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+        30
+       /  \
+      20   40
+     /       \
+    10       50
+   /
+  5
+                </pre>
+                <p>Is this a valid AVL tree? If not, what rotation(s) are needed?</p>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(4)">Show Solution</button>
+            <div class="solution" id="solution-4">
+                <h4>✅ Solution</h4>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+Balance Factor = height(left) - height(right)
+
+Node 5:  BF = 0 - 0 = 0   ✓
+Node 10: BF = 1 - 0 = 1   ✓
+Node 20: BF = 2 - 0 = 2   ✗ IMBALANCED!
+Node 50: BF = 0 - 0 = 0   ✓
+Node 40: BF = 0 - 1 = -1  ✓
+Node 30: BF = 3 - 2 = 1   ✓
+
+        30 (BF=1)
+       /  \
+      20   40 (BF=-1)
+(BF=2)/     \
+    10      50 (BF=0)
+   /
+  5
+                </pre>
+                <p><strong>This is NOT a valid AVL tree</strong> because node 20 has BF = 2.</p>
+                <p><strong>Fix:</strong> LL Case at node 20 → Right Rotation</p>
+                <pre style="background: #d4edda; padding: 15px; border-radius: 5px; text-align: center;">
+After right rotation at 20:
+
+        30
+       /  \
+      10   40
+     /  \    \
+    5   20   50
+
+All nodes now have |BF| ≤ 1 ✓
+                </pre>
+            </div>
+        </div>
+
+        <!-- Exercise 5 -->
+        <div class="exercise">
+            <h3>Exercise 5: BST Deletion Cases</h3>
+            <div class="question">
+                <p>Starting with this BST:</p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+        50
+       /  \
+      30   70
+     / \   / \
+    20 40 60 80
+                </pre>
+                <p>Show the tree after each deletion:</p>
+                <ol>
+                    <li>Delete 20 (leaf)</li>
+                    <li>Delete 30 (one child)</li>
+                    <li>Delete 50 (two children)</li>
+                </ol>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(5)">Show Solution</button>
+            <div class="solution" id="solution-5">
+                <h4>✅ Solution</h4>
+                
+                <h5>1. Delete 20 (Leaf Node)</h5>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+        50                    50
+       /  \                  /  \
+      30   70      →       30   70
+     / \   / \            /  \  / \
+    20 40 60 80          - 40 60 80
+
+Simply remove the leaf.
+                </pre>
+                
+                <h5>2. Delete 30 (One Child - 40)</h5>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+        50                    50
+       /  \                  /  \
+      30   70      →       40   70
+        \  / \                 / \
+       40 60 80              60 80
+
+Replace node with its only child.
+                </pre>
+                
+                <h5>3. Delete 50 (Two Children)</h5>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+        50                    60
+       /  \                  /  \
+      40   70      →       40   70
+          / \                    \
+         60 80                   80
+
+Replace with in-order successor (60),
+then delete 60 from its original position.
+                </pre>
+                
+                <p><strong>In-order successor:</strong> The smallest node in the right subtree (leftmost node of right subtree).</p>
+            </div>
+        </div>
+
+        <!-- Exercise 6 -->
+        <div class="exercise">
+            <h3>Exercise 6: Validate BST</h3>
+            <div class="question">
+                <p>Write code to check if a binary tree is a valid BST.</p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+def is_valid_bst(root):
+    # Your code here
+    pass
+                </pre>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(6)">Show Solution</button>
+            <div class="solution" id="solution-6">
+                <h4>✅ Solution</h4>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+# Approach 1: Min/Max Range
+def is_valid_bst(root, min_val=float('-inf'), max_val=float('inf')):
+    if not root:
+        return True
+    
+    if root.val <= min_val or root.val >= max_val:
+        return False
+    
+    return (is_valid_bst(root.left, min_val, root.val) and
+            is_valid_bst(root.right, root.val, max_val))
+
+# Approach 2: In-order Traversal
+def is_valid_bst_inorder(root):
+    prev = [float('-inf')]  # Use list to maintain state
+    
+    def inorder(node):
+        if not node:
+            return True
+        
+        if not inorder(node.left):
+            return False
+        
+        if node.val <= prev[0]:
+            return False
+        prev[0] = node.val
+        
+        return inorder(node.right)
+    
+    return inorder(root)
+
+# Why does in-order work?
+# In-order traversal of a BST produces sorted output.
+# If at any point current <= previous, it's not a valid BST.
+                </pre>
+            </div>
+        </div>
+
+        <!-- Exercise 7 -->
+        <div class="exercise">
+            <h3>Exercise 7: Lowest Common Ancestor</h3>
+            <div class="question">
+                <p>Find the lowest common ancestor (LCA) of two nodes in a BST.</p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center;">
+        6
+       / \
+      2   8
+     / \ / \
+    0  4 7  9
+      / \
+     3   5
+
+LCA(2, 8) = 6
+LCA(2, 4) = 2
+LCA(3, 5) = 4
+                </pre>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(7)">Show Solution</button>
+            <div class="solution" id="solution-7">
+                <h4>✅ Solution</h4>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+def lowest_common_ancestor(root, p, q):
+    # In a BST, we can use the BST property!
+    while root:
+        if p.val < root.val and q.val < root.val:
+            # Both nodes are in left subtree
+            root = root.left
+        elif p.val > root.val and q.val > root.val:
+            # Both nodes are in right subtree
+            root = root.right
+        else:
+            # Split point: one node on each side, or we found one of them
+            return root
+    return None
+
+# Time: O(h) where h is height
+# Space: O(1) iterative, O(h) recursive
+
+# For a general binary tree (not BST):
+def lca_binary_tree(root, p, q):
+    if not root or root == p or root == q:
+        return root
+    
+    left = lca_binary_tree(root.left, p, q)
+    right = lca_binary_tree(root.right, p, q)
+    
+    if left and right:
+        return root  # p and q are on different sides
+    return left if left else right
+                </pre>
+            </div>
+        </div>
+
+        <!-- Exercise 8 -->
+        <div class="exercise">
+            <h3>Exercise 8: Tree Height and Balance</h3>
+            <div class="question">
+                <p>Write a function that checks if a binary tree is height-balanced (AVL property: for every node, height difference of subtrees ≤ 1).</p>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(8)">Show Solution</button>
+            <div class="solution" id="solution-8">
+                <h4>✅ Solution</h4>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+# Naive approach: O(n²) - compute height at each node
+def is_balanced_naive(root):
+    if not root:
+        return True
+    
+    left_height = get_height(root.left)
+    right_height = get_height(root.right)
+    
+    if abs(left_height - right_height) > 1:
+        return False
+    
+    return is_balanced_naive(root.left) and is_balanced_naive(root.right)
+
+def get_height(node):
+    if not node:
+        return 0
+    return 1 + max(get_height(node.left), get_height(node.right))
+
+
+# Optimal approach: O(n) - check balance while computing height
+def is_balanced(root):
+    def check(node):
+        """Returns (is_balanced, height)"""
+        if not node:
+            return True, 0
+        
+        left_balanced, left_height = check(node.left)
+        if not left_balanced:
+            return False, 0
+        
+        right_balanced, right_height = check(node.right)
+        if not right_balanced:
+            return False, 0
+        
+        balanced = abs(left_height - right_height) <= 1
+        height = 1 + max(left_height, right_height)
+        
+        return balanced, height
+    
+    return check(root)[0]
+
+# Alternative: Return -1 for unbalanced
+def is_balanced_v2(root):
+    def height(node):
+        if not node:
+            return 0
+        
+        left = height(node.left)
+        if left == -1:
+            return -1
+        
+        right = height(node.right)
+        if right == -1:
+            return -1
+        
+        if abs(left - right) > 1:
+            return -1
+        
+        return 1 + max(left, right)
+    
+    return height(root) != -1
+                </pre>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleSolution(num) {
+            const solution = document.getElementById(`solution-${num}`);
+            const button = solution.previousElementSibling;
+            
+            if (solution.classList.contains('visible')) {
+                solution.classList.remove('visible');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('visible');
+                button.textContent = 'Hide Solution';
+            }
+        }
+    </script>
+</body>
+</html>

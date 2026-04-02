@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heap Operations - Interactive Visualization</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 10px; color: #4ecdc4; }
+        .subtitle { text-align: center; color: #888; margin-bottom: 20px; }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        .tab {
+            padding: 10px 25px;
+            background: #2d3748;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .tab:hover { background: #4a5568; }
+        .tab.active { background: #4ecdc4; color: #1a1a2e; }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+        input[type="number"] {
+            width: 80px;
+            padding: 8px;
+            border: 2px solid #4ecdc4;
+            border-radius: 5px;
+            background: #2d3748;
+            color: #fff;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn-primary { background: #4ecdc4; color: #1a1a2e; }
+        .btn-primary:hover { background: #3dbdb5; }
+        .btn-secondary { background: #6c5ce7; color: #fff; }
+        .btn-secondary:hover { background: #5b4cdb; }
+        .btn-danger { background: #ff6b6b; color: #fff; }
+        .btn-danger:hover { background: #ee5a5a; }
+        .btn-warning { background: #f39c12; color: #fff; }
+        .btn-warning:hover { background: #e08e0b; }
+        
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .speed-control input[type="range"] {
+            width: 100px;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+        
+        .visualization-area {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 500px;
+        }
+        
+        .canvas-container {
+            width: 100%;
+            height: 350px;
+            position: relative;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .array-view {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+        .array-view h3 {
+            margin-bottom: 10px;
+            color: #4ecdc4;
+            font-size: 14px;
+        }
+        .array-container {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .array-item {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #2d3748;
+            border-radius: 8px;
+            border: 2px solid #4a5568;
+            transition: all 0.3s;
+        }
+        .array-item .value { font-weight: bold; font-size: 14px; }
+        .array-item .index { font-size: 10px; color: #888; }
+        .array-item.current { border-color: #4ecdc4; background: rgba(78,205,196,0.3); }
+        .array-item.comparing { border-color: #f39c12; background: rgba(243,156,18,0.3); }
+        .array-item.swapping { border-color: #ff6b6b; background: rgba(255,107,107,0.3); }
+        .array-item.inserted { border-color: #95e1d3; background: rgba(149,225,211,0.3); }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .info-panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .info-panel h3 {
+            color: #4ecdc4;
+            margin-bottom: 10px;
+            font-size: 14px;
+            border-bottom: 1px solid #4a5568;
+            padding-bottom: 5px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .stat-item {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .stat-value { font-size: 20px; font-weight: bold; color: #4ecdc4; }
+        .stat-label { font-size: 11px; color: #888; }
+        
+        .log-container {
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .log-entry {
+            padding: 5px;
+            border-bottom: 1px solid #2d3748;
+        }
+        .log-entry.insert { color: #95e1d3; }
+        .log-entry.extract { color: #ff6b6b; }
+        .log-entry.swap { color: #f39c12; }
+        .log-entry.compare { color: #6c5ce7; }
+        
+        .heap-property {
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 5px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .heap-property code {
+            background: #2d3748;
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #4ecdc4;
+        }
+        
+        .formula {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        .formula div { margin: 5px 0; }
+        
+        @media (max-width: 900px) {
+            .main-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏔️ Heap Operations</h1>
+        <p class="subtitle">Visualize Min-Heap and Max-Heap with Insert, Extract, and Heapify</p>
+        
+        <div class="tabs">
+            <button class="tab active" data-type="max">Max-Heap</button>
+            <button class="tab" data-type="min">Min-Heap</button>
+        </div>
+        
+        <div class="controls">
+            <input type="number" id="valueInput" placeholder="Value" min="1" max="99" value="50">
+            <button class="btn-primary" onclick="insertValue()">Insert</button>
+            <button class="btn-danger" onclick="extractRoot()">Extract Root</button>
+            <button class="btn-warning" onclick="buildHeap()">Build Random Heap</button>
+            <button class="btn-secondary" onclick="resetHeap()">Reset</button>
+            <div class="speed-control">
+                <span>Speed:</span>
+                <input type="range" id="speed" min="1" max="10" value="5">
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="visualization-area">
+                <div class="canvas-container">
+                    <canvas id="heapCanvas"></canvas>
+                </div>
+                <div class="array-view">
+                    <h3>Array Representation (0-indexed)</h3>
+                    <div class="array-container" id="arrayContainer"></div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="info-panel">
+                    <h3>📊 Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="heapSize">0</div>
+                            <div class="stat-label">Heap Size</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="comparisons">0</div>
+                            <div class="stat-label">Comparisons</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="swaps">0</div>
+                            <div class="stat-label">Swaps</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="height">0</div>
+                            <div class="stat-label">Height</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>📐 Index Formulas</h3>
+                    <div class="formula">
+                        <div>Parent: <code>⌊(i-1)/2⌋</code></div>
+                        <div>Left Child: <code>2i + 1</code></div>
+                        <div>Right Child: <code>2i + 2</code></div>
+                    </div>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>📝 Heap Property</h3>
+                    <div class="heap-property" id="heapProperty">
+                        <strong>Max-Heap:</strong> Every parent node is <code>≥</code> its children.
+                        <br><br>
+                        Root contains the <strong>maximum</strong> element.
+                    </div>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>📜 Operation Log</h3>
+                    <div class="log-container" id="logContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('heapCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let heap = [];
+        let heapType = 'max';
+        let comparisons = 0;
+        let swaps = 0;
+        let isAnimating = false;
+        let highlightState = { current: -1, comparing: -1, swapping: [] };
+        
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            render();
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                if (isAnimating) return;
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                heapType = tab.dataset.type;
+                updateHeapPropertyText();
+                resetHeap();
+            });
+        });
+        
+        function updateHeapPropertyText() {
+            const panel = document.getElementById('heapProperty');
+            if (heapType === 'max') {
+                panel.innerHTML = `<strong>Max-Heap:</strong> Every parent node is <code>≥</code> its children.
+                    <br><br>Root contains the <strong>maximum</strong> element.`;
+            } else {
+                panel.innerHTML = `<strong>Min-Heap:</strong> Every parent node is <code>≤</code> its children.
+                    <br><br>Root contains the <strong>minimum</strong> element.`;
+            }
+        }
+        
+        function getDelay() {
+            const speed = document.getElementById('speed').value;
+            return 1100 - speed * 100;
+        }
+        
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        function log(message, type = '') {
+            const container = document.getElementById('logContainer');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = message;
+            container.insertBefore(entry, container.firstChild);
+            if (container.children.length > 50) {
+                container.removeChild(container.lastChild);
+            }
+        }
+        
+        function parent(i) { return Math.floor((i - 1) / 2); }
+        function leftChild(i) { return 2 * i + 1; }
+        function rightChild(i) { return 2 * i + 2; }
+        
+        function compare(a, b) {
+            comparisons++;
+            updateStats();
+            return heapType === 'max' ? a > b : a < b;
+        }
+        
+        function updateStats() {
+            document.getElementById('heapSize').textContent = heap.length;
+            document.getElementById('comparisons').textContent = comparisons;
+            document.getElementById('swaps').textContent = swaps;
+            document.getElementById('height').textContent = heap.length > 0 ? Math.floor(Math.log2(heap.length)) + 1 : 0;
+        }
+        
+        async function insertValue() {
+            if (isAnimating) return;
+            const input = document.getElementById('valueInput');
+            const value = parseInt(input.value);
+            if (isNaN(value) || value < 1 || value > 99) {
+                alert('Please enter a value between 1 and 99');
+                return;
+            }
+            
+            isAnimating = true;
+            log(`Inserting ${value}`, 'insert');
+            
+            heap.push(value);
+            let i = heap.length - 1;
+            highlightState.current = i;
+            render();
+            await sleep(getDelay());
+            
+            // Bubble up
+            while (i > 0) {
+                const p = parent(i);
+                highlightState.comparing = p;
+                render();
+                log(`Compare heap[${i}]=${heap[i]} with parent heap[${p}]=${heap[p]}`, 'compare');
+                await sleep(getDelay());
+                
+                if (compare(heap[i], heap[p])) {
+                    highlightState.swapping = [i, p];
+                    render();
+                    log(`Swap heap[${i}] ↔ heap[${p}]`, 'swap');
+                    await sleep(getDelay());
+                    
+                    [heap[i], heap[p]] = [heap[p], heap[i]];
+                    swaps++;
+                    i = p;
+                    highlightState.current = i;
+                    highlightState.swapping = [];
+                    render();
+                    await sleep(getDelay() / 2);
+                } else {
+                    break;
+                }
+            }
+            
+            highlightState = { current: -1, comparing: -1, swapping: [] };
+            render();
+            updateStats();
+            isAnimating = false;
+            log(`Insert complete. Heap size: ${heap.length}`, 'insert');
+        }
+        
+        async function extractRoot() {
+            if (isAnimating || heap.length === 0) return;
+            
+            isAnimating = true;
+            const extracted = heap[0];
+            log(`Extracting root: ${extracted}`, 'extract');
+            
+            highlightState.current = 0;
+            render();
+            await sleep(getDelay());
+            
+            if (heap.length === 1) {
+                heap.pop();
+                highlightState.current = -1;
+                render();
+                updateStats();
+                isAnimating = false;
+                log(`Heap is now empty`, 'extract');
+                return;
+            }
+            
+            // Move last element to root
+            heap[0] = heap.pop();
+            log(`Moved ${heap[0]} to root`, 'swap');
+            render();
+            await sleep(getDelay());
+            
+            // Heapify down
+            await heapifyDown(0);
+            
+            highlightState = { current: -1, comparing: -1, swapping: [] };
+            render();
+            updateStats();
+            isAnimating = false;
+            log(`Extract complete. Removed: ${extracted}`, 'extract');
+        }
+        
+        async function heapifyDown(i) {
+            const n = heap.length;
+            
+            while (true) {
+                let target = i;
+                const left = leftChild(i);
+                const right = rightChild(i);
+                
+                highlightState.current = i;
+                render();
+                await sleep(getDelay() / 2);
+                
+                if (left < n) {
+                    highlightState.comparing = left;
+                    render();
+                    log(`Compare heap[${target}]=${heap[target]} with left[${left}]=${heap[left]}`, 'compare');
+                    await sleep(getDelay());
+                    if (compare(heap[left], heap[target])) {
+                        target = left;
+                    }
+                }
+                
+                if (right < n) {
+                    highlightState.comparing = right;
+                    render();
+                    log(`Compare heap[${target}]=${heap[target]} with right[${right}]=${heap[right]}`, 'compare');
+                    await sleep(getDelay());
+                    if (compare(heap[right], heap[target])) {
+                        target = right;
+                    }
+                }
+                
+                if (target !== i) {
+                    highlightState.swapping = [i, target];
+                    render();
+                    log(`Swap heap[${i}] ↔ heap[${target}]`, 'swap');
+                    await sleep(getDelay());
+                    
+                    [heap[i], heap[target]] = [heap[target], heap[i]];
+                    swaps++;
+                    i = target;
+                    highlightState.swapping = [];
+                } else {
+                    break;
+                }
+            }
+        }
+        
+        async function buildHeap() {
+            if (isAnimating) return;
+            
+            isAnimating = true;
+            comparisons = 0;
+            swaps = 0;
+            
+            // Generate random array
+            const size = 7 + Math.floor(Math.random() * 8);
+            heap = Array.from({ length: size }, () => Math.floor(Math.random() * 99) + 1);
+            log(`Building heap from: [${heap.join(', ')}]`, 'insert');
+            render();
+            await sleep(getDelay());
+            
+            // Build heap using bottom-up approach
+            const startIdx = Math.floor(heap.length / 2) - 1;
+            for (let i = startIdx; i >= 0; i--) {
+                await heapifyDown(i);
+            }
+            
+            highlightState = { current: -1, comparing: -1, swapping: [] };
+            render();
+            updateStats();
+            isAnimating = false;
+            log(`Heap built successfully!`, 'insert');
+        }
+        
+        function resetHeap() {
+            heap = [];
+            comparisons = 0;
+            swaps = 0;
+            highlightState = { current: -1, comparing: -1, swapping: [] };
+            document.getElementById('logContainer').innerHTML = '';
+            updateStats();
+            render();
+        }
+        
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (heap.length === 0) {
+                ctx.fillStyle = '#888';
+                ctx.font = '16px Segoe UI';
+                ctx.textAlign = 'center';
+                ctx.fillText('Heap is empty. Insert values or build a random heap.', canvas.width / 2, canvas.height / 2);
+                renderArray();
+                return;
+            }
+            
+            const nodeRadius = 22;
+            const levelHeight = 70;
+            const levels = Math.floor(Math.log2(heap.length)) + 1;
+            const startY = 50;
+            
+            // Draw edges first
+            ctx.strokeStyle = '#4a5568';
+            ctx.lineWidth = 2;
+            for (let i = 0; i < heap.length; i++) {
+                const level = Math.floor(Math.log2(i + 1));
+                const posInLevel = i - (Math.pow(2, level) - 1);
+                const nodesInLevel = Math.pow(2, level);
+                const levelWidth = canvas.width * 0.9;
+                const startX = (canvas.width - levelWidth) / 2;
+                const spacing = levelWidth / nodesInLevel;
+                const x = startX + spacing * (posInLevel + 0.5);
+                const y = startY + level * levelHeight;
+                
+                const left = leftChild(i);
+                const right = rightChild(i);
+                
+                if (left < heap.length) {
+                    const childLevel = Math.floor(Math.log2(left + 1));
+                    const childPosInLevel = left - (Math.pow(2, childLevel) - 1);
+                    const childNodesInLevel = Math.pow(2, childLevel);
+                    const childSpacing = levelWidth / childNodesInLevel;
+                    const childX = startX + childSpacing * (childPosInLevel + 0.5);
+                    const childY = startY + childLevel * levelHeight;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(x, y + nodeRadius);
+                    ctx.lineTo(childX, childY - nodeRadius);
+                    ctx.stroke();
+                }
+                
+                if (right < heap.length) {
+                    const childLevel = Math.floor(Math.log2(right + 1));
+                    const childPosInLevel = right - (Math.pow(2, childLevel) - 1);
+                    const childNodesInLevel = Math.pow(2, childLevel);
+                    const childSpacing = levelWidth / childNodesInLevel;
+                    const childX = startX + childSpacing * (childPosInLevel + 0.5);
+                    const childY = startY + childLevel * levelHeight;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(x, y + nodeRadius);
+                    ctx.lineTo(childX, childY - nodeRadius);
+                    ctx.stroke();
+                }
+            }
+            
+            // Draw nodes
+            for (let i = 0; i < heap.length; i++) {
+                const level = Math.floor(Math.log2(i + 1));
+                const posInLevel = i - (Math.pow(2, level) - 1);
+                const nodesInLevel = Math.pow(2, level);
+                const levelWidth = canvas.width * 0.9;
+                const startX = (canvas.width - levelWidth) / 2;
+                const spacing = levelWidth / nodesInLevel;
+                const x = startX + spacing * (posInLevel + 0.5);
+                const y = startY + level * levelHeight;
+                
+                // Determine node color
+                let fillColor = '#2d3748';
+                let borderColor = '#4a5568';
+                
+                if (highlightState.swapping.includes(i)) {
+                    fillColor = 'rgba(255,107,107,0.5)';
+                    borderColor = '#ff6b6b';
+                } else if (i === highlightState.current) {
+                    fillColor = 'rgba(78,205,196,0.5)';
+                    borderColor = '#4ecdc4';
+                } else if (i === highlightState.comparing) {
+                    fillColor = 'rgba(243,156,18,0.5)';
+                    borderColor = '#f39c12';
+                }
+                
+                // Draw node
+                ctx.beginPath();
+                ctx.arc(x, y, nodeRadius, 0, Math.PI * 2);
+                ctx.fillStyle = fillColor;
+                ctx.fill();
+                ctx.strokeStyle = borderColor;
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                // Draw value
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 14px Segoe UI';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(heap[i], x, y);
+                
+                // Draw index
+                ctx.fillStyle = '#888';
+                ctx.font = '10px Segoe UI';
+                ctx.fillText(`[${i}]`, x, y + nodeRadius + 12);
+            }
+            
+            renderArray();
+        }
+        
+        function renderArray() {
+            const container = document.getElementById('arrayContainer');
+            container.innerHTML = '';
+            
+            heap.forEach((value, index) => {
+                const item = document.createElement('div');
+                item.className = 'array-item';
+                
+                if (highlightState.swapping.includes(index)) {
+                    item.classList.add('swapping');
+                } else if (index === highlightState.current) {
+                    item.classList.add('current');
+                } else if (index === highlightState.comparing) {
+                    item.classList.add('comparing');
+                }
+                
+                item.innerHTML = `<span class="value">${value}</span><span class="index">[${index}]</span>`;
+                container.appendChild(item);
+            });
+        }
+        
+        // Initialize
+        updateStats();
+        render();
+    </script>
+</body>
+</html>

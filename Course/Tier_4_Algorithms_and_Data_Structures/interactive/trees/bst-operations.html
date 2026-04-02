@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Tree - Interactive Visualization</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .tree-container {
+            background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 450px;
+        }
+        #tree-canvas {
+            width: 100%;
+            height: 400px;
+            display: block;
+        }
+        .operation-panel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .operation-box {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .operation-box h4 {
+            margin: 0 0 10px 0;
+            color: #3498db;
+        }
+        .operation-box input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .traversal-result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin-top: 15px;
+        }
+        .traversal-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🌳 Binary Search Tree</h1>
+        <p>Explore insert, search, and delete operations on a BST with visual feedback</p>
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>›</span>
+            <a href="../index.html#trees">Trees</a>
+            <span>›</span>
+            BST Operations
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Visualization Panel -->
+            <div class="visualization-panel">
+                <div class="card">
+                    <h2>🌳 Tree Visualization</h2>
+                    
+                    <!-- Operation Panel -->
+                    <div class="operation-panel">
+                        <div class="operation-box">
+                            <h4>➕ Insert</h4>
+                            <input type="number" id="insert-value" placeholder="Value (1-99)" min="1" max="99">
+                            <button class="btn btn-primary" onclick="insertNode()" style="width: 100%;">Insert</button>
+                        </div>
+                        <div class="operation-box">
+                            <h4>🔍 Search</h4>
+                            <input type="number" id="search-value" placeholder="Value to find" min="1" max="99">
+                            <button class="btn btn-success" onclick="searchNode()" style="width: 100%;">Search</button>
+                        </div>
+                        <div class="operation-box">
+                            <h4>🗑️ Delete</h4>
+                            <input type="number" id="delete-value" placeholder="Value to remove" min="1" max="99">
+                            <button class="btn btn-danger" onclick="deleteNode()" style="width: 100%;">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="controls">
+                        <button class="btn btn-secondary" onclick="buildSampleTree()">📦 Sample Tree</button>
+                        <button class="btn btn-secondary" onclick="buildRandomTree()">🎲 Random Tree</button>
+                        <button class="btn btn-danger" onclick="clearTree()">🗑️ Clear All</button>
+                        <div class="input-group">
+                            <label for="speed">Speed:</label>
+                            <input type="range" id="speed" min="100" max="1000" value="500" onchange="updateSpeed()">
+                            <span id="speed-label">500ms</span>
+                        </div>
+                    </div>
+
+                    <!-- Tree Canvas -->
+                    <div class="tree-container">
+                        <canvas id="tree-canvas" width="800" height="400"></canvas>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="stats">
+                        <div class="stat-box">
+                            <div class="label">Nodes</div>
+                            <div class="value" id="node-count">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Height</div>
+                            <div class="value" id="tree-height">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Comparisons</div>
+                            <div class="value" id="comparisons">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Last Operation</div>
+                            <div class="value" id="last-op">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Traversals -->
+                <div class="card">
+                    <h2>🚶 Tree Traversals</h2>
+                    <div class="traversal-buttons">
+                        <button class="btn btn-primary" onclick="doTraversal('inorder')">In-Order (Sorted)</button>
+                        <button class="btn btn-secondary" onclick="doTraversal('preorder')">Pre-Order</button>
+                        <button class="btn btn-secondary" onclick="doTraversal('postorder')">Post-Order</button>
+                        <button class="btn btn-secondary" onclick="doTraversal('levelorder')">Level-Order (BFS)</button>
+                    </div>
+                    <div id="traversal-result" class="traversal-result">
+                        Click a traversal button to see the result
+                    </div>
+                </div>
+
+                <!-- Algorithm Steps -->
+                <div class="card">
+                    <h2>📝 Execution Steps</h2>
+                    <div id="steps-list" class="steps-list"></div>
+                </div>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="info-panel">
+                <!-- BST Property -->
+                <div class="card">
+                    <h2>💡 BST Property</h2>
+                    <p>For every node in a Binary Search Tree:</p>
+                    <ul>
+                        <li>All values in the <strong>left subtree</strong> are <strong>smaller</strong></li>
+                        <li>All values in the <strong>right subtree</strong> are <strong>larger</strong></li>
+                    </ul>
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; font-family: monospace; text-align: center;">
+                        <pre style="margin: 0;">
+       50
+      /  \
+    30    70
+   /  \   /  \
+  20  40 60  80
+                        </pre>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px;">
+                        <em>In-order traversal gives: 20, 30, 40, 50, 60, 70, 80 (sorted!)</em>
+                    </p>
+                </div>
+
+                <!-- Complexity -->
+                <div class="card">
+                    <h2>⏱️ Complexity Analysis</h2>
+                    <table class="complexity-table">
+                        <tr>
+                            <th>Operation</th>
+                            <th>Average</th>
+                            <th>Worst</th>
+                        </tr>
+                        <tr>
+                            <td>Search</td>
+                            <td class="good">O(log n)</td>
+                            <td class="bad">O(n)</td>
+                        </tr>
+                        <tr>
+                            <td>Insert</td>
+                            <td class="good">O(log n)</td>
+                            <td class="bad">O(n)</td>
+                        </tr>
+                        <tr>
+                            <td>Delete</td>
+                            <td class="good">O(log n)</td>
+                            <td class="bad">O(n)</td>
+                        </tr>
+                        <tr>
+                            <td>Space</td>
+                            <td colspan="2" class="good">O(n)</td>
+                        </tr>
+                    </table>
+                    
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <strong>⚠️ Worst Case:</strong> Inserting sorted data creates a "linked list" shape, degrading to O(n). Use balanced trees (AVL, Red-Black) to guarantee O(log n).
+                    </div>
+                </div>
+
+                <!-- Operations -->
+                <div class="card">
+                    <h2>🔧 Operations</h2>
+                    
+                    <h3>Insert</h3>
+                    <ol>
+                        <li>Start at root</li>
+                        <li>If value &lt; node, go left</li>
+                        <li>If value &gt; node, go right</li>
+                        <li>Insert when reaching null</li>
+                    </ol>
+                    
+                    <h3>Search</h3>
+                    <ol>
+                        <li>Start at root</li>
+                        <li>Compare with current node</li>
+                        <li>Go left/right based on comparison</li>
+                        <li>Return when found or null</li>
+                    </ol>
+                    
+                    <h3>Delete</h3>
+                    <p>Three cases:</p>
+                    <ul>
+                        <li><strong>Leaf:</strong> Simply remove</li>
+                        <li><strong>One child:</strong> Replace with child</li>
+                        <li><strong>Two children:</strong> Replace with in-order successor</li>
+                    </ul>
+                </div>
+
+                <!-- Code -->
+                <div class="card">
+                    <h2>💻 Python Code</h2>
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>bst.py</span>
+                            <span class="language">Python</span>
+                        </div>
+                        <pre><code><span class="code-line"><span class="line-number">1</span><span class="keyword">class</span> <span class="function">Node</span>:</span>
+<span class="code-line"><span class="line-number">2</span>    <span class="keyword">def</span> <span class="function">__init__</span>(self, val):</span>
+<span class="code-line"><span class="line-number">3</span>        self.val = val</span>
+<span class="code-line"><span class="line-number">4</span>        self.left = self.right = <span class="keyword">None</span></span>
+<span class="code-line"><span class="line-number">5</span></span>
+<span class="code-line"><span class="line-number">6</span><span class="keyword">def</span> <span class="function">insert</span>(root, val):</span>
+<span class="code-line"><span class="line-number">7</span>    <span class="keyword">if not</span> root:</span>
+<span class="code-line"><span class="line-number">8</span>        <span class="keyword">return</span> Node(val)</span>
+<span class="code-line"><span class="line-number">9</span>    <span class="keyword">if</span> val < root.val:</span>
+<span class="code-line"><span class="line-number">10</span>        root.left = insert(root.left, val)</span>
+<span class="code-line"><span class="line-number">11</span>    <span class="keyword">else</span>:</span>
+<span class="code-line"><span class="line-number">12</span>        root.right = insert(root.right, val)</span>
+<span class="code-line"><span class="line-number">13</span>    <span class="keyword">return</span> root</span>
+<span class="code-line"><span class="line-number">14</span></span>
+<span class="code-line"><span class="line-number">15</span><span class="keyword">def</span> <span class="function">search</span>(root, val):</span>
+<span class="code-line"><span class="line-number">16</span>    <span class="keyword">if not</span> root <span class="keyword">or</span> root.val == val:</span>
+<span class="code-line"><span class="line-number">17</span>        <span class="keyword">return</span> root</span>
+<span class="code-line"><span class="line-number">18</span>    <span class="keyword">if</span> val < root.val:</span>
+<span class="code-line"><span class="line-number">19</span>        <span class="keyword">return</span> search(root.left, val)</span>
+<span class="code-line"><span class="line-number">20</span>    <span class="keyword">return</span> search(root.right, val)</span></code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        let bst;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            bst = new BSTVisualizer('tree-canvas');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        });
+
+        function resizeCanvas() {
+            const canvas = document.getElementById('tree-canvas');
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth - 40;
+            canvas.height = 400;
+            bst.render();
+        }
+
+        async function insertNode() {
+            const input = document.getElementById('insert-value');
+            const value = parseInt(input.value);
+            
+            if (isNaN(value) || value < 1 || value > 99) {
+                alert('Please enter a value between 1 and 99');
+                return;
+            }
+            
+            bst.clearSteps();
+            await bst.insert(value);
+            updateStats();
+            document.getElementById('last-op').textContent = `Insert ${value}`;
+            input.value = '';
+        }
+
+        async function searchNode() {
+            const input = document.getElementById('search-value');
+            const value = parseInt(input.value);
+            
+            if (isNaN(value)) {
+                alert('Please enter a value to search');
+                return;
+            }
+            
+            bst.clearSteps();
+            const result = await bst.search(value);
+            document.getElementById('comparisons').textContent = bst.comparisons;
+            document.getElementById('last-op').textContent = result ? `Found ${value}` : `${value} not found`;
+            input.value = '';
+        }
+
+        async function deleteNode() {
+            const input = document.getElementById('delete-value');
+            const value = parseInt(input.value);
+            
+            if (isNaN(value)) {
+                alert('Please enter a value to delete');
+                return;
+            }
+            
+            bst.clearSteps();
+            await bst.delete(value);
+            updateStats();
+            document.getElementById('last-op').textContent = `Delete ${value}`;
+            input.value = '';
+        }
+
+        function buildSampleTree() {
+            bst.reset();
+            const values = [50, 30, 70, 20, 40, 60, 80];
+            buildTreeSequentially(values);
+        }
+
+        function buildRandomTree() {
+            bst.reset();
+            const size = Math.floor(Math.random() * 8) + 5;
+            const values = generateRandomArray(size, 10, 90);
+            buildTreeSequentially([...new Set(values)]);
+        }
+
+        async function buildTreeSequentially(values) {
+            for (const val of values) {
+                await bst.insert(val);
+                await sleep(100);
+            }
+            updateStats();
+            document.getElementById('last-op').textContent = 'Built tree';
+        }
+
+        function clearTree() {
+            bst.reset();
+            bst.clearSteps();
+            updateStats();
+            document.getElementById('last-op').textContent = 'Cleared';
+            document.getElementById('traversal-result').textContent = 'Click a traversal button to see the result';
+        }
+
+        function updateStats() {
+            const count = countNodes(bst.root);
+            const height = getHeight(bst.root);
+            document.getElementById('node-count').textContent = count;
+            document.getElementById('tree-height').textContent = height;
+            document.getElementById('comparisons').textContent = bst.comparisons;
+        }
+
+        function countNodes(node) {
+            if (!node) return 0;
+            return 1 + countNodes(node.left) + countNodes(node.right);
+        }
+
+        function getHeight(node) {
+            if (!node) return 0;
+            return 1 + Math.max(getHeight(node.left), getHeight(node.right));
+        }
+
+        function doTraversal(type) {
+            const result = [];
+            
+            switch (type) {
+                case 'inorder':
+                    inorder(bst.root, result);
+                    break;
+                case 'preorder':
+                    preorder(bst.root, result);
+                    break;
+                case 'postorder':
+                    postorder(bst.root, result);
+                    break;
+                case 'levelorder':
+                    levelorder(bst.root, result);
+                    break;
+            }
+            
+            const names = {
+                inorder: 'In-Order (Left → Root → Right)',
+                preorder: 'Pre-Order (Root → Left → Right)',
+                postorder: 'Post-Order (Left → Right → Root)',
+                levelorder: 'Level-Order (BFS)'
+            };
+            
+            document.getElementById('traversal-result').innerHTML = `
+                <strong>${names[type]}:</strong><br>
+                [${result.join(' → ')}]
+            `;
+        }
+
+        function inorder(node, result) {
+            if (!node) return;
+            inorder(node.left, result);
+            result.push(node.value);
+            inorder(node.right, result);
+        }
+
+        function preorder(node, result) {
+            if (!node) return;
+            result.push(node.value);
+            preorder(node.left, result);
+            preorder(node.right, result);
+        }
+
+        function postorder(node, result) {
+            if (!node) return;
+            postorder(node.left, result);
+            postorder(node.right, result);
+            result.push(node.value);
+        }
+
+        function levelorder(node, result) {
+            if (!node) return;
+            const queue = [node];
+            while (queue.length > 0) {
+                const current = queue.shift();
+                result.push(current.value);
+                if (current.left) queue.push(current.left);
+                if (current.right) queue.push(current.right);
+            }
+        }
+
+        function updateSpeed() {
+            const speed = parseInt(document.getElementById('speed').value);
+            bst.setSpeed(speed);
+            document.getElementById('speed-label').textContent = speed + 'ms';
+        }
+
+        // Handle Enter key in inputs
+        document.getElementById('insert-value').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') insertNode();
+        });
+        document.getElementById('search-value').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchNode();
+        });
+        document.getElementById('delete-value').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') deleteNode();
+        });
+    </script>
+</body>
+</html>

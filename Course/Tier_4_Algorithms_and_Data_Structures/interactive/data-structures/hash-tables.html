@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Table Visualization</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .hash-table {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            margin: 20px 0;
+        }
+        .hash-slot {
+            display: flex;
+            align-items: stretch;
+            min-height: 45px;
+        }
+        .slot-index {
+            width: 50px;
+            background: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 6px 0 0 6px;
+        }
+        .slot-content {
+            flex: 1;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-left: none;
+            border-radius: 0 6px 6px 0;
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            gap: 10px;
+            min-height: 40px;
+        }
+        .slot-content.empty {
+            color: #95a5a6;
+            font-style: italic;
+        }
+        .slot-content.highlight {
+            background: #fff3cd;
+            border-color: #f39c12;
+        }
+        .slot-content.collision {
+            background: #fdeaea;
+            border-color: #e74c3c;
+        }
+        .slot-content.found {
+            background: #d5f4e6;
+            border-color: #27ae60;
+        }
+        .hash-entry {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .hash-entry.probing {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+        .hash-entry .key {
+            border-right: 1px solid rgba(255,255,255,0.3);
+            padding-right: 8px;
+        }
+        .chain-arrow {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+        .hash-function-display {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+        .hash-function-display .result {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        .controls-panel {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .control-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        .control-row label {
+            font-weight: bold;
+            min-width: 120px;
+        }
+        .control-row input, .control-row select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .stats-panel {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .stat-box {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px 25px;
+            text-align: center;
+        }
+        .stat-box .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .stat-box .label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        .operation-log {
+            max-height: 200px;
+            overflow-y: auto;
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        .operation-log .success { color: #2ecc71; }
+        .operation-log .error { color: #e74c3c; }
+        .operation-log .warning { color: #f39c12; }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tabs button {
+            padding: 12px 25px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #7f8c8d;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+        .tabs button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        .comparison-visual {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .comparison-visual > div {
+            flex: 1;
+            min-width: 300px;
+        }
+        .comparison-visual h4 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .deleted-marker {
+            background: repeating-linear-gradient(
+                45deg,
+                #ffeaea,
+                #ffeaea 5px,
+                #fff 5px,
+                #fff 10px
+            );
+            color: #e74c3c;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Index</a>
+        
+        <h1>#️⃣ Hash Table Visualization</h1>
+        
+        <div class="card">
+            <h2>Understanding Hash Tables</h2>
+            <p>A <strong>hash table</strong> maps keys to values using a hash function. The hash function converts keys into array indices, enabling O(1) average-case lookups.</p>
+            
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <div class="value">O(1)</div>
+                    <div class="label">Average Lookup</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value">O(n)</div>
+                    <div class="label">Worst Case</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="load-factor">0.00</div>
+                    <div class="label">Load Factor (n/m)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value" id="collision-count">0</div>
+                    <div class="label">Collisions</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="tabs">
+                <button class="active" onclick="switchMethod('chaining')">Separate Chaining</button>
+                <button onclick="switchMethod('linear')">Linear Probing</button>
+                <button onclick="switchMethod('quadratic')">Quadratic Probing</button>
+                <button onclick="switchMethod('double')">Double Hashing</button>
+            </div>
+
+            <div class="controls-panel">
+                <div class="control-row">
+                    <label>Key:</label>
+                    <input type="text" id="key-input" placeholder="Enter key" value="apple" style="width: 120px;">
+                    <label>Value:</label>
+                    <input type="text" id="value-input" placeholder="Enter value" value="5" style="width: 80px;">
+                </div>
+                <div class="control-row">
+                    <button class="btn btn-primary" onclick="insert()">Insert</button>
+                    <button class="btn btn-secondary" onclick="search()">Search</button>
+                    <button class="btn btn-secondary" onclick="remove()">Delete</button>
+                    <button class="btn btn-secondary" onclick="resetTable()">Reset</button>
+                </div>
+                <div class="control-row">
+                    <label>Table Size:</label>
+                    <select id="table-size" onchange="resetTable()">
+                        <option value="7">7 (Prime)</option>
+                        <option value="11" selected>11 (Prime)</option>
+                        <option value="13">13 (Prime)</option>
+                    </select>
+                    <span style="color: #7f8c8d; font-size: 0.9rem;">Prime sizes reduce clustering</span>
+                </div>
+            </div>
+
+            <div class="hash-function-display" id="hash-display">
+                hash(key) = sum(ASCII values) % table_size<br>
+                <span class="result">Enter a key to see the hash calculation</span>
+            </div>
+
+            <h3>Hash Table:</h3>
+            <div class="hash-table" id="hash-table"></div>
+
+            <h3>Operation Log:</h3>
+            <div class="operation-log" id="operation-log">
+                Ready. Insert some key-value pairs to begin.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Collision Resolution Comparison</h2>
+            <div class="comparison-visual">
+                <div>
+                    <h4>🔗 Separate Chaining</h4>
+                    <p>Each slot contains a linked list. Colliding elements are appended to the list.</p>
+                    <ul>
+                        <li>✅ Simple to implement</li>
+                        <li>✅ Works well with high load factors</li>
+                        <li>❌ Extra memory for pointers</li>
+                        <li>❌ Cache-unfriendly</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>📍 Open Addressing</h4>
+                    <p>All elements stored in the table. On collision, probe for next empty slot.</p>
+                    <ul>
+                        <li>✅ Cache-friendly</li>
+                        <li>✅ No extra memory for pointers</li>
+                        <li>❌ Clustering problems</li>
+                        <li>❌ Degrades at high load factors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Probing Methods</h3>
+            <table class="complexity-table" style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                <tr style="background: #3498db; color: white;">
+                    <th style="padding: 10px;">Method</th>
+                    <th style="padding: 10px;">Probe Sequence</th>
+                    <th style="padding: 10px;">Pros</th>
+                    <th style="padding: 10px;">Cons</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Linear</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd; font-family: monospace;">h(k) + i</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Simple, cache-friendly</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Primary clustering</td>
+                </tr>
+                <tr style="background: #f8f9fa;">
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Quadratic</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd; font-family: monospace;">h(k) + i²</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Reduces primary clustering</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Secondary clustering</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;"><strong>Double Hashing</strong></td>
+                    <td style="padding: 10px; border: 1px solid #ddd; font-family: monospace;">h₁(k) + i×h₂(k)</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Best distribution</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Two hash functions needed</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Code Implementation</h2>
+            <div class="code-display">
+                <pre>
+class HashTableChaining:
+    """Hash Table with Separate Chaining"""
+    
+    def __init__(self, size=11):
+        self.size = size
+        self.table = [[] for _ in range(size)]
+        self.count = 0
+    
+    def _hash(self, key):
+        return sum(ord(c) for c in str(key)) % self.size
+    
+    def insert(self, key, value):
+        index = self._hash(key)
+        # Check if key exists, update value
+        for i, (k, v) in enumerate(self.table[index]):
+            if k == key:
+                self.table[index][i] = (key, value)
+                return
+        # New key, append to chain
+        self.table[index].append((key, value))
+        self.count += 1
+    
+    def search(self, key):
+        index = self._hash(key)
+        for k, v in self.table[index]:
+            if k == key:
+                return v
+        return None
+    
+    def delete(self, key):
+        index = self._hash(key)
+        for i, (k, v) in enumerate(self.table[index]):
+            if k == key:
+                self.table[index].pop(i)
+                self.count -= 1
+                return True
+        return False
+    
+    @property
+    def load_factor(self):
+        return self.count / self.size
+
+
+class HashTableLinearProbing:
+    """Hash Table with Linear Probing"""
+    
+    def __init__(self, size=11):
+        self.size = size
+        self.keys = [None] * size
+        self.values = [None] * size
+        self.deleted = [False] * size  # Tombstone markers
+        self.count = 0
+    
+    def _hash(self, key):
+        return sum(ord(c) for c in str(key)) % self.size
+    
+    def insert(self, key, value):
+        if self.count >= self.size:
+            raise Exception("Table is full")
+        
+        index = self._hash(key)
+        original = index
+        
+        while self.keys[index] is not None and self.keys[index] != key:
+            if self.deleted[index]:  # Can reuse deleted slot
+                break
+            index = (index + 1) % self.size
+            if index == original:
+                raise Exception("Table is full")
+        
+        if self.keys[index] != key:
+            self.count += 1
+        
+        self.keys[index] = key
+        self.values[index] = value
+        self.deleted[index] = False
+    
+    def search(self, key):
+        index = self._hash(key)
+        original = index
+        
+        while self.keys[index] is not None or self.deleted[index]:
+            if self.keys[index] == key and not self.deleted[index]:
+                return self.values[index]
+            index = (index + 1) % self.size
+            if index == original:
+                break
+        
+        return None
+    
+    def delete(self, key):
+        index = self._hash(key)
+        original = index
+        
+        while self.keys[index] is not None or self.deleted[index]:
+            if self.keys[index] == key and not self.deleted[index]:
+                self.deleted[index] = True  # Mark as tombstone
+                self.count -= 1
+                return True
+            index = (index + 1) % self.size
+            if index == original:
+                break
+        
+        return False
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let tableSize = 11;
+        let method = 'chaining';
+        let table = [];
+        let collisions = 0;
+        let itemCount = 0;
+
+        function initTable() {
+            tableSize = parseInt(document.getElementById('table-size').value);
+            if (method === 'chaining') {
+                table = Array.from({length: tableSize}, () => []);
+            } else {
+                table = Array.from({length: tableSize}, () => ({ key: null, value: null, deleted: false }));
+            }
+            collisions = 0;
+            itemCount = 0;
+            renderTable();
+            updateStats();
+        }
+
+        function switchMethod(m) {
+            method = m;
+            document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.tabs button[onclick="switchMethod('${m}')"]`).classList.add('active');
+            initTable();
+            log(`Switched to ${m === 'chaining' ? 'Separate Chaining' : m + ' probing'}`, 'success');
+        }
+
+        function hash(key) {
+            let sum = 0;
+            for (let c of String(key)) {
+                sum += c.charCodeAt(0);
+            }
+            return sum % tableSize;
+        }
+
+        function hash2(key) {
+            // Secondary hash for double hashing
+            let sum = 0;
+            for (let c of String(key)) {
+                sum += c.charCodeAt(0);
+            }
+            return 7 - (sum % 7); // Prime smaller than table size
+        }
+
+        function showHashCalculation(key, probes = []) {
+            const display = document.getElementById('hash-display');
+            let sum = 0;
+            let chars = [];
+            for (let c of String(key)) {
+                chars.push(`'${c}'=${c.charCodeAt(0)}`);
+                sum += c.charCodeAt(0);
+            }
+            
+            let html = `hash("${key}") = (${chars.join(' + ')}) % ${tableSize}<br>`;
+            html += `hash("${key}") = ${sum} % ${tableSize} = <span class="result">${sum % tableSize}</span>`;
+            
+            if (probes.length > 0) {
+                html += `<br><br>Probing sequence: ${probes.join(' → ')}`;
+            }
+            
+            display.innerHTML = html;
+        }
+
+        function renderTable(highlights = {}) {
+            const container = document.getElementById('hash-table');
+            container.innerHTML = '';
+
+            for (let i = 0; i < tableSize; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'hash-slot';
+                
+                const index = document.createElement('div');
+                index.className = 'slot-index';
+                index.textContent = i;
+                
+                const content = document.createElement('div');
+                content.className = 'slot-content';
+                
+                if (highlights.highlight === i) content.classList.add('highlight');
+                if (highlights.collision === i) content.classList.add('collision');
+                if (highlights.found === i) content.classList.add('found');
+
+                if (method === 'chaining') {
+                    if (table[i].length === 0) {
+                        content.classList.add('empty');
+                        content.textContent = 'empty';
+                    } else {
+                        table[i].forEach((entry, idx) => {
+                            if (idx > 0) {
+                                const arrow = document.createElement('span');
+                                arrow.className = 'chain-arrow';
+                                arrow.textContent = '→';
+                                content.appendChild(arrow);
+                            }
+                            const entryDiv = document.createElement('div');
+                            entryDiv.className = 'hash-entry';
+                            entryDiv.innerHTML = `<span class="key">${entry.key}</span><span>${entry.value}</span>`;
+                            content.appendChild(entryDiv);
+                        });
+                    }
+                } else {
+                    const entry = table[i];
+                    if (entry.key === null && !entry.deleted) {
+                        content.classList.add('empty');
+                        content.textContent = 'empty';
+                    } else if (entry.deleted) {
+                        const deletedDiv = document.createElement('div');
+                        deletedDiv.className = 'deleted-marker';
+                        deletedDiv.textContent = 'DELETED';
+                        content.appendChild(deletedDiv);
+                    } else {
+                        const entryDiv = document.createElement('div');
+                        entryDiv.className = 'hash-entry';
+                        if (highlights.probing === i) entryDiv.classList.add('probing');
+                        entryDiv.innerHTML = `<span class="key">${entry.key}</span><span>${entry.value}</span>`;
+                        content.appendChild(entryDiv);
+                    }
+                }
+
+                slot.appendChild(index);
+                slot.appendChild(content);
+                container.appendChild(slot);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('load-factor').textContent = (itemCount / tableSize).toFixed(2);
+            document.getElementById('collision-count').textContent = collisions;
+        }
+
+        function log(message, type = '') {
+            const logDiv = document.getElementById('operation-log');
+            const entry = document.createElement('div');
+            entry.className = type;
+            entry.textContent = `> ${message}`;
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        async function insert() {
+            const key = document.getElementById('key-input').value.trim();
+            const value = document.getElementById('value-input').value.trim();
+            
+            if (!key) {
+                log('Error: Key cannot be empty', 'error');
+                return;
+            }
+
+            const h = hash(key);
+            showHashCalculation(key);
+            
+            if (method === 'chaining') {
+                // Check if key exists
+                const existing = table[h].findIndex(e => e.key === key);
+                if (existing >= 0) {
+                    table[h][existing].value = value;
+                    log(`Updated "${key}" at index ${h}`, 'warning');
+                } else {
+                    if (table[h].length > 0) {
+                        collisions++;
+                        log(`Collision at index ${h}! Adding to chain.`, 'warning');
+                    }
+                    table[h].push({ key, value });
+                    itemCount++;
+                    log(`Inserted "${key}": ${value} at index ${h}`, 'success');
+                }
+                renderTable({ highlight: h });
+            } else {
+                // Open addressing
+                let index = h;
+                let probes = [h];
+                let i = 1;
+                
+                while (table[index].key !== null && table[index].key !== key && !table[index].deleted) {
+                    collisions++;
+                    
+                    if (method === 'linear') {
+                        index = (h + i) % tableSize;
+                    } else if (method === 'quadratic') {
+                        index = (h + i * i) % tableSize;
+                    } else if (method === 'double') {
+                        index = (h + i * hash2(key)) % tableSize;
+                    }
+                    
+                    probes.push(index);
+                    i++;
+                    
+                    if (i > tableSize) {
+                        log('Error: Table is full!', 'error');
+                        return;
+                    }
+                    
+                    renderTable({ collision: probes[probes.length - 2], probing: index });
+                    await sleep(300);
+                }
+                
+                showHashCalculation(key, probes);
+                
+                if (table[index].key !== key) {
+                    itemCount++;
+                }
+                table[index] = { key, value, deleted: false };
+                
+                if (probes.length > 1) {
+                    log(`Inserted "${key}": ${value} at index ${index} after ${probes.length - 1} probe(s)`, 'warning');
+                } else {
+                    log(`Inserted "${key}": ${value} at index ${index}`, 'success');
+                }
+                renderTable({ highlight: index });
+            }
+            
+            updateStats();
+        }
+
+        async function search() {
+            const key = document.getElementById('key-input').value.trim();
+            
+            if (!key) {
+                log('Error: Key cannot be empty', 'error');
+                return;
+            }
+
+            const h = hash(key);
+            showHashCalculation(key);
+            
+            if (method === 'chaining') {
+                renderTable({ highlight: h });
+                await sleep(300);
+                
+                const entry = table[h].find(e => e.key === key);
+                if (entry) {
+                    log(`Found "${key}": ${entry.value} at index ${h}`, 'success');
+                    renderTable({ found: h });
+                } else {
+                    log(`"${key}" not found`, 'error');
+                }
+            } else {
+                let index = h;
+                let probes = [h];
+                let i = 1;
+                
+                while ((table[index].key !== null || table[index].deleted) && table[index].key !== key) {
+                    renderTable({ highlight: index });
+                    await sleep(300);
+                    
+                    if (method === 'linear') {
+                        index = (h + i) % tableSize;
+                    } else if (method === 'quadratic') {
+                        index = (h + i * i) % tableSize;
+                    } else if (method === 'double') {
+                        index = (h + i * hash2(key)) % tableSize;
+                    }
+                    
+                    probes.push(index);
+                    i++;
+                    
+                    if (i > tableSize) break;
+                }
+                
+                showHashCalculation(key, probes);
+                
+                if (table[index].key === key && !table[index].deleted) {
+                    log(`Found "${key}": ${table[index].value} at index ${index} (${probes.length} probe(s))`, 'success');
+                    renderTable({ found: index });
+                } else {
+                    log(`"${key}" not found after ${probes.length} probe(s)`, 'error');
+                    renderTable();
+                }
+            }
+        }
+
+        async function remove() {
+            const key = document.getElementById('key-input').value.trim();
+            
+            if (!key) {
+                log('Error: Key cannot be empty', 'error');
+                return;
+            }
+
+            const h = hash(key);
+            
+            if (method === 'chaining') {
+                const idx = table[h].findIndex(e => e.key === key);
+                if (idx >= 0) {
+                    table[h].splice(idx, 1);
+                    itemCount--;
+                    log(`Deleted "${key}" from index ${h}`, 'success');
+                } else {
+                    log(`"${key}" not found`, 'error');
+                }
+            } else {
+                let index = h;
+                let i = 1;
+                
+                while ((table[index].key !== null || table[index].deleted) && table[index].key !== key) {
+                    if (method === 'linear') {
+                        index = (h + i) % tableSize;
+                    } else if (method === 'quadratic') {
+                        index = (h + i * i) % tableSize;
+                    } else if (method === 'double') {
+                        index = (h + i * hash2(key)) % tableSize;
+                    }
+                    i++;
+                    if (i > tableSize) break;
+                }
+                
+                if (table[index].key === key && !table[index].deleted) {
+                    table[index].deleted = true; // Tombstone
+                    itemCount--;
+                    log(`Deleted "${key}" from index ${index} (marked as tombstone)`, 'success');
+                } else {
+                    log(`"${key}" not found`, 'error');
+                }
+            }
+            
+            renderTable();
+            updateStats();
+        }
+
+        function resetTable() {
+            initTable();
+            document.getElementById('operation-log').innerHTML = 'Table reset. Ready for operations.';
+            document.getElementById('hash-display').innerHTML = 
+                'hash(key) = sum(ASCII values) % table_size<br><span class="result">Enter a key to see the hash calculation</span>';
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Initialize
+        initTable();
+    </script>
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Algorithm Visualizations</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0 0 20px 0;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .feature {
+            background: rgba(255,255,255,0.15);
+            padding: 15px 25px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary-color);
+        }
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        .section-header .icon {
+            font-size: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🎓 Interactive Algorithm Visualizations</h1>
+        <p>Learn algorithms through step-by-step visualizations, practice exercises, and hands-on assignments</p>
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">👁️</div>
+                <div>Visual Learning</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎮</div>
+                <div>Interactive Controls</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📝</div>
+                <div>Practice Problems</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">✅</div>
+                <div>Self-Assessment</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        
+        <!-- Sorting Section -->
+        <div class="section-header" id="sorting">
+            <span class="icon">📊</span>
+            <h2>Sorting Algorithms</h2>
+        </div>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-card-header">
+                    <div class="icon">🫧</div>
+                    <h3>Bubble Sort</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Watch elements "bubble up" to their correct positions through repeated swapping.</p>
+                    <ul>
+                        <li><a href="sorting/bubble-sort.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Time: O(n²) | Space: O(1) | Stable: Yes</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                    <div class="icon">🔀</div>
+                    <h3>Merge Sort</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Divide and conquer: split, sort, and merge for guaranteed O(n log n) performance.</p>
+                    <ul>
+                        <li><a href="sorting/merge-sort.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Time: O(n log n) | Space: O(n) | Stable: Yes</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #eb3349, #f45c43);">
+                    <div class="icon">⚡</div>
+                    <h3>QuickSort</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Partition around a pivot for blazing-fast average performance.</p>
+                    <ul>
+                        <li><a href="sorting/quicksort.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Time: O(n log n)* | Space: O(log n) | Stable: No</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                    <div class="icon">🏁</div>
+                    <h3>Sorting Race</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Watch multiple sorting algorithms compete side-by-side on the same data!</p>
+                    <ul>
+                        <li><a href="sorting/comparison.html">→ Race Comparison</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Compare: Bubble, Selection, Insertion, Merge, Quick</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #00b4db, #0083b0);">
+                    <div class="icon">📈</div>
+                    <h3>Linear-Time Sorts</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Counting Sort, Radix Sort, Bucket Sort — O(n) without comparisons!</p>
+                    <ul>
+                        <li><a href="sorting/linear-sorts.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Time: O(n+k) | Non-comparison based</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Structures Section -->
+        <div class="section-header" id="data-structures">
+            <span class="icon">📦</span>
+            <h2>Linear Data Structures</h2>
+        </div>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #ee0979, #ff6a00);">
+                    <div class="icon">🔗</div>
+                    <h3>Linked Lists</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Singly & doubly linked lists with insert, delete, reverse, and cycle detection.</p>
+                    <ul>
+                        <li><a href="data-structures/linked-lists.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Insert/Delete: O(1) | Search: O(n)</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #4776E6, #8E54E9);">
+                    <div class="icon">📚</div>
+                    <h3>Stacks & Queues</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>LIFO stacks and FIFO queues with real applications like bracket matching.</p>
+                    <ul>
+                        <li><a href="data-structures/stacks-queues.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">All ops: O(1) | Essential foundations</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #FC466B, #3F5EFB);">
+                    <div class="icon">#️⃣</div>
+                    <h3>Hash Tables</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Collision handling with chaining, linear probing, quadratic probing, and double hashing.</p>
+                    <ul>
+                        <li><a href="data-structures/hash-tables.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Average: O(1) | Worst: O(n)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Searching Section -->
+        <div class="section-header" id="searching">
+            <span class="icon">🔍</span>
+            <h2>Searching Algorithms</h2>
+        </div>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    <div class="icon">🎯</div>
+                    <h3>Binary Search</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Efficiently find targets by repeatedly halving the search space.</p>
+                    <ul>
+                        <li><a href="searching/binary-search.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Time: O(log n) | Space: O(1) | Requires: Sorted Array</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trees Section -->
+        <div class="section-header" id="trees">
+            <span class="icon">🌳</span>
+            <h2>Tree Data Structures</h2>
+        </div>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #56ab2f, #a8e063);">
+                    <div class="icon">🌲</div>
+                    <h3>Binary Search Tree</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Explore insert, search, and delete operations with visual tree updates.</p>
+                    <ul>
+                        <li><a href="trees/bst-operations.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Avg: O(log n) | Worst: O(n) | Space: O(n)</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #f2994a, #f2c94c);">
+                    <div class="icon">⚖️</div>
+                    <h3>AVL Tree Rotations</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Watch the tree self-balance through LL, RR, LR, and RL rotations.</p>
+                    <ul>
+                        <li><a href="trees/avl-rotations.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">All ops: O(log n) | Guaranteed balanced | Space: O(n)</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                    <div class="icon">🏔️</div>
+                    <h3>Heap Operations</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Min-Heap and Max-Heap with insert, extract, and heapify animations.</p>
+                    <ul>
+                        <li><a href="trees/heap-operations.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Insert/Extract: O(log n) | Build: O(n)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- String Algorithms Section -->
+        <div class="section-header" id="strings">
+            <span class="icon">🔤</span>
+            <h2>String Algorithms</h2>
+        </div>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #C33764, #1D2671);">
+                    <div class="icon">🔎</div>
+                    <h3>Pattern Matching</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Naive, KMP, and Rabin-Karp algorithms for finding patterns in text.</p>
+                    <ul>
+                        <li><a href="strings/pattern-matching.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">KMP: O(n+m) | Rabin-Karp: O(n) avg</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #00b09b, #96c93d);">
+                    <div class="icon">🌳</div>
+                    <h3>Trie (Prefix Tree)</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Efficient string storage and prefix-based retrieval with autocomplete.</p>
+                    <ul>
+                        <li><a href="strings/trie.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Insert/Search: O(m) | Prefix queries</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graph Algorithms Section -->
+        <div class="section-header" id="graphs">
+            <span class="icon">🕸️</span>
+            <h2>Graph Algorithms</h2>
+        </div>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                    <div class="icon">🔍</div>
+                    <h3>BFS & DFS</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Compare breadth-first and depth-first traversals side by side with queue/stack visualization.</p>
+                    <ul>
+                        <li><a href="graphs/bfs-dfs.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Time: O(V+E) | Space: O(V)</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #fc4a1a, #f7b733);">
+                    <div class="icon">🛤️</div>
+                    <h3>Dijkstra's Algorithm</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Find shortest paths with priority queue visualization and distance table updates.</p>
+                    <ul>
+                        <li><a href="graphs/dijkstra.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Time: O((V+E)log V) | Non-negative weights</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #c471ed, #f64f59);">
+                    <div class="icon">🌲</div>
+                    <h3>Minimum Spanning Tree</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Kruskal's and Prim's algorithms with Union-Find and Priority Queue.</p>
+                    <ul>
+                        <li><a href="graphs/mst.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Kruskal: O(E log E) | Prim: O((V+E)log V)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Programming Section -->
+        <div class="section-header" id="dp">
+            <span class="icon">📋</span>
+            <h2>Dynamic Programming</h2>
+        </div>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    <div class="icon">📊</div>
+                    <h3>DP Table Fill</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Visualize table-filling for Fibonacci, LCS, Edit Distance, and 0/1 Knapsack.</p>
+                    <ul>
+                        <li><a href="dp/table-fill.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Classic DP problems with step-by-step execution</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Backtracking Section -->
+        <div class="section-header" id="backtracking">
+            <span class="icon">🔄</span>
+            <h2>Backtracking</h2>
+        </div>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                    <div class="icon">👑</div>
+                    <h3>N-Queens & Permutations</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>Watch backtracking explore and prune the solution space for classic problems.</p>
+                    <ul>
+                        <li><a href="backtracking/backtracking.html">→ Interactive Visualization</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">N-Queens, Permutations with pruning visualization</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercises Section -->
+        <div class="section-header" id="exercises">
+            <span class="icon">📝</span>
+            <h2>Practice Exercises</h2>
+        </div>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                    <div class="icon">📊</div>
+                    <h3>Sorting Exercises</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>8 practice problems covering algorithm tracing, complexity analysis, and implementation.</p>
+                    <ul>
+                        <li><a href="exercises/sorting-exercises.html">→ Start Practicing</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Topics: Bubble, Merge, Quick, Counting Sort</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">
+                    <div class="icon">🔍</div>
+                    <h3>Searching Exercises</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>8 practice problems on binary search variants, rotated arrays, and 2D matrix search.</p>
+                    <ul>
+                        <li><a href="exercises/searching-exercises.html">→ Start Practicing</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Topics: Binary Search, Two Pointers, Bounds</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #84fab0, #8fd3f4);">
+                    <div class="icon">🌳</div>
+                    <h3>Tree Exercises</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>8 practice problems on BST properties, traversals, AVL balancing, and common tree algorithms.</p>
+                    <ul>
+                        <li><a href="exercises/trees-exercises.html">→ Start Practicing</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Topics: BST, AVL, Traversals, LCA</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #ff6b6b, #feca57);">
+                    <div class="icon">📦</div>
+                    <h3>Data Structure Exercises</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>8 practice problems on linked lists, stacks, queues, and hash tables.</p>
+                    <ul>
+                        <li><a href="exercises/data-structures-exercises.html">→ Start Practicing</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Topics: Lists, Stacks, Queues, Hash Tables</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                    <div class="icon">🕸️</div>
+                    <h3>Graph Exercises</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>8 practice problems on BFS, DFS, shortest paths, MST, and topological sort.</p>
+                    <ul>
+                        <li><a href="exercises/graphs-exercises.html">→ Start Practicing</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Topics: BFS, DFS, Dijkstra, Kruskal</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    <div class="icon">📋</div>
+                    <h3>Dynamic Programming Exercises</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>8 classic DP problems: LIS, Knapsack, Coin Change, Word Break, and more.</p>
+                    <ul>
+                        <li><a href="exercises/dp-exercises.html">→ Start Practicing</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">Topics: Tabulation, Memoization, Optimization</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Homework Section -->
+        <div class="section-header" id="homework">
+            <span class="icon">📋</span>
+            <h2>Homework Assignments</h2>
+        </div>
+        <div class="topic-grid">
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #ff9a9e, #fecfef);">
+                    <div class="icon">📐</div>
+                    <h3>Assignment 1: Complexity Analysis</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>100-point assignment covering Big O notation, recurrence relations, and complexity analysis.</p>
+                    <ul>
+                        <li><a href="homework/assignment-1-fundamentals.html">→ Start Assignment</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">6 problems + bonus | With answer key</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb);">
+                    <div class="icon">📊</div>
+                    <h3>Assignment 2: Sorting Algorithms</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>100-point assignment on sorting algorithm analysis, implementation, and selection.</p>
+                    <ul>
+                        <li><a href="homework/assignment-2-sorting.html">→ Start Assignment</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">6 problems + bonus | With answer key</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                    <div class="icon">📦</div>
+                    <h3>Assignment 3: Data Structures</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>100-point assignment on linked lists, stacks, queues, and hash tables.</p>
+                    <ul>
+                        <li><a href="homework/assignment-3-data-structures.html">→ Start Assignment</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">6 problems + bonus | With answer key</p>
+                </div>
+            </div>
+
+            <div class="topic-card">
+                <div class="topic-card-header" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                    <div class="icon">🕸️</div>
+                    <h3>Assignment 4: Graphs & DP</h3>
+                </div>
+                <div class="topic-card-body">
+                    <p>100-point assignment on graph algorithms and dynamic programming.</p>
+                    <ul>
+                        <li><a href="homework/assignment-4-graphs-dp.html">→ Start Assignment</a></li>
+                    </ul>
+                    <p style="font-size: 12px; color: #7f8c8d;">8 problems | BFS, DFS, Dijkstra, MST, LCS, Knapsack</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="card" style="margin-top: 40px; text-align: center;">
+            <h2>🚀 Quick Start</h2>
+            <p>New to algorithms? Follow this recommended learning path:</p>
+            <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
+                <a href="sorting/bubble-sort.html" class="btn btn-primary">1. Start with Bubble Sort</a>
+                <a href="searching/binary-search.html" class="btn btn-secondary">2. Learn Binary Search</a>
+                <a href="trees/bst-operations.html" class="btn btn-secondary">3. Explore BST</a>
+                <a href="exercises/sorting-exercises.html" class="btn btn-success">4. Practice!</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer style="text-align: center; margin-top: 50px; padding: 30px; color: #7f8c8d;">
+            <p>Part of the <a href="../README.md" style="color: #3498db;">Algorithms & Data Structures</a> course</p>
+            <p style="font-size: 12px;">Built with ❤️ for computer science education</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List Visualization</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .list-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 120px;
+            padding: 20px;
+            overflow-x: auto;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .node {
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .node-box {
+            display: flex;
+            border: 3px solid #3498db;
+            border-radius: 8px;
+            background: white;
+            min-width: 80px;
+            transition: all 0.3s ease;
+        }
+        .node-data {
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-right: 2px solid #3498db;
+            min-width: 40px;
+            text-align: center;
+        }
+        .node-next {
+            padding: 15px 10px;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .arrow {
+            font-size: 1.5rem;
+            color: #3498db;
+            margin: 0 10px;
+        }
+        .null-pointer {
+            padding: 15px 20px;
+            font-size: 1rem;
+            color: #e74c3c;
+            font-weight: bold;
+            background: #ffeaea;
+            border-radius: 8px;
+            border: 2px dashed #e74c3c;
+        }
+        .node.highlight .node-box {
+            border-color: #e74c3c;
+            background: #fff5f5;
+            transform: scale(1.1);
+        }
+        .node.current .node-box {
+            border-color: #27ae60;
+            background: #eafaf1;
+        }
+        .node.found .node-box {
+            border-color: #f39c12;
+            background: #fef9e7;
+            animation: pulse 0.5s ease-in-out;
+        }
+        .node.slow .node-box {
+            border-color: #9b59b6;
+            background: #f5eef8;
+        }
+        .node.fast .node-box {
+            border-color: #e67e22;
+            background: #fef5e7;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        .head-label, .tail-label {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        .head-label {
+            background: #27ae60;
+            color: white;
+        }
+        .tail-label {
+            background: #e74c3c;
+            color: white;
+        }
+        .node-wrapper {
+            position: relative;
+        }
+        .input-section {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        .input-section input {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            width: 100px;
+        }
+        .operation-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .operation-tabs button {
+            padding: 10px 20px;
+            border: none;
+            background: #ecf0f1;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .operation-tabs button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        .operation-tabs button:hover:not(.active) {
+            background: #bdc3c7;
+        }
+        .doubly .node-box {
+            border-color: #9b59b6;
+        }
+        .doubly .arrow {
+            color: #9b59b6;
+        }
+        .prev-arrow {
+            font-size: 1rem;
+            color: #9b59b6;
+            margin: 0 5px;
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid;
+        }
+        .message-box {
+            padding: 15px;
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Index</a>
+        
+        <h1>🔗 Linked List Visualization</h1>
+        
+        <div class="card">
+            <h2>What is a Linked List?</h2>
+            <p>A <strong>linked list</strong> is a linear data structure where elements are stored in nodes. Each node contains data and a reference (pointer) to the next node in the sequence.</p>
+            <div class="complexity-badge" style="display: inline-block; margin: 5px;">Access: O(n)</div>
+            <div class="complexity-badge" style="display: inline-block; margin: 5px;">Insert/Delete at head: O(1)</div>
+            <div class="complexity-badge" style="display: inline-block; margin: 5px;">Insert/Delete at position: O(n)</div>
+        </div>
+
+        <div class="card">
+            <h2>List Type</h2>
+            <div class="operation-tabs">
+                <button id="singly-btn" class="active" onclick="setListType('singly')">Singly Linked</button>
+                <button id="doubly-btn" onclick="setListType('doubly')">Doubly Linked</button>
+            </div>
+
+            <h2>Operations</h2>
+            <div class="operation-tabs" id="operation-tabs">
+                <button class="active" data-op="insert-head">Insert at Head</button>
+                <button data-op="insert-tail">Insert at Tail</button>
+                <button data-op="insert-at">Insert at Index</button>
+                <button data-op="delete-head">Delete Head</button>
+                <button data-op="delete-tail">Delete Tail</button>
+                <button data-op="delete-value">Delete Value</button>
+                <button data-op="search">Search</button>
+                <button data-op="reverse">Reverse</button>
+                <button data-op="detect-cycle">Detect Cycle</button>
+            </div>
+
+            <div class="input-section">
+                <input type="number" id="value-input" placeholder="Value" value="42">
+                <input type="number" id="index-input" placeholder="Index" value="0" style="display: none;">
+                <button class="btn btn-primary" id="execute-btn" onclick="executeOperation()">Execute</button>
+                <button class="btn btn-secondary" onclick="resetList()">Reset List</button>
+                <button class="btn btn-secondary" onclick="createCycle()">Create Cycle (Demo)</button>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #eafaf1; border-color: #27ae60;"></div>
+                    <span>Current</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #fff5f5; border-color: #e74c3c;"></div>
+                    <span>Highlight</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #fef9e7; border-color: #f39c12;"></div>
+                    <span>Found</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #f5eef8; border-color: #9b59b6;"></div>
+                    <span>Slow Pointer</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #fef5e7; border-color: #e67e22;"></div>
+                    <span>Fast Pointer</span>
+                </div>
+            </div>
+
+            <div class="message-box" id="message">
+                Select an operation and click Execute to see the visualization.
+            </div>
+
+            <h3>Current List:</h3>
+            <div class="list-container" id="list-container">
+                <!-- Nodes will be rendered here -->
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Algorithm Steps</h2>
+            <div id="steps-display" class="code-display">
+                <p>Steps will appear here during execution...</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Code Implementation</h2>
+            <div class="code-display">
+                <pre id="code-display">
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+    
+    def insert_at_head(self, data):
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+    
+    def insert_at_tail(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            return
+        current = self.head
+        while current.next:
+            current = current.next
+        current.next = new_node
+    
+    def delete_value(self, value):
+        if not self.head:
+            return
+        if self.head.data == value:
+            self.head = self.head.next
+            return
+        current = self.head
+        while current.next:
+            if current.next.data == value:
+                current.next = current.next.next
+                return
+            current = current.next
+    
+    def reverse(self):
+        prev = None
+        current = self.head
+        while current:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+        self.head = prev
+    
+    def detect_cycle(self):
+        """Floyd's Cycle Detection"""
+        slow = fast = self.head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
+                return True
+        return False
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let list = [];
+        let listType = 'singly';
+        let currentOperation = 'insert-head';
+        let hasCycle = false;
+        let cycleIndex = -1;
+        let isAnimating = false;
+
+        // Initialize with sample data
+        function initList() {
+            list = [10, 20, 30, 40, 50];
+            hasCycle = false;
+            cycleIndex = -1;
+            renderList();
+        }
+
+        function setListType(type) {
+            listType = type;
+            document.getElementById('singly-btn').classList.toggle('active', type === 'singly');
+            document.getElementById('doubly-btn').classList.toggle('active', type === 'doubly');
+            renderList();
+        }
+
+        function renderList(highlights = {}) {
+            const container = document.getElementById('list-container');
+            container.innerHTML = '';
+            
+            if (list.length === 0) {
+                container.innerHTML = '<div class="null-pointer">Empty List (NULL)</div>';
+                return;
+            }
+
+            list.forEach((value, index) => {
+                const nodeWrapper = document.createElement('div');
+                nodeWrapper.className = 'node-wrapper';
+                
+                const node = document.createElement('div');
+                node.className = `node ${listType === 'doubly' ? 'doubly' : ''}`;
+                
+                if (highlights.current === index) node.classList.add('current');
+                if (highlights.highlight === index) node.classList.add('highlight');
+                if (highlights.found === index) node.classList.add('found');
+                if (highlights.slow === index) node.classList.add('slow');
+                if (highlights.fast === index) node.classList.add('fast');
+                
+                let nodeHTML = '';
+                
+                if (listType === 'doubly' && index > 0) {
+                    nodeHTML += '<span class="prev-arrow">◀</span>';
+                }
+                
+                nodeHTML += `
+                    <div class="node-box">
+                        <div class="node-data">${value}</div>
+                        <div class="node-next">next</div>
+                    </div>
+                `;
+                
+                if (index < list.length - 1 || (hasCycle && index === list.length - 1)) {
+                    nodeHTML += '<span class="arrow">→</span>';
+                }
+                
+                node.innerHTML = nodeHTML;
+                nodeWrapper.appendChild(node);
+                
+                // Add head/tail labels
+                if (index === 0) {
+                    const headLabel = document.createElement('div');
+                    headLabel.className = 'head-label';
+                    headLabel.textContent = 'HEAD';
+                    headLabel.style.position = 'relative';
+                    headLabel.style.top = '-5px';
+                    headLabel.style.marginBottom = '5px';
+                    headLabel.style.display = 'inline-block';
+                    nodeWrapper.insertBefore(headLabel, node);
+                }
+                
+                container.appendChild(nodeWrapper);
+            });
+
+            // Add NULL pointer at end (unless cycle)
+            if (!hasCycle) {
+                const nullDiv = document.createElement('div');
+                nullDiv.className = 'null-pointer';
+                nullDiv.textContent = 'NULL';
+                container.appendChild(nullDiv);
+            } else {
+                // Show cycle arrow
+                const cycleDiv = document.createElement('div');
+                cycleDiv.innerHTML = `<span style="color: #e74c3c; font-weight: bold;">↩ Cycle to node[${cycleIndex}]</span>`;
+                container.appendChild(cycleDiv);
+            }
+        }
+
+        function setMessage(msg) {
+            document.getElementById('message').textContent = msg;
+        }
+
+        function setSteps(steps) {
+            const stepsDiv = document.getElementById('steps-display');
+            stepsDiv.innerHTML = steps.map((s, i) => `<div style="padding: 5px 0; ${i === steps.length - 1 ? 'font-weight: bold; color: #27ae60;' : ''}">${i + 1}. ${s}</div>`).join('');
+        }
+
+        async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Operation handlers
+        document.querySelectorAll('#operation-tabs button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#operation-tabs button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentOperation = btn.dataset.op;
+                
+                const indexInput = document.getElementById('index-input');
+                indexInput.style.display = ['insert-at'].includes(currentOperation) ? 'inline-block' : 'none';
+            });
+        });
+
+        async function executeOperation() {
+            if (isAnimating) return;
+            isAnimating = true;
+            
+            const value = parseInt(document.getElementById('value-input').value) || 0;
+            const index = parseInt(document.getElementById('index-input').value) || 0;
+            
+            switch (currentOperation) {
+                case 'insert-head':
+                    await insertAtHead(value);
+                    break;
+                case 'insert-tail':
+                    await insertAtTail(value);
+                    break;
+                case 'insert-at':
+                    await insertAt(value, index);
+                    break;
+                case 'delete-head':
+                    await deleteHead();
+                    break;
+                case 'delete-tail':
+                    await deleteTail();
+                    break;
+                case 'delete-value':
+                    await deleteValue(value);
+                    break;
+                case 'search':
+                    await search(value);
+                    break;
+                case 'reverse':
+                    await reverse();
+                    break;
+                case 'detect-cycle':
+                    await detectCycle();
+                    break;
+            }
+            
+            isAnimating = false;
+        }
+
+        async function insertAtHead(value) {
+            const steps = [
+                `Create new node with value ${value}`,
+                `Set new node's next to current head`,
+                `Update head to point to new node`,
+                `✓ Insertion complete!`
+            ];
+            
+            setMessage(`Inserting ${value} at head...`);
+            setSteps([steps[0]]);
+            await sleep(800);
+            
+            setSteps(steps.slice(0, 2));
+            await sleep(800);
+            
+            list.unshift(value);
+            renderList({ highlight: 0 });
+            setSteps(steps.slice(0, 3));
+            await sleep(800);
+            
+            renderList();
+            setSteps(steps);
+            setMessage(`Successfully inserted ${value} at head. List length: ${list.length}`);
+        }
+
+        async function insertAtTail(value) {
+            const steps = [`Create new node with value ${value}`];
+            setMessage(`Inserting ${value} at tail...`);
+            setSteps(steps);
+            await sleep(600);
+
+            if (list.length === 0) {
+                list.push(value);
+                steps.push('List is empty, new node becomes head');
+                setSteps(steps);
+                renderList({ highlight: 0 });
+            } else {
+                steps.push('Traverse to find the last node...');
+                setSteps(steps);
+                
+                for (let i = 0; i < list.length; i++) {
+                    renderList({ current: i });
+                    steps[steps.length - 1] = `Traversing: at node[${i}] = ${list[i]}`;
+                    setSteps(steps);
+                    await sleep(400);
+                }
+                
+                list.push(value);
+                steps.push(`Set last node's next to new node`);
+                steps.push(`✓ Insertion complete!`);
+                setSteps(steps);
+                renderList({ highlight: list.length - 1 });
+            }
+            
+            await sleep(500);
+            renderList();
+            setMessage(`Successfully inserted ${value} at tail. List length: ${list.length}`);
+        }
+
+        async function insertAt(value, index) {
+            if (index < 0 || index > list.length) {
+                setMessage(`Error: Index ${index} is out of bounds (0-${list.length})`);
+                return;
+            }
+
+            const steps = [`Create new node with value ${value}`];
+            setMessage(`Inserting ${value} at index ${index}...`);
+            setSteps(steps);
+            await sleep(600);
+
+            if (index === 0) {
+                await insertAtHead(value);
+                return;
+            }
+
+            steps.push(`Traverse to node at index ${index - 1}...`);
+            setSteps(steps);
+
+            for (let i = 0; i < index; i++) {
+                renderList({ current: i });
+                await sleep(400);
+            }
+
+            list.splice(index, 0, value);
+            steps.push(`Insert new node after node[${index - 1}]`);
+            steps.push(`✓ Insertion complete!`);
+            setSteps(steps);
+            renderList({ highlight: index });
+            
+            await sleep(500);
+            renderList();
+            setMessage(`Successfully inserted ${value} at index ${index}. List length: ${list.length}`);
+        }
+
+        async function deleteHead() {
+            if (list.length === 0) {
+                setMessage('Error: List is empty!');
+                return;
+            }
+
+            const steps = [
+                'Check if list is empty (no)',
+                `Store head value: ${list[0]}`,
+                'Move head to head.next',
+                '✓ Deletion complete!'
+            ];
+
+            setMessage('Deleting head...');
+            setSteps([steps[0]]);
+            await sleep(600);
+
+            renderList({ highlight: 0 });
+            setSteps(steps.slice(0, 2));
+            await sleep(600);
+
+            const deleted = list.shift();
+            setSteps(steps.slice(0, 3));
+            renderList();
+            await sleep(600);
+
+            setSteps(steps);
+            setMessage(`Successfully deleted head (value: ${deleted}). List length: ${list.length}`);
+        }
+
+        async function deleteTail() {
+            if (list.length === 0) {
+                setMessage('Error: List is empty!');
+                return;
+            }
+
+            const steps = ['Check if list is empty (no)'];
+            setMessage('Deleting tail...');
+            setSteps(steps);
+            await sleep(600);
+
+            if (list.length === 1) {
+                const deleted = list.pop();
+                steps.push('Only one node, set head to NULL');
+                steps.push(`✓ Deleted ${deleted}`);
+                setSteps(steps);
+                renderList();
+                setMessage(`Successfully deleted tail (value: ${deleted}). List is now empty.`);
+                return;
+            }
+
+            steps.push('Traverse to second-to-last node...');
+            setSteps(steps);
+
+            for (let i = 0; i < list.length - 1; i++) {
+                renderList({ current: i });
+                await sleep(400);
+            }
+
+            renderList({ highlight: list.length - 1 });
+            steps.push(`Found tail at index ${list.length - 1}`);
+            setSteps(steps);
+            await sleep(600);
+
+            const deleted = list.pop();
+            steps.push(`Set second-to-last node's next to NULL`);
+            steps.push(`✓ Deleted ${deleted}`);
+            setSteps(steps);
+            renderList();
+            setMessage(`Successfully deleted tail (value: ${deleted}). List length: ${list.length}`);
+        }
+
+        async function deleteValue(value) {
+            const steps = [`Search for value ${value}...`];
+            setMessage(`Deleting first occurrence of ${value}...`);
+            setSteps(steps);
+            await sleep(600);
+
+            let found = -1;
+            for (let i = 0; i < list.length; i++) {
+                renderList({ current: i });
+                steps[0] = `Checking node[${i}] = ${list[i]}...`;
+                setSteps(steps);
+                await sleep(400);
+                
+                if (list[i] === value) {
+                    found = i;
+                    break;
+                }
+            }
+
+            if (found === -1) {
+                steps.push(`Value ${value} not found in list`);
+                setSteps(steps);
+                setMessage(`Value ${value} not found in list.`);
+                renderList();
+                return;
+            }
+
+            renderList({ highlight: found });
+            steps.push(`Found ${value} at index ${found}`);
+            setSteps(steps);
+            await sleep(600);
+
+            if (found === 0) {
+                list.shift();
+                steps.push('Update head to head.next');
+            } else {
+                steps.push(`Update node[${found - 1}].next to skip node[${found}]`);
+                list.splice(found, 1);
+            }
+            
+            steps.push(`✓ Deleted ${value}`);
+            setSteps(steps);
+            renderList();
+            setMessage(`Successfully deleted ${value}. List length: ${list.length}`);
+        }
+
+        async function search(value) {
+            const steps = [`Search for value ${value}...`];
+            setMessage(`Searching for ${value}...`);
+            setSteps(steps);
+
+            for (let i = 0; i < list.length; i++) {
+                renderList({ current: i });
+                steps[0] = `Checking node[${i}] = ${list[i]}...`;
+                setSteps(steps);
+                await sleep(500);
+                
+                if (list[i] === value) {
+                    renderList({ found: i });
+                    steps.push(`✓ Found ${value} at index ${i}!`);
+                    setSteps(steps);
+                    setMessage(`Found ${value} at index ${i}!`);
+                    return;
+                }
+            }
+
+            steps.push(`✗ Value ${value} not found`);
+            setSteps(steps);
+            renderList();
+            setMessage(`Value ${value} not found in list.`);
+        }
+
+        async function reverse() {
+            if (list.length <= 1) {
+                setMessage('List has 0 or 1 elements, nothing to reverse.');
+                return;
+            }
+
+            const steps = [
+                'Initialize: prev = NULL, current = head',
+                'While current is not NULL:',
+            ];
+            setMessage('Reversing list...');
+            setSteps(steps);
+            await sleep(600);
+
+            const original = [...list];
+            
+            for (let i = 0; i < list.length; i++) {
+                renderList({ current: i, highlight: i > 0 ? i - 1 : undefined });
+                steps.push(`  Step ${i + 1}: Save next, reverse pointer, move forward`);
+                setSteps(steps);
+                await sleep(600);
+            }
+
+            list.reverse();
+            steps.push('Update head to prev');
+            steps.push('✓ List reversed!');
+            setSteps(steps);
+            renderList();
+            setMessage(`List reversed: [${original.join(' → ')}] → [${list.join(' → ')}]`);
+        }
+
+        async function detectCycle() {
+            const steps = [
+                "Floyd's Cycle Detection Algorithm:",
+                'Initialize slow = head, fast = head'
+            ];
+            setMessage("Running Floyd's Cycle Detection...");
+            setSteps(steps);
+            await sleep(800);
+
+            if (!hasCycle) {
+                let slow = 0, fast = 0;
+                
+                while (fast < list.length - 1) {
+                    slow++;
+                    fast += 2;
+                    fast = Math.min(fast, list.length);
+                    
+                    renderList({ slow: Math.min(slow, list.length - 1), fast: Math.min(fast, list.length - 1) });
+                    steps.push(`slow → node[${slow}], fast → node[${fast}]`);
+                    setSteps(steps);
+                    await sleep(600);
+                }
+
+                steps.push('Fast pointer reached end (NULL)');
+                steps.push('✓ No cycle detected!');
+                setSteps(steps);
+                renderList();
+                setMessage('No cycle detected. The list is acyclic.');
+            } else {
+                // Simulate cycle detection
+                let slow = 0, fast = 0;
+                let iteration = 0;
+                
+                while (iteration < 10) {
+                    slow = (slow + 1) % list.length;
+                    fast = (fast + 2) % list.length;
+                    
+                    renderList({ slow, fast });
+                    steps.push(`slow → node[${slow}], fast → node[${fast}]`);
+                    setSteps(steps);
+                    await sleep(600);
+                    
+                    if (slow === fast) {
+                        steps.push('⚠ slow == fast: Pointers meet!');
+                        steps.push('✓ Cycle detected!');
+                        setSteps(steps);
+                        renderList({ found: slow });
+                        setMessage(`Cycle detected! Pointers met at node[${slow}].`);
+                        return;
+                    }
+                    iteration++;
+                }
+            }
+        }
+
+        function createCycle() {
+            if (list.length < 3) {
+                setMessage('Need at least 3 nodes to create a cycle demo.');
+                return;
+            }
+            hasCycle = true;
+            cycleIndex = Math.floor(list.length / 2);
+            renderList();
+            setMessage(`Cycle created! Last node now points to node[${cycleIndex}]. Run "Detect Cycle" to see Floyd's algorithm.`);
+        }
+
+        function resetList() {
+            hasCycle = false;
+            cycleIndex = -1;
+            initList();
+            setMessage('List reset to initial state.');
+            setSteps([]);
+        }
+
+        // Initialize
+        initList();
+    </script>
+</body>
+</html>

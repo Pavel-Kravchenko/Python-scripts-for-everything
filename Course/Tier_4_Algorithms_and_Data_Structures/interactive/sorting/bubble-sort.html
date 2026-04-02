@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Sort - Interactive Visualization</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>🫧 Bubble Sort</h1>
+        <p>Watch elements "bubble up" to their correct positions through repeated swapping</p>
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>›</span>
+            <a href="../index.html#sorting">Sorting</a>
+            <span>›</span>
+            Bubble Sort
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Visualization Panel -->
+            <div class="visualization-panel">
+                <div class="card">
+                    <h2>📊 Visualization</h2>
+                    
+                    <!-- Controls -->
+                    <div class="controls">
+                        <button id="btn-start" class="btn btn-primary" onclick="startSort()">
+                            ▶️ Start
+                        </button>
+                        <button id="btn-pause" class="btn btn-secondary" onclick="pauseSort()" disabled>
+                            ⏸️ Pause
+                        </button>
+                        <button id="btn-step" class="btn btn-secondary" onclick="stepSort()" disabled>
+                            ⏭️ Step
+                        </button>
+                        <button id="btn-reset" class="btn btn-danger" onclick="resetSort()">
+                            🔄 Reset
+                        </button>
+                        <button id="btn-random" class="btn btn-success" onclick="generateNew()">
+                            🎲 New Array
+                        </button>
+                    </div>
+
+                    <div class="controls">
+                        <div class="input-group">
+                            <label for="array-size">Size:</label>
+                            <input type="number" id="array-size" value="10" min="3" max="20" onchange="generateNew()">
+                        </div>
+                        <div class="input-group">
+                            <label for="speed">Speed:</label>
+                            <input type="range" id="speed" min="50" max="1000" value="400" onchange="updateSpeed()">
+                            <span id="speed-label">400ms</span>
+                        </div>
+                        <div class="input-group">
+                            <label for="custom-array">Custom:</label>
+                            <input type="text" id="custom-array" placeholder="e.g., 64,34,25,12,22" style="width: 200px;">
+                            <button class="btn btn-secondary" onclick="useCustomArray()">Use</button>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Area -->
+                    <div id="visualization" class="visualization-canvas"></div>
+
+                    <!-- Legend -->
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color default"></div>
+                            <span>Unsorted</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color comparing"></div>
+                            <span>Comparing</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color swapping"></div>
+                            <span>Swapping</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color sorted"></div>
+                            <span>Sorted</span>
+                        </div>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="stats">
+                        <div class="stat-box">
+                            <div class="label">Comparisons</div>
+                            <div class="value" id="comparisons">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Swaps</div>
+                            <div class="value" id="swaps">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Current Step</div>
+                            <div class="value" id="current-step">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Array Size</div>
+                            <div class="value" id="array-size-display">10</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Algorithm Steps -->
+                <div class="card">
+                    <h2>📝 Execution Steps</h2>
+                    <div id="steps-list" class="steps-list"></div>
+                </div>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="info-panel">
+                <!-- How It Works -->
+                <div class="card">
+                    <h2>💡 How It Works</h2>
+                    <ol>
+                        <li><strong>Compare</strong> adjacent elements</li>
+                        <li>If they're in wrong order, <strong>swap</strong> them</li>
+                        <li>Move to the next pair</li>
+                        <li>After each pass, the largest unsorted element "bubbles up" to its correct position</li>
+                        <li>Repeat until no swaps are needed</li>
+                    </ol>
+                    
+                    <h3>🎯 Key Insight</h3>
+                    <p>After pass <code>i</code>, the <code>i</code> largest elements are in their final positions at the end of the array.</p>
+                </div>
+
+                <!-- Complexity -->
+                <div class="card">
+                    <h2>⏱️ Complexity Analysis</h2>
+                    <table class="complexity-table">
+                        <tr>
+                            <th>Case</th>
+                            <th>Time</th>
+                        </tr>
+                        <tr>
+                            <td>Best</td>
+                            <td class="good">O(n)</td>
+                        </tr>
+                        <tr>
+                            <td>Average</td>
+                            <td class="bad">O(n²)</td>
+                        </tr>
+                        <tr>
+                            <td>Worst</td>
+                            <td class="bad">O(n²)</td>
+                        </tr>
+                        <tr>
+                            <td>Space</td>
+                            <td class="good">O(1)</td>
+                        </tr>
+                    </table>
+                    
+                    <h3>Properties</h3>
+                    <ul>
+                        <li>✅ <strong>Stable:</strong> Equal elements maintain relative order</li>
+                        <li>✅ <strong>In-place:</strong> O(1) extra space</li>
+                        <li>✅ <strong>Adaptive:</strong> O(n) when nearly sorted</li>
+                        <li>❌ <strong>Not efficient:</strong> Poor for large datasets</li>
+                    </ul>
+                </div>
+
+                <!-- Code -->
+                <div class="card">
+                    <h2>💻 Python Code</h2>
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>bubble_sort.py</span>
+                            <span class="language">Python</span>
+                        </div>
+                        <pre><code><span class="code-line" id="line-1"><span class="line-number">1</span><span class="keyword">def</span> <span class="function">bubble_sort</span>(arr):</span>
+<span class="code-line" id="line-2"><span class="line-number">2</span>    n = <span class="function">len</span>(arr)</span>
+<span class="code-line" id="line-3"><span class="line-number">3</span>    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(n - <span class="number">1</span>):</span>
+<span class="code-line" id="line-4"><span class="line-number">4</span>        swapped = <span class="keyword">False</span></span>
+<span class="code-line" id="line-5"><span class="line-number">5</span>        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="function">range</span>(n - i - <span class="number">1</span>):</span>
+<span class="code-line" id="line-6"><span class="line-number">6</span>            <span class="keyword">if</span> arr[j] > arr[j + <span class="number">1</span>]:</span>
+<span class="code-line" id="line-7"><span class="line-number">7</span>                arr[j], arr[j+<span class="number">1</span>] = arr[j+<span class="number">1</span>], arr[j]</span>
+<span class="code-line" id="line-8"><span class="line-number">8</span>                swapped = <span class="keyword">True</span></span>
+<span class="code-line" id="line-9"><span class="line-number">9</span>        <span class="keyword">if not</span> swapped:</span>
+<span class="code-line" id="line-10"><span class="line-number">10</span>            <span class="keyword">break</span>  <span class="comment"># Already sorted!</span></span>
+<span class="code-line" id="line-11"><span class="line-number">11</span>    <span class="keyword">return</span> arr</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- When to Use -->
+                <div class="card">
+                    <h2>🤔 When to Use</h2>
+                    <h3>✅ Good For:</h3>
+                    <ul>
+                        <li>Educational purposes</li>
+                        <li>Very small arrays (n < 20)</li>
+                        <li>Nearly sorted data</li>
+                        <li>When simplicity matters more than speed</li>
+                    </ul>
+                    
+                    <h3>❌ Avoid When:</h3>
+                    <ul>
+                        <li>Large datasets</li>
+                        <li>Performance is critical</li>
+                        <li>Data is randomly ordered</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        let visualizer;
+        let currentArray = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            visualizer = new SortingVisualizer('visualization', {
+                speed: 400,
+                onComplete: onSortComplete
+            });
+            generateNew();
+        });
+
+        function generateNew() {
+            const size = parseInt(document.getElementById('array-size').value) || 10;
+            currentArray = generateRandomArray(size, 5, 99);
+            visualizer.setArray(currentArray);
+            visualizer.render();
+            document.getElementById('array-size-display').textContent = size;
+            resetButtons();
+            visualizer.clearSteps();
+        }
+
+        function useCustomArray() {
+            const input = document.getElementById('custom-array').value;
+            const arr = parseArrayInput(input);
+            if (arr.length >= 2) {
+                currentArray = arr;
+                visualizer.setArray(currentArray);
+                visualizer.render();
+                document.getElementById('array-size').value = arr.length;
+                document.getElementById('array-size-display').textContent = arr.length;
+                resetButtons();
+                visualizer.clearSteps();
+            } else {
+                alert('Please enter at least 2 valid numbers (1-100), comma-separated.');
+            }
+        }
+
+        async function startSort() {
+            if (visualizer.isRunning && visualizer.isPaused) {
+                visualizer.resume();
+                updateButtonStates(true, false);
+                return;
+            }
+            
+            visualizer.setArray(currentArray);
+            updateButtonStates(true, false);
+            await visualizer.bubbleSort();
+        }
+
+        function pauseSort() {
+            visualizer.pause();
+            updateButtonStates(true, true);
+        }
+
+        function stepSort() {
+            if (!visualizer.isRunning) {
+                visualizer.isStepping = true;
+                visualizer.setArray(currentArray);
+                updateButtonStates(true, false);
+                visualizer.bubbleSort();
+            } else {
+                visualizer.step();
+            }
+        }
+
+        function resetSort() {
+            visualizer.stop();
+            visualizer.setArray(currentArray);
+            visualizer.render();
+            resetButtons();
+            visualizer.clearSteps();
+        }
+
+        function updateSpeed() {
+            const speed = 1050 - parseInt(document.getElementById('speed').value);
+            visualizer.setSpeed(speed);
+            document.getElementById('speed-label').textContent = speed + 'ms';
+        }
+
+        function updateButtonStates(running, paused) {
+            document.getElementById('btn-start').disabled = running && !paused;
+            document.getElementById('btn-start').textContent = paused ? '▶️ Resume' : '▶️ Start';
+            document.getElementById('btn-pause').disabled = !running || paused;
+            document.getElementById('btn-step').disabled = false;
+        }
+
+        function resetButtons() {
+            document.getElementById('btn-start').disabled = false;
+            document.getElementById('btn-start').textContent = '▶️ Start';
+            document.getElementById('btn-pause').disabled = true;
+            document.getElementById('btn-step').disabled = false;
+        }
+
+        function onSortComplete() {
+            resetButtons();
+            document.getElementById('btn-step').disabled = true;
+        }
+    </script>
+</body>
+</html>

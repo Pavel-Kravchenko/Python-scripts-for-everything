@@ -1,0 +1,127 @@
+# ==== Protein Structure Presentation Script ====
+# Run in Jmol with: script "protein_presentation.spt"
+# 
+# This script demonstrates key protein features including
+# secondary structure, ligand binding, and hydrogen bonds.
+
+# ===== INITIALIZATION =====
+reset
+background white
+# load "YOUR_PROTEIN.pdb"  # Uncomment and specify your PDB file
+
+# ===== SCENE 1: Overview =====
+set echo top center
+font echo 20 sans bold
+color echo black
+
+select all
+cartoon only
+color chains
+echo "Overview: Protein chains"
+delay 3
+pause
+
+# ===== SCENE 2: Secondary Structure =====
+color structure
+# Helix = red/magenta, Sheet = yellow, Coil = white
+echo "Secondary Structure"
+delay 3
+pause
+
+# ===== SCENE 3: Cartoon + Ligand =====
+select ligand
+wireframe 0.15
+spacefill 0.25
+color cpk
+echo "Ligand binding"
+delay 3
+pause
+
+# ===== SCENE 4: Active Site Detail =====
+select within(7.0, ligand) and protein
+restrict selected or ligand
+cartoon off
+wireframe 0.1
+spacefill 0.15
+color cpk
+center selected
+
+hbonds calculate
+hbonds 0.1
+color hbonds yellow
+
+echo "Active site residues and H-bonds"
+delay 3
+pause
+
+# ===== SCENE 5: Alpha Helix Detail =====
+reset
+# load "YOUR_PROTEIN.pdb"
+select helix
+restrict selected
+cartoon only
+color structure
+
+# Show backbone H-bonds in helix
+select helix
+hbonds calculate
+hbonds 0.08
+color hbonds cyan
+
+echo "Alpha helix: i to i+4 hydrogen bonding"
+delay 3
+pause
+
+# ===== SCENE 6: Beta Sheet Detail =====
+reset
+# load "YOUR_PROTEIN.pdb"
+select sheet
+restrict selected
+cartoon only
+color yellow
+
+hbonds calculate
+hbonds 0.08
+color hbonds cyan
+
+echo "Beta sheet: inter-strand H-bonds"
+delay 3
+pause
+
+# ===== SCENE 7: Surface View =====
+reset
+# load "YOUR_PROTEIN.pdb"
+select protein
+spacefill only
+color cpk
+
+echo "Van der Waals surface"
+delay 3
+pause
+
+# ===== SCENE 8: Hydrophobic Residues =====
+reset
+# load "YOUR_PROTEIN.pdb"
+select protein
+cartoon only
+color lightgrey
+
+# Highlight hydrophobic residues
+select ile or val or leu or phe or met or ala or trp or pro
+color green
+spacefill 0.4
+
+echo "Hydrophobic residues (green)"
+delay 3
+pause
+
+# ===== FINAL: Spinning View =====
+reset
+# load "YOUR_PROTEIN.pdb"
+select all
+cartoon only
+color chains
+spin on
+
+echo "Complete structure"
+# Script ends - structure continues spinning

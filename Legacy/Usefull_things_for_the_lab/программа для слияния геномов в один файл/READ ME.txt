@@ -1,0 +1,3 @@
+The program take two name of in files with several chromosome sequense from the console.
+Next you need to type the out directory name.
+My program will merge thise two sequences into paired files. 

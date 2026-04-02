@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trie (Prefix Tree) - Interactive Visualization</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 10px; color: #4ecdc4; }
+        .subtitle { text-align: center; color: #888; margin-bottom: 20px; }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+        input[type="text"] {
+            width: 150px;
+            padding: 10px;
+            border: 2px solid #4ecdc4;
+            border-radius: 5px;
+            background: #2d3748;
+            color: #fff;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn-primary { background: #4ecdc4; color: #1a1a2e; }
+        .btn-primary:hover { background: #3dbdb5; }
+        .btn-secondary { background: #6c5ce7; color: #fff; }
+        .btn-secondary:hover { background: #5b4cdb; }
+        .btn-danger { background: #ff6b6b; color: #fff; }
+        .btn-danger:hover { background: #ee5a5a; }
+        .btn-warning { background: #f39c12; color: #fff; }
+        .btn-warning:hover { background: #e08e0b; }
+        
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .speed-control input[type="range"] { width: 100px; }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 20px;
+        }
+        
+        .visualization-area {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 550px;
+            overflow: auto;
+        }
+        
+        .canvas-container {
+            width: 100%;
+            min-height: 500px;
+            position: relative;
+        }
+        canvas {
+            display: block;
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .info-panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .info-panel h3 {
+            color: #4ecdc4;
+            margin-bottom: 10px;
+            font-size: 14px;
+            border-bottom: 1px solid #4a5568;
+            padding-bottom: 5px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .stat-item {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .stat-value { font-size: 20px; font-weight: bold; color: #4ecdc4; }
+        .stat-label { font-size: 11px; color: #888; }
+        
+        .word-list {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .word-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-family: monospace;
+        }
+        .word-item .word { color: #95e1d3; }
+        .word-item .delete-btn {
+            background: #ff6b6b;
+            border: none;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .word-item .delete-btn:hover { background: #ee5a5a; }
+        
+        .search-results {
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 13px;
+            min-height: 60px;
+        }
+        .search-results .found { color: #95e1d3; }
+        .search-results .not-found { color: #ff6b6b; }
+        .search-results .prefix-matches { color: #f39c12; }
+        
+        .log-container {
+            max-height: 150px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 11px;
+        }
+        .log-entry {
+            padding: 4px;
+            border-bottom: 1px solid #2d3748;
+        }
+        .log-entry.insert { color: #95e1d3; }
+        .log-entry.search { color: #6c5ce7; }
+        .log-entry.delete { color: #ff6b6b; }
+        .log-entry.traverse { color: #f39c12; }
+        
+        .presets {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        .preset-btn {
+            padding: 5px 10px;
+            font-size: 11px;
+            background: #4a5568;
+            border: none;
+            color: white;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .preset-btn:hover { background: #5a6678; }
+        
+        .legend {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 12px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        @media (max-width: 1000px) {
+            .main-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌳 Trie (Prefix Tree)</h1>
+        <p class="subtitle">Efficient data structure for string storage and prefix-based retrieval</p>
+        
+        <div class="controls">
+            <input type="text" id="wordInput" placeholder="Enter word" maxlength="12">
+            <button class="btn-primary" onclick="insertWord()">Insert</button>
+            <button class="btn-secondary" onclick="searchWord()">Search</button>
+            <button class="btn-warning" onclick="searchPrefix()">Find Prefix</button>
+            <button class="btn-danger" onclick="deleteWord()">Delete</button>
+            <button class="btn-secondary" onclick="resetTrie()">Reset</button>
+            <div class="speed-control">
+                <span>Speed:</span>
+                <input type="range" id="speed" min="1" max="10" value="5">
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="visualization-area">
+                <div class="canvas-container">
+                    <canvas id="trieCanvas"></canvas>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="info-panel">
+                    <h3>📊 Statistics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="wordCount">0</div>
+                            <div class="stat-label">Words</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="nodeCount">1</div>
+                            <div class="stat-label">Nodes</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>🎯 Quick Insert</h3>
+                    <div class="presets">
+                        <button class="preset-btn" onclick="insertPreset(['cat', 'car', 'card', 'care'])">cat, car, card, care</button>
+                        <button class="preset-btn" onclick="insertPreset(['apple', 'app', 'apply', 'apt'])">apple, app, apply, apt</button>
+                        <button class="preset-btn" onclick="insertPreset(['to', 'tea', 'ted', 'ten', 'i', 'in', 'inn'])">to, tea, ted, ten...</button>
+                    </div>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>🔍 Search Results</h3>
+                    <div class="search-results" id="searchResults">
+                        Enter a word and click Search or Find Prefix
+                    </div>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>📚 Words in Trie</h3>
+                    <div class="word-list" id="wordList">
+                        <div style="color: #888; font-style: italic;">No words inserted yet</div>
+                    </div>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>🎨 Legend</h3>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: #4a5568; border: 2px solid #718096;"></div>
+                            <span>Node</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: #48bb78;"></div>
+                            <span>End of Word</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: #4ecdc4;"></div>
+                            <span>Current</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot" style="background: #f39c12;"></div>
+                            <span>Found</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-panel">
+                    <h3>📜 Operation Log</h3>
+                    <div class="log-container" id="logContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class TrieNode {
+            constructor() {
+                this.children = {};
+                this.isEndOfWord = false;
+                this.x = 0;
+                this.y = 0;
+            }
+        }
+        
+        class Trie {
+            constructor() {
+                this.root = new TrieNode();
+                this.wordCount = 0;
+                this.nodeCount = 1;
+            }
+            
+            insert(word) {
+                let node = this.root;
+                for (const char of word.toLowerCase()) {
+                    if (!node.children[char]) {
+                        node.children[char] = new TrieNode();
+                        this.nodeCount++;
+                    }
+                    node = node.children[char];
+                }
+                if (!node.isEndOfWord) {
+                    node.isEndOfWord = true;
+                    this.wordCount++;
+                    return true;
+                }
+                return false;
+            }
+            
+            search(word) {
+                let node = this.root;
+                for (const char of word.toLowerCase()) {
+                    if (!node.children[char]) return false;
+                    node = node.children[char];
+                }
+                return node.isEndOfWord;
+            }
+            
+            startsWith(prefix) {
+                let node = this.root;
+                for (const char of prefix.toLowerCase()) {
+                    if (!node.children[char]) return null;
+                    node = node.children[char];
+                }
+                return node;
+            }
+            
+            getAllWords() {
+                const words = [];
+                const dfs = (node, prefix) => {
+                    if (node.isEndOfWord) words.push(prefix);
+                    for (const [char, child] of Object.entries(node.children)) {
+                        dfs(child, prefix + char);
+                    }
+                };
+                dfs(this.root, '');
+                return words.sort();
+            }
+            
+            getWordsWithPrefix(prefix) {
+                const node = this.startsWith(prefix);
+                if (!node) return [];
+                const words = [];
+                const dfs = (n, p) => {
+                    if (n.isEndOfWord) words.push(p);
+                    for (const [char, child] of Object.entries(n.children)) {
+                        dfs(child, p + char);
+                    }
+                };
+                dfs(node, prefix.toLowerCase());
+                return words.sort();
+            }
+            
+            delete(word) {
+                const deleteHelper = (node, word, depth) => {
+                    if (!node) return false;
+                    
+                    if (depth === word.length) {
+                        if (!node.isEndOfWord) return false;
+                        node.isEndOfWord = false;
+                        this.wordCount--;
+                        return Object.keys(node.children).length === 0;
+                    }
+                    
+                    const char = word[depth];
+                    if (!node.children[char]) return false;
+                    
+                    const shouldDeleteChild = deleteHelper(node.children[char], word, depth + 1);
+                    
+                    if (shouldDeleteChild) {
+                        delete node.children[char];
+                        this.nodeCount--;
+                        return !node.isEndOfWord && Object.keys(node.children).length === 0;
+                    }
+                    
+                    return false;
+                };
+                
+                return deleteHelper(this.root, word.toLowerCase(), 0);
+            }
+        }
+        
+        const canvas = document.getElementById('trieCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let trie = new Trie();
+        let isAnimating = false;
+        let highlightPath = [];
+        let foundNode = null;
+        
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = Math.max(container.clientWidth, 800);
+            canvas.height = Math.max(500, 100 + getTreeDepth() * 80);
+            render();
+        }
+        
+        function getTreeDepth() {
+            let maxDepth = 0;
+            const dfs = (node, depth) => {
+                maxDepth = Math.max(maxDepth, depth);
+                for (const child of Object.values(node.children)) {
+                    dfs(child, depth + 1);
+                }
+            };
+            dfs(trie.root, 0);
+            return maxDepth;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        
+        function getDelay() {
+            const speed = document.getElementById('speed').value;
+            return 1100 - speed * 100;
+        }
+        
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        function log(message, type = '') {
+            const container = document.getElementById('logContainer');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = message;
+            container.insertBefore(entry, container.firstChild);
+            if (container.children.length > 50) {
+                container.removeChild(container.lastChild);
+            }
+        }
+        
+        function updateStats() {
+            document.getElementById('wordCount').textContent = trie.wordCount;
+            document.getElementById('nodeCount').textContent = trie.nodeCount;
+        }
+        
+        function updateWordList() {
+            const container = document.getElementById('wordList');
+            const words = trie.getAllWords();
+            
+            if (words.length === 0) {
+                container.innerHTML = '<div style="color: #888; font-style: italic;">No words inserted yet</div>';
+                return;
+            }
+            
+            container.innerHTML = words.map(word => `
+                <div class="word-item">
+                    <span class="word">${word}</span>
+                    <button class="delete-btn" onclick="deleteWordDirect('${word}')">×</button>
+                </div>
+            `).join('');
+        }
+        
+        async function insertWord() {
+            if (isAnimating) return;
+            const input = document.getElementById('wordInput');
+            const word = input.value.trim().toLowerCase();
+            
+            if (!word || !/^[a-z]+$/.test(word)) {
+                alert('Please enter a valid word (letters only)');
+                return;
+            }
+            
+            isAnimating = true;
+            highlightPath = [];
+            foundNode = null;
+            log(`Inserting "${word}"`, 'insert');
+            
+            let node = trie.root;
+            highlightPath.push({ node, char: 'root' });
+            render();
+            await sleep(getDelay());
+            
+            for (let i = 0; i < word.length; i++) {
+                const char = word[i];
+                log(`Traversing to '${char}'`, 'traverse');
+                
+                if (!node.children[char]) {
+                    node.children[char] = new TrieNode();
+                    trie.nodeCount++;
+                    log(`Created new node for '${char}'`, 'insert');
+                }
+                
+                node = node.children[char];
+                highlightPath.push({ node, char });
+                resizeCanvas();
+                render();
+                await sleep(getDelay());
+            }
+            
+            if (!node.isEndOfWord) {
+                node.isEndOfWord = true;
+                trie.wordCount++;
+                log(`Marked end of word "${word}"`, 'insert');
+            } else {
+                log(`"${word}" already exists`, 'search');
+            }
+            
+            foundNode = node;
+            render();
+            await sleep(getDelay() * 2);
+            
+            highlightPath = [];
+            foundNode = null;
+            render();
+            updateStats();
+            updateWordList();
+            isAnimating = false;
+            input.value = '';
+        }
+        
+        async function searchWord() {
+            if (isAnimating) return;
+            const input = document.getElementById('wordInput');
+            const word = input.value.trim().toLowerCase();
+            
+            if (!word || !/^[a-z]+$/.test(word)) {
+                alert('Please enter a valid word (letters only)');
+                return;
+            }
+            
+            isAnimating = true;
+            highlightPath = [];
+            foundNode = null;
+            log(`Searching for "${word}"`, 'search');
+            
+            let node = trie.root;
+            highlightPath.push({ node, char: 'root' });
+            render();
+            await sleep(getDelay());
+            
+            let found = true;
+            for (let i = 0; i < word.length; i++) {
+                const char = word[i];
+                log(`Looking for '${char}'`, 'traverse');
+                
+                if (!node.children[char]) {
+                    log(`'${char}' not found - word doesn't exist`, 'delete');
+                    found = false;
+                    break;
+                }
+                
+                node = node.children[char];
+                highlightPath.push({ node, char });
+                render();
+                await sleep(getDelay());
+            }
+            
+            const resultsDiv = document.getElementById('searchResults');
+            if (found && node.isEndOfWord) {
+                foundNode = node;
+                log(`Found "${word}"!`, 'search');
+                resultsDiv.innerHTML = `<span class="found">✓ "${word}" found in trie</span>`;
+            } else if (found) {
+                log(`"${word}" is a prefix but not a complete word`, 'traverse');
+                resultsDiv.innerHTML = `<span class="not-found">✗ "${word}" is a prefix only, not a complete word</span>`;
+            } else {
+                resultsDiv.innerHTML = `<span class="not-found">✗ "${word}" not found</span>`;
+            }
+            
+            render();
+            await sleep(getDelay() * 2);
+            
+            highlightPath = [];
+            foundNode = null;
+            render();
+            isAnimating = false;
+        }
+        
+        async function searchPrefix() {
+            if (isAnimating) return;
+            const input = document.getElementById('wordInput');
+            const prefix = input.value.trim().toLowerCase();
+            
+            if (!prefix || !/^[a-z]+$/.test(prefix)) {
+                alert('Please enter a valid prefix (letters only)');
+                return;
+            }
+            
+            isAnimating = true;
+            highlightPath = [];
+            foundNode = null;
+            log(`Finding words with prefix "${prefix}"`, 'search');
+            
+            let node = trie.root;
+            highlightPath.push({ node, char: 'root' });
+            render();
+            await sleep(getDelay());
+            
+            let found = true;
+            for (let i = 0; i < prefix.length; i++) {
+                const char = prefix[i];
+                log(`Traversing '${char}'`, 'traverse');
+                
+                if (!node.children[char]) {
+                    log(`No words with prefix "${prefix}"`, 'delete');
+                    found = false;
+                    break;
+                }
+                
+                node = node.children[char];
+                highlightPath.push({ node, char });
+                render();
+                await sleep(getDelay());
+            }
+            
+            const resultsDiv = document.getElementById('searchResults');
+            if (found) {
+                const words = trie.getWordsWithPrefix(prefix);
+                if (words.length > 0) {
+                    log(`Found ${words.length} words with prefix "${prefix}"`, 'search');
+                    resultsDiv.innerHTML = `<span class="prefix-matches">Words with "${prefix}": ${words.join(', ')}</span>`;
+                } else {
+                    resultsDiv.innerHTML = `<span class="not-found">No complete words with prefix "${prefix}"</span>`;
+                }
+            } else {
+                resultsDiv.innerHTML = `<span class="not-found">No words with prefix "${prefix}"</span>`;
+            }
+            
+            render();
+            await sleep(getDelay() * 2);
+            
+            highlightPath = [];
+            foundNode = null;
+            render();
+            isAnimating = false;
+        }
+        
+        async function deleteWord() {
+            if (isAnimating) return;
+            const input = document.getElementById('wordInput');
+            const word = input.value.trim().toLowerCase();
+            
+            if (!word || !/^[a-z]+$/.test(word)) {
+                alert('Please enter a valid word (letters only)');
+                return;
+            }
+            
+            await deleteWordDirect(word);
+            input.value = '';
+        }
+        
+        async function deleteWordDirect(word) {
+            if (isAnimating) return;
+            
+            if (!trie.search(word)) {
+                document.getElementById('searchResults').innerHTML = 
+                    `<span class="not-found">✗ "${word}" not in trie</span>`;
+                return;
+            }
+            
+            isAnimating = true;
+            log(`Deleting "${word}"`, 'delete');
+            
+            trie.delete(word);
+            resizeCanvas();
+            render();
+            
+            document.getElementById('searchResults').innerHTML = 
+                `<span class="found">✓ "${word}" deleted</span>`;
+            
+            updateStats();
+            updateWordList();
+            
+            await sleep(getDelay());
+            isAnimating = false;
+        }
+        
+        async function insertPreset(words) {
+            if (isAnimating) return;
+            
+            for (const word of words) {
+                trie.insert(word);
+            }
+            
+            log(`Inserted: ${words.join(', ')}`, 'insert');
+            resizeCanvas();
+            render();
+            updateStats();
+            updateWordList();
+        }
+        
+        function resetTrie() {
+            if (isAnimating) return;
+            trie = new Trie();
+            highlightPath = [];
+            foundNode = null;
+            document.getElementById('logContainer').innerHTML = '';
+            document.getElementById('searchResults').innerHTML = 'Enter a word and click Search or Find Prefix';
+            updateStats();
+            updateWordList();
+            resizeCanvas();
+            render();
+        }
+        
+        function calculatePositions() {
+            const nodeRadius = 20;
+            const levelHeight = 80;
+            const minSpacing = 50;
+            
+            // Calculate width needed for each subtree
+            const calcWidth = (node) => {
+                const children = Object.values(node.children);
+                if (children.length === 0) return minSpacing;
+                let width = 0;
+                for (const child of children) {
+                    width += calcWidth(child);
+                }
+                return Math.max(width, minSpacing);
+            };
+            
+            // Assign positions
+            const assignPositions = (node, x, y, availableWidth) => {
+                node.x = x;
+                node.y = y;
+                
+                const children = Object.entries(node.children).sort((a, b) => a[0].localeCompare(b[0]));
+                if (children.length === 0) return;
+                
+                let totalWidth = 0;
+                const widths = [];
+                for (const [, child] of children) {
+                    const w = calcWidth(child);
+                    widths.push(w);
+                    totalWidth += w;
+                }
+                
+                let currentX = x - totalWidth / 2;
+                for (let i = 0; i < children.length; i++) {
+                    const [, child] = children[i];
+                    const childX = currentX + widths[i] / 2;
+                    assignPositions(child, childX, y + levelHeight, widths[i]);
+                    currentX += widths[i];
+                }
+            };
+            
+            const totalWidth = calcWidth(trie.root);
+            assignPositions(trie.root, canvas.width / 2, 50, totalWidth);
+        }
+        
+        function render() {
+            calculatePositions();
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (trie.nodeCount === 1) {
+                ctx.fillStyle = '#888';
+                ctx.font = '16px Segoe UI';
+                ctx.textAlign = 'center';
+                ctx.fillText('Trie is empty. Insert words to visualize.', canvas.width / 2, canvas.height / 2);
+                
+                // Draw root node
+                ctx.beginPath();
+                ctx.arc(canvas.width / 2, 50, 20, 0, Math.PI * 2);
+                ctx.fillStyle = '#2d3748';
+                ctx.fill();
+                ctx.strokeStyle = '#4a5568';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px Segoe UI';
+                ctx.fillText('ε', canvas.width / 2, 54);
+                return;
+            }
+            
+            const highlightNodes = new Set(highlightPath.map(p => p.node));
+            
+            // Draw edges
+            const drawEdges = (node) => {
+                for (const [char, child] of Object.entries(node.children)) {
+                    const isHighlighted = highlightNodes.has(node) && highlightNodes.has(child);
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(node.x, node.y + 20);
+                    ctx.lineTo(child.x, child.y - 20);
+                    ctx.strokeStyle = isHighlighted ? '#4ecdc4' : '#4a5568';
+                    ctx.lineWidth = isHighlighted ? 3 : 2;
+                    ctx.stroke();
+                    
+                    // Draw edge label
+                    const midX = (node.x + child.x) / 2;
+                    const midY = (node.y + child.y) / 2;
+                    ctx.fillStyle = isHighlighted ? '#4ecdc4' : '#888';
+                    ctx.font = 'bold 14px Segoe UI';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(char, midX + 10, midY);
+                    
+                    drawEdges(child);
+                }
+            };
+            drawEdges(trie.root);
+            
+            // Draw nodes
+            const drawNodes = (node) => {
+                const isHighlighted = highlightNodes.has(node);
+                const isFound = node === foundNode;
+                
+                // Determine colors
+                let fillColor = '#2d3748';
+                let borderColor = '#4a5568';
+                
+                if (isFound) {
+                    fillColor = 'rgba(243,156,18,0.5)';
+                    borderColor = '#f39c12';
+                } else if (isHighlighted) {
+                    fillColor = 'rgba(78,205,196,0.3)';
+                    borderColor = '#4ecdc4';
+                } else if (node.isEndOfWord) {
+                    fillColor = 'rgba(72,187,120,0.3)';
+                    borderColor = '#48bb78';
+                }
+                
+                // Draw node circle
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, 20, 0, Math.PI * 2);
+                ctx.fillStyle = fillColor;
+                ctx.fill();
+                ctx.strokeStyle = borderColor;
+                ctx.lineWidth = node.isEndOfWord || isHighlighted ? 3 : 2;
+                ctx.stroke();
+                
+                // Draw end-of-word indicator
+                if (node.isEndOfWord) {
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, 8, 0, Math.PI * 2);
+                    ctx.fillStyle = '#48bb78';
+                    ctx.fill();
+                }
+                
+                // Root label
+                if (node === trie.root) {
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 12px Segoe UI';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('ε', node.x, node.y);
+                }
+                
+                for (const child of Object.values(node.children)) {
+                    drawNodes(child);
+                }
+            };
+            drawNodes(trie.root);
+        }
+        
+        // Initialize
+        updateStats();
+        updateWordList();
+        render();
+        
+        // Enter key support
+        document.getElementById('wordInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') insertWord();
+        });
+    </script>
+</body>
+</html>

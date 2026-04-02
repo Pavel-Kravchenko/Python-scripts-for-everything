@@ -1,0 +1,11 @@
+gene_id,organism,chromosome,start,end,strand,gc_content,gene_name
+BRCA1,Homo sapiens,17,43044295,43125483,-,42.5,breast cancer 1
+TP53,Homo sapiens,17,7661779,7687538,-,48.7,tumor protein p53
+EGFR,Homo sapiens,7,55019021,55211628,+,55.1,epidermal growth factor receptor
+MYC,Homo sapiens,8,127735434,127741434,+,51.2,MYC proto-oncogene
+KRAS,Homo sapiens,12,25205246,25250936,-,47.3,KRAS proto-oncogene
+BRAF,Homo sapiens,7,140719327,140924764,-,44.8,B-Raf proto-oncogene
+PIK3CA,Homo sapiens,3,179148114,179240093,+,49.5,phosphatidylinositol-4,5-bisphosphate 3-kinase catalytic subunit alpha
+PTEN,Homo sapiens,10,87863438,87971930,+,46.2,phosphatase and tensin homolog
+RB1,Homo sapiens,13,48303747,48481890,-,43.1,RB transcriptional corepressor 1
+APC,Homo sapiens,5,112707498,112846239,+,45.8,APC regulator of WNT signaling pathway

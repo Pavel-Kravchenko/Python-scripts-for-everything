@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files (large/binary) - add exceptions as needed
+*.pkl
+*.h5
+*.hdf5
+*.parquet
+*.feather
+
+# Bioinformatics large files
+*.bam
+*.bai
+*.sam
+*.bed
+*.bedpe
+*.bigwig
+*.bw
+*.vcf.gz
+*.fastq
+*.fq
+*.cif
+
+# Large sequence files (>10MB) - use Git LFS or download separately
+Data/sequences/X5.fasta
+Data/sequences/sra_data.fasta
+
+# Images and outputs (uncomment if you want to exclude)
+# *.png
+# *.pdf
+# *.jpg
+# *.jpeg
+# *.svg
+# *.tiff
+# *.tif
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.gz
+*.bz2

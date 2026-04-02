@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linear Sorting Algorithms</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .sort-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 300px;
+            gap: 3px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .bar {
+            width: 40px;
+            background: linear-gradient(180deg, #3498db, #2980b9);
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            position: relative;
+        }
+        .bar .value {
+            padding: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .bar.highlight {
+            background: linear-gradient(180deg, #e74c3c, #c0392b);
+        }
+        .bar.sorted {
+            background: linear-gradient(180deg, #27ae60, #1e8449);
+        }
+        .bar.bucket-0 { background: linear-gradient(180deg, #9b59b6, #8e44ad); }
+        .bar.bucket-1 { background: linear-gradient(180deg, #3498db, #2980b9); }
+        .bar.bucket-2 { background: linear-gradient(180deg, #1abc9c, #16a085); }
+        .bar.bucket-3 { background: linear-gradient(180deg, #f39c12, #d68910); }
+        .bar.bucket-4 { background: linear-gradient(180deg, #e74c3c, #c0392b); }
+        
+        .count-array {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .count-cell {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        .count-cell.highlight {
+            background: #fff3cd;
+            border-color: #f39c12;
+            transform: scale(1.1);
+        }
+        .count-cell .index {
+            font-size: 0.7rem;
+            color: #7f8c8d;
+        }
+        .count-cell .count {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .buckets-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .bucket {
+            border: 2px solid #9b59b6;
+            border-radius: 8px;
+            padding: 10px;
+            min-width: 80px;
+            min-height: 100px;
+            background: #f8f9fa;
+        }
+        .bucket-label {
+            text-align: center;
+            font-weight: bold;
+            color: #9b59b6;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        .bucket-items {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+        }
+        .bucket-item {
+            padding: 5px 15px;
+            background: #9b59b6;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .digit-highlight {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .digit-box {
+            padding: 15px 25px;
+            font-size: 1.5rem;
+            font-family: monospace;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+        }
+        .digit-box .current-digit {
+            color: #e74c3c;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tabs button {
+            padding: 12px 25px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #7f8c8d;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+        .tabs button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        .tabs button:hover:not(.active) {
+            color: #2c3e50;
+        }
+        .phase-indicator {
+            text-align: center;
+            padding: 15px;
+            background: #e8f4fd;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        .step-info {
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        .comparison-table th {
+            background: #3498db;
+            color: white;
+        }
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Index</a>
+        
+        <h1>📊 Linear-Time Sorting Algorithms</h1>
+        
+        <div class="card">
+            <h2>Beyond Comparison Sorting</h2>
+            <p>Comparison-based sorts (like QuickSort, MergeSort) have a theoretical lower bound of <strong>O(n log n)</strong>. 
+               Linear-time sorting algorithms achieve <strong>O(n)</strong> by not comparing elements directly, but instead using 
+               properties of the data (like digit values or ranges).</p>
+            
+            <table class="comparison-table">
+                <tr>
+                    <th>Algorithm</th>
+                    <th>Time</th>
+                    <th>Space</th>
+                    <th>Stable</th>
+                    <th>Best For</th>
+                </tr>
+                <tr>
+                    <td><strong>Counting Sort</strong></td>
+                    <td>O(n + k)</td>
+                    <td>O(k)</td>
+                    <td>✅ Yes</td>
+                    <td>Small range integers</td>
+                </tr>
+                <tr>
+                    <td><strong>Radix Sort</strong></td>
+                    <td>O(d × n)</td>
+                    <td>O(n + k)</td>
+                    <td>✅ Yes</td>
+                    <td>Fixed-length integers/strings</td>
+                </tr>
+                <tr>
+                    <td><strong>Bucket Sort</strong></td>
+                    <td>O(n + k)</td>
+                    <td>O(n)</td>
+                    <td>✅ Yes</td>
+                    <td>Uniformly distributed data</td>
+                </tr>
+            </table>
+            <p style="color: #7f8c8d; font-size: 0.9rem;">
+                k = range of values, d = number of digits
+            </p>
+        </div>
+
+        <div class="card">
+            <div class="tabs">
+                <button class="active" onclick="switchAlgorithm('counting')">Counting Sort</button>
+                <button onclick="switchAlgorithm('radix')">Radix Sort</button>
+                <button onclick="switchAlgorithm('bucket')">Bucket Sort</button>
+            </div>
+
+            <!-- Counting Sort -->
+            <div id="counting-tab">
+                <h3>Counting Sort</h3>
+                <p>Count occurrences of each value, then reconstruct the sorted array.</p>
+                
+                <div class="controls" style="display: flex; gap: 10px; flex-wrap: wrap; margin: 15px 0;">
+                    <button class="btn btn-primary" onclick="startCountingSort()">▶ Start</button>
+                    <button class="btn btn-secondary" onclick="stepCountingSort()">Step</button>
+                    <button class="btn btn-secondary" onclick="resetCountingSort()">Reset</button>
+                    <input type="range" id="counting-speed" min="100" max="1000" value="500" style="width: 150px;">
+                    <span>Speed</span>
+                </div>
+
+                <div class="phase-indicator" id="counting-phase">
+                    Click Start or Step to begin
+                </div>
+
+                <h4>Input Array:</h4>
+                <div class="sort-container" id="counting-array"></div>
+
+                <h4>Count Array:</h4>
+                <div class="count-array" id="count-array"></div>
+
+                <h4>Output Array:</h4>
+                <div class="sort-container" id="counting-output"></div>
+
+                <div class="step-info" id="counting-info">
+                    Counting Sort works in 3 phases:<br>
+                    1. <strong>Count:</strong> Count occurrences of each value<br>
+                    2. <strong>Cumulative:</strong> Convert counts to positions<br>
+                    3. <strong>Build:</strong> Place elements in sorted positions
+                </div>
+            </div>
+
+            <!-- Radix Sort -->
+            <div id="radix-tab" style="display: none;">
+                <h3>Radix Sort (LSD)</h3>
+                <p>Sort by each digit position, from least significant to most significant.</p>
+                
+                <div class="controls" style="display: flex; gap: 10px; flex-wrap: wrap; margin: 15px 0;">
+                    <button class="btn btn-primary" onclick="startRadixSort()">▶ Start</button>
+                    <button class="btn btn-secondary" onclick="stepRadixSort()">Step</button>
+                    <button class="btn btn-secondary" onclick="resetRadixSort()">Reset</button>
+                    <input type="range" id="radix-speed" min="100" max="1000" value="500" style="width: 150px;">
+                    <span>Speed</span>
+                </div>
+
+                <div class="phase-indicator" id="radix-phase">
+                    Click Start or Step to begin
+                </div>
+
+                <div class="digit-highlight" id="digit-display"></div>
+
+                <h4>Current Array:</h4>
+                <div class="sort-container" id="radix-array"></div>
+
+                <h4>Buckets (0-9):</h4>
+                <div class="buckets-container" id="radix-buckets"></div>
+
+                <div class="step-info" id="radix-info">
+                    Radix Sort processes digits from right to left:<br>
+                    1. <strong>Distribute:</strong> Place numbers in buckets based on current digit<br>
+                    2. <strong>Collect:</strong> Gather numbers from buckets 0→9<br>
+                    3. <strong>Repeat:</strong> Move to next digit position
+                </div>
+            </div>
+
+            <!-- Bucket Sort -->
+            <div id="bucket-tab" style="display: none;">
+                <h3>Bucket Sort</h3>
+                <p>Distribute elements into buckets, sort each bucket, then concatenate.</p>
+                
+                <div class="controls" style="display: flex; gap: 10px; flex-wrap: wrap; margin: 15px 0;">
+                    <button class="btn btn-primary" onclick="startBucketSort()">▶ Start</button>
+                    <button class="btn btn-secondary" onclick="stepBucketSort()">Step</button>
+                    <button class="btn btn-secondary" onclick="resetBucketSort()">Reset</button>
+                    <input type="range" id="bucket-speed" min="100" max="1000" value="500" style="width: 150px;">
+                    <span>Speed</span>
+                </div>
+
+                <div class="phase-indicator" id="bucket-phase">
+                    Click Start or Step to begin
+                </div>
+
+                <h4>Input Array (values 0-99):</h4>
+                <div class="sort-container" id="bucket-array"></div>
+
+                <h4>Buckets:</h4>
+                <div class="buckets-container" id="bucket-buckets"></div>
+
+                <h4>Sorted Output:</h4>
+                <div class="sort-container" id="bucket-output"></div>
+
+                <div class="step-info" id="bucket-info">
+                    Bucket Sort works best with uniformly distributed data:<br>
+                    1. <strong>Scatter:</strong> Distribute elements to buckets based on value range<br>
+                    2. <strong>Sort:</strong> Sort each bucket (often using insertion sort)<br>
+                    3. <strong>Gather:</strong> Concatenate sorted buckets
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Code Implementation</h2>
+            <div class="code-display">
+                <pre id="code-display">
+def counting_sort(arr):
+    """Counting Sort - O(n + k) where k is the range"""
+    if not arr:
+        return arr
+    
+    # Find range
+    min_val, max_val = min(arr), max(arr)
+    k = max_val - min_val + 1
+    
+    # Count occurrences
+    count = [0] * k
+    for num in arr:
+        count[num - min_val] += 1
+    
+    # Build cumulative count (positions)
+    for i in range(1, k):
+        count[i] += count[i - 1]
+    
+    # Build output array (traverse backwards for stability)
+    output = [0] * len(arr)
+    for num in reversed(arr):
+        count[num - min_val] -= 1
+        output[count[num - min_val]] = num
+    
+    return output
+
+
+def radix_sort(arr):
+    """Radix Sort (LSD) - O(d * n) where d is max digits"""
+    if not arr:
+        return arr
+    
+    max_val = max(arr)
+    exp = 1  # Current digit position (1s, 10s, 100s, ...)
+    
+    while max_val // exp > 0:
+        # Counting sort by current digit
+        count = [0] * 10
+        output = [0] * len(arr)
+        
+        for num in arr:
+            digit = (num // exp) % 10
+            count[digit] += 1
+        
+        for i in range(1, 10):
+            count[i] += count[i - 1]
+        
+        for num in reversed(arr):
+            digit = (num // exp) % 10
+            count[digit] -= 1
+            output[count[digit]] = num
+        
+        arr = output
+        exp *= 10
+    
+    return arr
+
+
+def bucket_sort(arr, num_buckets=5):
+    """Bucket Sort - O(n + k) average case"""
+    if not arr:
+        return arr
+    
+    min_val, max_val = min(arr), max(arr)
+    bucket_range = (max_val - min_val) / num_buckets + 1
+    
+    # Create buckets
+    buckets = [[] for _ in range(num_buckets)]
+    
+    # Distribute elements
+    for num in arr:
+        idx = int((num - min_val) / bucket_range)
+        idx = min(idx, num_buckets - 1)  # Handle edge case
+        buckets[idx].append(num)
+    
+    # Sort each bucket and concatenate
+    result = []
+    for bucket in buckets:
+        bucket.sort()  # Can use insertion sort for small buckets
+        result.extend(bucket)
+    
+    return result
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Counting Sort state
+        let countingArr = [];
+        let countArr = [];
+        let countingOutput = [];
+        let countingPhase = 0;
+        let countingStep = 0;
+        let countingRunning = false;
+
+        // Radix Sort state
+        let radixArr = [];
+        let radixBuckets = [];
+        let radixDigit = 0;
+        let radixPhase = 0;
+        let radixStep = 0;
+        let radixRunning = false;
+
+        // Bucket Sort state
+        let bucketArr = [];
+        let bucketBuckets = [];
+        let bucketOutput = [];
+        let bucketPhase = 0;
+        let bucketStep = 0;
+        let bucketRunning = false;
+
+        function switchAlgorithm(algo) {
+            document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.tabs button[onclick="switchAlgorithm('${algo}')"]`).classList.add('active');
+            document.getElementById('counting-tab').style.display = algo === 'counting' ? 'block' : 'none';
+            document.getElementById('radix-tab').style.display = algo === 'radix' ? 'block' : 'none';
+            document.getElementById('bucket-tab').style.display = algo === 'bucket' ? 'block' : 'none';
+            
+            // Update code display
+            const codeMap = {
+                counting: 'counting_sort',
+                radix: 'radix_sort',
+                bucket: 'bucket_sort'
+            };
+        }
+
+        // ============ COUNTING SORT ============
+        function initCountingSort() {
+            countingArr = [4, 2, 2, 8, 3, 3, 1, 7, 5, 4];
+            const maxVal = Math.max(...countingArr);
+            countArr = new Array(maxVal + 1).fill(0);
+            countingOutput = new Array(countingArr.length).fill(null);
+            countingPhase = 0;
+            countingStep = 0;
+            renderCountingSort();
+        }
+
+        function renderCountingSort(highlight = -1, countHighlight = -1) {
+            const container = document.getElementById('counting-array');
+            const maxVal = Math.max(...countingArr);
+            container.innerHTML = countingArr.map((v, i) => 
+                `<div class="bar ${i === highlight ? 'highlight' : ''}" style="height: ${v * 30}px;">
+                    <span class="value">${v}</span>
+                </div>`
+            ).join('');
+
+            const countContainer = document.getElementById('count-array');
+            countContainer.innerHTML = countArr.map((c, i) => 
+                `<div class="count-cell ${i === countHighlight ? 'highlight' : ''}">
+                    <span class="index">[${i}]</span>
+                    <span class="count">${c}</span>
+                </div>`
+            ).join('');
+
+            const outputContainer = document.getElementById('counting-output');
+            outputContainer.innerHTML = countingOutput.map((v, i) => 
+                v !== null 
+                    ? `<div class="bar sorted" style="height: ${v * 30}px;"><span class="value">${v}</span></div>`
+                    : `<div class="bar" style="height: 20px; background: #ddd; width: 40px;"><span class="value">?</span></div>`
+            ).join('');
+        }
+
+        async function startCountingSort() {
+            if (countingRunning) return;
+            countingRunning = true;
+            initCountingSort();
+            
+            const speed = 1100 - document.getElementById('counting-speed').value;
+            const phase = document.getElementById('counting-phase');
+            
+            // Phase 1: Count
+            phase.textContent = 'Phase 1: Counting occurrences...';
+            for (let i = 0; i < countingArr.length; i++) {
+                const val = countingArr[i];
+                countArr[val]++;
+                renderCountingSort(i, val);
+                await sleep(speed);
+            }
+            
+            // Phase 2: Cumulative
+            phase.textContent = 'Phase 2: Building cumulative count (positions)...';
+            await sleep(speed);
+            for (let i = 1; i < countArr.length; i++) {
+                countArr[i] += countArr[i - 1];
+                renderCountingSort(-1, i);
+                await sleep(speed);
+            }
+            
+            // Phase 3: Build output
+            phase.textContent = 'Phase 3: Building sorted output (right to left for stability)...';
+            await sleep(speed);
+            for (let i = countingArr.length - 1; i >= 0; i--) {
+                const val = countingArr[i];
+                countArr[val]--;
+                countingOutput[countArr[val]] = val;
+                renderCountingSort(i, val);
+                await sleep(speed);
+            }
+            
+            phase.textContent = '✅ Counting Sort Complete!';
+            countingRunning = false;
+        }
+
+        function stepCountingSort() {
+            // Simplified step - just show next action
+            if (countingPhase === 0) {
+                initCountingSort();
+                countingPhase = 1;
+                document.getElementById('counting-phase').textContent = 'Phase 1: Click Step to count each element';
+            } else if (countingPhase === 1 && countingStep < countingArr.length) {
+                const val = countingArr[countingStep];
+                countArr[val]++;
+                renderCountingSort(countingStep, val);
+                countingStep++;
+                if (countingStep === countingArr.length) {
+                    countingPhase = 2;
+                    countingStep = 1;
+                    document.getElementById('counting-phase').textContent = 'Phase 2: Building cumulative sum';
+                }
+            } else if (countingPhase === 2 && countingStep < countArr.length) {
+                countArr[countingStep] += countArr[countingStep - 1];
+                renderCountingSort(-1, countingStep);
+                countingStep++;
+                if (countingStep === countArr.length) {
+                    countingPhase = 3;
+                    countingStep = countingArr.length - 1;
+                    document.getElementById('counting-phase').textContent = 'Phase 3: Placing elements in output';
+                }
+            } else if (countingPhase === 3 && countingStep >= 0) {
+                const val = countingArr[countingStep];
+                countArr[val]--;
+                countingOutput[countArr[val]] = val;
+                renderCountingSort(countingStep, val);
+                countingStep--;
+                if (countingStep < 0) {
+                    document.getElementById('counting-phase').textContent = '✅ Complete!';
+                }
+            }
+        }
+
+        function resetCountingSort() {
+            countingRunning = false;
+            initCountingSort();
+            document.getElementById('counting-phase').textContent = 'Click Start or Step to begin';
+        }
+
+        // ============ RADIX SORT ============
+        function initRadixSort() {
+            radixArr = [170, 45, 75, 90, 802, 24, 2, 66];
+            radixBuckets = Array.from({length: 10}, () => []);
+            radixDigit = 0;
+            radixPhase = 0;
+            radixStep = 0;
+            renderRadixSort();
+        }
+
+        function renderRadixSort(highlight = -1) {
+            const container = document.getElementById('radix-array');
+            const maxVal = Math.max(...radixArr);
+            container.innerHTML = radixArr.map((v, i) => {
+                const height = Math.max(30, (v / maxVal) * 250);
+                return `<div class="bar ${i === highlight ? 'highlight' : ''}" style="height: ${height}px;">
+                    <span class="value">${v}</span>
+                </div>`;
+            }).join('');
+
+            const bucketsContainer = document.getElementById('radix-buckets');
+            bucketsContainer.innerHTML = radixBuckets.map((b, i) => 
+                `<div class="bucket">
+                    <div class="bucket-label">${i}</div>
+                    <div class="bucket-items">
+                        ${b.map(v => `<div class="bucket-item">${v}</div>`).join('')}
+                    </div>
+                </div>`
+            ).join('');
+
+            // Show digit being processed
+            const digitDisplay = document.getElementById('digit-display');
+            const digitPos = Math.pow(10, radixDigit);
+            digitDisplay.innerHTML = radixArr.slice(0, 3).map(v => {
+                const str = v.toString().padStart(3, '0');
+                const pos = 2 - radixDigit;
+                return `<div class="digit-box">
+                    ${str.split('').map((d, i) => 
+                        i === pos ? `<span class="current-digit">${d}</span>` : d
+                    ).join('')}
+                </div>`;
+            }).join('') + `<span style="padding: 15px;">... (digit position: ${radixDigit})</span>`;
+        }
+
+        async function startRadixSort() {
+            if (radixRunning) return;
+            radixRunning = true;
+            initRadixSort();
+            
+            const speed = 1100 - document.getElementById('radix-speed').value;
+            const phase = document.getElementById('radix-phase');
+            const maxVal = Math.max(...radixArr);
+            const maxDigits = maxVal.toString().length;
+            
+            for (let d = 0; d < maxDigits; d++) {
+                radixDigit = d;
+                const exp = Math.pow(10, d);
+                
+                // Distribute to buckets
+                phase.textContent = `Pass ${d + 1}: Distributing by ${d === 0 ? 'ones' : d === 1 ? 'tens' : 'hundreds'} digit...`;
+                radixBuckets = Array.from({length: 10}, () => []);
+                
+                for (let i = 0; i < radixArr.length; i++) {
+                    const digit = Math.floor(radixArr[i] / exp) % 10;
+                    radixBuckets[digit].push(radixArr[i]);
+                    renderRadixSort(i);
+                    await sleep(speed);
+                }
+                
+                // Collect from buckets
+                phase.textContent = `Pass ${d + 1}: Collecting from buckets...`;
+                radixArr = [];
+                for (let b = 0; b < 10; b++) {
+                    for (const val of radixBuckets[b]) {
+                        radixArr.push(val);
+                        renderRadixSort();
+                        await sleep(speed / 2);
+                    }
+                }
+                radixBuckets = Array.from({length: 10}, () => []);
+                renderRadixSort();
+                await sleep(speed);
+            }
+            
+            phase.textContent = '✅ Radix Sort Complete!';
+            radixRunning = false;
+        }
+
+        function stepRadixSort() {
+            // Simplified stepping
+            if (radixPhase === 0) {
+                initRadixSort();
+                radixPhase = 1;
+                document.getElementById('radix-phase').textContent = 'Step through distribution...';
+            }
+        }
+
+        function resetRadixSort() {
+            radixRunning = false;
+            initRadixSort();
+            document.getElementById('radix-phase').textContent = 'Click Start or Step to begin';
+        }
+
+        // ============ BUCKET SORT ============
+        function initBucketSort() {
+            bucketArr = [29, 25, 3, 49, 9, 37, 21, 43, 15, 8];
+            bucketBuckets = [[], [], [], [], []];
+            bucketOutput = [];
+            bucketPhase = 0;
+            bucketStep = 0;
+            renderBucketSort();
+        }
+
+        function renderBucketSort(highlight = -1) {
+            const container = document.getElementById('bucket-array');
+            container.innerHTML = bucketArr.map((v, i) => {
+                const bucketIdx = Math.min(Math.floor(v / 10), 4);
+                return `<div class="bar bucket-${bucketIdx} ${i === highlight ? 'highlight' : ''}" style="height: ${v * 5}px;">
+                    <span class="value">${v}</span>
+                </div>`;
+            }).join('');
+
+            const bucketsContainer = document.getElementById('bucket-buckets');
+            const labels = ['0-9', '10-19', '20-29', '30-39', '40-49'];
+            bucketsContainer.innerHTML = bucketBuckets.map((b, i) => 
+                `<div class="bucket" style="border-color: var(--bucket-${i}-color, #9b59b6);">
+                    <div class="bucket-label">${labels[i]}</div>
+                    <div class="bucket-items">
+                        ${b.map(v => `<div class="bucket-item">${v}</div>`).join('')}
+                    </div>
+                </div>`
+            ).join('');
+
+            const outputContainer = document.getElementById('bucket-output');
+            outputContainer.innerHTML = bucketOutput.map(v => 
+                `<div class="bar sorted" style="height: ${v * 5}px;"><span class="value">${v}</span></div>`
+            ).join('');
+        }
+
+        async function startBucketSort() {
+            if (bucketRunning) return;
+            bucketRunning = true;
+            initBucketSort();
+            
+            const speed = 1100 - document.getElementById('bucket-speed').value;
+            const phase = document.getElementById('bucket-phase');
+            
+            // Phase 1: Distribute
+            phase.textContent = 'Phase 1: Distributing elements to buckets...';
+            for (let i = 0; i < bucketArr.length; i++) {
+                const val = bucketArr[i];
+                const bucketIdx = Math.min(Math.floor(val / 10), 4);
+                bucketBuckets[bucketIdx].push(val);
+                renderBucketSort(i);
+                await sleep(speed);
+            }
+            
+            // Phase 2: Sort each bucket
+            phase.textContent = 'Phase 2: Sorting each bucket...';
+            for (let i = 0; i < bucketBuckets.length; i++) {
+                bucketBuckets[i].sort((a, b) => a - b);
+                renderBucketSort();
+                await sleep(speed);
+            }
+            
+            // Phase 3: Gather
+            phase.textContent = 'Phase 3: Gathering sorted elements...';
+            bucketOutput = [];
+            for (let i = 0; i < bucketBuckets.length; i++) {
+                for (const val of bucketBuckets[i]) {
+                    bucketOutput.push(val);
+                    renderBucketSort();
+                    await sleep(speed / 2);
+                }
+            }
+            
+            phase.textContent = '✅ Bucket Sort Complete!';
+            bucketRunning = false;
+        }
+
+        function stepBucketSort() {
+            // Simplified
+            if (bucketPhase === 0) {
+                initBucketSort();
+                bucketPhase = 1;
+                document.getElementById('bucket-phase').textContent = 'Click Start to see animation';
+            }
+        }
+
+        function resetBucketSort() {
+            bucketRunning = false;
+            initBucketSort();
+            document.getElementById('bucket-phase').textContent = 'Click Start or Step to begin';
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Initialize all
+        initCountingSort();
+        initRadixSort();
+        initBucketSort();
+    </script>
+</body>
+</html>

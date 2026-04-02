@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 4: Graphs & Dynamic Programming</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+        }
+        h1 { color: #4ecdc4; margin-bottom: 10px; }
+        .meta { color: #888; font-size: 14px; }
+        
+        .back-link {
+            display: inline-block;
+            color: #4ecdc4;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .section h2 {
+            color: #4ecdc4;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4a5568;
+        }
+        
+        .question {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4ecdc4;
+        }
+        .question h3 {
+            color: #95e1d3;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .points {
+            background: #4ecdc4;
+            color: #1a1a2e;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .code-block {
+            background: #1a1a2e;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .example {
+            background: rgba(78, 205, 196, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #4ecdc4;
+        }
+        .example-label { color: #4ecdc4; font-weight: bold; margin-bottom: 10px; }
+        
+        .answer-toggle {
+            background: #6c5ce7;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        .answer-toggle:hover { background: #5b4cdb; }
+        
+        .answer {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background: rgba(108, 92, 231, 0.2);
+            border-radius: 8px;
+            border: 1px solid #6c5ce7;
+        }
+        .answer.show { display: block; }
+        .answer h4 { color: #6c5ce7; margin-bottom: 10px; }
+        
+        .graph-visual {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre;
+            font-size: 12px;
+            margin: 10px 0;
+        }
+        
+        .total-points {
+            text-align: center;
+            font-size: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #4ecdc4, #6c5ce7);
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #4a5568;
+            text-align: center;
+        }
+        th { background: rgba(78, 205, 196, 0.2); color: #4ecdc4; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to All Topics</a>
+        
+        <div class="header">
+            <h1>📊 Assignment 4</h1>
+            <h2 style="color: #888; font-weight: normal; font-size: 18px;">Graphs & Dynamic Programming</h2>
+            <p class="meta">Total Points: 100 | Estimated Time: 2-3 hours</p>
+        </div>
+        
+        <!-- Part A: Graph Theory -->
+        <div class="section">
+            <h2>Part A: Graph Algorithms (50 points)</h2>
+            
+            <div class="question">
+                <h3>Question 1 <span class="points">10 pts</span></h3>
+                <p>Given the following graph, perform BFS and DFS starting from vertex A. List the order in which vertices are visited.</p>
+                
+                <div class="graph-visual">
+        A --- B --- E
+        |     |     |
+        C --- D --- F
+                </div>
+                
+                <p>Adjacency List:</p>
+                <div class="code-block">
+A: [B, C]
+B: [A, D, E]
+C: [A, D]
+D: [B, C, F]
+E: [B, F]
+F: [D, E]
+                </div>
+                
+                <button class="answer-toggle" onclick="toggleAnswer(1)">Show Answer</button>
+                <div class="answer" id="answer1">
+                    <h4>Solution:</h4>
+                    <p><strong>BFS (using queue):</strong> A → B → C → D → E → F</p>
+                    <p>Process: Start A, enqueue B,C. Dequeue B, enqueue D,E. Dequeue C (D already visited). Dequeue D, enqueue F. Dequeue E, F (already queued). Dequeue F.</p>
+                    <br>
+                    <p><strong>DFS (using stack/recursion):</strong> A → B → D → C → F → E</p>
+                    <p>Or: A → C → D → B → E → F (depends on neighbor order)</p>
+                    <p>Process: Visit A, go to B, go to D, go to C (backtrack from D), go to F, go to E.</p>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Question 2 <span class="points">15 pts</span></h3>
+                <p>Apply Dijkstra's algorithm to find the shortest path from vertex S to all other vertices. Show the distance table at each step.</p>
+                
+                <div class="graph-visual">
+        S --2-- A --3-- D
+        |       |       |
+        4       1       2
+        |       |       |
+        B --5-- C --4-- E
+                </div>
+                
+                <button class="answer-toggle" onclick="toggleAnswer(2)">Show Answer</button>
+                <div class="answer" id="answer2">
+                    <h4>Solution:</h4>
+                    <table>
+                        <tr><th>Step</th><th>S</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>Visited</th></tr>
+                        <tr><td>Init</td><td>0</td><td>∞</td><td>∞</td><td>∞</td><td>∞</td><td>∞</td><td>{}</td></tr>
+                        <tr><td>Visit S</td><td>0</td><td>2</td><td>4</td><td>∞</td><td>∞</td><td>∞</td><td>{S}</td></tr>
+                        <tr><td>Visit A</td><td>0</td><td>2</td><td>4</td><td>3</td><td>5</td><td>∞</td><td>{S,A}</td></tr>
+                        <tr><td>Visit C</td><td>0</td><td>2</td><td>4</td><td>3</td><td>5</td><td>7</td><td>{S,A,C}</td></tr>
+                        <tr><td>Visit B</td><td>0</td><td>2</td><td>4</td><td>3</td><td>5</td><td>7</td><td>{S,A,C,B}</td></tr>
+                        <tr><td>Visit D</td><td>0</td><td>2</td><td>4</td><td>3</td><td>5</td><td>7</td><td>{S,A,C,B,D}</td></tr>
+                        <tr><td>Visit E</td><td>0</td><td>2</td><td>4</td><td>3</td><td>5</td><td>7</td><td>{S,A,C,B,D,E}</td></tr>
+                    </table>
+                    <p><strong>Shortest distances from S:</strong> A=2, B=4, C=3, D=5, E=7</p>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Question 3 <span class="points">15 pts</span></h3>
+                <p>Find the Minimum Spanning Tree using Kruskal's algorithm. Show the edges selected and the Union-Find operations.</p>
+                
+                <div class="code-block">
+Edges (sorted by weight):
+(A,B,1), (C,D,2), (B,C,3), (A,D,4), (B,D,5), (A,C,6)
+Vertices: A, B, C, D
+                </div>
+                
+                <button class="answer-toggle" onclick="toggleAnswer(3)">Show Answer</button>
+                <div class="answer" id="answer3">
+                    <h4>Solution:</h4>
+                    <table>
+                        <tr><th>Edge</th><th>Weight</th><th>Action</th><th>Components</th></tr>
+                        <tr><td>(A,B)</td><td>1</td><td>ADD ✓</td><td>{A,B}, {C}, {D}</td></tr>
+                        <tr><td>(C,D)</td><td>2</td><td>ADD ✓</td><td>{A,B}, {C,D}</td></tr>
+                        <tr><td>(B,C)</td><td>3</td><td>ADD ✓</td><td>{A,B,C,D}</td></tr>
+                        <tr><td>(A,D)</td><td>4</td><td>SKIP (cycle)</td><td>{A,B,C,D}</td></tr>
+                    </table>
+                    <p><strong>MST edges:</strong> (A,B), (C,D), (B,C)</p>
+                    <p><strong>Total weight:</strong> 1 + 2 + 3 = 6</p>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Question 4 <span class="points">10 pts</span></h3>
+                <p>Determine if the following directed graph has a cycle. If yes, identify one cycle.</p>
+                
+                <div class="code-block">
+Edges: 1→2, 2→3, 3→4, 4→2, 1→4
+                </div>
+                
+                <button class="answer-toggle" onclick="toggleAnswer(4)">Show Answer</button>
+                <div class="answer" id="answer4">
+                    <h4>Solution:</h4>
+                    <p><strong>Yes, there is a cycle:</strong> 2 → 3 → 4 → 2</p>
+                    <br>
+                    <p><strong>Detection using DFS:</strong></p>
+                    <div class="code-block">
+Start DFS from 1:
+  Visit 1 (state: visiting)
+    Visit 2 (state: visiting)
+      Visit 3 (state: visiting)
+        Visit 4 (state: visiting)
+          Try to visit 2 - already "visiting" → CYCLE FOUND!
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Part B: Dynamic Programming -->
+        <div class="section">
+            <h2>Part B: Dynamic Programming (50 points)</h2>
+            
+            <div class="question">
+                <h3>Question 5 <span class="points">10 pts</span></h3>
+                <p>Find the Longest Common Subsequence (LCS) of strings "ABCBDAB" and "BDCAB". Fill in the DP table and trace back to find the LCS.</p>
+                
+                <button class="answer-toggle" onclick="toggleAnswer(5)">Show Answer</button>
+                <div class="answer" id="answer5">
+                    <h4>Solution:</h4>
+                    <p><strong>DP Table:</strong></p>
+                    <table>
+                        <tr><th></th><th>""</th><th>B</th><th>D</th><th>C</th><th>A</th><th>B</th></tr>
+                        <tr><th>""</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                        <tr><th>A</th><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr>
+                        <tr><th>B</th><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>2</td></tr>
+                        <tr><th>C</th><td>0</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td></tr>
+                        <tr><th>B</th><td>0</td><td>1</td><td>1</td><td>2</td><td>2</td><td>3</td></tr>
+                        <tr><th>D</th><td>0</td><td>1</td><td>2</td><td>2</td><td>2</td><td>3</td></tr>
+                        <tr><th>A</th><td>0</td><td>1</td><td>2</td><td>2</td><td>3</td><td>3</td></tr>
+                        <tr><th>B</th><td>0</td><td>1</td><td>2</td><td>2</td><td>3</td><td>4</td></tr>
+                    </table>
+                    <p><strong>LCS Length:</strong> 4</p>
+                    <p><strong>LCS:</strong> "BCAB" (traceback from bottom-right)</p>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Question 6 <span class="points">15 pts</span></h3>
+                <p>Solve the 0/1 Knapsack problem:</p>
+                <div class="code-block">
+Items: 
+  Item 1: weight=2, value=3
+  Item 2: weight=3, value=4
+  Item 3: weight=4, value=5
+  Item 4: weight=5, value=6
+  
+Knapsack capacity: 8
+                </div>
+                <p>Show the DP table and identify which items to select.</p>
+                
+                <button class="answer-toggle" onclick="toggleAnswer(6)">Show Answer</button>
+                <div class="answer" id="answer6">
+                    <h4>Solution:</h4>
+                    <p><strong>DP Table dp[i][w] = max value using items 1..i with capacity w:</strong></p>
+                    <table>
+                        <tr><th>Item\Cap</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr>
+                        <tr><th>0</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+                        <tr><th>1 (w=2,v=3)</th><td>0</td><td>0</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td><td>3</td></tr>
+                        <tr><th>2 (w=3,v=4)</th><td>0</td><td>0</td><td>3</td><td>4</td><td>4</td><td>7</td><td>7</td><td>7</td><td>7</td></tr>
+                        <tr><th>3 (w=4,v=5)</th><td>0</td><td>0</td><td>3</td><td>4</td><td>5</td><td>7</td><td>8</td><td>9</td><td>9</td></tr>
+                        <tr><th>4 (w=5,v=6)</th><td>0</td><td>0</td><td>3</td><td>4</td><td>5</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+                    </table>
+                    <p><strong>Maximum value:</strong> 10</p>
+                    <p><strong>Items selected:</strong> Item 1 (w=2, v=3) + Item 2 (w=3, v=4) + Item 4... </p>
+                    <p>Wait, let me trace back: dp[4][8]=10. Check if item 4 included: dp[3][8]=9 ≠ 10, so item 4 IS included.</p>
+                    <p>Remaining capacity 8-5=3. dp[3][3]=4. Item 3? dp[2][3]=4, same, so item 3 NOT included.</p>
+                    <p>dp[2][3]=4. Item 2? dp[1][3]=3 ≠ 4, so item 2 IS included.</p>
+                    <p>Remaining 3-3=0. dp[1][0]=0.</p>
+                    <p><strong>Selected items:</strong> Items 2 and 4 (weights 3+5=8, values 4+6=10)</p>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Question 7 <span class="points">15 pts</span></h3>
+                <p>Find the minimum Edit Distance (Levenshtein Distance) between "SUNDAY" and "SATURDAY". Show the DP table.</p>
+                
+                <button class="answer-toggle" onclick="toggleAnswer(7)">Show Answer</button>
+                <div class="answer" id="answer7">
+                    <h4>Solution:</h4>
+                    <p><strong>Operations:</strong> Insert, Delete, Replace (each costs 1)</p>
+                    <table>
+                        <tr><th></th><th>""</th><th>S</th><th>A</th><th>T</th><th>U</th><th>R</th><th>D</th><th>A</th><th>Y</th></tr>
+                        <tr><th>""</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+                        <tr><th>S</th><td>1</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+                        <tr><th>U</th><td>2</td><td>1</td><td>1</td><td>2</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+                        <tr><th>N</th><td>3</td><td>2</td><td>2</td><td>2</td><td>3</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+                        <tr><th>D</th><td>4</td><td>3</td><td>3</td><td>3</td><td>3</td><td>4</td><td>3</td><td>4</td><td>5</td></tr>
+                        <tr><th>A</th><td>5</td><td>4</td><td>3</td><td>4</td><td>4</td><td>4</td><td>4</td><td>3</td><td>4</td></tr>
+                        <tr><th>Y</th><td>6</td><td>5</td><td>4</td><td>4</td><td>5</td><td>5</td><td>5</td><td>4</td><td>3</td></tr>
+                    </table>
+                    <p><strong>Minimum edit distance:</strong> 3</p>
+                    <p><strong>One possible sequence:</strong></p>
+                    <ul>
+                        <li>SUNDAY → SATDAY (replace N with T)</li>
+                        <li>SATDAY → SATUDAY (insert U)</li>
+                        <li>SATUDAY → SATURDAY (insert R)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="question">
+                <h3>Question 8 <span class="points">10 pts</span></h3>
+                <p>Write the recurrence relation for the following problem:</p>
+                <p><em>Given an array of positive integers, find the maximum sum of non-adjacent elements.</em></p>
+                <p>Example: [3, 2, 5, 10, 7] → Answer: 15 (3 + 5 + 7)</p>
+                
+                <button class="answer-toggle" onclick="toggleAnswer(8)">Show Answer</button>
+                <div class="answer" id="answer8">
+                    <h4>Solution:</h4>
+                    <p><strong>State Definition:</strong></p>
+                    <p>dp[i] = maximum sum of non-adjacent elements from index 0 to i</p>
+                    <br>
+                    <p><strong>Recurrence Relation:</strong></p>
+                    <div class="code-block">
+dp[i] = max(dp[i-1], dp[i-2] + nums[i])
+
+Where:
+- dp[i-1] = skip current element
+- dp[i-2] + nums[i] = take current element
+                    </div>
+                    <br>
+                    <p><strong>Base Cases:</strong></p>
+                    <ul>
+                        <li>dp[0] = nums[0]</li>
+                        <li>dp[1] = max(nums[0], nums[1])</li>
+                    </ul>
+                    <br>
+                    <p><strong>Example Trace for [3, 2, 5, 10, 7]:</strong></p>
+                    <ul>
+                        <li>dp[0] = 3</li>
+                        <li>dp[1] = max(3, 2) = 3</li>
+                        <li>dp[2] = max(3, 3+5) = 8</li>
+                        <li>dp[3] = max(8, 3+10) = 13</li>
+                        <li>dp[4] = max(13, 8+7) = 15 ✓</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="total-points">
+            <strong>Total: 100 Points</strong>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(n) {
+            document.getElementById('answer' + n).classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

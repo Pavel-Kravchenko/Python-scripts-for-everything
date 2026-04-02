@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickSort - Interactive Visualization</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>⚡ QuickSort</h1>
+        <p>The king of practical sorting: partition around a pivot for blazing-fast average performance</p>
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>›</span>
+            <a href="../index.html#sorting">Sorting</a>
+            <span>›</span>
+            QuickSort
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Visualization Panel -->
+            <div class="visualization-panel">
+                <div class="card">
+                    <h2>📊 Visualization</h2>
+                    
+                    <!-- Controls -->
+                    <div class="controls">
+                        <button id="btn-start" class="btn btn-primary" onclick="startSort()">
+                            ▶️ Start
+                        </button>
+                        <button id="btn-pause" class="btn btn-secondary" onclick="pauseSort()" disabled>
+                            ⏸️ Pause
+                        </button>
+                        <button id="btn-step" class="btn btn-secondary" onclick="stepSort()" disabled>
+                            ⏭️ Step
+                        </button>
+                        <button id="btn-reset" class="btn btn-danger" onclick="resetSort()">
+                            🔄 Reset
+                        </button>
+                        <button id="btn-random" class="btn btn-success" onclick="generateNew()">
+                            🎲 New Array
+                        </button>
+                    </div>
+
+                    <div class="controls">
+                        <div class="input-group">
+                            <label for="array-size">Size:</label>
+                            <input type="number" id="array-size" value="10" min="3" max="20" onchange="generateNew()">
+                        </div>
+                        <div class="input-group">
+                            <label for="speed">Speed:</label>
+                            <input type="range" id="speed" min="50" max="1000" value="400" onchange="updateSpeed()">
+                            <span id="speed-label">400ms</span>
+                        </div>
+                        <div class="input-group">
+                            <label for="pivot-strategy">Pivot:</label>
+                            <select id="pivot-strategy">
+                                <option value="last">Last Element</option>
+                                <option value="first">First Element</option>
+                                <option value="random">Random</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Area -->
+                    <div id="visualization" class="visualization-canvas"></div>
+
+                    <!-- Legend -->
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color default"></div>
+                            <span>Unsorted</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color pivot"></div>
+                            <span>Pivot</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color comparing"></div>
+                            <span>Comparing</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color swapping"></div>
+                            <span>Swapping</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color sorted"></div>
+                            <span>In Final Position</span>
+                        </div>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="stats">
+                        <div class="stat-box">
+                            <div class="label">Comparisons</div>
+                            <div class="value" id="comparisons">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Swaps</div>
+                            <div class="value" id="swaps">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Partitions</div>
+                            <div class="value" id="current-step">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Current Pivot</div>
+                            <div class="value" id="current-pivot">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Partition Explanation -->
+                <div class="card">
+                    <h2>🎯 Current Partition</h2>
+                    <div id="partition-info" style="font-family: monospace; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                        <p>Start sorting to see partition details</p>
+                    </div>
+                </div>
+
+                <!-- Algorithm Steps -->
+                <div class="card">
+                    <h2>📝 Execution Steps</h2>
+                    <div id="steps-list" class="steps-list"></div>
+                </div>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="info-panel">
+                <!-- How It Works -->
+                <div class="card">
+                    <h2>💡 How It Works</h2>
+                    <h3>1. Choose a Pivot</h3>
+                    <p>Select an element as the pivot (commonly last, first, or random).</p>
+                    
+                    <h3>2. Partition</h3>
+                    <p>Rearrange elements so that:</p>
+                    <ul>
+                        <li>Elements <strong>&lt; pivot</strong> go to the left</li>
+                        <li>Elements <strong>≥ pivot</strong> go to the right</li>
+                        <li>Pivot ends up in its final sorted position</li>
+                    </ul>
+                    
+                    <h3>3. Recurse</h3>
+                    <p>Recursively apply to left and right subarrays.</p>
+                    
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <strong>⚠️ Pivot Choice Matters!</strong> Poor pivot selection (e.g., always choosing min/max) leads to O(n²) worst case.
+                    </div>
+                </div>
+
+                <!-- Complexity -->
+                <div class="card">
+                    <h2>⏱️ Complexity Analysis</h2>
+                    <table class="complexity-table">
+                        <tr>
+                            <th>Case</th>
+                            <th>Time</th>
+                        </tr>
+                        <tr>
+                            <td>Best</td>
+                            <td class="good">O(n log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Average</td>
+                            <td class="good">O(n log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Worst</td>
+                            <td class="bad">O(n²)</td>
+                        </tr>
+                        <tr>
+                            <td>Space</td>
+                            <td class="good">O(log n)</td>
+                        </tr>
+                    </table>
+                    
+                    <h3>Properties</h3>
+                    <ul>
+                        <li>✅ <strong>In-place:</strong> O(log n) stack space</li>
+                        <li>✅ <strong>Cache-friendly:</strong> Sequential memory access</li>
+                        <li>✅ <strong>Fast in practice:</strong> Low constant factors</li>
+                        <li>❌ <strong>Not stable:</strong> May reorder equal elements</li>
+                        <li>❌ <strong>Worst case:</strong> O(n²) with bad pivots</li>
+                    </ul>
+                </div>
+
+                <!-- Code -->
+                <div class="card">
+                    <h2>💻 Python Code</h2>
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>quicksort.py</span>
+                            <span class="language">Python</span>
+                        </div>
+                        <pre><code><span class="code-line"><span class="line-number">1</span><span class="keyword">def</span> <span class="function">quicksort</span>(arr, low, high):</span>
+<span class="code-line"><span class="line-number">2</span>    <span class="keyword">if</span> low < high:</span>
+<span class="code-line"><span class="line-number">3</span>        pi = partition(arr, low, high)</span>
+<span class="code-line"><span class="line-number">4</span>        quicksort(arr, low, pi - <span class="number">1</span>)</span>
+<span class="code-line"><span class="line-number">5</span>        quicksort(arr, pi + <span class="number">1</span>, high)</span>
+<span class="code-line"><span class="line-number">6</span></span>
+<span class="code-line"><span class="line-number">7</span><span class="keyword">def</span> <span class="function">partition</span>(arr, low, high):</span>
+<span class="code-line"><span class="line-number">8</span>    pivot = arr[high]  <span class="comment"># Last element as pivot</span></span>
+<span class="code-line"><span class="line-number">9</span>    i = low - <span class="number">1</span>  <span class="comment"># Index of smaller element</span></span>
+<span class="code-line"><span class="line-number">10</span>    </span>
+<span class="code-line"><span class="line-number">11</span>    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="function">range</span>(low, high):</span>
+<span class="code-line"><span class="line-number">12</span>        <span class="keyword">if</span> arr[j] < pivot:</span>
+<span class="code-line"><span class="line-number">13</span>            i += <span class="number">1</span></span>
+<span class="code-line"><span class="line-number">14</span>            arr[i], arr[j] = arr[j], arr[i]</span>
+<span class="code-line"><span class="line-number">15</span>    </span>
+<span class="code-line"><span class="line-number">16</span>    arr[i + <span class="number">1</span>], arr[high] = arr[high], arr[i + <span class="number">1</span>]</span>
+<span class="code-line"><span class="line-number">17</span>    <span class="keyword">return</span> i + <span class="number">1</span></span></code></pre>
+                    </div>
+                </div>
+
+                <!-- When to Use -->
+                <div class="card">
+                    <h2>🤔 When to Use</h2>
+                    <h3>✅ Good For:</h3>
+                    <ul>
+                        <li>General-purpose sorting</li>
+                        <li>Arrays (cache efficiency)</li>
+                        <li>When average case matters most</li>
+                        <li>Memory-constrained environments</li>
+                    </ul>
+                    
+                    <h3>❌ Avoid When:</h3>
+                    <ul>
+                        <li>Stability is required</li>
+                        <li>Worst-case guarantee needed</li>
+                        <li>Nearly sorted data (use Insertion Sort)</li>
+                        <li>Linked lists (use Merge Sort)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        let visualizer;
+        let currentArray = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            visualizer = new SortingVisualizer('visualization', {
+                speed: 400,
+                onComplete: onSortComplete
+            });
+            generateNew();
+        });
+
+        function generateNew() {
+            const size = parseInt(document.getElementById('array-size').value) || 10;
+            currentArray = generateRandomArray(size, 5, 99);
+            visualizer.setArray(currentArray);
+            visualizer.render();
+            document.getElementById('current-pivot').textContent = '-';
+            resetButtons();
+            visualizer.clearSteps();
+            document.getElementById('partition-info').innerHTML = '<p>Start sorting to see partition details</p>';
+        }
+
+        async function startSort() {
+            if (visualizer.isRunning && visualizer.isPaused) {
+                visualizer.resume();
+                updateButtonStates(true, false);
+                return;
+            }
+            
+            visualizer.setArray(currentArray);
+            updateButtonStates(true, false);
+            await visualizer.quickSort();
+        }
+
+        function pauseSort() {
+            visualizer.pause();
+            updateButtonStates(true, true);
+        }
+
+        function stepSort() {
+            if (!visualizer.isRunning) {
+                visualizer.isStepping = true;
+                visualizer.setArray(currentArray);
+                updateButtonStates(true, false);
+                visualizer.quickSort();
+            } else {
+                visualizer.step();
+            }
+        }
+
+        function resetSort() {
+            visualizer.stop();
+            visualizer.setArray(currentArray);
+            visualizer.render();
+            resetButtons();
+            visualizer.clearSteps();
+            document.getElementById('current-pivot').textContent = '-';
+        }
+
+        function updateSpeed() {
+            const speed = 1050 - parseInt(document.getElementById('speed').value);
+            visualizer.setSpeed(speed);
+            document.getElementById('speed-label').textContent = speed + 'ms';
+        }
+
+        function updateButtonStates(running, paused) {
+            document.getElementById('btn-start').disabled = running && !paused;
+            document.getElementById('btn-start').textContent = paused ? '▶️ Resume' : '▶️ Start';
+            document.getElementById('btn-pause').disabled = !running || paused;
+            document.getElementById('btn-step').disabled = false;
+        }
+
+        function resetButtons() {
+            document.getElementById('btn-start').disabled = false;
+            document.getElementById('btn-start').textContent = '▶️ Start';
+            document.getElementById('btn-pause').disabled = true;
+            document.getElementById('btn-step').disabled = false;
+        }
+
+        function onSortComplete() {
+            resetButtons();
+            document.getElementById('btn-step').disabled = true;
+        }
+    </script>
+</body>
+</html>

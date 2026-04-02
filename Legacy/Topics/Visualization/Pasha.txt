@@ -1,0 +1,126 @@
+import re
+
+
+def print_wrapper(func, name):
+    import datetime
+    def decorated_func(*args, **kwargs):       
+        global log_txt
+        log_txt = log_txt + 'Function ' + name + ' started at: ' + str(datetime.datetime.now()) + '\n'
+        result = func(*args, **kwargs)      
+        log_txt = log_txt + 'Function ' + name + ' ended at: ' + str(datetime.datetime.now()) + '\n'
+        return result
+    return decorated_func
+
+def m_r(text, adict):
+    rx = re.compile('|'.join(adict))
+
+    def one_xlat(match):
+        return adict[match.group(0)][0]
+
+    return rx.sub(one_xlat, text)
+
+def pept(text, source):
+    ans = []
+    step = 0
+    global trans
+    while step < len(text):
+        if text[step] == 'M' and ('!' in text[step:]):
+            if len(text[step: (step + text[step:].index('!'))]) >= minlen:
+                ans.append(text[step: (step + text[step:].index('!'))])
+                for x in range(step, (step + 1 + text[step:].index('!'))):
+                    trans[source[x*3: (x*3 + 3)]][1] += 1 
+        step += 1
+    return ans
+
+def bins(l, n):
+    ans = []
+    num = []
+    step = 0
+    gates = [0]
+    while gates[-1] < len(l[-1]):
+        gates.append(gates[step] + n)
+        step += 1
+    for i in range(len(gates) - 1):
+        num.append(0)
+    for i in l:
+        step = 0
+        while step < len(gates) - 1:
+            if len(i) >= gates[step] and len(i) < gates[step + 1]:
+                num[step] += 1
+                step = len(gates) - 1
+            step += 1
+    step = 0
+    while step < len(num):
+        print('[' + str(gates[step]) + '; ' + str(gates[step + 1]) + '): ' + str(num[step]))
+        step += 1
+
+def read_fasta(filename):
+    with open(filename) as f:
+        fasta = f.read().split('\n')
+        name = fasta[0]
+        sequence = "".join(fasta[1:])
+        fasta_list = []
+        fasta_list.append(name)
+        fasta_list.append(sequence)
+    return fasta_list
+
+
+minlen = int(input())
+interval = int(input())
+trans = {'ATT': 'I', 'ATC': 'I', 'ATA': 'I', 'CTT': 'L', 'CTC': 'L', 'CTA': 'L', 'CTG': 'L', 'TTA': 'L', 'TTG': 'L', 'GTT': 'V', 'GTC': 'V', 'GTA': 'V', 'GTG': 'V', 'TTT': 'F', 'TTC': 'F', 'ATG': 'M', 'TGT': 'C', 'TGC': 'C', 'GCT': 'A', 'GCC': 'A', 'GCA': 'A', 'GCG': 'A', 'GGT': 'G', 'GGC': 'G', 'GGA': 'G', 'GGG': 'G', 'CCT': 'P', 'CCC': 'P', 'CCA': 'P', 'CCG': 'P', 'ACT': 'T', 'ACC': 'T', 'ACA': 'T', 'ACG': 'T', 'TCT': 'S', 'TCC': 'S', 'TCA': 'S', 'TCG': 'S', 'AGT': 'S', 'AGC': 'S', 'TAT': 'Y', 'TAC': 'Y', 'TGG': 'W', 'CAA': 'Q', 'CAG': 'Q', 'AAT': 'N', 'AAC': 'N', 'CAT': 'H', 'CAC': 'H', 'GAA': 'E', 'GAG': 'E', 'GAT': 'D', 'GAC': 'D', 'AAA': 'K', 'AAG': 'K', 'CGT': 'R', 'CGC': 'R', 'CGA': 'R', 'CGG':'R', 'AGA': 'R', 'AGG': 'R', 'TAA': '!', 'TAG': '!', 'TGA': '!'}
+for i in trans.keys():
+    trans[i] = [trans[i], 0]
+log_txt = ''
+dec_read_fasta = print_wrapper(read_fasta, 'fasta reader')
+dec_pept = print_wrapper(pept, 'peptide maker')
+dec_m_r = print_wrapper(m_r, 'replacer')
+dec_bins = print_wrapper(bins, 'bin sorter')
+file_content = dec_read_fasta('in2.fasta')
+seq = file_content[1]
+comp = dec_m_r(seq, {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G'})[::-1]
+protf1 = dec_m_r(seq[0:(len(seq) - len(seq) % 3)], trans)
+protf2 = dec_m_r(seq[1:(len(seq) - (len(seq) - 1) % 3)], trans)
+protf3 = dec_m_r(seq[2:(len(seq) - (len(seq) - 2) % 3)], trans)
+protr1 = dec_m_r(comp[0:(len(comp) - len(comp) % 3)], trans)
+protr2 = dec_m_r(comp[1:(len(comp) - (len(comp) - 1) % 3)], trans)
+protr3 = dec_m_r(comp[2:(len(comp) - (len(comp) - 2) % 3)], trans)
+pepf1 = dec_pept(protf1, seq[0:(len(seq) - len(seq) % 3)])
+pepf2 = dec_pept(protf2, seq[1:(len(seq) - (len(seq) - 1) % 3)])
+pepf3 = dec_pept(protf3, seq[2:(len(seq) - (len(seq) - 2) % 3)])
+pepr1 = dec_pept(protr1, comp[0:(len(comp) - len(comp) % 3)])
+pepr2 = dec_pept(protr2, comp[1:(len(comp) - (len(comp) - 1) % 3)])
+pepr3 = dec_pept(protr3, comp[2:(len(comp) - (len(comp) - 2) % 3)])
+amins = [el[0] for el in list(trans.values())]
+counts = [el[1] for el in list(trans.values())]
+codons = [el for el in list(trans.keys())]
+title = {'Forward, 1': pepf1, 'Forward, 2': pepf2, 'Forward, 3': pepf3, 'Reverse, 1': pepr1, 'Reverse, 2': pepr2, 'Reverse, 3': pepr3}
+with open('prot.txt', 'w') as f:
+    for t in title.keys():       
+        f.write('\n' + t + ':\n')
+        for i in title[t]:
+            f.write(i + '\n')
+with open('amin.txt', 'w') as f:
+    for t in title.keys():
+        f.write('\n' + t + ':\n')
+        for i in title[t]:
+            for j in set(amins):
+                if j != '!':
+                    f.write(j + ':' + str(i.count(j)) + '; ')
+            f.write('\n')
+pep = pepf1 + pepf2 + pepf3 + pepr1 + pepr2 + pepr3
+print('Proteins found (total): ' + str(len(pep)))
+pep.sort(key=len)
+print('\nNumber of proteins in each bin:')
+dec_bins(pep, interval)
+print('\nNumber of each nucleotide in DNA:')
+print('A : ' + str(seq.count('A')))
+print('T : ' + str(seq.count('T')))
+print('G : ' + str(seq.count('G')))
+print('C : ' + str(seq.count('C')))
+print('\nNumber of each codon used:')
+cod = ''
+for i in range(len(codons)):
+    cod = cod + str(codons[i]) + ': ' + str(counts[i]) + ';  '
+print(cod)
+with open('log.txt', 'w') as f:
+    f.write(log_txt)

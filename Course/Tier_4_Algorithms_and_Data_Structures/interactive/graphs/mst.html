@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimum Spanning Tree | Graph Algorithms</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .algo-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .algo-tab {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            background: #3d3d5c;
+            color: #fff;
+            transition: all 0.2s;
+        }
+        .algo-tab:hover {
+            background: #4d4d6c;
+        }
+        .algo-tab.active {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: #1a1a2e;
+        }
+        .mst-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .canvas-panel {
+            flex: 2;
+            min-width: 450px;
+        }
+        .info-panel {
+            flex: 1;
+            min-width: 280px;
+        }
+        .canvas-wrapper {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+        .edge-list {
+            background: #2d2d3d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .edge-list h4 {
+            margin: 0 0 10px 0;
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+        .edge-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 10px;
+            margin: 4px 0;
+            background: #3d3d5c;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        .edge-item.current {
+            background: #4ecdc4;
+            color: #1a1a2e;
+        }
+        .edge-item.selected {
+            background: #95e1d3;
+            color: #1a1a2e;
+        }
+        .edge-item.rejected {
+            background: #ff6b6b;
+            color: #fff;
+            text-decoration: line-through;
+        }
+        .union-find {
+            background: #2d2d3d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .union-find h4 {
+            margin: 0 0 10px 0;
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+        .components {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .component {
+            background: #3d3d5c;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        .component.merged {
+            background: #667eea;
+            animation: pulse 0.5s;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .result-box {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 15px 0;
+        }
+        .result-box h4 {
+            margin: 0 0 5px 0;
+            color: rgba(0,0,0,0.5);
+            font-size: 14px;
+        }
+        .result-box .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1a1a2e;
+        }
+        .step-info {
+            background: #2d2d3d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            color: #e0e0e0;
+            min-height: 60px;
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #a0a0a0;
+        }
+        .legend-color {
+            width: 30px;
+            height: 4px;
+            border-radius: 2px;
+        }
+        .graph-preset {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .preset-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            background: #3d3d5c;
+            color: #fff;
+            transition: background 0.2s;
+        }
+        .preset-btn:hover {
+            background: #4d4d6c;
+        }
+        .preset-btn.active {
+            background: #4ecdc4;
+            color: #1a1a2e;
+        }
+        .pq-box {
+            background: #2d2d3d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .pq-box h4 {
+            margin: 0 0 10px 0;
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+        .pq-items {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .pq-item {
+            background: #667eea;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .pq-item.min {
+            background: #4ecdc4;
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+        .code-panel {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .code-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .code-tab {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            background: #3d3d5c;
+            color: #fff;
+        }
+        .code-tab.active {
+            background: #667eea;
+        }
+        .code-content {
+            display: none;
+        }
+        .code-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../index.html">← Back to Index</a>
+    </nav>
+
+    <header>
+        <h1>🌲 Minimum Spanning Tree</h1>
+        <p>Find the minimum total edge weight to connect all vertices</p>
+    </header>
+
+    <main>
+        <!-- Algorithm Selection -->
+        <div class="card">
+            <h2>Algorithm Selection</h2>
+            <div class="algo-tabs">
+                <button class="algo-tab active" onclick="selectAlgorithm('kruskal')">Kruskal's Algorithm</button>
+                <button class="algo-tab" onclick="selectAlgorithm('prim')">Prim's Algorithm</button>
+            </div>
+            
+            <div class="graph-preset">
+                <button class="preset-btn active" onclick="loadPreset('simple')">Simple Graph</button>
+                <button class="preset-btn" onclick="loadPreset('dense')">Dense Graph</button>
+                <button class="preset-btn" onclick="loadPreset('grid')">Grid Graph</button>
+            </div>
+            
+            <div class="controls">
+                <label>
+                    Speed:
+                    <input type="range" id="speed" min="100" max="2000" value="800">
+                </label>
+                <button class="btn btn-primary" onclick="runMST()">▶ Run</button>
+                <button class="btn btn-secondary" onclick="reset()">↺ Reset</button>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #4a4a5a;"></div>
+                <span>Unprocessed Edge</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #4ecdc4;"></div>
+                <span>Considering Edge</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #95e1d3;"></div>
+                <span>MST Edge</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ff6b6b;"></div>
+                <span>Rejected (would create cycle)</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="mst-container">
+            <div class="canvas-panel">
+                <div class="canvas-wrapper">
+                    <canvas id="graphCanvas" width="550" height="400"></canvas>
+                </div>
+                <div class="step-info" id="stepInfo">Select an algorithm and click "Run" to start</div>
+            </div>
+
+            <div class="info-panel">
+                <!-- Kruskal-specific: Edge List -->
+                <div id="kruskalPanel">
+                    <div class="edge-list">
+                        <h4>📋 Sorted Edges (by weight)</h4>
+                        <div id="edgeList"></div>
+                    </div>
+                    
+                    <div class="union-find">
+                        <h4>🔗 Union-Find Components</h4>
+                        <div class="components" id="components"></div>
+                    </div>
+                </div>
+                
+                <!-- Prim-specific: Priority Queue -->
+                <div id="primPanel" style="display: none;">
+                    <div class="pq-box">
+                        <h4>🔢 Priority Queue (Min-Heap)</h4>
+                        <div class="pq-items" id="primPQ">
+                            <span style="color: #666;">Empty</span>
+                        </div>
+                    </div>
+                    
+                    <div class="edge-list">
+                        <h4>✅ MST Edges Selected</h4>
+                        <div id="primMSTEdges"></div>
+                    </div>
+                </div>
+                
+                <div class="result-box">
+                    <h4>MST Total Weight</h4>
+                    <div class="value" id="mstWeight">-</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code Panel -->
+        <div class="code-panel">
+            <div class="code-tabs">
+                <button class="code-tab active" onclick="showCode('kruskal')">Kruskal's</button>
+                <button class="code-tab" onclick="showCode('prim')">Prim's</button>
+            </div>
+            <div class="code-content active" id="kruskalCode">
+                <pre><code class="language-python">def kruskal(vertices, edges):
+    # Sort edges by weight
+    edges.sort(key=lambda e: e[2])
+    
+    # Initialize Union-Find
+    parent = {v: v for v in vertices}
+    rank = {v: 0 for v in vertices}
+    
+    def find(x):
+        if parent[x] != x:
+            parent[x] = find(parent[x])  # Path compression
+        return parent[x]
+    
+    def union(x, y):
+        px, py = find(x), find(y)
+        if px == py:
+            return False  # Already same component
+        if rank[px] < rank[py]:
+            px, py = py, px
+        parent[py] = px
+        if rank[px] == rank[py]:
+            rank[px] += 1
+        return True
+    
+    mst = []
+    for u, v, weight in edges:
+        if union(u, v):  # If edge doesn't create cycle
+            mst.append((u, v, weight))
+            if len(mst) == len(vertices) - 1:
+                break
+    
+    return mst
+
+# Time: O(E log E), Space: O(V)</code></pre>
+            </div>
+            <div class="code-content" id="primCode">
+                <pre><code class="language-python">import heapq
+
+def prim(graph, start):
+    visited = set()
+    mst = []
+    # Priority queue: (weight, from_vertex, to_vertex)
+    pq = [(0, None, start)]
+    
+    while pq and len(visited) < len(graph):
+        weight, from_v, to_v = heapq.heappop(pq)
+        
+        if to_v in visited:
+            continue
+            
+        visited.add(to_v)
+        if from_v is not None:
+            mst.append((from_v, to_v, weight))
+        
+        # Add edges from new vertex to queue
+        for neighbor, edge_weight in graph[to_v]:
+            if neighbor not in visited:
+                heapq.heappush(pq, (edge_weight, to_v, neighbor))
+    
+    return mst
+
+# Time: O((V + E) log V), Space: O(V + E)</code></pre>
+            </div>
+        </div>
+
+        <!-- Comparison -->
+        <div class="card">
+            <h2>Kruskal vs Prim</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Kruskal's</th>
+                        <th>Prim's</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Approach</strong></td>
+                        <td>Edge-centric (sort all edges)</td>
+                        <td>Vertex-centric (grow from start)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Structure</strong></td>
+                        <td>Union-Find (Disjoint Set)</td>
+                        <td>Priority Queue (Min-Heap)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Time Complexity</strong></td>
+                        <td>O(E log E)</td>
+                        <td>O((V+E) log V)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Better for</strong></td>
+                        <td>Sparse graphs (E ≈ V)</td>
+                        <td>Dense graphs (E ≈ V²)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Disconnected Graphs</strong></td>
+                        <td>Finds forest (MST for each component)</td>
+                        <td>Only spans connected component from start</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        const presets = {
+            simple: {
+                nodes: [
+                    {id: 'A', x: 100, y: 100},
+                    {id: 'B', x: 275, y: 80},
+                    {id: 'C', x: 450, y: 100},
+                    {id: 'D', x: 100, y: 300},
+                    {id: 'E', x: 275, y: 320},
+                    {id: 'F', x: 450, y: 300}
+                ],
+                edges: [
+                    ['A', 'B', 4], ['A', 'D', 2],
+                    ['B', 'C', 3], ['B', 'D', 5], ['B', 'E', 6],
+                    ['C', 'E', 1], ['C', 'F', 5],
+                    ['D', 'E', 4],
+                    ['E', 'F', 2]
+                ]
+            },
+            dense: {
+                nodes: [
+                    {id: 'A', x: 275, y: 50},
+                    {id: 'B', x: 150, y: 150},
+                    {id: 'C', x: 400, y: 150},
+                    {id: 'D', x: 100, y: 280},
+                    {id: 'E', x: 275, y: 230},
+                    {id: 'F', x: 450, y: 280},
+                    {id: 'G', x: 275, y: 360}
+                ],
+                edges: [
+                    ['A', 'B', 7], ['A', 'C', 8], ['A', 'E', 5],
+                    ['B', 'C', 9], ['B', 'D', 6], ['B', 'E', 4],
+                    ['C', 'E', 3], ['C', 'F', 7],
+                    ['D', 'E', 5], ['D', 'G', 8],
+                    ['E', 'F', 4], ['E', 'G', 6],
+                    ['F', 'G', 2]
+                ]
+            },
+            grid: {
+                nodes: [
+                    {id: '0', x: 100, y: 100},
+                    {id: '1', x: 275, y: 100},
+                    {id: '2', x: 450, y: 100},
+                    {id: '3', x: 100, y: 250},
+                    {id: '4', x: 275, y: 250},
+                    {id: '5', x: 450, y: 250}
+                ],
+                edges: [
+                    ['0', '1', 4], ['1', '2', 8],
+                    ['3', '4', 3], ['4', '5', 2],
+                    ['0', '3', 1], ['1', '4', 2], ['2', '5', 7],
+                    ['0', '4', 6], ['1', '3', 5], ['1', '5', 4], ['2', '4', 3]
+                ]
+            }
+        };
+
+        let currentGraph = null;
+        let currentAlgorithm = 'kruskal';
+        let running = false;
+
+        function selectAlgorithm(algo) {
+            currentAlgorithm = algo;
+            document.querySelectorAll('.algo-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('kruskalPanel').style.display = algo === 'kruskal' ? 'block' : 'none';
+            document.getElementById('primPanel').style.display = algo === 'prim' ? 'block' : 'none';
+            
+            reset();
+        }
+
+        function loadPreset(name) {
+            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentGraph = JSON.parse(JSON.stringify(presets[name]));
+            
+            // Build adjacency list
+            currentGraph.adjacency = {};
+            currentGraph.nodes.forEach(n => currentGraph.adjacency[n.id] = []);
+            currentGraph.edges.forEach(([a, b, w]) => {
+                currentGraph.adjacency[a].push({node: b, weight: w});
+                currentGraph.adjacency[b].push({node: a, weight: w});
+            });
+            
+            reset();
+        }
+
+        function drawGraph(edgeStates, nodeStates) {
+            const canvas = document.getElementById('graphCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const edgeColors = {
+                normal: '#4a4a5a',
+                current: '#4ecdc4',
+                mst: '#95e1d3',
+                rejected: '#ff6b6b'
+            };
+            
+            const nodeColors = {
+                normal: '#6c7a89',
+                visited: '#95e1d3',
+                current: '#4ecdc4'
+            };
+            
+            // Draw edges
+            currentGraph.edges.forEach(([a, b, w]) => {
+                const nodeA = currentGraph.nodes.find(n => n.id === a);
+                const nodeB = currentGraph.nodes.find(n => n.id === b);
+                const key = `${a}-${b}`;
+                const reverseKey = `${b}-${a}`;
+                const state = edgeStates[key] || edgeStates[reverseKey] || 'normal';
+                
+                ctx.strokeStyle = edgeColors[state];
+                ctx.lineWidth = state === 'mst' ? 4 : (state === 'current' ? 3 : 2);
+                ctx.beginPath();
+                ctx.moveTo(nodeA.x, nodeA.y);
+                ctx.lineTo(nodeB.x, nodeB.y);
+                ctx.stroke();
+                
+                // Draw weight
+                const midX = (nodeA.x + nodeB.x) / 2;
+                const midY = (nodeA.y + nodeB.y) / 2;
+                
+                ctx.fillStyle = '#1e1e2e';
+                ctx.beginPath();
+                ctx.arc(midX, midY, 14, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = state === 'mst' ? '#95e1d3' : 
+                               (state === 'current' ? '#4ecdc4' : '#f39c12');
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(w, midX, midY);
+            });
+            
+            // Draw nodes
+            currentGraph.nodes.forEach(node => {
+                const state = nodeStates[node.id] || 'normal';
+                
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, 22, 0, Math.PI * 2);
+                ctx.fillStyle = nodeColors[state];
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                ctx.fillStyle = state === 'normal' ? '#fff' : '#1a1a2e';
+                ctx.font = 'bold 14px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(node.id, node.x, node.y);
+            });
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function runMST() {
+            if (running) return;
+            running = true;
+            
+            if (currentAlgorithm === 'kruskal') {
+                await runKruskal();
+            } else {
+                await runPrim();
+            }
+            
+            running = false;
+        }
+
+        async function runKruskal() {
+            const speed = 2100 - document.getElementById('speed').value;
+            
+            // Sort edges by weight
+            const sortedEdges = [...currentGraph.edges].sort((a, b) => a[2] - b[2]);
+            
+            // Initialize Union-Find
+            const parent = {};
+            const rank = {};
+            currentGraph.nodes.forEach(n => {
+                parent[n.id] = n.id;
+                rank[n.id] = 0;
+            });
+            
+            function find(x) {
+                if (parent[x] !== x) {
+                    parent[x] = find(parent[x]);
+                }
+                return parent[x];
+            }
+            
+            function union(x, y) {
+                const px = find(x);
+                const py = find(y);
+                if (px === py) return false;
+                
+                if (rank[px] < rank[py]) {
+                    parent[px] = py;
+                } else if (rank[px] > rank[py]) {
+                    parent[py] = px;
+                } else {
+                    parent[py] = px;
+                    rank[px]++;
+                }
+                return true;
+            }
+            
+            // Render sorted edges
+            renderEdgeList(sortedEdges, -1, []);
+            renderComponents(parent);
+            document.getElementById('stepInfo').textContent = 'Sorted edges by weight. Starting Kruskal\'s algorithm...';
+            drawGraph({}, {});
+            await sleep(speed);
+            
+            const mstEdges = [];
+            const edgeStates = {};
+            let totalWeight = 0;
+            
+            for (let i = 0; i < sortedEdges.length && running; i++) {
+                const [u, v, w] = sortedEdges[i];
+                const key = `${u}-${v}`;
+                
+                edgeStates[key] = 'current';
+                drawGraph(edgeStates, {});
+                renderEdgeList(sortedEdges, i, mstEdges.map(e => sortedEdges.indexOf(e)));
+                
+                const pu = find(u);
+                const pv = find(v);
+                
+                document.getElementById('stepInfo').textContent = 
+                    `Checking edge ${u}-${v} (weight ${w}): find(${u})=${pu}, find(${v})=${pv}`;
+                await sleep(speed);
+                
+                if (union(u, v)) {
+                    mstEdges.push(sortedEdges[i]);
+                    totalWeight += w;
+                    edgeStates[key] = 'mst';
+                    
+                    document.getElementById('stepInfo').textContent = 
+                        `✅ Added ${u}-${v} to MST. Different components merged. Total: ${totalWeight}`;
+                } else {
+                    edgeStates[key] = 'rejected';
+                    document.getElementById('stepInfo').textContent = 
+                        `❌ Rejected ${u}-${v}. Would create cycle (same component).`;
+                }
+                
+                drawGraph(edgeStates, {});
+                renderEdgeList(sortedEdges, -1, mstEdges.map(e => sortedEdges.indexOf(e)));
+                renderComponents(parent);
+                document.getElementById('mstWeight').textContent = totalWeight;
+                
+                await sleep(speed);
+                
+                if (mstEdges.length === currentGraph.nodes.length - 1) {
+                    break;
+                }
+            }
+            
+            document.getElementById('stepInfo').textContent = 
+                `Complete! MST has ${mstEdges.length} edges with total weight ${totalWeight}`;
+        }
+
+        function renderEdgeList(edges, currentIdx, selectedIndices) {
+            const container = document.getElementById('edgeList');
+            container.innerHTML = edges.map(([u, v, w], i) => {
+                let cls = 'edge-item';
+                if (i === currentIdx) cls += ' current';
+                else if (selectedIndices.includes(i)) cls += ' selected';
+                
+                return `<div class="${cls}">
+                    <span>${u} — ${v}</span>
+                    <span>w: ${w}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function renderComponents(parent) {
+            const components = {};
+            Object.keys(parent).forEach(node => {
+                const root = findRoot(parent, node);
+                if (!components[root]) components[root] = [];
+                components[root].push(node);
+            });
+            
+            const container = document.getElementById('components');
+            container.innerHTML = Object.values(components).map(comp => 
+                `<div class="component">{${comp.sort().join(', ')}}</div>`
+            ).join('');
+        }
+
+        function findRoot(parent, x) {
+            while (parent[x] !== x) x = parent[x];
+            return x;
+        }
+
+        async function runPrim() {
+            const speed = 2100 - document.getElementById('speed').value;
+            
+            const start = currentGraph.nodes[0].id;
+            const visited = new Set();
+            const mstEdges = [];
+            const pq = [{weight: 0, from: null, to: start}];
+            
+            const edgeStates = {};
+            const nodeStates = {};
+            let totalWeight = 0;
+            
+            document.getElementById('stepInfo').textContent = `Starting Prim's from vertex ${start}`;
+            renderPrimPQ(pq);
+            drawGraph(edgeStates, nodeStates);
+            await sleep(speed);
+            
+            while (pq.length > 0 && visited.size < currentGraph.nodes.length && running) {
+                // Sort to get minimum
+                pq.sort((a, b) => a.weight - b.weight);
+                renderPrimPQ(pq);
+                
+                const {weight, from, to} = pq.shift();
+                
+                if (visited.has(to)) {
+                    continue;
+                }
+                
+                visited.add(to);
+                nodeStates[to] = 'visited';
+                
+                if (from !== null) {
+                    const key = `${from}-${to}`;
+                    edgeStates[key] = 'mst';
+                    mstEdges.push({from, to, weight});
+                    totalWeight += weight;
+                    
+                    document.getElementById('stepInfo').textContent = 
+                        `✅ Added ${from}-${to} (weight ${weight}) to MST. Total: ${totalWeight}`;
+                } else {
+                    document.getElementById('stepInfo').textContent = 
+                        `Starting from vertex ${to}`;
+                }
+                
+                drawGraph(edgeStates, nodeStates);
+                renderPrimMSTEdges(mstEdges);
+                document.getElementById('mstWeight').textContent = totalWeight;
+                await sleep(speed);
+                
+                // Add edges from new vertex
+                for (const {node: neighbor, weight: edgeWeight} of currentGraph.adjacency[to]) {
+                    if (!visited.has(neighbor)) {
+                        pq.push({weight: edgeWeight, from: to, to: neighbor});
+                        
+                        const key = `${to}-${neighbor}`;
+                        if (!edgeStates[key] && !edgeStates[`${neighbor}-${to}`]) {
+                            edgeStates[key] = 'current';
+                        }
+                    }
+                }
+                
+                renderPrimPQ(pq);
+                drawGraph(edgeStates, nodeStates);
+                
+                document.getElementById('stepInfo').textContent = 
+                    `Added edges from ${to} to priority queue`;
+                await sleep(speed / 2);
+            }
+            
+            document.getElementById('stepInfo').textContent = 
+                `Complete! MST has ${mstEdges.length} edges with total weight ${totalWeight}`;
+        }
+
+        function renderPrimPQ(pq) {
+            const container = document.getElementById('primPQ');
+            if (pq.length === 0) {
+                container.innerHTML = '<span style="color: #666;">Empty</span>';
+                return;
+            }
+            
+            const sorted = [...pq].sort((a, b) => a.weight - b.weight);
+            container.innerHTML = sorted.map((item, i) => {
+                const label = item.from ? `${item.from}→${item.to}` : item.to;
+                return `<span class="pq-item ${i === 0 ? 'min' : ''}">${label}: ${item.weight}</span>`;
+            }).join('');
+        }
+
+        function renderPrimMSTEdges(edges) {
+            const container = document.getElementById('primMSTEdges');
+            container.innerHTML = edges.map(e => 
+                `<div class="edge-item selected">
+                    <span>${e.from} — ${e.to}</span>
+                    <span>w: ${e.weight}</span>
+                </div>`
+            ).join('');
+        }
+
+        function reset() {
+            running = false;
+            
+            drawGraph({}, {});
+            
+            document.getElementById('edgeList').innerHTML = '';
+            document.getElementById('components').innerHTML = '';
+            document.getElementById('primPQ').innerHTML = '<span style="color: #666;">Empty</span>';
+            document.getElementById('primMSTEdges').innerHTML = '';
+            document.getElementById('mstWeight').textContent = '-';
+            document.getElementById('stepInfo').textContent = 'Select an algorithm and click "Run" to start';
+            
+            // Show sorted edges for Kruskal
+            if (currentAlgorithm === 'kruskal' && currentGraph) {
+                const sorted = [...currentGraph.edges].sort((a, b) => a[2] - b[2]);
+                renderEdgeList(sorted, -1, []);
+                
+                const parent = {};
+                currentGraph.nodes.forEach(n => parent[n.id] = n.id);
+                renderComponents(parent);
+            }
+        }
+
+        function showCode(type) {
+            document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.code-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(type + 'Code').classList.add('active');
+        }
+
+        // Initialize
+        loadPreset('simple');
+    </script>
+</body>
+</html>

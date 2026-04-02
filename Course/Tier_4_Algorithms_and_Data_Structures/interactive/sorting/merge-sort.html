@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Sort - Interactive Visualization</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .merge-tree {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .merge-level {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+            gap: 20px;
+        }
+        .merge-group {
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            transition: all 0.3s;
+        }
+        .merge-group.active {
+            background: #e74c3c;
+            transform: scale(1.1);
+        }
+        .merge-group.merged {
+            background: #2ecc71;
+        }
+        .merge-arrow {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔀 Merge Sort</h1>
+        <p>Divide and conquer: split, sort, and merge for guaranteed O(n log n) performance</p>
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>›</span>
+            <a href="../index.html#sorting">Sorting</a>
+            <span>›</span>
+            Merge Sort
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Visualization Panel -->
+            <div class="visualization-panel">
+                <div class="card">
+                    <h2>📊 Visualization</h2>
+                    
+                    <!-- Controls -->
+                    <div class="controls">
+                        <button id="btn-start" class="btn btn-primary" onclick="startSort()">
+                            ▶️ Start
+                        </button>
+                        <button id="btn-pause" class="btn btn-secondary" onclick="pauseSort()" disabled>
+                            ⏸️ Pause
+                        </button>
+                        <button id="btn-step" class="btn btn-secondary" onclick="stepSort()" disabled>
+                            ⏭️ Step
+                        </button>
+                        <button id="btn-reset" class="btn btn-danger" onclick="resetSort()">
+                            🔄 Reset
+                        </button>
+                        <button id="btn-random" class="btn btn-success" onclick="generateNew()">
+                            🎲 New Array
+                        </button>
+                    </div>
+
+                    <div class="controls">
+                        <div class="input-group">
+                            <label for="array-size">Size:</label>
+                            <input type="number" id="array-size" value="8" min="2" max="16" onchange="generateNew()">
+                        </div>
+                        <div class="input-group">
+                            <label for="speed">Speed:</label>
+                            <input type="range" id="speed" min="50" max="1000" value="400" onchange="updateSpeed()">
+                            <span id="speed-label">400ms</span>
+                        </div>
+                    </div>
+
+                    <!-- Visualization Area -->
+                    <div id="visualization" class="visualization-canvas"></div>
+
+                    <!-- Legend -->
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color default"></div>
+                            <span>Unsorted</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color comparing"></div>
+                            <span>Comparing</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color swapping"></div>
+                            <span>Merging</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color sorted"></div>
+                            <span>Sorted</span>
+                        </div>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="stats">
+                        <div class="stat-box">
+                            <div class="label">Comparisons</div>
+                            <div class="value" id="comparisons">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Array Accesses</div>
+                            <div class="value" id="swaps">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Current Step</div>
+                            <div class="value" id="current-step">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Recursion Depth</div>
+                            <div class="value" id="depth">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divide & Conquer Tree -->
+                <div class="card">
+                    <h2>🌳 Divide & Conquer Visualization</h2>
+                    <div id="merge-tree" class="merge-tree">
+                        <p style="text-align: center; color: #7f8c8d;">
+                            Start sorting to see the divide and conquer process
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Algorithm Steps -->
+                <div class="card">
+                    <h2>📝 Execution Steps</h2>
+                    <div id="steps-list" class="steps-list"></div>
+                </div>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="info-panel">
+                <!-- How It Works -->
+                <div class="card">
+                    <h2>💡 How It Works</h2>
+                    <h3>1. Divide</h3>
+                    <p>Split the array in half recursively until each subarray has one element.</p>
+                    
+                    <h3>2. Conquer</h3>
+                    <p>Single-element arrays are inherently sorted.</p>
+                    
+                    <h3>3. Combine (Merge)</h3>
+                    <p>Merge sorted subarrays by comparing elements and placing them in order.</p>
+                    
+                    <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <strong>🎯 Key Insight:</strong> The merge step is where the actual sorting happens. Two sorted arrays can be merged in O(n) time.
+                    </div>
+                </div>
+
+                <!-- Complexity -->
+                <div class="card">
+                    <h2>⏱️ Complexity Analysis</h2>
+                    <table class="complexity-table">
+                        <tr>
+                            <th>Case</th>
+                            <th>Time</th>
+                        </tr>
+                        <tr>
+                            <td>Best</td>
+                            <td class="good">O(n log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Average</td>
+                            <td class="good">O(n log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Worst</td>
+                            <td class="good">O(n log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Space</td>
+                            <td class="ok">O(n)</td>
+                        </tr>
+                    </table>
+                    
+                    <h3>Properties</h3>
+                    <ul>
+                        <li>✅ <strong>Stable:</strong> Equal elements maintain order</li>
+                        <li>✅ <strong>Predictable:</strong> Always O(n log n)</li>
+                        <li>✅ <strong>Parallelizable:</strong> Subarrays can be sorted independently</li>
+                        <li>❌ <strong>Not in-place:</strong> Requires O(n) extra space</li>
+                    </ul>
+                </div>
+
+                <!-- Code -->
+                <div class="card">
+                    <h2>💻 Python Code</h2>
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>merge_sort.py</span>
+                            <span class="language">Python</span>
+                        </div>
+                        <pre><code><span class="code-line"><span class="line-number">1</span><span class="keyword">def</span> <span class="function">merge_sort</span>(arr):</span>
+<span class="code-line"><span class="line-number">2</span>    <span class="keyword">if</span> <span class="function">len</span>(arr) <= <span class="number">1</span>:</span>
+<span class="code-line"><span class="line-number">3</span>        <span class="keyword">return</span> arr</span>
+<span class="code-line"><span class="line-number">4</span>    </span>
+<span class="code-line"><span class="line-number">5</span>    mid = <span class="function">len</span>(arr) // <span class="number">2</span></span>
+<span class="code-line"><span class="line-number">6</span>    left = merge_sort(arr[:mid])</span>
+<span class="code-line"><span class="line-number">7</span>    right = merge_sort(arr[mid:])</span>
+<span class="code-line"><span class="line-number">8</span>    </span>
+<span class="code-line"><span class="line-number">9</span>    <span class="keyword">return</span> merge(left, right)</span>
+<span class="code-line"><span class="line-number">10</span></span>
+<span class="code-line"><span class="line-number">11</span><span class="keyword">def</span> <span class="function">merge</span>(left, right):</span>
+<span class="code-line"><span class="line-number">12</span>    result = []</span>
+<span class="code-line"><span class="line-number">13</span>    i = j = <span class="number">0</span></span>
+<span class="code-line"><span class="line-number">14</span>    </span>
+<span class="code-line"><span class="line-number">15</span>    <span class="keyword">while</span> i < <span class="function">len</span>(left) <span class="keyword">and</span> j < <span class="function">len</span>(right):</span>
+<span class="code-line"><span class="line-number">16</span>        <span class="keyword">if</span> left[i] <= right[j]:</span>
+<span class="code-line"><span class="line-number">17</span>            result.append(left[i])</span>
+<span class="code-line"><span class="line-number">18</span>            i += <span class="number">1</span></span>
+<span class="code-line"><span class="line-number">19</span>        <span class="keyword">else</span>:</span>
+<span class="code-line"><span class="line-number">20</span>            result.append(right[j])</span>
+<span class="code-line"><span class="line-number">21</span>            j += <span class="number">1</span></span>
+<span class="code-line"><span class="line-number">22</span>    </span>
+<span class="code-line"><span class="line-number">23</span>    result.extend(left[i:])</span>
+<span class="code-line"><span class="line-number">24</span>    result.extend(right[j:])</span>
+<span class="code-line"><span class="line-number">25</span>    <span class="keyword">return</span> result</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- When to Use -->
+                <div class="card">
+                    <h2>🤔 When to Use</h2>
+                    <h3>✅ Good For:</h3>
+                    <ul>
+                        <li>Linked lists (natural fit, O(1) space)</li>
+                        <li>External sorting (large files)</li>
+                        <li>Stable sort requirement</li>
+                        <li>Predictable performance needed</li>
+                        <li>Parallel processing</li>
+                    </ul>
+                    
+                    <h3>❌ Avoid When:</h3>
+                    <ul>
+                        <li>Memory is very limited</li>
+                        <li>Small arrays (overhead not worth it)</li>
+                        <li>In-place sorting required</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        let visualizer;
+        let currentArray = [];
+        let maxDepth = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            visualizer = new SortingVisualizer('visualization', {
+                speed: 400,
+                onComplete: onSortComplete
+            });
+            generateNew();
+        });
+
+        function generateNew() {
+            const size = parseInt(document.getElementById('array-size').value) || 8;
+            currentArray = generateRandomArray(size, 5, 99);
+            visualizer.setArray(currentArray);
+            visualizer.render();
+            maxDepth = 0;
+            document.getElementById('depth').textContent = '0';
+            resetButtons();
+            visualizer.clearSteps();
+            document.getElementById('merge-tree').innerHTML = '<p style="text-align: center; color: #7f8c8d;">Start sorting to see the divide and conquer process</p>';
+        }
+
+        async function startSort() {
+            if (visualizer.isRunning && visualizer.isPaused) {
+                visualizer.resume();
+                updateButtonStates(true, false);
+                return;
+            }
+            
+            visualizer.setArray(currentArray);
+            updateButtonStates(true, false);
+            
+            // Build divide tree visualization
+            buildMergeTree(currentArray);
+            
+            await visualizer.mergeSort();
+        }
+
+        function buildMergeTree(arr) {
+            const tree = document.getElementById('merge-tree');
+            tree.innerHTML = '';
+            
+            // Calculate tree levels
+            let levels = [];
+            let currentLevel = [[...arr]];
+            levels.push(currentLevel);
+            
+            while (currentLevel.some(a => a.length > 1)) {
+                let nextLevel = [];
+                for (const subarr of currentLevel) {
+                    if (subarr.length > 1) {
+                        const mid = Math.floor(subarr.length / 2);
+                        nextLevel.push(subarr.slice(0, mid));
+                        nextLevel.push(subarr.slice(mid));
+                    } else {
+                        nextLevel.push(subarr);
+                    }
+                }
+                levels.push(nextLevel);
+                currentLevel = nextLevel;
+            }
+            
+            // Render levels
+            for (let i = 0; i < levels.length; i++) {
+                const levelDiv = document.createElement('div');
+                levelDiv.className = 'merge-level';
+                
+                for (const group of levels[i]) {
+                    const groupDiv = document.createElement('div');
+                    groupDiv.className = 'merge-group';
+                    groupDiv.textContent = `[${group.join(', ')}]`;
+                    levelDiv.appendChild(groupDiv);
+                }
+                
+                tree.appendChild(levelDiv);
+                
+                if (i < levels.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'merge-arrow';
+                    arrow.textContent = '↓ divide';
+                    tree.appendChild(arrow);
+                }
+            }
+            
+            maxDepth = levels.length - 1;
+            document.getElementById('depth').textContent = maxDepth;
+        }
+
+        function pauseSort() {
+            visualizer.pause();
+            updateButtonStates(true, true);
+        }
+
+        function stepSort() {
+            if (!visualizer.isRunning) {
+                visualizer.isStepping = true;
+                visualizer.setArray(currentArray);
+                buildMergeTree(currentArray);
+                updateButtonStates(true, false);
+                visualizer.mergeSort();
+            } else {
+                visualizer.step();
+            }
+        }
+
+        function resetSort() {
+            visualizer.stop();
+            visualizer.setArray(currentArray);
+            visualizer.render();
+            resetButtons();
+            visualizer.clearSteps();
+        }
+
+        function updateSpeed() {
+            const speed = 1050 - parseInt(document.getElementById('speed').value);
+            visualizer.setSpeed(speed);
+            document.getElementById('speed-label').textContent = speed + 'ms';
+        }
+
+        function updateButtonStates(running, paused) {
+            document.getElementById('btn-start').disabled = running && !paused;
+            document.getElementById('btn-start').textContent = paused ? '▶️ Resume' : '▶️ Start';
+            document.getElementById('btn-pause').disabled = !running || paused;
+            document.getElementById('btn-step').disabled = false;
+        }
+
+        function resetButtons() {
+            document.getElementById('btn-start').disabled = false;
+            document.getElementById('btn-start').textContent = '▶️ Start';
+            document.getElementById('btn-pause').disabled = true;
+            document.getElementById('btn-step').disabled = false;
+        }
+
+        function onSortComplete() {
+            resetButtons();
+            document.getElementById('btn-step').disabled = true;
+        }
+    </script>
+</body>
+</html>

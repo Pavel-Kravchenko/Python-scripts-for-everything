@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithms - Practice Exercises</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <header>
+        <h1>📝 Sorting Exercises</h1>
+        <p>Practice problems to test your understanding of sorting algorithms</p>
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>›</span>
+            <a href="../index.html#exercises">Exercises</a>
+            <span>›</span>
+            Sorting
+        </div>
+    </header>
+
+    <div class="container" style="max-width: 900px;">
+        
+        <!-- Exercise 1 -->
+        <div class="exercise">
+            <h3>Exercise 1: Trace Bubble Sort</h3>
+            <div class="question">
+                <p>Given the array <code>[64, 34, 25, 12, 22, 11, 90]</code>, trace through Bubble Sort.</p>
+                <p><strong>Question:</strong> After the first complete pass, what is the state of the array?</p>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(1)">Show Solution</button>
+            <div class="solution" id="solution-1">
+                <h4>✅ Solution</h4>
+                <p>After the first pass of Bubble Sort:</p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+Initial: [64, 34, 25, 12, 22, 11, 90]
+
+Compare 64 & 34 → swap  → [34, 64, 25, 12, 22, 11, 90]
+Compare 64 & 25 → swap  → [34, 25, 64, 12, 22, 11, 90]
+Compare 64 & 12 → swap  → [34, 25, 12, 64, 22, 11, 90]
+Compare 64 & 22 → swap  → [34, 25, 12, 22, 64, 11, 90]
+Compare 64 & 11 → swap  → [34, 25, 12, 22, 11, 64, 90]
+Compare 64 & 90 → no swap
+
+After first pass: [34, 25, 12, 22, 11, 64, 90]
+                </pre>
+                <p><strong>Key insight:</strong> 90 (the largest element) has "bubbled up" to its final position at the end.</p>
+            </div>
+        </div>
+
+        <!-- Exercise 2 -->
+        <div class="exercise">
+            <h3>Exercise 2: Complexity Analysis</h3>
+            <div class="question">
+                <p>Match each scenario with the most appropriate sorting algorithm:</p>
+                <ol>
+                    <li>Sorting 1 million integers between 0-999</li>
+                    <li>Sorting a nearly sorted array of 10,000 elements</li>
+                    <li>Sorting linked list nodes</li>
+                    <li>Need guaranteed O(n log n) with stability</li>
+                </ol>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(2)">Show Solution</button>
+            <div class="solution" id="solution-2">
+                <h4>✅ Solution</h4>
+                <ol>
+                    <li><strong>Counting Sort</strong> - Perfect for limited range integers. O(n + k) where k = 1000. Much faster than comparison sorts for this case.</li>
+                    <li><strong>Insertion Sort</strong> - O(n) for nearly sorted data due to its adaptive nature. Each element moves only a few positions.</li>
+                    <li><strong>Merge Sort</strong> - Ideal for linked lists because it doesn't require random access. Can be done in O(1) space for linked lists.</li>
+                    <li><strong>Merge Sort</strong> - Always O(n log n) regardless of input, and stable. QuickSort has O(n²) worst case and isn't stable.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Exercise 3 -->
+        <div class="exercise">
+            <h3>Exercise 3: QuickSort Partitioning</h3>
+            <div class="question">
+                <p>Given array <code>[8, 2, 4, 7, 1, 3, 9, 6, 5]</code> with pivot = 5 (last element):</p>
+                <p><strong>Question:</strong> After one partition step, what is the resulting array and where is the pivot's final position?</p>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(3)">Show Solution</button>
+            <div class="solution" id="solution-3">
+                <h4>✅ Solution</h4>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+Initial: [8, 2, 4, 7, 1, 3, 9, 6, 5]  pivot = 5
+         i = -1
+
+j=0: 8 > 5, no swap
+j=1: 2 < 5, i=0, swap arr[0] and arr[1] → [2, 8, 4, 7, 1, 3, 9, 6, 5]
+j=2: 4 < 5, i=1, swap arr[1] and arr[2] → [2, 4, 8, 7, 1, 3, 9, 6, 5]
+j=3: 7 > 5, no swap
+j=4: 1 < 5, i=2, swap arr[2] and arr[4] → [2, 4, 1, 7, 8, 3, 9, 6, 5]
+j=5: 3 < 5, i=3, swap arr[3] and arr[5] → [2, 4, 1, 3, 8, 7, 9, 6, 5]
+j=6: 9 > 5, no swap
+j=7: 6 > 5, no swap
+
+Final: swap arr[i+1] and pivot → [2, 4, 1, 3, 5, 7, 9, 6, 8]
+                                          ↑
+                                    pivot at index 4
+                </pre>
+                <p><strong>Result:</strong> <code>[2, 4, 1, 3, 5, 7, 9, 6, 8]</code>, pivot is at index 4.</p>
+                <p>Elements left of 5 are smaller, elements right of 5 are larger.</p>
+            </div>
+        </div>
+
+        <!-- Exercise 4 -->
+        <div class="exercise">
+            <h3>Exercise 4: Merge Sort Recursion</h3>
+            <div class="question">
+                <p>For the array <code>[38, 27, 43, 3, 9, 82, 10]</code>:</p>
+                <p><strong>Questions:</strong></p>
+                <ol>
+                    <li>How many times will the array be split?</li>
+                    <li>What are all the merge operations in order?</li>
+                </ol>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(4)">Show Solution</button>
+            <div class="solution" id="solution-4">
+                <h4>✅ Solution</h4>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+Splitting (Divide):
+[38, 27, 43, 3, 9, 82, 10]
+      ↓
+[38, 27, 43, 3]  |  [9, 82, 10]
+      ↓                  ↓
+[38, 27] | [43, 3]   [9, 82] | [10]
+    ↓        ↓           ↓
+[38] [27] [43] [3]   [9] [82]  [10]
+
+Number of splits: 6
+
+Merging (Conquer):
+1. [38] + [27] → [27, 38]
+2. [43] + [3]  → [3, 43]
+3. [27, 38] + [3, 43] → [3, 27, 38, 43]
+4. [9] + [82] → [9, 82]
+5. [9, 82] + [10] → [9, 10, 82]
+6. [3, 27, 38, 43] + [9, 10, 82] → [3, 9, 10, 27, 38, 43, 82]
+                </pre>
+            </div>
+        </div>
+
+        <!-- Exercise 5 -->
+        <div class="exercise">
+            <h3>Exercise 5: Stability Concept</h3>
+            <div class="question">
+                <p>Consider sorting these students by score:</p>
+                <pre>
+[("Alice", 85), ("Bob", 90), ("Carol", 85), ("Dave", 90)]
+                </pre>
+                <p><strong>Questions:</strong></p>
+                <ol>
+                    <li>What does it mean for a sort to be "stable"?</li>
+                    <li>If we use a stable sort, what's the guaranteed output?</li>
+                    <li>Which common sorts are stable? Which are not?</li>
+                </ol>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(5)">Show Solution</button>
+            <div class="solution" id="solution-5">
+                <h4>✅ Solution</h4>
+                <p><strong>1. Stability Definition:</strong></p>
+                <p>A sorting algorithm is stable if elements with equal keys maintain their relative order from the input.</p>
+                
+                <p><strong>2. Stable Sort Output:</strong></p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+[("Alice", 85), ("Carol", 85), ("Bob", 90), ("Dave", 90)]
+      ↑              ↑             ↑            ↑
+  Alice before Carol (original order preserved)
+                       Bob before Dave (original order preserved)
+                </pre>
+                
+                <p><strong>3. Stability by Algorithm:</strong></p>
+                <table class="complexity-table">
+                    <tr>
+                        <th>Stable ✅</th>
+                        <th>Unstable ❌</th>
+                    </tr>
+                    <tr>
+                        <td>Bubble Sort</td>
+                        <td>QuickSort</td>
+                    </tr>
+                    <tr>
+                        <td>Insertion Sort</td>
+                        <td>Heap Sort</td>
+                    </tr>
+                    <tr>
+                        <td>Merge Sort</td>
+                        <td>Selection Sort</td>
+                    </tr>
+                    <tr>
+                        <td>Counting Sort</td>
+                        <td>Shell Sort</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Exercise 6 -->
+        <div class="exercise">
+            <h3>Exercise 6: Best/Worst Case Analysis</h3>
+            <div class="question">
+                <p>For each algorithm, describe the input that causes best and worst case:</p>
+                <ol>
+                    <li>Bubble Sort</li>
+                    <li>QuickSort (with last element as pivot)</li>
+                    <li>Insertion Sort</li>
+                </ol>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(6)">Show Solution</button>
+            <div class="solution" id="solution-6">
+                <h4>✅ Solution</h4>
+                
+                <h5>1. Bubble Sort</h5>
+                <ul>
+                    <li><strong>Best Case O(n):</strong> Already sorted array [1, 2, 3, 4, 5]. First pass detects no swaps and terminates.</li>
+                    <li><strong>Worst Case O(n²):</strong> Reverse sorted [5, 4, 3, 2, 1]. Every element must bubble to the end.</li>
+                </ul>
+                
+                <h5>2. QuickSort</h5>
+                <ul>
+                    <li><strong>Best Case O(n log n):</strong> Pivot always splits array in half. Example: median element happens to be at the end.</li>
+                    <li><strong>Worst Case O(n²):</strong> Already sorted [1, 2, 3, 4, 5] or reverse sorted. Pivot is always min/max, creating n partitions of size n-1, n-2, etc.</li>
+                </ul>
+                
+                <h5>3. Insertion Sort</h5>
+                <ul>
+                    <li><strong>Best Case O(n):</strong> Already sorted. Each element compared once with its predecessor, no shifts needed.</li>
+                    <li><strong>Worst Case O(n²):</strong> Reverse sorted. Each element must shift past all previous elements.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Exercise 7 -->
+        <div class="exercise">
+            <h3>Exercise 7: Coding Challenge</h3>
+            <div class="question">
+                <p><strong>Implement:</strong> Write a function that determines if an array can be sorted with exactly one swap.</p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+def can_sort_one_swap(arr):
+    # Return True if exactly one swap sorts the array
+    # Return False otherwise
+    pass
+
+# Examples:
+# can_sort_one_swap([1, 5, 3, 4, 2, 6]) → True (swap 5 and 2)
+# can_sort_one_swap([1, 2, 3, 4, 5]) → False (already sorted, 0 swaps)
+# can_sort_one_swap([3, 2, 1]) → False (needs more than 1 swap)
+                </pre>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(7)">Show Solution</button>
+            <div class="solution" id="solution-7">
+                <h4>✅ Solution</h4>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+def can_sort_one_swap(arr):
+    # Find positions where arr differs from sorted version
+    sorted_arr = sorted(arr)
+    diffs = [i for i in range(len(arr)) if arr[i] != sorted_arr[i]]
+    
+    # Need exactly 2 positions that differ
+    if len(diffs) != 2:
+        return False
+    
+    # Check if swapping those positions sorts the array
+    i, j = diffs
+    arr[i], arr[j] = arr[j], arr[i]
+    return arr == sorted_arr
+
+# Alternative approach without sorting:
+def can_sort_one_swap_v2(arr):
+    n = len(arr)
+    # Find first position where arr[i] > arr[i+1]
+    first = -1
+    for i in range(n - 1):
+        if arr[i] > arr[i + 1]:
+            first = i
+            break
+    
+    if first == -1:
+        return False  # Already sorted
+    
+    # Find position to swap with
+    for j in range(n - 1, first, -1):
+        if arr[j] < arr[first]:
+            # Try swap
+            arr[first], arr[j] = arr[j], arr[first]
+            # Check if sorted
+            is_sorted = all(arr[k] <= arr[k+1] for k in range(n-1))
+            arr[first], arr[j] = arr[j], arr[first]  # Swap back
+            if is_sorted:
+                return True
+    
+    return False
+                </pre>
+            </div>
+        </div>
+
+        <!-- Exercise 8 -->
+        <div class="exercise">
+            <h3>Exercise 8: Space Complexity</h3>
+            <div class="question">
+                <p>Explain why:</p>
+                <ol>
+                    <li>Merge Sort requires O(n) extra space</li>
+                    <li>QuickSort requires O(log n) space</li>
+                    <li>In-place Merge Sort is possible but rarely used</li>
+                </ol>
+            </div>
+            <button class="toggle-solution" onclick="toggleSolution(8)">Show Solution</button>
+            <div class="solution" id="solution-8">
+                <h4>✅ Solution</h4>
+                
+                <h5>1. Merge Sort O(n) Space</h5>
+                <p>The merge step requires a temporary array to hold elements while merging two sorted subarrays. At the top level, we merge two n/2 sized arrays, needing O(n) space.</p>
+                
+                <h5>2. QuickSort O(log n) Space</h5>
+                <p>QuickSort sorts in-place but uses the call stack for recursion. With balanced partitions, recursion depth is O(log n). With tail recursion optimization (processing smaller partition first), we can guarantee O(log n) stack space even in worst case.</p>
+                
+                <h5>3. In-place Merge Sort</h5>
+                <p>It's possible to merge in-place using techniques like "block merge" or rotation-based merging, but:</p>
+                <ul>
+                    <li>Constant factors become very high</li>
+                    <li>Implementation is complex</li>
+                    <li>Cache performance suffers</li>
+                    <li>The O(n) space of standard merge sort is usually acceptable</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleSolution(num) {
+            const solution = document.getElementById(`solution-${num}`);
+            const button = solution.previousElementSibling;
+            
+            if (solution.classList.contains('visible')) {
+                solution.classList.remove('visible');
+                button.textContent = 'Show Solution';
+            } else {
+                solution.classList.add('visible');
+                button.textContent = 'Hide Solution';
+            }
+        }
+    </script>
+</body>
+</html>

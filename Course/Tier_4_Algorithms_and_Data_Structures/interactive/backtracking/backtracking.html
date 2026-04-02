@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backtracking Visualization | Algorithms</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .problem-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .problem-tab {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            background: #3d3d5c;
+            color: #fff;
+            transition: all 0.2s;
+        }
+        .problem-tab:hover {
+            background: #4d4d6c;
+        }
+        .problem-tab.active {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: #fff;
+        }
+        .bt-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .bt-main {
+            flex: 2;
+            min-width: 400px;
+        }
+        .bt-side {
+            flex: 1;
+            min-width: 280px;
+        }
+        .board-wrapper {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .chess-board {
+            display: grid;
+            gap: 0;
+            border: 3px solid #4a4a5a;
+        }
+        .board-cell {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            transition: all 0.2s;
+        }
+        .board-cell.light { background: #f0d9b5; }
+        .board-cell.dark { background: #b58863; }
+        .board-cell.valid { background: #95e1d3 !important; }
+        .board-cell.invalid { background: #ff6b6b !important; }
+        .board-cell.current { background: #4ecdc4 !important; }
+        .board-cell.checking { background: #f39c12 !important; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .stat-box {
+            background: #2d2d3d;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-box h4 {
+            margin: 0 0 5px 0;
+            color: #a0a0a0;
+            font-size: 12px;
+        }
+        .stat-box .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        .solutions-panel {
+            background: #2d2d3d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .solutions-panel h4 {
+            margin: 0 0 10px 0;
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+        .solution-thumbs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .solution-thumb {
+            background: #3d3d5c;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .solution-thumb:hover { transform: scale(1.1); }
+        .mini-board { display: grid; gap: 1px; }
+        .mini-cell {
+            width: 12px;
+            height: 12px;
+            background: #4a4a5a;
+        }
+        .mini-cell.queen { background: #4ecdc4; }
+        .step-info {
+            background: #2d2d3d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            color: #e0e0e0;
+            min-height: 60px;
+        }
+        .perm-display {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .perm-item {
+            background: #3d3d5c;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+        }
+        .perm-item.fixed { background: #95e1d3; color: #1a1a2e; }
+        .perm-item.current { background: #4ecdc4; color: #1a1a2e; }
+        .perm-item.swapping { background: #f39c12; color: #1a1a2e; }
+        .perm-results {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .perm-result {
+            background: #3d3d5c;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+        }
+        .perm-result.new {
+            background: #4ecdc4;
+            color: #1a1a2e;
+            animation: pulse 0.3s;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .code-panel {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../index.html">← Back to Index</a>
+    </nav>
+
+    <header>
+        <h1>🔄 Backtracking Visualization</h1>
+        <p>Explore exhaustive search with pruning through classic problems</p>
+    </header>
+
+    <main>
+        <div class="card">
+            <h2>Select Problem</h2>
+            <div class="problem-tabs">
+                <button class="problem-tab active" onclick="selectProblem('nqueens')">N-Queens</button>
+                <button class="problem-tab" onclick="selectProblem('permutations')">Permutations</button>
+            </div>
+        </div>
+
+        <!-- N-Queens Panel -->
+        <div id="nqueensPanel" class="problem-panel">
+            <div class="card">
+                <h2>N-Queens Problem</h2>
+                <p>Place N queens on an N×N chessboard so no two queens threaten each other</p>
+                
+                <div class="controls">
+                    <label>
+                        Board Size (N):
+                        <select id="nqueensSize">
+                            <option value="4">4×4</option>
+                            <option value="5">5×5</option>
+                            <option value="6" selected>6×6</option>
+                            <option value="8">8×8</option>
+                        </select>
+                    </label>
+                    <label>
+                        Speed:
+                        <input type="range" id="nqueensSpeed" min="50" max="1000" value="300">
+                    </label>
+                    <button class="btn btn-primary" onclick="runNQueens()">▶ Find All Solutions</button>
+                    <button class="btn btn-secondary" onclick="resetNQueens()">↺ Reset</button>
+                </div>
+            </div>
+            
+            <div class="bt-container">
+                <div class="bt-main">
+                    <div class="board-wrapper">
+                        <div class="chess-board" id="nqueensBoard"></div>
+                    </div>
+                    <div class="step-info" id="nqueensStep">Click "Find All Solutions" to start</div>
+                </div>
+                
+                <div class="bt-side">
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <h4>Solutions Found</h4>
+                            <div class="value" id="nqueensSolutions">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <h4>Backtracks</h4>
+                            <div class="value" id="nqueensBacktracks">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <h4>Placements Tried</h4>
+                            <div class="value" id="nqueensPlacements">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <h4>Current Row</h4>
+                            <div class="value" id="nqueensRow">-</div>
+                        </div>
+                    </div>
+                    
+                    <div class="solutions-panel">
+                        <h4>🎯 Found Solutions (click to view)</h4>
+                        <div class="solution-thumbs" id="solutionThumbs"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-panel">
+                <h3>N-Queens Backtracking</h3>
+                <pre><code>def solve_n_queens(n):
+    solutions = []
+    board = [-1] * n  # board[row] = column of queen
+    
+    def is_safe(row, col):
+        for r in range(row):
+            c = board[r]
+            if c == col:  # Same column
+                return False
+            if abs(r - row) == abs(c - col):  # Diagonal
+                return False
+        return True
+    
+    def backtrack(row):
+        if row == n:
+            solutions.append(board[:])
+            return
+        
+        for col in range(n):
+            if is_safe(row, col):
+                board[row] = col
+                backtrack(row + 1)
+                board[row] = -1  # Backtrack
+    
+    backtrack(0)
+    return solutions</code></pre>
+            </div>
+        </div>
+
+        <!-- Permutations Panel -->
+        <div id="permutationsPanel" class="problem-panel" style="display: none;">
+            <div class="card">
+                <h2>Generate All Permutations</h2>
+                <p>Generate all possible arrangements of a set of elements</p>
+                
+                <div class="controls">
+                    <label>
+                        Elements:
+                        <input type="text" id="permElements" value="ABC" maxlength="5" style="width: 80px; text-align: center;">
+                    </label>
+                    <label>
+                        Speed:
+                        <input type="range" id="permSpeed" min="100" max="1500" value="500">
+                    </label>
+                    <button class="btn btn-primary" onclick="runPermutations()">▶ Generate</button>
+                    <button class="btn btn-secondary" onclick="resetPermutations()">↺ Reset</button>
+                </div>
+            </div>
+            
+            <div class="bt-container">
+                <div class="bt-main">
+                    <div class="board-wrapper" style="flex-direction: column;">
+                        <div class="perm-display" id="permDisplay"></div>
+                    </div>
+                    <div class="step-info" id="permStep">Click "Generate" to start</div>
+                    
+                    <div class="solutions-panel">
+                        <h4>📋 Generated Permutations</h4>
+                        <div class="perm-results" id="permResults"></div>
+                    </div>
+                </div>
+                
+                <div class="bt-side">
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <h4>Permutations Found</h4>
+                            <div class="value" id="permCount">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <h4>Expected (n!)</h4>
+                            <div class="value" id="permExpected">-</div>
+                        </div>
+                        <div class="stat-box">
+                            <h4>Swaps Made</h4>
+                            <div class="value" id="permSwaps">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <h4>Current Index</h4>
+                            <div class="value" id="permIndex">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-panel">
+                <h3>Permutations via Backtracking</h3>
+                <pre><code>def permutations(arr):
+    result = []
+    n = len(arr)
+    
+    def backtrack(start):
+        if start == n:
+            result.append(arr[:])
+            return
+        
+        for i in range(start, n):
+            arr[start], arr[i] = arr[i], arr[start]  # Swap
+            backtrack(start + 1)
+            arr[start], arr[i] = arr[i], arr[start]  # Swap back
+    
+    backtrack(0)
+    return result</code></pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>What is Backtracking?</h2>
+            <p>Backtracking is an algorithmic technique that explores all possible solutions by building candidates incrementally and abandoning ("backtracking") candidates that cannot lead to valid solutions.</p>
+            
+            <h3>Key Concepts</h3>
+            <ul>
+                <li><strong>Choice:</strong> At each step, make a choice from available options</li>
+                <li><strong>Constraint:</strong> Check if the choice satisfies all constraints</li>
+                <li><strong>Goal:</strong> Check if we've reached a solution</li>
+                <li><strong>Backtrack:</strong> Undo the choice and try the next option</li>
+            </ul>
+            
+            <h3>Template</h3>
+            <pre><code>def backtrack(state):
+    if is_goal(state):
+        record_solution(state)
+        return
+    
+    for choice in get_choices(state):
+        if is_valid(state, choice):
+            make_choice(state, choice)
+            backtrack(state)
+            undo_choice(state, choice)  # Backtrack</code></pre>
+        </div>
+    </main>
+
+    <script>
+        let running = false;
+        
+        function selectProblem(problem) {
+            document.querySelectorAll('.problem-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.querySelectorAll('.problem-panel').forEach(p => p.style.display = 'none');
+            document.getElementById(problem + 'Panel').style.display = 'block';
+            
+            if (problem === 'nqueens') resetNQueens();
+            else if (problem === 'permutations') resetPermutations();
+        }
+        
+        // N-QUEENS
+        let nqueensBoard = [];
+        let nqueensSolutions = [];
+        
+        function renderNQueensBoard(n, highlights = {}) {
+            const board = document.getElementById('nqueensBoard');
+            board.style.gridTemplateColumns = `repeat(${n}, 50px)`;
+            board.innerHTML = '';
+            
+            for (let r = 0; r < n; r++) {
+                for (let c = 0; c < n; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'board-cell ' + ((r + c) % 2 === 0 ? 'light' : 'dark');
+                    
+                    if (highlights.current && highlights.current[0] === r && highlights.current[1] === c) {
+                        cell.classList.add('current');
+                    } else if (highlights.checking && highlights.checking.some(([hr, hc]) => hr === r && hc === c)) {
+                        cell.classList.add('checking');
+                    } else if (highlights.invalid && highlights.invalid[0] === r && highlights.invalid[1] === c) {
+                        cell.classList.add('invalid');
+                    }
+                    
+                    if (nqueensBoard[r] === c) cell.textContent = '♛';
+                    board.appendChild(cell);
+                }
+            }
+        }
+        
+        function sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+        
+        async function runNQueens() {
+            if (running) return;
+            running = true;
+            
+            const n = parseInt(document.getElementById('nqueensSize').value);
+            const speed = 1050 - document.getElementById('nqueensSpeed').value;
+            
+            nqueensBoard = new Array(n).fill(-1);
+            nqueensSolutions = [];
+            let backtracks = 0, placements = 0;
+            
+            document.getElementById('nqueensSolutions').textContent = '0';
+            document.getElementById('nqueensBacktracks').textContent = '0';
+            document.getElementById('nqueensPlacements').textContent = '0';
+            document.getElementById('solutionThumbs').innerHTML = '';
+            renderNQueensBoard(n);
+            
+            function isSafe(row, col) {
+                for (let r = 0; r < row; r++) {
+                    const c = nqueensBoard[r];
+                    if (c === col || Math.abs(r - row) === Math.abs(c - col)) return false;
+                }
+                return true;
+            }
+            
+            async function backtrack(row) {
+                if (!running) return;
+                if (row === n) {
+                    nqueensSolutions.push([...nqueensBoard]);
+                    document.getElementById('nqueensSolutions').textContent = nqueensSolutions.length;
+                    document.getElementById('nqueensStep').textContent = `🎉 Solution ${nqueensSolutions.length} found!`;
+                    addSolutionThumb(nqueensBoard, n);
+                    await sleep(speed * 2);
+                    return;
+                }
+                
+                document.getElementById('nqueensRow').textContent = row + 1;
+                
+                for (let col = 0; col < n && running; col++) {
+                    placements++;
+                    document.getElementById('nqueensPlacements').textContent = placements;
+                    
+                    const checking = [];
+                    for (let r = 0; r < row; r++) checking.push([r, nqueensBoard[r]]);
+                    renderNQueensBoard(n, {current: [row, col], checking});
+                    document.getElementById('nqueensStep').textContent = `Trying queen at row ${row + 1}, col ${col + 1}`;
+                    await sleep(speed / 2);
+                    
+                    if (isSafe(row, col)) {
+                        nqueensBoard[row] = col;
+                        renderNQueensBoard(n);
+                        document.getElementById('nqueensStep').textContent = `✅ Safe! Placed at row ${row + 1}, col ${col + 1}`;
+                        await sleep(speed);
+                        
+                        await backtrack(row + 1);
+                        
+                        if (running) {
+                            nqueensBoard[row] = -1;
+                            backtracks++;
+                            document.getElementById('nqueensBacktracks').textContent = backtracks;
+                            renderNQueensBoard(n);
+                            document.getElementById('nqueensStep').textContent = `↩️ Backtracking from row ${row + 1}`;
+                            await sleep(speed / 2);
+                        }
+                    } else {
+                        renderNQueensBoard(n, {invalid: [row, col]});
+                        document.getElementById('nqueensStep').textContent = `❌ Conflict at row ${row + 1}, col ${col + 1}`;
+                        await sleep(speed / 3);
+                    }
+                }
+            }
+            
+            await backtrack(0);
+            document.getElementById('nqueensStep').textContent = `Complete! Found ${nqueensSolutions.length} solutions`;
+            document.getElementById('nqueensRow').textContent = '-';
+            running = false;
+        }
+        
+        function addSolutionThumb(board, n) {
+            const container = document.getElementById('solutionThumbs');
+            const thumb = document.createElement('div');
+            thumb.className = 'solution-thumb';
+            thumb.onclick = () => { nqueensBoard = [...board]; renderNQueensBoard(n); };
+            
+            const mini = document.createElement('div');
+            mini.className = 'mini-board';
+            mini.style.gridTemplateColumns = `repeat(${n}, 12px)`;
+            
+            for (let r = 0; r < n; r++) {
+                for (let c = 0; c < n; c++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'mini-cell' + (board[r] === c ? ' queen' : '');
+                    mini.appendChild(cell);
+                }
+            }
+            thumb.appendChild(mini);
+            container.appendChild(thumb);
+        }
+        
+        function resetNQueens() {
+            running = false;
+            const n = parseInt(document.getElementById('nqueensSize').value);
+            nqueensBoard = new Array(n).fill(-1);
+            nqueensSolutions = [];
+            renderNQueensBoard(n);
+            document.getElementById('nqueensSolutions').textContent = '0';
+            document.getElementById('nqueensBacktracks').textContent = '0';
+            document.getElementById('nqueensPlacements').textContent = '0';
+            document.getElementById('nqueensRow').textContent = '-';
+            document.getElementById('nqueensStep').textContent = 'Click "Find All Solutions" to start';
+            document.getElementById('solutionThumbs').innerHTML = '';
+        }
+        
+        // PERMUTATIONS
+        let permArray = [];
+        let permResults = [];
+        
+        function renderPermDisplay(states = {}) {
+            const container = document.getElementById('permDisplay');
+            container.innerHTML = permArray.map((char, i) => {
+                let cls = 'perm-item';
+                if (states.fixed && i < states.fixed) cls += ' fixed';
+                else if (states.current === i) cls += ' current';
+                else if (states.swapping && states.swapping.includes(i)) cls += ' swapping';
+                return `<div class="${cls}">${char}</div>`;
+            }).join('');
+        }
+        
+        async function runPermutations() {
+            if (running) return;
+            running = true;
+            
+            const input = document.getElementById('permElements').value.toUpperCase();
+            const speed = 1550 - document.getElementById('permSpeed').value;
+            
+            permArray = input.split('');
+            permResults = [];
+            let swaps = 0;
+            
+            const factorial = arr => arr.reduce((a, _, i) => a * (i + 1), 1);
+            document.getElementById('permExpected').textContent = factorial(permArray);
+            document.getElementById('permCount').textContent = '0';
+            document.getElementById('permSwaps').textContent = '0';
+            document.getElementById('permResults').innerHTML = '';
+            renderPermDisplay();
+            await sleep(speed);
+            
+            async function backtrack(start) {
+                if (!running) return;
+                document.getElementById('permIndex').textContent = start;
+                
+                if (start === permArray.length) {
+                    const perm = permArray.join('');
+                    permResults.push(perm);
+                    document.getElementById('permCount').textContent = permResults.length;
+                    
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'perm-result new';
+                    resultDiv.textContent = perm;
+                    document.getElementById('permResults').appendChild(resultDiv);
+                    
+                    renderPermDisplay({fixed: permArray.length});
+                    document.getElementById('permStep').textContent = `🎯 Found: ${perm}`;
+                    await sleep(speed);
+                    setTimeout(() => resultDiv.classList.remove('new'), 300);
+                    return;
+                }
+                
+                for (let i = start; i < permArray.length && running; i++) {
+                    renderPermDisplay({fixed: start, swapping: [start, i]});
+                    document.getElementById('permStep').textContent = `Swapping: ${permArray[start]} ↔ ${permArray[i]}`;
+                    await sleep(speed / 2);
+                    
+                    [permArray[start], permArray[i]] = [permArray[i], permArray[start]];
+                    swaps++;
+                    document.getElementById('permSwaps').textContent = swaps;
+                    renderPermDisplay({fixed: start + 1, current: start});
+                    await sleep(speed / 2);
+                    
+                    await backtrack(start + 1);
+                    
+                    [permArray[start], permArray[i]] = [permArray[i], permArray[start]];
+                    swaps++;
+                    document.getElementById('permSwaps').textContent = swaps;
+                    
+                    if (running) {
+                        renderPermDisplay({fixed: start});
+                        document.getElementById('permStep').textContent = `↩️ Swap back`;
+                        await sleep(speed / 3);
+                    }
+                }
+            }
+            
+            await backtrack(0);
+            document.getElementById('permStep').textContent = `Complete! Generated ${permResults.length} permutations`;
+            document.getElementById('permIndex').textContent = '-';
+            running = false;
+        }
+        
+        function resetPermutations() {
+            running = false;
+            const input = document.getElementById('permElements').value.toUpperCase();
+            permArray = input.split('');
+            permResults = [];
+            renderPermDisplay();
+            document.getElementById('permCount').textContent = '0';
+            document.getElementById('permSwaps').textContent = '0';
+            document.getElementById('permIndex').textContent = '-';
+            document.getElementById('permExpected').textContent = '-';
+            document.getElementById('permStep').textContent = 'Click "Generate" to start';
+            document.getElementById('permResults').innerHTML = '';
+        }
+        
+        resetNQueens();
+    </script>
+</body>
+</html>

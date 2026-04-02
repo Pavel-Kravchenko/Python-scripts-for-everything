@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structure Exercises</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .exercise {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .exercise-number {
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .difficulty {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+        .difficulty.easy { background: #d5f4e6; color: #27ae60; }
+        .difficulty.medium { background: #fef9e7; color: #f39c12; }
+        .difficulty.hard { background: #fdeaea; color: #e74c3c; }
+        .solution {
+            background: #f8f9fa;
+            border-left: 4px solid #27ae60;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+        .solution.show { display: block; }
+        .toggle-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .toggle-btn:hover { background: #2980b9; }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .visual-example {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Index</a>
+        
+        <h1>📦 Data Structure Practice Exercises</h1>
+        
+        <div class="card">
+            <h2>Topics Covered</h2>
+            <ul>
+                <li>Linked Lists (singly and doubly)</li>
+                <li>Stacks (LIFO)</li>
+                <li>Queues (FIFO)</li>
+                <li>Hash Tables</li>
+            </ul>
+        </div>
+
+        <!-- Exercise 1 -->
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-number">Exercise 1</span>
+                <span class="difficulty easy">Easy</span>
+            </div>
+            <h3>Linked List Reversal</h3>
+            <p>Given the following singly linked list, show the state after reversing it:</p>
+            <div class="visual-example">
+                1 → 2 → 3 → 4 → 5 → NULL
+            </div>
+            <p>What are the values of <code>prev</code>, <code>current</code>, and <code>next</code> after each iteration of the reversal algorithm?</p>
+            
+            <button class="toggle-btn" onclick="toggleSolution(1)">Show Solution</button>
+            <div class="solution" id="solution-1">
+                <h4>Answer:</h4>
+                <p>Final reversed list:</p>
+                <div class="visual-example">
+                    5 → 4 → 3 → 2 → 1 → NULL
+                </div>
+                <p>Step-by-step:</p>
+                <div class="code-block">
+Initial: prev=NULL, current=1, next=2
+Step 1:  prev=1,    current=2, next=3    (1→NULL)
+Step 2:  prev=2,    current=3, next=4    (2→1→NULL)
+Step 3:  prev=3,    current=4, next=5    (3→2→1→NULL)
+Step 4:  prev=4,    current=5, next=NULL (4→3→2→1→NULL)
+Step 5:  prev=5,    current=NULL         (5→4→3→2→1→NULL)
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 2 -->
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-number">Exercise 2</span>
+                <span class="difficulty easy">Easy</span>
+            </div>
+            <h3>Stack Operations</h3>
+            <p>Given an empty stack, perform the following operations and show the stack state after each:</p>
+            <div class="code-block">
+push(5), push(3), push(8), pop(), push(2), pop(), pop()
+            </div>
+            <p>What is the final value on top of the stack?</p>
+            
+            <button class="toggle-btn" onclick="toggleSolution(2)">Show Solution</button>
+            <div class="solution" id="solution-2">
+                <h4>Answer:</h4>
+                <div class="code-block">
+push(5): [5]          (bottom → top)
+push(3): [5, 3]
+push(8): [5, 3, 8]
+pop():   [5, 3]       returns 8
+push(2): [5, 3, 2]
+pop():   [5, 3]       returns 2
+pop():   [5]          returns 3
+                </div>
+                <p><strong>Final top value: 5</strong></p>
+            </div>
+        </div>
+
+        <!-- Exercise 3 -->
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-number">Exercise 3</span>
+                <span class="difficulty medium">Medium</span>
+            </div>
+            <h3>Balanced Parentheses</h3>
+            <p>Using a stack, determine if the following expressions have balanced brackets:</p>
+            <ol>
+                <li><code>((()))</code></li>
+                <li><code>([{}])</code></li>
+                <li><code>((])</code></li>
+                <li><code>{[()]}</code></li>
+                <li><code>[(])</code></li>
+            </ol>
+            
+            <button class="toggle-btn" onclick="toggleSolution(3)">Show Solution</button>
+            <div class="solution" id="solution-3">
+                <h4>Answer:</h4>
+                <ol>
+                    <li><code>((()))</code> → <strong>✓ Balanced</strong></li>
+                    <li><code>([{}])</code> → <strong>✓ Balanced</strong></li>
+                    <li><code>((])</code> → <strong>✗ Unbalanced</strong> (] doesn't match ()</li>
+                    <li><code>{[()]}</code> → <strong>✓ Balanced</strong></li>
+                    <li><code>[(])</code> → <strong>✗ Unbalanced</strong> (interleaved, not nested)</li>
+                </ol>
+                <p>Algorithm: Push opening brackets, pop on closing brackets and check match.</p>
+            </div>
+        </div>
+
+        <!-- Exercise 4 -->
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-number">Exercise 4</span>
+                <span class="difficulty medium">Medium</span>
+            </div>
+            <h3>Queue vs Two-Stack Queue</h3>
+            <p>Implement a queue using two stacks. Show the state of both stacks after:</p>
+            <div class="code-block">
+enqueue(1), enqueue(2), enqueue(3), dequeue(), enqueue(4), dequeue()
+            </div>
+            
+            <button class="toggle-btn" onclick="toggleSolution(4)">Show Solution</button>
+            <div class="solution" id="solution-4">
+                <h4>Answer:</h4>
+                <div class="code-block">
+enqueue(1): stack_in=[1], stack_out=[]
+enqueue(2): stack_in=[1,2], stack_out=[]
+enqueue(3): stack_in=[1,2,3], stack_out=[]
+dequeue():  
+  Transfer: stack_in=[], stack_out=[3,2,1]
+  Pop: stack_out=[3,2] → returns 1
+enqueue(4): stack_in=[4], stack_out=[3,2]
+dequeue():  
+  stack_out not empty, just pop
+  stack_out=[3] → returns 2
+
+Final: stack_in=[4], stack_out=[3]
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise 5 -->
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-number">Exercise 5</span>
+                <span class="difficulty medium">Medium</span>
+            </div>
+            <h3>Floyd's Cycle Detection</h3>
+            <p>A linked list has the following structure with a cycle:</p>
+            <div class="visual-example">
+1 → 2 → 3 → 4 → 5
+        ↑       ↓
+        └───────┘
+(5 points back to 3)
+            </div>
+            <p>Trace Floyd's algorithm (slow/fast pointers). Where do they meet?</p>
+            
+            <button class="toggle-btn" onclick="toggleSolution(5)">Show Solution</button>
+            <div class="solution" id="solution-5">
+                <h4>Answer:</h4>
+                <div class="code-block">
+Start: slow=1, fast=1
+Step 1: slow=2, fast=3
+Step 2: slow=3, fast=5
+Step 3: slow=4, fast=4  ← MEET!
+                </div>
+                <p><strong>They meet at node 4.</strong></p>
+                <p>Fast moves 2 steps per iteration, slow moves 1. If there's a cycle, they must meet.</p>
+            </div>
+        </div>
+
+        <!-- Exercise 6 -->
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-number">Exercise 6</span>
+                <span class="difficulty medium">Medium</span>
+            </div>
+            <h3>Hash Table Insertion with Chaining</h3>
+            <p>Insert the following keys into a hash table of size 7 using h(k) = k mod 7 with separate chaining:</p>
+            <div class="code-block">
+Keys: 15, 22, 8, 29, 36, 1, 43
+            </div>
+            <p>Show the final state of the hash table.</p>
+            
+            <button class="toggle-btn" onclick="toggleSolution(6)">Show Solution</button>
+            <div class="solution" id="solution-6">
+                <h4>Answer:</h4>
+                <div class="code-block">
+15 mod 7 = 1
+22 mod 7 = 1  (collision with 15)
+8 mod 7 = 1   (collision with 15, 22)
+29 mod 7 = 1  (collision!)
+36 mod 7 = 1  (collision!)
+1 mod 7 = 1   (collision!)
+43 mod 7 = 1  (collision!)
+
+Final Hash Table:
+[0]: empty
+[1]: 15 → 22 → 8 → 29 → 36 → 1 → 43
+[2]: empty
+[3]: empty
+[4]: empty
+[5]: empty
+[6]: empty
+                </div>
+                <p>All keys hash to index 1! This is a degenerate case showing why good hash functions matter.</p>
+            </div>
+        </div>
+
+        <!-- Exercise 7 -->
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-number">Exercise 7</span>
+                <span class="difficulty hard">Hard</span>
+            </div>
+            <h3>Linear Probing with Deletion</h3>
+            <p>Given a hash table of size 7 with linear probing, insert then delete:</p>
+            <div class="code-block">
+Insert: 10, 17, 24, 31 (all hash to 3)
+Delete: 17
+Search: 31
+            </div>
+            <p>Why do we need tombstones (deletion markers)?</p>
+            
+            <button class="toggle-btn" onclick="toggleSolution(7)">Show Solution</button>
+            <div class="solution" id="solution-7">
+                <h4>Answer:</h4>
+                <div class="code-block">
+After inserts:
+[0]: empty
+[1]: empty
+[2]: empty
+[3]: 10
+[4]: 17
+[5]: 24
+[6]: 31
+
+After delete 17 (with tombstone):
+[3]: 10
+[4]: DELETED  ← tombstone
+[5]: 24
+[6]: 31
+
+Search for 31:
+- h(31) = 3, found 10 ≠ 31, probe
+- Index 4: DELETED (continue probing!)
+- Index 5: 24 ≠ 31, probe
+- Index 6: 31 ✓ Found!
+                </div>
+                <p><strong>Why tombstones?</strong> Without them, the search for 31 would stop at the empty slot where 17 was, incorrectly concluding 31 doesn't exist.</p>
+            </div>
+        </div>
+
+        <!-- Exercise 8 -->
+        <div class="exercise">
+            <div class="exercise-header">
+                <span class="exercise-number">Exercise 8</span>
+                <span class="difficulty hard">Hard</span>
+            </div>
+            <h3>LRU Cache Design</h3>
+            <p>Design an LRU (Least Recently Used) cache with O(1) get and put operations.</p>
+            <p>Hint: Combine two data structures we've learned.</p>
+            <p>What operations does each data structure handle?</p>
+            
+            <button class="toggle-btn" onclick="toggleSolution(8)">Show Solution</button>
+            <div class="solution" id="solution-8">
+                <h4>Answer:</h4>
+                <p><strong>Use: Hash Table + Doubly Linked List</strong></p>
+                <div class="code-block">
+Hash Table: key → node pointer (O(1) lookup)
+Doubly Linked List: maintains order (O(1) move/remove)
+
+Structure:
+  HEAD ↔ [MRU] ↔ ... ↔ [LRU] ↔ TAIL
+
+get(key):
+  1. Look up in hash table → O(1)
+  2. Move node to head (MRU) → O(1)
+  3. Return value
+
+put(key, value):
+  1. If exists: update value, move to head
+  2. If new:
+     - Create node, add to head
+     - Add to hash table
+     - If over capacity: remove tail (LRU)
+                </div>
+                <p>Both operations are O(1) because hash table provides direct access and doubly linked list allows O(1) removal/insertion.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSolution(num) {
+            const solution = document.getElementById(`solution-${num}`);
+            const btn = solution.previousElementSibling;
+            solution.classList.toggle('show');
+            btn.textContent = solution.classList.contains('show') ? 'Hide Solution' : 'Show Solution';
+        }
+    </script>
+</body>
+</html>

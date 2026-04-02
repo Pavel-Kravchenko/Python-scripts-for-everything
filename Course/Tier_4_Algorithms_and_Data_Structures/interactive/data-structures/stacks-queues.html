@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack & Queue Visualization</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .ds-container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .ds-panel {
+            flex: 1;
+            min-width: 300px;
+            max-width: 450px;
+        }
+        .stack-visual, .queue-visual {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .stack-container {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            width: 150px;
+            min-height: 280px;
+            border: 3px solid #3498db;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            padding: 10px;
+            background: white;
+            position: relative;
+        }
+        .stack-container::before {
+            content: 'STACK';
+            position: absolute;
+            top: -30px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .queue-container {
+            display: flex;
+            align-items: center;
+            min-width: 300px;
+            min-height: 80px;
+            border: 3px solid #9b59b6;
+            border-radius: 10px;
+            padding: 10px;
+            background: white;
+            position: relative;
+            gap: 5px;
+        }
+        .queue-container::before {
+            content: 'QUEUE';
+            position: absolute;
+            top: -30px;
+            left: 10px;
+            font-weight: bold;
+            color: #9b59b6;
+        }
+        .element {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 6px;
+            margin: 3px;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 50px;
+        }
+        .element.highlight {
+            background: linear-gradient(135deg, #f39c12, #e74c3c);
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+        }
+        .element.new {
+            animation: slideIn 0.3s ease;
+        }
+        .element.removing {
+            animation: slideOut 0.3s ease;
+            opacity: 0;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-20px); opacity: 0; }
+        }
+        .stack-element {
+            width: 100%;
+            text-align: center;
+        }
+        .pointer-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            margin: 5px 0;
+        }
+        .top-pointer, .front-pointer, .rear-pointer {
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+        .top-pointer {
+            background: #27ae60;
+            color: white;
+        }
+        .front-pointer {
+            background: #e74c3c;
+            color: white;
+        }
+        .rear-pointer {
+            background: #3498db;
+            color: white;
+        }
+        .controls {
+            margin: 15px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .controls input {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            width: 80px;
+            font-size: 1rem;
+        }
+        .info-box {
+            background: #e8f4fd;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+        .empty-message {
+            color: #95a5a6;
+            font-style: italic;
+            padding: 20px;
+        }
+        .operation-result {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .operation-result.success {
+            background: #d5f4e6;
+            color: #27ae60;
+        }
+        .operation-result.error {
+            background: #fdeaea;
+            color: #e74c3c;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tabs button {
+            padding: 12px 25px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #7f8c8d;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+        }
+        .tabs button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        .tabs button:hover:not(.active) {
+            color: #2c3e50;
+        }
+        .application-demo {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .bracket-display {
+            font-family: monospace;
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .bracket-display .current {
+            background: #fef9e7;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .bracket-display .matched {
+            color: #27ae60;
+        }
+        .bracket-display .error {
+            color: #e74c3c;
+            text-decoration: underline wavy;
+        }
+        .history-log {
+            max-height: 150px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.85rem;
+            padding: 10px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        .history-log div {
+            padding: 3px 0;
+            border-bottom: 1px solid #34495e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Index</a>
+        
+        <h1>📚 Stack & Queue Visualization</h1>
+        
+        <div class="card">
+            <h2>Understanding Stack vs Queue</h2>
+            <div class="ds-container">
+                <div class="ds-panel">
+                    <h3>🥞 Stack (LIFO)</h3>
+                    <p><strong>Last In, First Out</strong> - Like a stack of plates</p>
+                    <ul>
+                        <li><code>push(x)</code>: Add to top - O(1)</li>
+                        <li><code>pop()</code>: Remove from top - O(1)</li>
+                        <li><code>peek()</code>: View top - O(1)</li>
+                    </ul>
+                    <p><em>Use cases:</em> Undo/Redo, Browser history, Function calls</p>
+                </div>
+                <div class="ds-panel">
+                    <h3>🎫 Queue (FIFO)</h3>
+                    <p><strong>First In, First Out</strong> - Like a line of people</p>
+                    <ul>
+                        <li><code>enqueue(x)</code>: Add to rear - O(1)</li>
+                        <li><code>dequeue()</code>: Remove from front - O(1)</li>
+                        <li><code>front()</code>: View front - O(1)</li>
+                    </ul>
+                    <p><em>Use cases:</em> Task scheduling, BFS, Print queue</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="tabs">
+                <button class="active" onclick="switchTab('basic')">Basic Operations</button>
+                <button onclick="switchTab('applications')">Applications</button>
+            </div>
+
+            <div id="basic-tab">
+                <div class="ds-container">
+                    <!-- Stack Panel -->
+                    <div class="ds-panel">
+                        <h3 style="text-align: center;">🥞 Stack</h3>
+                        <div class="controls">
+                            <input type="number" id="stack-input" placeholder="Value" value="10">
+                            <button class="btn btn-primary" onclick="stackPush()">Push</button>
+                            <button class="btn btn-secondary" onclick="stackPop()">Pop</button>
+                            <button class="btn btn-secondary" onclick="stackPeek()">Peek</button>
+                        </div>
+                        
+                        <div class="stack-visual">
+                            <div id="stack-top-pointer" class="pointer-label" style="display: none;">
+                                <span class="top-pointer">← TOP</span>
+                            </div>
+                            <div class="stack-container" id="stack-container">
+                                <div class="empty-message">Stack is empty</div>
+                            </div>
+                        </div>
+                        
+                        <div id="stack-result" class="operation-result" style="display: none;"></div>
+                        
+                        <div class="info-box">
+                            <strong>Size:</strong> <span id="stack-size">0</span> | 
+                            <strong>Top:</strong> <span id="stack-top-value">null</span>
+                        </div>
+                    </div>
+
+                    <!-- Queue Panel -->
+                    <div class="ds-panel">
+                        <h3 style="text-align: center;">🎫 Queue</h3>
+                        <div class="controls">
+                            <input type="number" id="queue-input" placeholder="Value" value="10">
+                            <button class="btn btn-primary" onclick="queueEnqueue()">Enqueue</button>
+                            <button class="btn btn-secondary" onclick="queueDequeue()">Dequeue</button>
+                            <button class="btn btn-secondary" onclick="queueFront()">Front</button>
+                        </div>
+                        
+                        <div class="queue-visual">
+                            <div style="display: flex; gap: 40px; margin-bottom: 10px;">
+                                <span class="front-pointer">FRONT →</span>
+                                <span class="rear-pointer">← REAR</span>
+                            </div>
+                            <div class="queue-container" id="queue-container">
+                                <div class="empty-message">Queue is empty</div>
+                            </div>
+                        </div>
+                        
+                        <div id="queue-result" class="operation-result" style="display: none;"></div>
+                        
+                        <div class="info-box">
+                            <strong>Size:</strong> <span id="queue-size">0</span> | 
+                            <strong>Front:</strong> <span id="queue-front-value">null</span> |
+                            <strong>Rear:</strong> <span id="queue-rear-value">null</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls" style="justify-content: center; margin-top: 20px;">
+                    <button class="btn btn-secondary" onclick="resetAll()">Reset All</button>
+                </div>
+            </div>
+
+            <div id="applications-tab" style="display: none;">
+                <h3>Application: Balanced Brackets Checker</h3>
+                <p>Using a stack to validate if brackets are properly matched.</p>
+                
+                <div class="application-demo">
+                    <div class="controls">
+                        <input type="text" id="bracket-input" value="({[]})" style="width: 200px; font-family: monospace; font-size: 1.2rem;">
+                        <button class="btn btn-primary" onclick="checkBrackets()">Check Brackets</button>
+                        <button class="btn btn-secondary" onclick="stepBrackets()">Step Through</button>
+                        <button class="btn btn-secondary" onclick="resetBrackets()">Reset</button>
+                    </div>
+                    
+                    <div class="bracket-display" id="bracket-display">
+                        Enter brackets and click Check or Step Through
+                    </div>
+                    
+                    <div style="display: flex; gap: 20px; margin-top: 15px;">
+                        <div style="flex: 1;">
+                            <h4>Stack State:</h4>
+                            <div class="stack-visual" style="min-height: 150px;">
+                                <div class="stack-container" id="bracket-stack" style="min-height: 120px; width: 80px;">
+                                    <div class="empty-message" style="font-size: 0.8rem;">Empty</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="flex: 2;">
+                            <h4>Steps:</h4>
+                            <div class="history-log" id="bracket-log">
+                                Steps will appear here...
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="bracket-result" class="operation-result" style="display: none;"></div>
+                </div>
+
+                <h3 style="margin-top: 30px;">Application: Two-Stack Queue</h3>
+                <p>Implementing a queue using two stacks. Watch how elements transfer between stacks.</p>
+                
+                <div class="application-demo">
+                    <div class="controls">
+                        <input type="number" id="tsq-input" value="1" style="width: 80px;">
+                        <button class="btn btn-primary" onclick="tsqEnqueue()">Enqueue</button>
+                        <button class="btn btn-secondary" onclick="tsqDequeue()">Dequeue</button>
+                        <button class="btn btn-secondary" onclick="resetTSQ()">Reset</button>
+                    </div>
+                    
+                    <div style="display: flex; gap: 40px; justify-content: center; margin-top: 20px;">
+                        <div>
+                            <h4 style="text-align: center;">Stack 1 (Input)</h4>
+                            <div class="stack-visual" style="min-height: 200px;">
+                                <div class="stack-container" id="tsq-stack1" style="min-height: 180px;">
+                                    <div class="empty-message" style="font-size: 0.8rem;">Empty</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; font-size: 2rem;">⇌</div>
+                        <div>
+                            <h4 style="text-align: center;">Stack 2 (Output)</h4>
+                            <div class="stack-visual" style="min-height: 200px;">
+                                <div class="stack-container" id="tsq-stack2" style="min-height: 180px;">
+                                    <div class="empty-message" style="font-size: 0.8rem;">Empty</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="tsq-result" class="operation-result" style="display: none;"></div>
+                    <div class="history-log" id="tsq-log" style="margin-top: 15px;">
+                        Operations will appear here...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Code Implementation</h2>
+            <div class="code-display">
+                <pre>
+class Stack:
+    def __init__(self):
+        self.items = []
+    
+    def push(self, item):
+        self.items.append(item)
+    
+    def pop(self):
+        if self.is_empty():
+            raise IndexError("Stack is empty")
+        return self.items.pop()
+    
+    def peek(self):
+        if self.is_empty():
+            return None
+        return self.items[-1]
+    
+    def is_empty(self):
+        return len(self.items) == 0
+    
+    def size(self):
+        return len(self.items)
+
+
+class Queue:
+    def __init__(self):
+        self.items = []
+    
+    def enqueue(self, item):
+        self.items.append(item)
+    
+    def dequeue(self):
+        if self.is_empty():
+            raise IndexError("Queue is empty")
+        return self.items.pop(0)
+    
+    def front(self):
+        if self.is_empty():
+            return None
+        return self.items[0]
+    
+    def is_empty(self):
+        return len(self.items) == 0
+    
+    def size(self):
+        return len(self.items)
+
+
+# Two-Stack Queue Implementation
+class QueueWithStacks:
+    def __init__(self):
+        self.stack_in = []   # For enqueue
+        self.stack_out = []  # For dequeue
+    
+    def enqueue(self, item):
+        self.stack_in.append(item)
+    
+    def dequeue(self):
+        if not self.stack_out:
+            # Transfer all from stack_in to stack_out
+            while self.stack_in:
+                self.stack_out.append(self.stack_in.pop())
+        if not self.stack_out:
+            raise IndexError("Queue is empty")
+        return self.stack_out.pop()
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Stack implementation
+        let stack = [];
+        let queue = [];
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.tabs button[onclick="switchTab('${tab}')"]`).classList.add('active');
+            document.getElementById('basic-tab').style.display = tab === 'basic' ? 'block' : 'none';
+            document.getElementById('applications-tab').style.display = tab === 'applications' ? 'block' : 'none';
+        }
+
+        function renderStack() {
+            const container = document.getElementById('stack-container');
+            const topPointer = document.getElementById('stack-top-pointer');
+            
+            if (stack.length === 0) {
+                container.innerHTML = '<div class="empty-message">Stack is empty</div>';
+                topPointer.style.display = 'none';
+            } else {
+                container.innerHTML = stack.map((val, i) => 
+                    `<div class="element stack-element ${i === stack.length - 1 ? 'highlight' : ''}">${val}</div>`
+                ).join('');
+                topPointer.style.display = 'block';
+            }
+            
+            document.getElementById('stack-size').textContent = stack.length;
+            document.getElementById('stack-top-value').textContent = stack.length > 0 ? stack[stack.length - 1] : 'null';
+        }
+
+        function renderQueue() {
+            const container = document.getElementById('queue-container');
+            
+            if (queue.length === 0) {
+                container.innerHTML = '<div class="empty-message">Queue is empty</div>';
+            } else {
+                container.innerHTML = queue.map((val, i) => 
+                    `<div class="element ${i === 0 ? 'highlight' : ''}">${val}</div>`
+                ).join('');
+            }
+            
+            document.getElementById('queue-size').textContent = queue.length;
+            document.getElementById('queue-front-value').textContent = queue.length > 0 ? queue[0] : 'null';
+            document.getElementById('queue-rear-value').textContent = queue.length > 0 ? queue[queue.length - 1] : 'null';
+        }
+
+        function showResult(elementId, message, success) {
+            const el = document.getElementById(elementId);
+            el.textContent = message;
+            el.className = `operation-result ${success ? 'success' : 'error'}`;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 2000);
+        }
+
+        function stackPush() {
+            const value = parseInt(document.getElementById('stack-input').value);
+            if (isNaN(value)) {
+                showResult('stack-result', 'Please enter a valid number', false);
+                return;
+            }
+            stack.push(value);
+            renderStack();
+            showResult('stack-result', `Pushed ${value} to stack`, true);
+        }
+
+        function stackPop() {
+            if (stack.length === 0) {
+                showResult('stack-result', 'Stack underflow! Cannot pop from empty stack', false);
+                return;
+            }
+            const value = stack.pop();
+            renderStack();
+            showResult('stack-result', `Popped ${value} from stack`, true);
+        }
+
+        function stackPeek() {
+            if (stack.length === 0) {
+                showResult('stack-result', 'Stack is empty', false);
+                return;
+            }
+            showResult('stack-result', `Top element: ${stack[stack.length - 1]}`, true);
+        }
+
+        function queueEnqueue() {
+            const value = parseInt(document.getElementById('queue-input').value);
+            if (isNaN(value)) {
+                showResult('queue-result', 'Please enter a valid number', false);
+                return;
+            }
+            queue.push(value);
+            renderQueue();
+            showResult('queue-result', `Enqueued ${value} to queue`, true);
+        }
+
+        function queueDequeue() {
+            if (queue.length === 0) {
+                showResult('queue-result', 'Queue underflow! Cannot dequeue from empty queue', false);
+                return;
+            }
+            const value = queue.shift();
+            renderQueue();
+            showResult('queue-result', `Dequeued ${value} from queue`, true);
+        }
+
+        function queueFront() {
+            if (queue.length === 0) {
+                showResult('queue-result', 'Queue is empty', false);
+                return;
+            }
+            showResult('queue-result', `Front element: ${queue[0]}`, true);
+        }
+
+        function resetAll() {
+            stack = [];
+            queue = [];
+            renderStack();
+            renderQueue();
+        }
+
+        // Bracket checker application
+        let bracketIndex = 0;
+        let bracketStack = [];
+        let bracketInput = '';
+
+        function checkBrackets() {
+            bracketInput = document.getElementById('bracket-input').value;
+            bracketStack = [];
+            const matching = { ')': '(', ']': '[', '}': '{' };
+            const opening = new Set(['(', '[', '{']);
+            let log = [];
+            
+            for (let i = 0; i < bracketInput.length; i++) {
+                const char = bracketInput[i];
+                if (opening.has(char)) {
+                    bracketStack.push(char);
+                    log.push(`Index ${i}: Push '${char}'`);
+                } else if (matching[char]) {
+                    if (bracketStack.length === 0 || bracketStack[bracketStack.length - 1] !== matching[char]) {
+                        log.push(`Index ${i}: '${char}' - No match! INVALID`);
+                        document.getElementById('bracket-log').innerHTML = log.map(l => `<div>${l}</div>`).join('');
+                        renderBracketStack();
+                        showBracketResult(false, `Unmatched '${char}' at index ${i}`);
+                        return;
+                    }
+                    bracketStack.pop();
+                    log.push(`Index ${i}: Pop for '${char}' - Match!`);
+                }
+            }
+            
+            document.getElementById('bracket-log').innerHTML = log.map(l => `<div>${l}</div>`).join('');
+            renderBracketStack();
+            
+            if (bracketStack.length === 0) {
+                showBracketResult(true, 'All brackets are balanced! ✓');
+            } else {
+                showBracketResult(false, `Unclosed brackets: ${bracketStack.join('')}`);
+            }
+        }
+
+        function renderBracketStack() {
+            const container = document.getElementById('bracket-stack');
+            if (bracketStack.length === 0) {
+                container.innerHTML = '<div class="empty-message" style="font-size: 0.8rem;">Empty</div>';
+            } else {
+                container.innerHTML = bracketStack.map(c => 
+                    `<div class="element stack-element" style="padding: 10px 20px;">${c}</div>`
+                ).join('');
+            }
+        }
+
+        function showBracketResult(success, message) {
+            const el = document.getElementById('bracket-result');
+            el.textContent = message;
+            el.className = `operation-result ${success ? 'success' : 'error'}`;
+            el.style.display = 'block';
+        }
+
+        function stepBrackets() {
+            if (bracketIndex === 0) {
+                bracketInput = document.getElementById('bracket-input').value;
+                bracketStack = [];
+                document.getElementById('bracket-log').innerHTML = '';
+            }
+            
+            if (bracketIndex >= bracketInput.length) {
+                if (bracketStack.length === 0) {
+                    showBracketResult(true, 'All brackets are balanced! ✓');
+                } else {
+                    showBracketResult(false, `Unclosed brackets: ${bracketStack.join('')}`);
+                }
+                bracketIndex = 0;
+                return;
+            }
+            
+            const char = bracketInput[bracketIndex];
+            const matching = { ')': '(', ']': '[', '}': '{' };
+            const opening = new Set(['(', '[', '{']);
+            const log = document.getElementById('bracket-log');
+            
+            // Highlight current character
+            let display = '';
+            for (let i = 0; i < bracketInput.length; i++) {
+                if (i === bracketIndex) {
+                    display += `<span class="current">${bracketInput[i]}</span>`;
+                } else {
+                    display += bracketInput[i];
+                }
+            }
+            document.getElementById('bracket-display').innerHTML = display;
+            
+            if (opening.has(char)) {
+                bracketStack.push(char);
+                log.innerHTML += `<div>Index ${bracketIndex}: Push '${char}'</div>`;
+            } else if (matching[char]) {
+                if (bracketStack.length === 0 || bracketStack[bracketStack.length - 1] !== matching[char]) {
+                    log.innerHTML += `<div style="color: #e74c3c;">Index ${bracketIndex}: '${char}' - No match! INVALID</div>`;
+                    showBracketResult(false, `Unmatched '${char}' at index ${bracketIndex}`);
+                    bracketIndex = 0;
+                    renderBracketStack();
+                    return;
+                }
+                bracketStack.pop();
+                log.innerHTML += `<div style="color: #27ae60;">Index ${bracketIndex}: Pop for '${char}' - Match!</div>`;
+            } else {
+                log.innerHTML += `<div style="color: #7f8c8d;">Index ${bracketIndex}: '${char}' - Skip (not a bracket)</div>`;
+            }
+            
+            renderBracketStack();
+            bracketIndex++;
+        }
+
+        function resetBrackets() {
+            bracketIndex = 0;
+            bracketStack = [];
+            document.getElementById('bracket-display').textContent = 'Enter brackets and click Check or Step Through';
+            document.getElementById('bracket-log').innerHTML = 'Steps will appear here...';
+            document.getElementById('bracket-result').style.display = 'none';
+            renderBracketStack();
+        }
+
+        // Two-Stack Queue
+        let tsqStack1 = [];
+        let tsqStack2 = [];
+
+        function renderTSQ() {
+            const s1 = document.getElementById('tsq-stack1');
+            const s2 = document.getElementById('tsq-stack2');
+            
+            s1.innerHTML = tsqStack1.length === 0 
+                ? '<div class="empty-message" style="font-size: 0.8rem;">Empty</div>'
+                : tsqStack1.map(v => `<div class="element stack-element" style="padding: 10px 20px;">${v}</div>`).join('');
+            
+            s2.innerHTML = tsqStack2.length === 0
+                ? '<div class="empty-message" style="font-size: 0.8rem;">Empty</div>'
+                : tsqStack2.map(v => `<div class="element stack-element" style="padding: 10px 20px;">${v}</div>`).join('');
+        }
+
+        function tsqEnqueue() {
+            const value = parseInt(document.getElementById('tsq-input').value);
+            if (isNaN(value)) return;
+            tsqStack1.push(value);
+            renderTSQ();
+            document.getElementById('tsq-log').innerHTML += `<div>Enqueue ${value}: Push to Stack1</div>`;
+            showResult('tsq-result', `Enqueued ${value}`, true);
+        }
+
+        async function tsqDequeue() {
+            if (tsqStack1.length === 0 && tsqStack2.length === 0) {
+                showResult('tsq-result', 'Queue is empty!', false);
+                return;
+            }
+            
+            const log = document.getElementById('tsq-log');
+            
+            if (tsqStack2.length === 0) {
+                log.innerHTML += `<div>Stack2 empty, transferring from Stack1...</div>`;
+                while (tsqStack1.length > 0) {
+                    const val = tsqStack1.pop();
+                    tsqStack2.push(val);
+                    renderTSQ();
+                    log.innerHTML += `<div>  Pop ${val} from Stack1, Push to Stack2</div>`;
+                    await new Promise(r => setTimeout(r, 500));
+                }
+            }
+            
+            const value = tsqStack2.pop();
+            renderTSQ();
+            log.innerHTML += `<div>Dequeue: Pop ${value} from Stack2</div>`;
+            showResult('tsq-result', `Dequeued ${value}`, true);
+        }
+
+        function resetTSQ() {
+            tsqStack1 = [];
+            tsqStack2 = [];
+            renderTSQ();
+            document.getElementById('tsq-log').innerHTML = 'Operations will appear here...';
+        }
+
+        // Initialize
+        renderStack();
+        renderQueue();
+        renderBracketStack();
+        renderTSQ();
+    </script>
+</body>
+</html>

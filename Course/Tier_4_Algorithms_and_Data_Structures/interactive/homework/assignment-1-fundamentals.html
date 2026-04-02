@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 1: Complexity Analysis</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        @media print {
+            .answer-key { display: block !important; }
+            .toggle-answer { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📋 Assignment 1: Complexity Analysis</h1>
+        <p>Fundamentals of algorithmic complexity and Big O notation</p>
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>›</span>
+            <a href="../index.html#homework">Homework</a>
+            <span>›</span>
+            Assignment 1
+        </div>
+    </header>
+
+    <div class="container assignment">
+        <div class="card" style="background: #e8f4f8; margin-bottom: 30px;">
+            <h3 style="margin-top: 0;">📝 Instructions</h3>
+            <ul>
+                <li>Answer all questions. Show your work for partial credit.</li>
+                <li>Total points: 100</li>
+                <li>Express complexity using Big O notation</li>
+                <li>Click "Show Answer" to check your solutions</li>
+            </ul>
+        </div>
+
+        <!-- Problem 1 -->
+        <div class="problem">
+            <h3>Problem 1 <span class="points">15 points</span></h3>
+            <p>Determine the time complexity of each code snippet:</p>
+            
+            <h4>a) (5 pts)</h4>
+            <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+def func_a(n):
+    total = 0
+    for i in range(n):
+        for j in range(n):
+            total += i * j
+    return total
+            </pre>
+            
+            <h4>b) (5 pts)</h4>
+            <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+def func_b(n):
+    total = 0
+    for i in range(n):
+        for j in range(i):
+            total += 1
+    return total
+            </pre>
+            
+            <h4>c) (5 pts)</h4>
+            <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+def func_c(n):
+    i = n
+    while i > 1:
+        print(i)
+        i = i // 2
+            </pre>
+            
+            <button class="toggle-answer" onclick="toggleAnswer(1)">Show Answer</button>
+            <div class="answer-key" id="answer-1">
+                <h4>Answer Key</h4>
+                <p><strong>a) O(n²)</strong> - Two nested loops, each running n times. Total: n × n = n²</p>
+                <p><strong>b) O(n²)</strong> - Inner loop runs 0 + 1 + 2 + ... + (n-1) = n(n-1)/2 = O(n²)</p>
+                <p><strong>c) O(log n)</strong> - i is halved each iteration. Loop runs log₂(n) times.</p>
+            </div>
+        </div>
+
+        <!-- Problem 2 -->
+        <div class="problem">
+            <h3>Problem 2 <span class="points">15 points</span></h3>
+            <p>Rank the following functions from slowest to fastest growth rate:</p>
+            <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+n², 2ⁿ, n log n, n!, log n, n, 1, n³, √n
+            </pre>
+            
+            <button class="toggle-answer" onclick="toggleAnswer(2)">Show Answer</button>
+            <div class="answer-key" id="answer-2">
+                <h4>Answer Key</h4>
+                <p>From slowest to fastest growth (best to worst complexity):</p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+1 < log n < √n < n < n log n < n² < n³ < 2ⁿ < n!
+                </pre>
+                <p><strong>Scoring:</strong></p>
+                <ul>
+                    <li>Correct order of all 9: 15 pts</li>
+                    <li>1-2 elements out of place: 12 pts</li>
+                    <li>3-4 elements out of place: 8 pts</li>
+                    <li>5+ elements out of place: 5 pts</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Problem 3 -->
+        <div class="problem">
+            <h3>Problem 3 <span class="points">20 points</span></h3>
+            <p>Analyze this recursive function:</p>
+            <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+def mystery(n):
+    if n <= 1:
+        return 1
+    return mystery(n - 1) + mystery(n - 1)
+            </pre>
+            
+            <h4>a) (5 pts) What does this function compute?</h4>
+            <h4>b) (10 pts) What is the time complexity? Explain using a recurrence relation.</h4>
+            <h4>c) (5 pts) What is the space complexity?</h4>
+            
+            <button class="toggle-answer" onclick="toggleAnswer(3)">Show Answer</button>
+            <div class="answer-key" id="answer-3">
+                <h4>Answer Key</h4>
+                <p><strong>a)</strong> The function computes 2^(n-1) or equivalently 2ⁿ⁻¹ (powers of 2)</p>
+                
+                <p><strong>b) Time Complexity: O(2ⁿ)</strong></p>
+                <p>Recurrence relation: T(n) = 2T(n-1) + O(1)</p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+T(n) = 2T(n-1) + 1
+     = 2(2T(n-2) + 1) + 1
+     = 4T(n-2) + 2 + 1
+     = 8T(n-3) + 4 + 2 + 1
+     = 2ᵏ T(n-k) + 2ᵏ⁻¹ + ... + 1
+
+When k = n-1: T(n) = 2ⁿ⁻¹ T(1) + 2ⁿ⁻² + ... + 1
+            = 2ⁿ⁻¹ + (2ⁿ⁻¹ - 1)
+            = 2ⁿ - 1 = O(2ⁿ)
+                </pre>
+                
+                <p><strong>c) Space Complexity: O(n)</strong></p>
+                <p>Maximum depth of recursion stack is n (one branch goes all the way down before backtracking).</p>
+            </div>
+        </div>
+
+        <!-- Problem 4 -->
+        <div class="problem">
+            <h3>Problem 4 <span class="points">15 points</span></h3>
+            <p>For each scenario, determine the most appropriate time complexity bound:</p>
+            
+            <h4>a) (5 pts)</h4>
+            <p>Finding the minimum element in an unsorted array of n elements.</p>
+            
+            <h4>b) (5 pts)</h4>
+            <p>Checking if a sorted array contains a specific element.</p>
+            
+            <h4>c) (5 pts)</h4>
+            <p>Finding all pairs of elements in an array that sum to a target value.</p>
+            
+            <button class="toggle-answer" onclick="toggleAnswer(4)">Show Answer</button>
+            <div class="answer-key" id="answer-4">
+                <h4>Answer Key</h4>
+                <p><strong>a) O(n)</strong> - Must examine every element once. Cannot do better than O(n) for unsorted array.</p>
+                
+                <p><strong>b) O(log n)</strong> - Binary search can find element or determine absence in O(log n) time.</p>
+                
+                <p><strong>c) O(n²) naive, O(n log n) with sorting, O(n) with hash table</strong></p>
+                <ul>
+                    <li>Naive: Check all pairs - O(n²)</li>
+                    <li>Sort + two pointers: O(n log n)</li>
+                    <li>Hash set: For each element, check if complement exists - O(n)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Problem 5 -->
+        <div class="problem">
+            <h3>Problem 5 <span class="points">15 points</span></h3>
+            <p>True or False (explain your reasoning):</p>
+            
+            <h4>a) (5 pts)</h4>
+            <p>If f(n) = O(n²), then f(n) = O(n³)</p>
+            
+            <h4>b) (5 pts)</h4>
+            <p>If f(n) = O(n²) and g(n) = O(n), then f(n) + g(n) = O(n²)</p>
+            
+            <h4>c) (5 pts)</h4>
+            <p>If f(n) = O(log n), then f(n) = O(n)</p>
+            
+            <button class="toggle-answer" onclick="toggleAnswer(5)">Show Answer</button>
+            <div class="answer-key" id="answer-5">
+                <h4>Answer Key</h4>
+                <p><strong>a) TRUE</strong> - Big O is an upper bound. If f(n) ≤ cn² for large n, then f(n) ≤ cn³ as well (since n² ≤ n³ for n ≥ 1).</p>
+                
+                <p><strong>b) TRUE</strong> - The sum is dominated by the larger term. n² + n = O(n²).</p>
+                
+                <p><strong>c) TRUE</strong> - log n grows slower than n, so log n ≤ n for sufficiently large n. Therefore O(log n) ⊂ O(n).</p>
+            </div>
+        </div>
+
+        <!-- Problem 6 -->
+        <div class="problem">
+            <h3>Problem 6 <span class="points">20 points</span></h3>
+            <p>Analyze the following algorithm:</p>
+            <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+def process(arr):
+    n = len(arr)
+    result = []
+    
+    for i in range(n):                    # Loop A
+        for j in range(n):                # Loop B
+            result.append(arr[i] + arr[j])
+    
+    sorted_result = sorted(result)        # Sort
+    
+    unique = []
+    for item in sorted_result:            # Loop C
+        if not unique or unique[-1] != item:
+            unique.append(item)
+    
+    return unique
+            </pre>
+            
+            <h4>a) (5 pts) What is the time complexity of Loop A + Loop B?</h4>
+            <h4>b) (5 pts) What is the size of result after the nested loops?</h4>
+            <h4>c) (5 pts) What is the time complexity of the Sort?</h4>
+            <h4>d) (5 pts) What is the overall time complexity?</h4>
+            
+            <button class="toggle-answer" onclick="toggleAnswer(6)">Show Answer</button>
+            <div class="answer-key" id="answer-6">
+                <h4>Answer Key</h4>
+                <p><strong>a) O(n²)</strong> - Two nested loops, each running n times.</p>
+                
+                <p><strong>b) n² elements</strong> - The nested loops add n × n = n² elements to result.</p>
+                
+                <p><strong>c) O(n² log n²) = O(n² log n)</strong> - Sorting n² elements. Note: log(n²) = 2 log n = O(log n).</p>
+                
+                <p><strong>d) O(n² log n)</strong></p>
+                <ul>
+                    <li>Nested loops: O(n²)</li>
+                    <li>Sorting: O(n² log n)</li>
+                    <li>Deduplication: O(n²)</li>
+                    <li>Total: O(n²) + O(n² log n) + O(n²) = O(n² log n)</li>
+                </ul>
+                <p>The sorting step dominates.</p>
+            </div>
+        </div>
+
+        <!-- Bonus -->
+        <div class="problem" style="border-left-color: #f39c12;">
+            <h3>Bonus Problem <span class="points">10 points (extra credit)</span></h3>
+            <p>Prove or disprove: For any two functions f(n) and g(n), either f(n) = O(g(n)) or g(n) = O(f(n)).</p>
+            
+            <button class="toggle-answer" onclick="toggleAnswer(7)">Show Answer</button>
+            <div class="answer-key" id="answer-7">
+                <h4>Answer Key</h4>
+                <p><strong>DISPROVE</strong> - This statement is false.</p>
+                
+                <p><strong>Counterexample:</strong></p>
+                <pre style="background: #f8f9fa; padding: 15px; border-radius: 5px;">
+f(n) = n      (when n is even)
+f(n) = 1      (when n is odd)
+
+g(n) = 1      (when n is even)
+g(n) = n      (when n is odd)
+                </pre>
+                
+                <p>Neither function dominates the other for all large n:</p>
+                <ul>
+                    <li>For even n: f(n) = n > 1 = g(n), so g ≠ O(f)</li>
+                    <li>For odd n: g(n) = n > 1 = f(n), so f ≠ O(g)</li>
+                </ul>
+                
+                <p><strong>Simpler example:</strong> f(n) = n for even n, 1 otherwise; g(n) = n for odd n, 1 otherwise.</p>
+                
+                <p><strong>Full credit</strong> for any valid counterexample or rigorous proof.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleAnswer(num) {
+            const answer = document.getElementById(`answer-${num}`);
+            const button = answer.previousElementSibling;
+            
+            if (answer.classList.contains('visible')) {
+                answer.classList.remove('visible');
+                button.textContent = 'Show Answer';
+            } else {
+                answer.classList.add('visible');
+                button.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</body>
+</html>

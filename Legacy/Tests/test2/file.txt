@@ -1,0 +1,7 @@
+#Header comment
+First line # comment to the first line
+Second line # comment to the second line
+# Empty line
+This line has no comments!
+ # Here # is not the first symbol
+The last line

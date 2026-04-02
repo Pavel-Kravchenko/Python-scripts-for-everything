@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 3: Data Structures</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .assignment-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .problem {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        .problem-number {
+            background: #3498db;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .points {
+            background: #27ae60;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+        .sub-problem {
+            margin: 15px 0;
+            padding-left: 20px;
+            border-left: 3px solid #3498db;
+        }
+        .answer-key {
+            background: #f8f9fa;
+            border: 2px dashed #27ae60;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+        .answer-key.show { display: block; }
+        .answer-key h4 {
+            color: #27ae60;
+            margin-top: 0;
+        }
+        .toggle-answers {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 20px 0;
+        }
+        .toggle-answers:hover { background: #c0392b; }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 10px 0;
+            white-space: pre;
+        }
+        .visual-example {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        .rubric {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .rubric h5 {
+            margin-top: 0;
+            color: #856404;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th { background: #3498db; color: white; }
+        tr:nth-child(even) { background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to Index</a>
+        
+        <div class="assignment-header">
+            <h1>📋 Assignment 3: Data Structures</h1>
+            <p>Linked Lists, Stacks, Queues, and Hash Tables</p>
+            <p><strong>Total Points: 100</strong> | Due: See course schedule</p>
+        </div>
+
+        <div class="card">
+            <h2>Instructions</h2>
+            <ul>
+                <li>Show all work for partial credit</li>
+                <li>For code questions, any language is acceptable (pseudocode preferred)</li>
+                <li>Draw diagrams where helpful</li>
+                <li>Clearly state any assumptions made</li>
+            </ul>
+            <button class="toggle-answers" onclick="toggleAllAnswers()">Toggle Answer Key (Instructor Use)</button>
+        </div>
+
+        <!-- Problem 1 -->
+        <div class="problem">
+            <div class="problem-header">
+                <span class="problem-number">Problem 1</span>
+                <span class="points">15 points</span>
+            </div>
+            <h3>Linked List Operations</h3>
+            
+            <div class="sub-problem">
+                <p><strong>(a) [5 pts]</strong> Given a singly linked list: 10 → 20 → 30 → 40 → 50</p>
+                <p>Write pseudocode to delete the node containing value 30. Handle edge cases.</p>
+            </div>
+            
+            <div class="sub-problem">
+                <p><strong>(b) [5 pts]</strong> What is the time complexity of:</p>
+                <ul>
+                    <li>Inserting at the head of a singly linked list?</li>
+                    <li>Inserting at the tail of a singly linked list (no tail pointer)?</li>
+                    <li>Inserting at the tail of a singly linked list (with tail pointer)?</li>
+                </ul>
+            </div>
+            
+            <div class="sub-problem">
+                <p><strong>(c) [5 pts]</strong> Compare singly vs doubly linked lists. When would you choose each?</p>
+            </div>
+            
+            <div class="answer-key">
+                <h4>Answer Key:</h4>
+                <p><strong>(a)</strong></p>
+                <div class="code-block">def delete_value(head, value):
+    if head is None:
+        return None
+    if head.data == value:
+        return head.next
+    
+    current = head
+    while current.next and current.next.data != value:
+        current = current.next
+    
+    if current.next:
+        current.next = current.next.next
+    return head</div>
+                
+                <p><strong>(b)</strong></p>
+                <ul>
+                    <li>Insert at head: <strong>O(1)</strong> - just update pointers</li>
+                    <li>Insert at tail (no pointer): <strong>O(n)</strong> - must traverse</li>
+                    <li>Insert at tail (with pointer): <strong>O(1)</strong> - direct access</li>
+                </ul>
+                
+                <p><strong>(c)</strong></p>
+                <table>
+                    <tr><th>Aspect</th><th>Singly</th><th>Doubly</th></tr>
+                    <tr><td>Memory</td><td>Less (1 pointer)</td><td>More (2 pointers)</td></tr>
+                    <tr><td>Reverse traversal</td><td>Not possible</td><td>O(1) per step</td></tr>
+                    <tr><td>Delete node (given ptr)</td><td>O(n) need prev</td><td>O(1)</td></tr>
+                    <tr><td>Use case</td><td>Simple lists, stacks</td><td>LRU cache, browsers</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Problem 2 -->
+        <div class="problem">
+            <div class="problem-header">
+                <span class="problem-number">Problem 2</span>
+                <span class="points">15 points</span>
+            </div>
+            <h3>Stack Applications</h3>
+            
+            <div class="sub-problem">
+                <p><strong>(a) [8 pts]</strong> Evaluate the following postfix expression using a stack. Show the stack state after each token:</p>
+                <div class="code-block">5 3 + 2 * 8 -</div>
+            </div>
+            
+            <div class="sub-problem">
+                <p><strong>(b) [7 pts]</strong> Convert the infix expression to postfix using a stack:</p>
+                <div class="code-block">(A + B) * (C - D) / E</div>
+            </div>
+            
+            <div class="answer-key">
+                <h4>Answer Key:</h4>
+                <p><strong>(a)</strong></p>
+                <div class="code-block">Token | Stack      | Operation
+------+------------+------------------
+5     | [5]        | push 5
+3     | [5,3]      | push 3
++     | [8]        | pop 3,5; push 5+3=8
+2     | [8,2]      | push 2
+*     | [16]       | pop 2,8; push 8*2=16
+8     | [16,8]     | push 8
+-     | [8]        | pop 8,16; push 16-8=8
+
+Result: 8</div>
+                
+                <p><strong>(b)</strong></p>
+                <div class="code-block">Token | Stack  | Output
+------+--------+-----------------
+(     | [(]    |
+A     | [(]    | A
++     | [(,+]  | A
+B     | [(,+]  | A B
+)     | []     | A B +
+*     | [*]    | A B +
+(     | [*,(]  | A B +
+C     | [*,(]  | A B + C
+-     | [*,(,-]| A B + C
+D     | [*,(,-]| A B + C D
+)     | [*]    | A B + C D -
+/     | [/]    | A B + C D - *
+E     | [/]    | A B + C D - * E
+end   | []     | A B + C D - * E /
+
+Result: A B + C D - * E /</div>
+            </div>
+        </div>
+
+        <!-- Problem 3 -->
+        <div class="problem">
+            <div class="problem-header">
+                <span class="problem-number">Problem 3</span>
+                <span class="points">20 points</span>
+            </div>
+            <h3>Queue Implementation</h3>
+            
+            <div class="sub-problem">
+                <p><strong>(a) [10 pts]</strong> Implement a circular queue using an array of size 5. Show the state of the array, front, and rear pointers after each operation:</p>
+                <div class="code-block">enqueue(1), enqueue(2), enqueue(3), dequeue(), dequeue(), 
+enqueue(4), enqueue(5), enqueue(6), dequeue()</div>
+            </div>
+            
+            <div class="sub-problem">
+                <p><strong>(b) [10 pts]</strong> Implement <code>isEmpty()</code> and <code>isFull()</code> for a circular queue. What is the maximum number of elements that can be stored in a circular queue of size n? Explain.</p>
+            </div>
+            
+            <div class="answer-key">
+                <h4>Answer Key:</h4>
+                <p><strong>(a)</strong> (Array indices 0-4, front=F, rear=R)</p>
+                <div class="code-block">Initial:    [ _ | _ | _ | _ | _ ]  F=0, R=0
+enqueue(1): [ 1 | _ | _ | _ | _ ]  F=0, R=1
+enqueue(2): [ 1 | 2 | _ | _ | _ ]  F=0, R=2
+enqueue(3): [ 1 | 2 | 3 | _ | _ ]  F=0, R=3
+dequeue():  [ _ | 2 | 3 | _ | _ ]  F=1, R=3  → returns 1
+dequeue():  [ _ | _ | 3 | _ | _ ]  F=2, R=3  → returns 2
+enqueue(4): [ _ | _ | 3 | 4 | _ ]  F=2, R=4
+enqueue(5): [ _ | _ | 3 | 4 | 5 ]  F=2, R=0 (wrap!)
+enqueue(6): [ 6 | _ | 3 | 4 | 5 ]  F=2, R=1
+dequeue():  [ 6 | _ | _ | 4 | 5 ]  F=3, R=1  → returns 3</div>
+                
+                <p><strong>(b)</strong></p>
+                <div class="code-block">def isEmpty():
+    return front == rear
+
+def isFull():
+    return (rear + 1) % size == front</div>
+                <p><strong>Maximum elements: n-1</strong></p>
+                <p>We sacrifice one slot to distinguish empty from full. If we allowed n elements, front==rear would be ambiguous (could mean empty or full).</p>
+            </div>
+        </div>
+
+        <!-- Problem 4 -->
+        <div class="problem">
+            <div class="problem-header">
+                <span class="problem-number">Problem 4</span>
+                <span class="points">20 points</span>
+            </div>
+            <h3>Hash Table Analysis</h3>
+            
+            <div class="sub-problem">
+                <p><strong>(a) [8 pts]</strong> Insert keys 10, 22, 31, 4, 15, 28, 17, 88 into a hash table of size 11 using h(k) = k mod 11 with:</p>
+                <ol>
+                    <li>Separate Chaining</li>
+                    <li>Linear Probing</li>
+                </ol>
+                <p>Draw both final hash tables.</p>
+            </div>
+            
+            <div class="sub-problem">
+                <p><strong>(b) [6 pts]</strong> What is the load factor after all insertions? What happens to performance as load factor increases for each method?</p>
+            </div>
+            
+            <div class="sub-problem">
+                <p><strong>(c) [6 pts]</strong> Why do we prefer prime numbers for hash table sizes? Give an example showing how a non-prime size can cause clustering.</p>
+            </div>
+            
+            <div class="answer-key">
+                <h4>Answer Key:</h4>
+                <p><strong>(a)</strong> Hash values: 10→10, 22→0, 31→9, 4→4, 15→4, 28→6, 17→6, 88→0</p>
+                
+                <p>Separate Chaining:</p>
+                <div class="code-block">[0]: 22 → 88
+[1]: empty
+[2]: empty
+[3]: empty
+[4]: 4 → 15
+[5]: empty
+[6]: 28 → 17
+[7]: empty
+[8]: empty
+[9]: 31
+[10]: 10</div>
+                
+                <p>Linear Probing:</p>
+                <div class="code-block">[0]: 22
+[1]: 88     (probed from 0)
+[2]: empty
+[3]: empty
+[4]: 4
+[5]: 15     (probed from 4)
+[6]: 28
+[7]: 17     (probed from 6)
+[8]: empty
+[9]: 31
+[10]: 10</div>
+                
+                <p><strong>(b)</strong> Load factor = 8/11 ≈ 0.73</p>
+                <ul>
+                    <li><strong>Chaining:</strong> Graceful degradation. Average chain length increases linearly. Can exceed α > 1.</li>
+                    <li><strong>Linear Probing:</strong> Rapid degradation. Clustering gets worse. Performance degrades sharply as α → 1. Cannot exceed α = 1.</li>
+                </ul>
+                
+                <p><strong>(c)</strong> Prime sizes distribute keys more uniformly.</p>
+                <p>Example: If size = 10 and keys are multiples of 5 (5, 10, 15, 20, ...):
+                    All hash to indices 0 or 5 only → 80% of table unused!</p>
+                <p>With size = 11 (prime): 5→5, 10→10, 15→4, 20→9, 25→3 → better distribution</p>
+            </div>
+        </div>
+
+        <!-- Problem 5 -->
+        <div class="problem">
+            <div class="problem-header">
+                <span class="problem-number">Problem 5</span>
+                <span class="points">15 points</span>
+            </div>
+            <h3>Cycle Detection</h3>
+            
+            <div class="sub-problem">
+                <p><strong>(a) [8 pts]</strong> Prove that Floyd's cycle detection algorithm is correct. Why must the slow and fast pointers meet if there's a cycle?</p>
+            </div>
+            
+            <div class="sub-problem">
+                <p><strong>(b) [7 pts]</strong> After detecting a cycle, how would you find the start of the cycle? Explain the algorithm and its time complexity.</p>
+            </div>
+            
+            <div class="answer-key">
+                <h4>Answer Key:</h4>
+                <p><strong>(a) Proof:</strong></p>
+                <ul>
+                    <li>Let the cycle have length C</li>
+                    <li>Once both pointers are in the cycle, their relative distance decreases by 1 each step (fast gains 1 on slow)</li>
+                    <li>Since distance is finite and decreasing, they must eventually meet</li>
+                    <li>Maximum steps before meeting: O(n) where n is list length</li>
+                </ul>
+                
+                <p><strong>(b) Finding cycle start:</strong></p>
+                <div class="code-block">1. Detect meeting point using Floyd's
+2. Reset one pointer to head
+3. Move both pointers one step at a time
+4. They meet at the cycle start</div>
+                <p><strong>Why it works:</strong> Let distance from head to cycle start = m, and meeting point is k steps into the cycle. The fast pointer traveled 2(m+k) while slow traveled (m+k). The difference m+k must be a multiple of cycle length. When slow is reset to head and both move at same speed, they meet at the start after m steps.</p>
+                <p><strong>Time complexity: O(n)</strong></p>
+            </div>
+        </div>
+
+        <!-- Problem 6 -->
+        <div class="problem">
+            <div class="problem-header">
+                <span class="problem-number">Problem 6</span>
+                <span class="points">15 points</span>
+            </div>
+            <h3>Design Problem: Browser History</h3>
+            
+            <p>Design a data structure to implement browser back/forward functionality:</p>
+            <ul>
+                <li><code>visit(url)</code> - Visit a new URL (clears forward history)</li>
+                <li><code>back(steps)</code> - Go back up to 'steps' pages</li>
+                <li><code>forward(steps)</code> - Go forward up to 'steps' pages</li>
+            </ul>
+            
+            <div class="sub-problem">
+                <p><strong>(a) [7 pts]</strong> What data structure(s) would you use? Justify your choice.</p>
+            </div>
+            
+            <div class="sub-problem">
+                <p><strong>(b) [8 pts]</strong> Implement the three operations with optimal time complexity. State the complexity of each operation.</p>
+            </div>
+            
+            <div class="answer-key">
+                <h4>Answer Key:</h4>
+                <p><strong>(a)</strong> Use <strong>two stacks</strong>: back_stack and forward_stack, plus current_url.</p>
+                <ul>
+                    <li>back_stack: pages we can go back to</li>
+                    <li>forward_stack: pages we can go forward to</li>
+                    <li>Stacks are ideal because we access history in LIFO order</li>
+                </ul>
+                
+                <p><strong>(b)</strong></p>
+                <div class="code-block">class BrowserHistory:
+    def __init__(self, homepage):
+        self.current = homepage
+        self.back_stack = []
+        self.forward_stack = []
+    
+    def visit(self, url):  # O(1)
+        self.back_stack.append(self.current)
+        self.current = url
+        self.forward_stack.clear()  # Clear forward history
+    
+    def back(self, steps):  # O(steps)
+        while steps > 0 and self.back_stack:
+            self.forward_stack.append(self.current)
+            self.current = self.back_stack.pop()
+            steps -= 1
+        return self.current
+    
+    def forward(self, steps):  # O(steps)
+        while steps > 0 and self.forward_stack:
+            self.back_stack.append(self.current)
+            self.current = self.forward_stack.pop()
+            steps -= 1
+        return self.current</div>
+                <p>Complexities: visit O(1), back O(steps), forward O(steps)</p>
+            </div>
+        </div>
+
+        <!-- Bonus -->
+        <div class="problem" style="border-color: #f39c12;">
+            <div class="problem-header">
+                <span class="problem-number" style="background: #f39c12;">Bonus</span>
+                <span class="points" style="background: #f39c12;">+10 points</span>
+            </div>
+            <h3>Min Stack</h3>
+            <p>Design a stack that supports push, pop, top, and getMin, all in O(1) time.</p>
+            <p>Hint: What additional information can you store with each element?</p>
+            
+            <div class="answer-key">
+                <h4>Answer Key:</h4>
+                <p>Store pairs of (value, min_so_far) on the stack:</p>
+                <div class="code-block">class MinStack:
+    def __init__(self):
+        self.stack = []  # stores (value, min_so_far)
+    
+    def push(self, val):  # O(1)
+        if not self.stack:
+            self.stack.append((val, val))
+        else:
+            current_min = min(val, self.stack[-1][1])
+            self.stack.append((val, current_min))
+    
+    def pop(self):  # O(1)
+        return self.stack.pop()[0]
+    
+    def top(self):  # O(1)
+        return self.stack[-1][0]
+    
+    def getMin(self):  # O(1)
+        return self.stack[-1][1]</div>
+                <p>Each element "remembers" the minimum of all elements below it (including itself).</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Grading Rubric</h2>
+            <table>
+                <tr><th>Problem</th><th>Points</th><th>Topics</th></tr>
+                <tr><td>1</td><td>15</td><td>Linked List operations, complexity, comparison</td></tr>
+                <tr><td>2</td><td>15</td><td>Stack applications (postfix, infix conversion)</td></tr>
+                <tr><td>3</td><td>20</td><td>Circular queue implementation</td></tr>
+                <tr><td>4</td><td>20</td><td>Hash table (chaining vs probing, load factor)</td></tr>
+                <tr><td>5</td><td>15</td><td>Floyd's cycle detection</td></tr>
+                <tr><td>6</td><td>15</td><td>Design problem</td></tr>
+                <tr><td>Bonus</td><td>+10</td><td>Min Stack</td></tr>
+                <tr><th>Total</th><th>100 (+10)</th><th></th></tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function toggleAllAnswers() {
+            const answers = document.querySelectorAll('.answer-key');
+            const btn = document.querySelector('.toggle-answers');
+            const showing = answers[0].classList.contains('show');
+            
+            answers.forEach(a => a.classList.toggle('show', !showing));
+            btn.textContent = showing ? 'Toggle Answer Key (Instructor Use)' : 'Hide Answer Key';
+        }
+    </script>
+</body>
+</html>

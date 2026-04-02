@@ -1,0 +1,23 @@
+# Python for Bioinformatics - Requirements
+# =========================================
+
+# Core scientific computing
+numpy>=1.21.0
+pandas>=1.3.0
+
+# Bioinformatics
+biopython>=1.79
+
+# Visualization
+matplotlib>=3.4.0
+seaborn>=0.11.0
+altair>=4.1.0
+
+# Jupyter
+jupyter>=1.0.0
+notebook>=6.4.0
+ipykernel>=6.0.0
+
+# Optional: Data handling
+openpyxl>=3.0.0    # Excel support
+xlrd>=2.0.0        # Legacy Excel

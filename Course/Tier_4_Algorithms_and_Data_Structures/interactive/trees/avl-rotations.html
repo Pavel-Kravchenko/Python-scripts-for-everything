@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVL Tree Rotations - Interactive Visualization</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .tree-container {
+            background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 450px;
+        }
+        #tree-canvas {
+            width: 100%;
+            height: 400px;
+            display: block;
+        }
+        .rotation-demo {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .rotation-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .rotation-card h4 {
+            margin: 0 0 15px 0;
+            color: #3498db;
+        }
+        .rotation-diagram {
+            font-family: monospace;
+            white-space: pre;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+        .balance-indicator {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .balance-ok { background: #d4edda; color: #155724; }
+        .balance-warn { background: #fff3cd; color: #856404; }
+        .balance-bad { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚖️ AVL Tree Rotations</h1>
+        <p>Self-balancing BST that maintains O(log n) operations through automatic rotations</p>
+        <div class="breadcrumb">
+            <a href="../index.html">Home</a>
+            <span>›</span>
+            <a href="../index.html#trees">Trees</a>
+            <span>›</span>
+            AVL Rotations
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Visualization Panel -->
+            <div class="visualization-panel">
+                <div class="card">
+                    <h2>🌳 AVL Tree Visualization</h2>
+                    
+                    <div class="controls">
+                        <div class="input-group">
+                            <label for="insert-value">Insert:</label>
+                            <input type="number" id="insert-value" placeholder="1-99" min="1" max="99" style="width: 80px;">
+                            <button class="btn btn-primary" onclick="insertNode()">Insert</button>
+                        </div>
+                        <button class="btn btn-secondary" onclick="buildBalancedTree()">📦 Sample Tree</button>
+                        <button class="btn btn-secondary" onclick="buildUnbalancedSequence()">📈 Unbalanced Sequence</button>
+                        <button class="btn btn-danger" onclick="clearTree()">🗑️ Clear</button>
+                    </div>
+
+                    <div class="controls">
+                        <div class="input-group">
+                            <label for="speed">Animation Speed:</label>
+                            <input type="range" id="speed" min="200" max="1500" value="700" onchange="updateSpeed()">
+                            <span id="speed-label">700ms</span>
+                        </div>
+                    </div>
+
+                    <!-- Tree Canvas -->
+                    <div class="tree-container">
+                        <canvas id="tree-canvas" width="800" height="400"></canvas>
+                    </div>
+
+                    <p style="text-align: center; color: #7f8c8d; margin-top: 10px;">
+                        <em>Each node shows its value and height (h:X). Balance factor = height(left) - height(right)</em>
+                    </p>
+
+                    <!-- Statistics -->
+                    <div class="stats">
+                        <div class="stat-box">
+                            <div class="label">Nodes</div>
+                            <div class="value" id="node-count">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Height</div>
+                            <div class="value" id="tree-height">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Rotations</div>
+                            <div class="value" id="rotation-count">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="label">Last Rotation</div>
+                            <div class="value" id="last-rotation">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Algorithm Steps -->
+                <div class="card">
+                    <h2>📝 Execution Steps</h2>
+                    <div id="steps-list" class="steps-list"></div>
+                </div>
+
+                <!-- Rotation Types Demo -->
+                <div class="card">
+                    <h2>🔄 Four Rotation Types</h2>
+                    <div class="rotation-demo">
+                        <div class="rotation-card">
+                            <h4>LL Rotation (Right Rotate)</h4>
+                            <p>Left-Left case: Node inserted in left subtree of left child</p>
+                            <div class="rotation-diagram">
+    z                       y
+   / \                    /   \
+  y   T4   ──────▶       x     z
+ / \                    / \   / \
+x   T3                 T1 T2 T3 T4
+                            </div>
+                            <button class="btn btn-primary" onclick="demoRotation('LL')">Demo LL</button>
+                        </div>
+                        
+                        <div class="rotation-card">
+                            <h4>RR Rotation (Left Rotate)</h4>
+                            <p>Right-Right case: Node inserted in right subtree of right child</p>
+                            <div class="rotation-diagram">
+  z                         y
+ / \                      /   \
+T1  y      ──────▶       z     x
+   / \                  / \   / \
+  T2  x                T1 T2 T3 T4
+                            </div>
+                            <button class="btn btn-primary" onclick="demoRotation('RR')">Demo RR</button>
+                        </div>
+                        
+                        <div class="rotation-card">
+                            <h4>LR Rotation (Left-Right)</h4>
+                            <p>Left-Right case: Node inserted in right subtree of left child</p>
+                            <div class="rotation-diagram">
+    z                  z                    x
+   / \               / \                  /   \
+  y   T4  ──▶       x   T4   ──▶        y     z
+ / \               / \                  / \   / \
+T1  x             y   T3               T1 T2 T3 T4
+   / \           / \
+  T2 T3         T1 T2
+                            </div>
+                            <button class="btn btn-primary" onclick="demoRotation('LR')">Demo LR</button>
+                        </div>
+                        
+                        <div class="rotation-card">
+                            <h4>RL Rotation (Right-Left)</h4>
+                            <p>Right-Left case: Node inserted in left subtree of right child</p>
+                            <div class="rotation-diagram">
+  z                 z                       x
+ / \              / \                     /   \
+T1  y    ──▶     T1  x        ──▶       z     y
+   / \              / \                / \   / \
+  x  T4            T2  y              T1 T2 T3 T4
+ / \                  / \
+T2 T3                T3 T4
+                            </div>
+                            <button class="btn btn-primary" onclick="demoRotation('RL')">Demo RL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Panel -->
+            <div class="info-panel">
+                <!-- AVL Property -->
+                <div class="card">
+                    <h2>💡 AVL Property</h2>
+                    <p>Named after inventors <strong>A</strong>delson-<strong>V</strong>elsky and <strong>L</strong>andis (1962).</p>
+                    
+                    <h3>Balance Factor</h3>
+                    <p><code>BF(node) = height(left) - height(right)</code></p>
+                    
+                    <p>For every node:</p>
+                    <ul>
+                        <li><span class="balance-indicator balance-ok">BF = -1, 0, +1</span> → Balanced</li>
+                        <li><span class="balance-indicator balance-bad">BF = +2</span> → Left-heavy (needs rotation)</li>
+                        <li><span class="balance-indicator balance-bad">BF = -2</span> → Right-heavy (needs rotation)</li>
+                    </ul>
+                    
+                    <div style="background: #d4edda; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <strong>✅ Guarantee:</strong> Height is always O(log n), ensuring all operations are O(log n).
+                    </div>
+                </div>
+
+                <!-- Complexity -->
+                <div class="card">
+                    <h2>⏱️ Complexity Analysis</h2>
+                    <table class="complexity-table">
+                        <tr>
+                            <th>Operation</th>
+                            <th>Time</th>
+                        </tr>
+                        <tr>
+                            <td>Search</td>
+                            <td class="good">O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Insert</td>
+                            <td class="good">O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Delete</td>
+                            <td class="good">O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Rotation</td>
+                            <td class="good">O(1)</td>
+                        </tr>
+                        <tr>
+                            <td>Space</td>
+                            <td class="good">O(n)</td>
+                        </tr>
+                    </table>
+                    
+                    <h3>AVL vs BST</h3>
+                    <table class="complexity-table">
+                        <tr>
+                            <th></th>
+                            <th>BST Worst</th>
+                            <th>AVL</th>
+                        </tr>
+                        <tr>
+                            <td>Search</td>
+                            <td class="bad">O(n)</td>
+                            <td class="good">O(log n)</td>
+                        </tr>
+                        <tr>
+                            <td>Insert</td>
+                            <td class="bad">O(n)</td>
+                            <td class="good">O(log n)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- When to Rotate -->
+                <div class="card">
+                    <h2>🔄 When to Rotate</h2>
+                    <p>After insertion, check balance factor going up to root:</p>
+                    
+                    <h4>BF = +2 (Left-heavy)</h4>
+                    <ul>
+                        <li>If left child BF ≥ 0 → <strong>LL (Right Rotate)</strong></li>
+                        <li>If left child BF < 0 → <strong>LR (Left-Right)</strong></li>
+                    </ul>
+                    
+                    <h4>BF = -2 (Right-heavy)</h4>
+                    <ul>
+                        <li>If right child BF ≤ 0 → <strong>RR (Left Rotate)</strong></li>
+                        <li>If right child BF > 0 → <strong>RL (Right-Left)</strong></li>
+                    </ul>
+                </div>
+
+                <!-- Code -->
+                <div class="card">
+                    <h2>💻 Python Code</h2>
+                    <div class="code-section">
+                        <div class="code-header">
+                            <span>avl_rotations.py</span>
+                            <span class="language">Python</span>
+                        </div>
+                        <pre><code><span class="code-line"><span class="line-number">1</span><span class="keyword">def</span> <span class="function">right_rotate</span>(z):</span>
+<span class="code-line"><span class="line-number">2</span>    y = z.left</span>
+<span class="code-line"><span class="line-number">3</span>    T3 = y.right</span>
+<span class="code-line"><span class="line-number">4</span>    </span>
+<span class="code-line"><span class="line-number">5</span>    <span class="comment"># Perform rotation</span></span>
+<span class="code-line"><span class="line-number">6</span>    y.right = z</span>
+<span class="code-line"><span class="line-number">7</span>    z.left = T3</span>
+<span class="code-line"><span class="line-number">8</span>    </span>
+<span class="code-line"><span class="line-number">9</span>    <span class="comment"># Update heights</span></span>
+<span class="code-line"><span class="line-number">10</span>    z.height = <span class="number">1</span> + max(height(z.left), height(z.right))</span>
+<span class="code-line"><span class="line-number">11</span>    y.height = <span class="number">1</span> + max(height(y.left), height(y.right))</span>
+<span class="code-line"><span class="line-number">12</span>    </span>
+<span class="code-line"><span class="line-number">13</span>    <span class="keyword">return</span> y  <span class="comment"># New root</span></span>
+<span class="code-line"><span class="line-number">14</span></span>
+<span class="code-line"><span class="line-number">15</span><span class="keyword">def</span> <span class="function">left_rotate</span>(z):</span>
+<span class="code-line"><span class="line-number">16</span>    y = z.right</span>
+<span class="code-line"><span class="line-number">17</span>    T2 = y.left</span>
+<span class="code-line"><span class="line-number">18</span>    </span>
+<span class="code-line"><span class="line-number">19</span>    y.left = z</span>
+<span class="code-line"><span class="line-number">20</span>    z.right = T2</span>
+<span class="code-line"><span class="line-number">21</span>    </span>
+<span class="code-line"><span class="line-number">22</span>    z.height = <span class="number">1</span> + max(height(z.left), height(z.right))</span>
+<span class="code-line"><span class="line-number">23</span>    y.height = <span class="number">1</span> + max(height(y.left), height(y.right))</span>
+<span class="code-line"><span class="line-number">24</span>    </span>
+<span class="code-line"><span class="line-number">25</span>    <span class="keyword">return</span> y</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- Use Cases -->
+                <div class="card">
+                    <h2>🤔 When to Use AVL</h2>
+                    <h3>✅ Good For:</h3>
+                    <ul>
+                        <li>Lookup-intensive applications</li>
+                        <li>Databases (indexing)</li>
+                        <li>When worst-case matters</li>
+                    </ul>
+                    
+                    <h3>❌ Consider Red-Black Trees When:</h3>
+                    <ul>
+                        <li>Frequent insertions/deletions</li>
+                        <li>Slightly relaxed balance OK</li>
+                        <li>(Red-Black trees do fewer rotations)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        let avl;
+        let rotationCount = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            avl = new AVLVisualizer('tree-canvas');
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        });
+
+        function resizeCanvas() {
+            const canvas = document.getElementById('tree-canvas');
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth - 40;
+            canvas.height = 400;
+            avl.render();
+        }
+
+        async function insertNode() {
+            const input = document.getElementById('insert-value');
+            const value = parseInt(input.value);
+            
+            if (isNaN(value) || value < 1 || value > 99) {
+                alert('Please enter a value between 1 and 99');
+                return;
+            }
+            
+            const prevSteps = avl.steps.length;
+            await avl.insert(value);
+            
+            // Check if rotation occurred
+            const newSteps = avl.steps.slice(prevSteps);
+            const rotations = newSteps.filter(s => s.includes('Rotate'));
+            if (rotations.length > 0) {
+                rotationCount += rotations.length;
+                document.getElementById('rotation-count').textContent = rotationCount;
+                document.getElementById('last-rotation').textContent = rotations[rotations.length - 1].split(' ')[0] + ' ' + rotations[rotations.length - 1].split(' ')[1];
+            }
+            
+            updateStats();
+            input.value = '';
+        }
+
+        async function buildBalancedTree() {
+            clearTree();
+            const values = [50, 25, 75, 10, 30, 60, 80];
+            for (const val of values) {
+                await avl.insert(val);
+                await sleep(300);
+            }
+            updateStats();
+        }
+
+        async function buildUnbalancedSequence() {
+            clearTree();
+            // This sequence will trigger rotations
+            const values = [30, 20, 10]; // Will trigger LL rotation
+            for (const val of values) {
+                await avl.insert(val);
+                await sleep(500);
+            }
+            
+            // Add more to show other rotations
+            const moreValues = [40, 50]; // Will trigger RR
+            for (const val of moreValues) {
+                await avl.insert(val);
+                await sleep(500);
+            }
+            updateStats();
+        }
+
+        async function demoRotation(type) {
+            clearTree();
+            avl.clearSteps();
+            
+            let values;
+            switch (type) {
+                case 'LL':
+                    values = [30, 20, 10];
+                    break;
+                case 'RR':
+                    values = [10, 20, 30];
+                    break;
+                case 'LR':
+                    values = [30, 10, 20];
+                    break;
+                case 'RL':
+                    values = [10, 30, 20];
+                    break;
+            }
+            
+            for (const val of values) {
+                await avl.insert(val);
+                await sleep(700);
+            }
+            
+            document.getElementById('last-rotation').textContent = type;
+            updateStats();
+        }
+
+        function clearTree() {
+            avl.reset();
+            avl.clearSteps();
+            rotationCount = 0;
+            document.getElementById('rotation-count').textContent = '0';
+            document.getElementById('last-rotation').textContent = '-';
+            updateStats();
+        }
+
+        function updateStats() {
+            const count = countNodes(avl.root);
+            const height = getHeight(avl.root);
+            document.getElementById('node-count').textContent = count;
+            document.getElementById('tree-height').textContent = height;
+        }
+
+        function countNodes(node) {
+            if (!node) return 0;
+            return 1 + countNodes(node.left) + countNodes(node.right);
+        }
+
+        function getHeight(node) {
+            if (!node) return 0;
+            return node.height || 1;
+        }
+
+        function updateSpeed() {
+            const speed = parseInt(document.getElementById('speed').value);
+            avl.setSpeed(speed);
+            document.getElementById('speed-label').textContent = speed + 'ms';
+        }
+
+        // Handle Enter key
+        document.getElementById('insert-value').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') insertNode();
+        });
+    </script>
+</body>
+</html>

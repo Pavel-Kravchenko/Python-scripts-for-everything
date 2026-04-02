@@ -1,0 +1,3 @@
+id -> sum
+abc 246.0
+bcd NODATA

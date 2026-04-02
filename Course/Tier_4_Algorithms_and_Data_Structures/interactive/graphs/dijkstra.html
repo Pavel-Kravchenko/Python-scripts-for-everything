@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijkstra's Algorithm | Graph Algorithms</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .graph-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .main-canvas {
+            flex: 2;
+            min-width: 500px;
+        }
+        .side-panel {
+            flex: 1;
+            min-width: 300px;
+        }
+        .canvas-wrapper {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+        .distance-table {
+            background: #2d2d3d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .distance-table h4 {
+            margin: 0 0 15px 0;
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+        .dist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 8px;
+        }
+        .dist-cell {
+            background: #3d3d5c;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .dist-cell.updated {
+            background: #f39c12;
+            transform: scale(1.05);
+        }
+        .dist-cell.current {
+            background: #4ecdc4;
+            color: #1a1a2e;
+        }
+        .dist-cell.finalized {
+            background: #95e1d3;
+            color: #1a1a2e;
+        }
+        .dist-cell .node-id {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .dist-cell .distance {
+            font-size: 12px;
+            color: #ccc;
+            margin-top: 4px;
+        }
+        .dist-cell.finalized .distance,
+        .dist-cell.current .distance,
+        .dist-cell.updated .distance {
+            color: #1a1a2e;
+        }
+        .priority-queue {
+            background: #2d2d3d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .priority-queue h4 {
+            margin: 0 0 10px 0;
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+        .pq-items {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .pq-item {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        .pq-item.min {
+            background: #4ecdc4;
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+        .path-result {
+            background: #2d2d3d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .path-result h4 {
+            margin: 0 0 10px 0;
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+        .path-display {
+            font-family: monospace;
+            font-size: 16px;
+            color: #4ecdc4;
+        }
+        .step-log {
+            background: #2d2d3d;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .step-log h4 {
+            margin: 0 0 10px 0;
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+        .log-entry {
+            font-family: monospace;
+            font-size: 12px;
+            padding: 4px 0;
+            border-bottom: 1px solid #3d3d5c;
+            color: #e0e0e0;
+        }
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+        .log-entry.highlight {
+            background: rgba(78, 205, 196, 0.2);
+            padding: 4px 8px;
+            margin: 2px -8px;
+            border-radius: 4px;
+        }
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #a0a0a0;
+        }
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        .graph-preset {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .preset-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            background: #3d3d5c;
+            color: #fff;
+            transition: background 0.2s;
+        }
+        .preset-btn:hover {
+            background: #4d4d6c;
+        }
+        .preset-btn.active {
+            background: #4ecdc4;
+            color: #1a1a2e;
+        }
+        .code-panel {
+            background: #1e1e2e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="../index.html">← Back to Index</a>
+    </nav>
+
+    <header>
+        <h1>🛤️ Dijkstra's Shortest Path Algorithm</h1>
+        <p>Find the shortest path from a source to all other vertices in a weighted graph</p>
+    </header>
+
+    <main>
+        <!-- Controls -->
+        <div class="card">
+            <h2>Graph Selection</h2>
+            <div class="graph-preset">
+                <button class="preset-btn active" onclick="loadPreset('simple')">Simple Graph</button>
+                <button class="preset-btn" onclick="loadPreset('complex')">Complex Graph</button>
+                <button class="preset-btn" onclick="loadPreset('grid')">Grid Graph</button>
+            </div>
+            <div class="controls">
+                <label>
+                    Source Node:
+                    <select id="sourceNode"></select>
+                </label>
+                <label>
+                    Target Node:
+                    <select id="targetNode"></select>
+                </label>
+                <label>
+                    Speed:
+                    <input type="range" id="speed" min="100" max="2000" value="800">
+                </label>
+                <button class="btn btn-primary" onclick="runDijkstra()">▶ Run Dijkstra</button>
+                <button class="btn btn-secondary" onclick="reset()">↺ Reset</button>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #6c7a89;"></div>
+                <span>Unvisited</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #667eea;"></div>
+                <span>In Priority Queue</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #4ecdc4;"></div>
+                <span>Current Node</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #95e1d3;"></div>
+                <span>Finalized</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ff6b6b;"></div>
+                <span>Shortest Path</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="graph-container">
+            <div class="main-canvas">
+                <div class="canvas-wrapper">
+                    <canvas id="graphCanvas" width="600" height="400"></canvas>
+                </div>
+                
+                <div class="distance-table">
+                    <h4>📊 Distance Table</h4>
+                    <div class="dist-grid" id="distanceGrid"></div>
+                </div>
+            </div>
+
+            <div class="side-panel">
+                <div class="priority-queue">
+                    <h4>🔢 Priority Queue (Min-Heap)</h4>
+                    <div class="pq-items" id="priorityQueue">
+                        <span style="color: #666;">Empty</span>
+                    </div>
+                </div>
+
+                <div class="path-result">
+                    <h4>🎯 Shortest Path</h4>
+                    <div class="path-display" id="pathDisplay">Select source and target, then run</div>
+                </div>
+
+                <div class="step-log">
+                    <h4>📝 Execution Log</h4>
+                    <div id="stepLog"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Code -->
+        <div class="code-panel">
+            <h3>Algorithm Implementation</h3>
+            <pre><code class="language-python">import heapq
+
+def dijkstra(graph, source):
+    # Initialize distances to infinity
+    dist = {v: float('inf') for v in graph}
+    dist[source] = 0
+    prev = {v: None for v in graph}
+    
+    # Priority queue: (distance, vertex)
+    pq = [(0, source)]
+    visited = set()
+    
+    while pq:
+        # Extract vertex with minimum distance
+        d, u = heapq.heappop(pq)
+        
+        if u in visited:
+            continue
+        visited.add(u)
+        
+        # Relax all edges from u
+        for v, weight in graph[u]:
+            if v not in visited:
+                new_dist = dist[u] + weight
+                if new_dist < dist[v]:
+                    dist[v] = new_dist
+                    prev[v] = u
+                    heapq.heappush(pq, (new_dist, v))
+    
+    return dist, prev
+
+# Time: O((V + E) log V) with binary heap
+# Space: O(V)</code></pre>
+        </div>
+
+        <!-- Explanation -->
+        <div class="card">
+            <h2>How Dijkstra's Algorithm Works</h2>
+            <ol>
+                <li><strong>Initialize:</strong> Set distance to source = 0, all others = ∞</li>
+                <li><strong>Add source to priority queue</strong> with distance 0</li>
+                <li><strong>While queue not empty:</strong>
+                    <ul>
+                        <li>Extract node with minimum distance</li>
+                        <li>If already visited, skip</li>
+                        <li>Mark as visited (finalized)</li>
+                        <li>For each neighbor: if new path is shorter, update distance and add to queue</li>
+                    </ul>
+                </li>
+                <li><strong>Result:</strong> Shortest distances from source to all reachable nodes</li>
+            </ol>
+            
+            <h3>Key Properties</h3>
+            <ul>
+                <li>✅ Works with non-negative edge weights only</li>
+                <li>✅ Greedy algorithm - always picks minimum distance next</li>
+                <li>✅ Once a node is finalized, its distance is optimal</li>
+                <li>⚠️ For negative weights, use Bellman-Ford instead</li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const presets = {
+            simple: {
+                nodes: [
+                    {id: 'A', x: 100, y: 200},
+                    {id: 'B', x: 220, y: 100},
+                    {id: 'C', x: 220, y: 300},
+                    {id: 'D', x: 380, y: 100},
+                    {id: 'E', x: 380, y: 300},
+                    {id: 'F', x: 500, y: 200}
+                ],
+                edges: [
+                    ['A', 'B', 4], ['A', 'C', 2],
+                    ['B', 'C', 1], ['B', 'D', 5],
+                    ['C', 'D', 8], ['C', 'E', 10],
+                    ['D', 'E', 2], ['D', 'F', 6],
+                    ['E', 'F', 3]
+                ]
+            },
+            complex: {
+                nodes: [
+                    {id: 'S', x: 80, y: 200},
+                    {id: 'A', x: 180, y: 100},
+                    {id: 'B', x: 180, y: 300},
+                    {id: 'C', x: 300, y: 150},
+                    {id: 'D', x: 300, y: 250},
+                    {id: 'E', x: 420, y: 100},
+                    {id: 'F', x: 420, y: 300},
+                    {id: 'T', x: 520, y: 200}
+                ],
+                edges: [
+                    ['S', 'A', 7], ['S', 'B', 2],
+                    ['A', 'C', 3], ['A', 'B', 3],
+                    ['B', 'D', 4], ['B', 'A', 3],
+                    ['C', 'E', 4], ['C', 'D', 2],
+                    ['D', 'F', 5], ['D', 'C', 2],
+                    ['E', 'T', 1], ['E', 'F', 3],
+                    ['F', 'T', 2]
+                ]
+            },
+            grid: {
+                nodes: [
+                    {id: '0', x: 100, y: 100},
+                    {id: '1', x: 250, y: 100},
+                    {id: '2', x: 400, y: 100},
+                    {id: '3', x: 100, y: 225},
+                    {id: '4', x: 250, y: 225},
+                    {id: '5', x: 400, y: 225},
+                    {id: '6', x: 100, y: 350},
+                    {id: '7', x: 250, y: 350},
+                    {id: '8', x: 400, y: 350}
+                ],
+                edges: [
+                    ['0', '1', 4], ['1', '2', 8],
+                    ['3', '4', 3], ['4', '5', 2],
+                    ['6', '7', 6], ['7', '8', 7],
+                    ['0', '3', 1], ['3', '6', 5],
+                    ['1', '4', 2], ['4', '7', 4],
+                    ['2', '5', 7], ['5', '8', 1],
+                    ['0', '4', 6], ['4', '8', 3]
+                ]
+            }
+        };
+
+        let currentGraph = null;
+        let running = false;
+
+        function loadPreset(name) {
+            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            currentGraph = JSON.parse(JSON.stringify(presets[name]));
+            
+            // Build adjacency list with weights
+            currentGraph.adjacency = {};
+            currentGraph.nodes.forEach(n => currentGraph.adjacency[n.id] = []);
+            currentGraph.edges.forEach(([a, b, w]) => {
+                currentGraph.adjacency[a].push({node: b, weight: w});
+                currentGraph.adjacency[b].push({node: a, weight: w});
+            });
+            
+            // Populate dropdowns
+            const sourceSelect = document.getElementById('sourceNode');
+            const targetSelect = document.getElementById('targetNode');
+            const options = currentGraph.nodes.map(n => 
+                `<option value="${n.id}">${n.id}</option>`
+            ).join('');
+            
+            sourceSelect.innerHTML = options;
+            targetSelect.innerHTML = options;
+            targetSelect.value = currentGraph.nodes[currentGraph.nodes.length - 1].id;
+            
+            reset();
+        }
+
+        function drawGraph(nodeStates, edgeStates, highlightPath) {
+            const canvas = document.getElementById('graphCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const colors = {
+                unvisited: '#6c7a89',
+                inQueue: '#667eea',
+                current: '#4ecdc4',
+                finalized: '#95e1d3',
+                path: '#ff6b6b'
+            };
+            
+            // Draw edges
+            currentGraph.edges.forEach(([a, b, w]) => {
+                const nodeA = currentGraph.nodes.find(n => n.id === a);
+                const nodeB = currentGraph.nodes.find(n => n.id === b);
+                const edgeKey = `${a}-${b}`;
+                const reverseKey = `${b}-${a}`;
+                
+                // Check if edge is in shortest path
+                const isPath = highlightPath && (
+                    highlightPath.includes(edgeKey) || highlightPath.includes(reverseKey)
+                );
+                
+                ctx.strokeStyle = isPath ? '#ff6b6b' : '#4a4a5a';
+                ctx.lineWidth = isPath ? 4 : 2;
+                ctx.beginPath();
+                ctx.moveTo(nodeA.x, nodeA.y);
+                ctx.lineTo(nodeB.x, nodeB.y);
+                ctx.stroke();
+                
+                // Draw weight
+                const midX = (nodeA.x + nodeB.x) / 2;
+                const midY = (nodeA.y + nodeB.y) / 2;
+                
+                ctx.fillStyle = '#1e1e2e';
+                ctx.beginPath();
+                ctx.arc(midX, midY, 14, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = isPath ? '#ff6b6b' : '#f39c12';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(w, midX, midY);
+            });
+            
+            // Draw nodes
+            currentGraph.nodes.forEach(node => {
+                const state = nodeStates[node.id] || 'unvisited';
+                const isInPath = highlightPath && highlightPath.some(e => 
+                    e.startsWith(node.id + '-') || e.endsWith('-' + node.id)
+                );
+                
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, 25, 0, Math.PI * 2);
+                ctx.fillStyle = isInPath && state === 'finalized' ? '#ff6b6b' : colors[state];
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                ctx.fillStyle = state === 'unvisited' ? '#fff' : '#1a1a2e';
+                ctx.font = 'bold 16px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(node.id, node.x, node.y);
+            });
+        }
+
+        function updateDistanceTable(distances, currentNode, finalizedNodes, updatedNode) {
+            const grid = document.getElementById('distanceGrid');
+            grid.innerHTML = currentGraph.nodes.map(node => {
+                const dist = distances[node.id];
+                const distStr = dist === Infinity ? '∞' : dist;
+                
+                let className = 'dist-cell';
+                if (node.id === currentNode) className += ' current';
+                else if (finalizedNodes.has(node.id)) className += ' finalized';
+                else if (node.id === updatedNode) className += ' updated';
+                
+                return `
+                    <div class="${className}">
+                        <div class="node-id">${node.id}</div>
+                        <div class="distance">${distStr}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updatePriorityQueue(pq) {
+            const container = document.getElementById('priorityQueue');
+            if (pq.length === 0) {
+                container.innerHTML = '<span style="color: #666;">Empty</span>';
+                return;
+            }
+            
+            // Sort by distance to show min at front
+            const sorted = [...pq].sort((a, b) => a.dist - b.dist);
+            container.innerHTML = sorted.map((item, i) => 
+                `<span class="pq-item ${i === 0 ? 'min' : ''}">${item.node}: ${item.dist}</span>`
+            ).join('');
+        }
+
+        function addLogEntry(text, highlight = false) {
+            const log = document.getElementById('stepLog');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry' + (highlight ? ' highlight' : '');
+            entry.textContent = text;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function runDijkstra() {
+            if (running) return;
+            running = true;
+            
+            const source = document.getElementById('sourceNode').value;
+            const target = document.getElementById('targetNode').value;
+            const speed = 2100 - document.getElementById('speed').value;
+            
+            // Initialize
+            const distances = {};
+            const prev = {};
+            const pq = [];
+            const finalized = new Set();
+            const nodeStates = {};
+            
+            currentGraph.nodes.forEach(n => {
+                distances[n.id] = Infinity;
+                prev[n.id] = null;
+                nodeStates[n.id] = 'unvisited';
+            });
+            
+            distances[source] = 0;
+            pq.push({node: source, dist: 0});
+            nodeStates[source] = 'inQueue';
+            
+            document.getElementById('stepLog').innerHTML = '';
+            addLogEntry(`Starting Dijkstra from ${source} to ${target}`);
+            addLogEntry(`Set dist[${source}] = 0, all others = ∞`);
+            
+            drawGraph(nodeStates, {}, null);
+            updateDistanceTable(distances, null, finalized, source);
+            updatePriorityQueue(pq);
+            
+            await sleep(speed);
+            
+            while (pq.length > 0 && running) {
+                // Extract minimum
+                pq.sort((a, b) => a.dist - b.dist);
+                const {node: u, dist: d} = pq.shift();
+                
+                if (finalized.has(u)) {
+                    updatePriorityQueue(pq);
+                    continue;
+                }
+                
+                nodeStates[u] = 'current';
+                drawGraph(nodeStates, {}, null);
+                updateDistanceTable(distances, u, finalized, null);
+                updatePriorityQueue(pq);
+                addLogEntry(`Extract min: ${u} (dist=${d})`, true);
+                
+                await sleep(speed);
+                
+                finalized.add(u);
+                nodeStates[u] = 'finalized';
+                addLogEntry(`Finalize ${u}`);
+                
+                // Check if we reached target
+                if (u === target) {
+                    addLogEntry(`🎯 Target ${target} reached!`, true);
+                    break;
+                }
+                
+                // Relax edges
+                for (const {node: v, weight} of currentGraph.adjacency[u]) {
+                    if (!finalized.has(v)) {
+                        const newDist = distances[u] + weight;
+                        
+                        if (newDist < distances[v]) {
+                            const oldDist = distances[v] === Infinity ? '∞' : distances[v];
+                            distances[v] = newDist;
+                            prev[v] = u;
+                            pq.push({node: v, dist: newDist});
+                            nodeStates[v] = 'inQueue';
+                            
+                            addLogEntry(`Relax ${u}→${v}: ${oldDist} → ${newDist}`);
+                            
+                            drawGraph(nodeStates, {}, null);
+                            updateDistanceTable(distances, u, finalized, v);
+                            updatePriorityQueue(pq);
+                            
+                            await sleep(speed / 2);
+                        }
+                    }
+                }
+                
+                drawGraph(nodeStates, {}, null);
+                updateDistanceTable(distances, null, finalized, null);
+                
+                await sleep(speed / 2);
+            }
+            
+            // Reconstruct path
+            const path = [];
+            const pathEdges = [];
+            let current = target;
+            
+            while (current !== null) {
+                path.unshift(current);
+                if (prev[current] !== null) {
+                    pathEdges.push(`${prev[current]}-${current}`);
+                }
+                current = prev[current];
+            }
+            
+            if (path[0] === source) {
+                document.getElementById('pathDisplay').innerHTML = 
+                    `${path.join(' → ')}<br><small>Total distance: ${distances[target]}</small>`;
+                addLogEntry(`Shortest path: ${path.join(' → ')} (dist=${distances[target]})`, true);
+                
+                // Highlight path
+                drawGraph(nodeStates, {}, pathEdges);
+            } else {
+                document.getElementById('pathDisplay').textContent = 'No path exists';
+                addLogEntry('No path found to target');
+            }
+            
+            running = false;
+        }
+
+        function reset() {
+            running = false;
+            
+            const nodeStates = {};
+            currentGraph.nodes.forEach(n => nodeStates[n.id] = 'unvisited');
+            
+            drawGraph(nodeStates, {}, null);
+            
+            const distances = {};
+            currentGraph.nodes.forEach(n => distances[n.id] = Infinity);
+            updateDistanceTable(distances, null, new Set(), null);
+            updatePriorityQueue([]);
+            
+            document.getElementById('stepLog').innerHTML = '';
+            document.getElementById('pathDisplay').textContent = 'Select source and target, then run';
+        }
+
+        // Initialize
+        loadPreset('simple');
+    </script>
+</body>
+</html>

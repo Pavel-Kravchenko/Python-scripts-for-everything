@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Programming Exercises</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 10px; color: #4ecdc4; }
+        .subtitle { text-align: center; color: #888; margin-bottom: 30px; }
+        
+        .back-link {
+            display: inline-block;
+            color: #4ecdc4;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .exercise {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #6c5ce7;
+        }
+        .exercise h2 {
+            color: #6c5ce7;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .difficulty {
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: normal;
+        }
+        .easy { background: #48bb78; color: #1a1a2e; }
+        .medium { background: #f39c12; color: #1a1a2e; }
+        .hard { background: #ff6b6b; color: #fff; }
+        
+        .problem { margin-bottom: 20px; }
+        .example {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        .example-label { color: #6c5ce7; font-weight: bold; margin-bottom: 5px; }
+        
+        .hint-toggle, .solution-toggle {
+            background: #2d3748;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .hint-toggle:hover { background: #4a5568; }
+        .solution-toggle { background: #6c5ce7; }
+        .solution-toggle:hover { background: #5b4cdb; }
+        
+        .hint, .solution {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .hint {
+            background: rgba(243, 156, 18, 0.2);
+            border: 1px solid #f39c12;
+        }
+        .solution {
+            background: rgba(108, 92, 231, 0.2);
+            border: 1px solid #6c5ce7;
+        }
+        .hint.show, .solution.show { display: block; }
+        
+        pre {
+            background: #1a1a2e;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+        }
+        code { color: #6c5ce7; }
+        
+        .complexity {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 5px;
+            font-size: 13px;
+        }
+        .complexity span { color: #95e1d3; }
+        
+        .recurrence {
+            background: rgba(108, 92, 231, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to All Topics</a>
+        <h1>📋 Dynamic Programming Exercises</h1>
+        <p class="subtitle">8 classic DP problems with solutions</p>
+        
+        <!-- Exercise 1 -->
+        <div class="exercise">
+            <h2>1. Climbing Stairs <span class="difficulty easy">Easy</span></h2>
+            <div class="problem">
+                <p>You are climbing a staircase with n steps. Each time you can climb 1 or 2 steps. How many distinct ways can you reach the top?</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: n = 5
+Output: 8
+Ways: 1+1+1+1+1, 1+1+1+2, 1+1+2+1, 1+2+1+1, 2+1+1+1, 
+      1+2+2, 2+1+2, 2+2+1</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(1)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+            
+            <div class="hint" id="hint1">
+                To reach step n, you either came from step n-1 (one step) or step n-2 (two steps). This is exactly like Fibonacci!
+            </div>
+            
+            <div class="solution" id="solution1">
+                <div class="recurrence">dp[i] = dp[i-1] + dp[i-2]</div>
+<pre><code># Bottom-up with O(1) space
+def climbStairs(n):
+    if n <= 2:
+        return n
+    
+    prev2, prev1 = 1, 2
+    for i in range(3, n + 1):
+        curr = prev1 + prev2
+        prev2, prev1 = prev1, curr
+    
+    return prev1
+
+# Memoization version
+def climbStairsMemo(n, memo={}):
+    if n <= 2:
+        return n
+    if n in memo:
+        return memo[n]
+    
+    memo[n] = climbStairsMemo(n-1, memo) + climbStairsMemo(n-2, memo)
+    return memo[n]</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(n)</span><br>
+                    <strong>Space:</strong> <span>O(1)</span> optimized, O(n) with memoization
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 2 -->
+        <div class="exercise">
+            <h2>2. House Robber <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>You are a robber planning to rob houses along a street. Each house has money, but adjacent houses have security systems that will alert police if both are robbed. Find the maximum amount you can rob.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: nums = [2, 7, 9, 3, 1]
+Output: 12
+Explanation: Rob houses 0, 2, and 4 → 2 + 9 + 1 = 12</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(2)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+            
+            <div class="hint" id="hint2">
+                For each house i, you have two choices: rob it (add nums[i] to max from i-2) or skip it (take max from i-1). Track both possibilities.
+            </div>
+            
+            <div class="solution" id="solution2">
+                <div class="recurrence">dp[i] = max(dp[i-1], dp[i-2] + nums[i])</div>
+<pre><code>def rob(nums):
+    if not nums:
+        return 0
+    if len(nums) == 1:
+        return nums[0]
+    
+    # prev2 = max money up to 2 houses ago
+    # prev1 = max money up to previous house
+    prev2, prev1 = 0, 0
+    
+    for num in nums:
+        curr = max(prev1, prev2 + num)
+        prev2, prev1 = prev1, curr
+    
+    return prev1
+
+# Example trace for [2, 7, 9, 3, 1]:
+# i=0: curr = max(0, 0+2) = 2,   prev2=0, prev1=2
+# i=1: curr = max(2, 0+7) = 7,   prev2=2, prev1=7
+# i=2: curr = max(7, 2+9) = 11,  prev2=7, prev1=11
+# i=3: curr = max(11, 7+3) = 11, prev2=11, prev1=11
+# i=4: curr = max(11, 11+1) = 12</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(n)</span><br>
+                    <strong>Space:</strong> <span>O(1)</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 3 -->
+        <div class="exercise">
+            <h2>3. Coin Change <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>Given coins of different denominations and a total amount, find the minimum number of coins needed to make up that amount. Return -1 if impossible.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: coins = [1, 2, 5], amount = 11
+Output: 3
+Explanation: 11 = 5 + 5 + 1</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(3)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+            
+            <div class="hint" id="hint3">
+                Build up from amount 0 to target. For each amount, try each coin and take the minimum. dp[amount] = min coins to make that amount.
+            </div>
+            
+            <div class="solution" id="solution3">
+                <div class="recurrence">dp[i] = min(dp[i], dp[i - coin] + 1) for each coin</div>
+<pre><code>def coinChange(coins, amount):
+    # dp[i] = minimum coins to make amount i
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0  # Base case: 0 coins to make amount 0
+    
+    for i in range(1, amount + 1):
+        for coin in coins:
+            if coin <= i and dp[i - coin] != float('inf'):
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+    
+    return dp[amount] if dp[amount] != float('inf') else -1
+
+# Example trace for coins=[1,2,5], amount=11:
+# dp[0]=0, dp[1]=1, dp[2]=1, dp[3]=2, dp[4]=2
+# dp[5]=1, dp[6]=2, dp[7]=2, dp[8]=3, dp[9]=3
+# dp[10]=2, dp[11]=3</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(amount × coins)</span><br>
+                    <strong>Space:</strong> <span>O(amount)</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 4 -->
+        <div class="exercise">
+            <h2>4. Longest Increasing Subsequence <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>Given an integer array, return the length of the longest strictly increasing subsequence.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: nums = [10, 9, 2, 5, 3, 7, 101, 18]
+Output: 4
+Explanation: [2, 3, 7, 101] or [2, 5, 7, 101]</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(4)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+            
+            <div class="hint" id="hint4">
+                dp[i] = length of LIS ending at index i. For each i, look at all j < i where nums[j] < nums[i]. O(n²) solution. For O(n log n), use binary search with a "tails" array.
+            </div>
+            
+            <div class="solution" id="solution4">
+                <div class="recurrence">dp[i] = max(dp[j] + 1) for all j < i where nums[j] < nums[i]</div>
+<pre><code># O(n²) DP solution
+def lengthOfLIS(nums):
+    if not nums:
+        return 0
+    
+    n = len(nums)
+    dp = [1] * n  # Each element is an LIS of length 1
+    
+    for i in range(1, n):
+        for j in range(i):
+            if nums[j] < nums[i]:
+                dp[i] = max(dp[i], dp[j] + 1)
+    
+    return max(dp)
+
+# O(n log n) Binary Search solution
+import bisect
+
+def lengthOfLIS_optimized(nums):
+    # tails[i] = smallest ending element of LIS with length i+1
+    tails = []
+    
+    for num in nums:
+        pos = bisect.bisect_left(tails, num)
+        if pos == len(tails):
+            tails.append(num)
+        else:
+            tails[pos] = num
+    
+    return len(tails)</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(n²)</span> or <span>O(n log n)</span> optimized<br>
+                    <strong>Space:</strong> <span>O(n)</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 5 -->
+        <div class="exercise">
+            <h2>5. 0/1 Knapsack <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>Given n items with weights and values, and a knapsack capacity W, find the maximum value you can fit. Each item can only be used once.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: weights = [1, 3, 4, 5], values = [1, 4, 5, 7], W = 7
+Output: 9
+Explanation: Take items with weight 3 and 4 → values 4 + 5 = 9</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(5)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+            
+            <div class="hint" id="hint5">
+                2D DP: dp[i][w] = max value using first i items with capacity w. For each item, either skip it or take it (if it fits).
+            </div>
+            
+            <div class="solution" id="solution5">
+                <div class="recurrence">dp[i][w] = max(dp[i-1][w], dp[i-1][w-weight[i]] + value[i])</div>
+<pre><code># 2D DP solution
+def knapsack(weights, values, W):
+    n = len(weights)
+    dp = [[0] * (W + 1) for _ in range(n + 1)]
+    
+    for i in range(1, n + 1):
+        for w in range(W + 1):
+            # Don't take item i
+            dp[i][w] = dp[i-1][w]
+            
+            # Take item i (if it fits)
+            if weights[i-1] <= w:
+                dp[i][w] = max(dp[i][w], 
+                    dp[i-1][w - weights[i-1]] + values[i-1])
+    
+    return dp[n][W]
+
+# Space-optimized 1D solution
+def knapsack_optimized(weights, values, W):
+    dp = [0] * (W + 1)
+    
+    for i in range(len(weights)):
+        # Iterate backwards to avoid using same item twice
+        for w in range(W, weights[i] - 1, -1):
+            dp[w] = max(dp[w], dp[w - weights[i]] + values[i])
+    
+    return dp[W]</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(n × W)</span><br>
+                    <strong>Space:</strong> <span>O(W)</span> optimized
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 6 -->
+        <div class="exercise">
+            <h2>6. Word Break <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>Given a string s and a dictionary of words, determine if s can be segmented into a space-separated sequence of dictionary words.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: s = "leetcode", wordDict = ["leet", "code"]
+Output: True
+Explanation: "leetcode" = "leet" + "code"</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(6)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(6)">Show Solution</button>
+            
+            <div class="hint" id="hint6">
+                dp[i] = True if s[0:i] can be segmented. For each position i, check all possible last words: if s[j:i] is in dict and dp[j] is True, then dp[i] is True.
+            </div>
+            
+            <div class="solution" id="solution6">
+                <div class="recurrence">dp[i] = any(dp[j] and s[j:i] in wordDict) for all j < i</div>
+<pre><code>def wordBreak(s, wordDict):
+    word_set = set(wordDict)
+    n = len(s)
+    
+    # dp[i] = True if s[0:i] can be segmented
+    dp = [False] * (n + 1)
+    dp[0] = True  # Empty string can be segmented
+    
+    for i in range(1, n + 1):
+        for j in range(i):
+            if dp[j] and s[j:i] in word_set:
+                dp[i] = True
+                break
+    
+    return dp[n]
+
+# Example trace for "leetcode":
+# i=1: "l" not in dict, dp[1]=False
+# i=2: "le" not in dict, dp[2]=False
+# i=3: "lee" not in dict, dp[3]=False
+# i=4: "leet" in dict and dp[0]=True, dp[4]=True
+# i=5-7: no valid word
+# i=8: "code" in dict and dp[4]=True, dp[8]=True</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(n² × k)</span> where k = avg word length for substring comparison<br>
+                    <strong>Space:</strong> <span>O(n + m)</span> where m = dict size
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 7 -->
+        <div class="exercise">
+            <h2>7. Unique Paths <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>A robot is at top-left corner of an m×n grid. It can only move right or down. How many unique paths exist to reach the bottom-right corner?</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: m = 3, n = 7
+Output: 28</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(7)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(7)">Show Solution</button>
+            
+            <div class="hint" id="hint7">
+                To reach cell (i,j), you came from (i-1,j) or (i,j-1). Sum paths from both. First row and column have only 1 path each.
+            </div>
+            
+            <div class="solution" id="solution7">
+                <div class="recurrence">dp[i][j] = dp[i-1][j] + dp[i][j-1]</div>
+<pre><code># 2D DP
+def uniquePaths(m, n):
+    dp = [[1] * n for _ in range(m)]
+    
+    for i in range(1, m):
+        for j in range(1, n):
+            dp[i][j] = dp[i-1][j] + dp[i][j-1]
+    
+    return dp[m-1][n-1]
+
+# 1D space optimization
+def uniquePaths_optimized(m, n):
+    dp = [1] * n
+    
+    for i in range(1, m):
+        for j in range(1, n):
+            dp[j] += dp[j-1]
+    
+    return dp[n-1]
+
+# Math solution: C(m+n-2, m-1)
+from math import comb
+def uniquePaths_math(m, n):
+    return comb(m + n - 2, m - 1)</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(m × n)</span><br>
+                    <strong>Space:</strong> <span>O(n)</span> optimized
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 8 -->
+        <div class="exercise">
+            <h2>8. Partition Equal Subset Sum <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>Given an array of positive integers, determine if it can be partitioned into two subsets with equal sum.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: nums = [1, 5, 11, 5]
+Output: True
+Explanation: [1, 5, 5] and [11] both sum to 11</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(8)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(8)">Show Solution</button>
+            
+            <div class="hint" id="hint8">
+                If total sum is odd, impossible. Otherwise, find if there's a subset with sum = total/2. This is a 0/1 knapsack variant!
+            </div>
+            
+            <div class="solution" id="solution8">
+                <div class="recurrence">dp[i] = True if sum i is achievable</div>
+<pre><code>def canPartition(nums):
+    total = sum(nums)
+    
+    # If odd, can't partition equally
+    if total % 2 != 0:
+        return False
+    
+    target = total // 2
+    
+    # dp[i] = True if we can make sum i
+    dp = [False] * (target + 1)
+    dp[0] = True
+    
+    for num in nums:
+        # Iterate backwards to avoid using same number twice
+        for i in range(target, num - 1, -1):
+            dp[i] = dp[i] or dp[i - num]
+    
+    return dp[target]
+
+# Using set (alternative)
+def canPartition_set(nums):
+    total = sum(nums)
+    if total % 2 != 0:
+        return False
+    
+    target = total // 2
+    achievable = {0}
+    
+    for num in nums:
+        achievable = achievable | {x + num for x in achievable}
+        if target in achievable:
+            return True
+    
+    return target in achievable</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(n × sum)</span><br>
+                    <strong>Space:</strong> <span>O(sum)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleHint(n) {
+            document.getElementById('hint' + n).classList.toggle('show');
+        }
+        function toggleSolution(n) {
+            document.getElementById('solution' + n).classList.toggle('show');
+        }
+    </script>
+</body>
+</html>

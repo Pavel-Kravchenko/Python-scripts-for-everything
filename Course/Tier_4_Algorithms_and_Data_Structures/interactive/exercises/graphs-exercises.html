@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Algorithm Exercises</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        h1 { text-align: center; margin-bottom: 10px; color: #4ecdc4; }
+        .subtitle { text-align: center; color: #888; margin-bottom: 30px; }
+        
+        .back-link {
+            display: inline-block;
+            color: #4ecdc4;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+        .back-link:hover { text-decoration: underline; }
+        
+        .exercise {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #4ecdc4;
+        }
+        .exercise h2 {
+            color: #4ecdc4;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .difficulty {
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: normal;
+        }
+        .easy { background: #48bb78; color: #1a1a2e; }
+        .medium { background: #f39c12; color: #1a1a2e; }
+        .hard { background: #ff6b6b; color: #fff; }
+        
+        .problem { margin-bottom: 20px; }
+        .example {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        .example-label { color: #4ecdc4; font-weight: bold; margin-bottom: 5px; }
+        
+        .hint-toggle, .solution-toggle {
+            background: #2d3748;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .hint-toggle:hover { background: #4a5568; }
+        .solution-toggle { background: #6c5ce7; }
+        .solution-toggle:hover { background: #5b4cdb; }
+        
+        .hint, .solution {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .hint {
+            background: rgba(243, 156, 18, 0.2);
+            border: 1px solid #f39c12;
+        }
+        .solution {
+            background: rgba(108, 92, 231, 0.2);
+            border: 1px solid #6c5ce7;
+        }
+        .hint.show, .solution.show { display: block; }
+        
+        pre {
+            background: #1a1a2e;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+        }
+        code { color: #4ecdc4; }
+        
+        .complexity {
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 5px;
+            font-size: 13px;
+        }
+        .complexity span { color: #95e1d3; }
+        
+        .graph-visual {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: monospace;
+            white-space: pre;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Back to All Topics</a>
+        <h1>🔗 Graph Algorithm Exercises</h1>
+        <p class="subtitle">8 problems from basic to advanced</p>
+        
+        <!-- Exercise 1 -->
+        <div class="exercise">
+            <h2>1. Number of Islands <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>Given a 2D grid of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: grid = [
+  ["1","1","0","0","0"],
+  ["1","1","0","0","0"],
+  ["0","0","1","0","0"],
+  ["0","0","0","1","1"]
+]
+Output: 3</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(1)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(1)">Show Solution</button>
+            
+            <div class="hint" id="hint1">
+                Use DFS or BFS. When you find a '1', increment count and "sink" the entire island by marking all connected '1's as visited.
+            </div>
+            
+            <div class="solution" id="solution1">
+<pre><code>def numIslands(grid):
+    if not grid:
+        return 0
+    
+    rows, cols = len(grid), len(grid[0])
+    count = 0
+    
+    def dfs(r, c):
+        if r < 0 or r >= rows or c < 0 or c >= cols:
+            return
+        if grid[r][c] != '1':
+            return
+        
+        grid[r][c] = '0'  # Mark as visited
+        dfs(r+1, c)
+        dfs(r-1, c)
+        dfs(r, c+1)
+        dfs(r, c-1)
+    
+    for r in range(rows):
+        for c in range(cols):
+            if grid[r][c] == '1':
+                count += 1
+                dfs(r, c)
+    
+    return count</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(M × N)</span> where M = rows, N = cols<br>
+                    <strong>Space:</strong> <span>O(M × N)</span> for recursion stack in worst case
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 2 -->
+        <div class="exercise">
+            <h2>2. Course Schedule <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>There are n courses labeled 0 to n-1. Some courses have prerequisites. Given prerequisites list where [a, b] means you must take course b before course a, determine if it's possible to finish all courses.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+Output: True
+Explanation: Take 0 → 1 → 2 → 3 or 0 → 2 → 1 → 3</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(2)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(2)">Show Solution</button>
+            
+            <div class="hint" id="hint2">
+                This is cycle detection in a directed graph. Use DFS with three states: unvisited, visiting (in current path), visited (completed). A cycle exists if we encounter a "visiting" node.
+            </div>
+            
+            <div class="solution" id="solution2">
+<pre><code>def canFinish(numCourses, prerequisites):
+    # Build adjacency list
+    graph = [[] for _ in range(numCourses)]
+    for course, prereq in prerequisites:
+        graph[prereq].append(course)
+    
+    # 0 = unvisited, 1 = visiting, 2 = visited
+    state = [0] * numCourses
+    
+    def hasCycle(node):
+        if state[node] == 1:  # Currently visiting - cycle!
+            return True
+        if state[node] == 2:  # Already fully processed
+            return False
+        
+        state[node] = 1  # Mark as visiting
+        for neighbor in graph[node]:
+            if hasCycle(neighbor):
+                return True
+        
+        state[node] = 2  # Mark as visited
+        return False
+    
+    for course in range(numCourses):
+        if hasCycle(course):
+            return False
+    
+    return True</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(V + E)</span> where V = courses, E = prerequisites<br>
+                    <strong>Space:</strong> <span>O(V + E)</span> for graph + O(V) for state array
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 3 -->
+        <div class="exercise">
+            <h2>3. Clone Graph <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>Given a reference of a node in a connected undirected graph, return a deep copy (clone) of the graph. Each node has a value and a list of neighbors.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+<pre>
+Input: Graph with 4 nodes
+  1 -- 2
+  |    |
+  4 -- 3
+Output: Deep copy of the same structure</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(3)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(3)">Show Solution</button>
+            
+            <div class="hint" id="hint3">
+                Use a hash map to track original → clone mapping. Use BFS or DFS. When visiting a node, create its clone if not exists, then clone all neighbors.
+            </div>
+            
+            <div class="solution" id="solution3">
+<pre><code>class Node:
+    def __init__(self, val=0, neighbors=None):
+        self.val = val
+        self.neighbors = neighbors if neighbors else []
+
+def cloneGraph(node):
+    if not node:
+        return None
+    
+    cloned = {}  # original -> clone mapping
+    
+    def dfs(n):
+        if n in cloned:
+            return cloned[n]
+        
+        clone = Node(n.val)
+        cloned[n] = clone
+        
+        for neighbor in n.neighbors:
+            clone.neighbors.append(dfs(neighbor))
+        
+        return clone
+    
+    return dfs(node)
+
+# BFS Alternative:
+from collections import deque
+
+def cloneGraphBFS(node):
+    if not node:
+        return None
+    
+    cloned = {node: Node(node.val)}
+    queue = deque([node])
+    
+    while queue:
+        curr = queue.popleft()
+        for neighbor in curr.neighbors:
+            if neighbor not in cloned:
+                cloned[neighbor] = Node(neighbor.val)
+                queue.append(neighbor)
+            cloned[curr].neighbors.append(cloned[neighbor])
+    
+    return cloned[node]</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(V + E)</span><br>
+                    <strong>Space:</strong> <span>O(V)</span> for hash map
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 4 -->
+        <div class="exercise">
+            <h2>4. Shortest Path in Binary Matrix <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>Given an n×n binary matrix, return the length of the shortest clear path from top-left to bottom-right. A clear path consists of 0s and you can move in 8 directions. Return -1 if no path exists.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: grid = [[0,0,0],[1,1,0],[1,1,0]]
+Output: 4
+Path: (0,0) → (0,1) → (1,2) → (2,2)</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(4)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(4)">Show Solution</button>
+            
+            <div class="hint" id="hint4">
+                BFS is perfect for shortest path in unweighted graphs. Start from (0,0), explore all 8 directions, and track distance. First time you reach (n-1, n-1) gives the shortest path.
+            </div>
+            
+            <div class="solution" id="solution4">
+<pre><code>from collections import deque
+
+def shortestPathBinaryMatrix(grid):
+    n = len(grid)
+    if grid[0][0] == 1 or grid[n-1][n-1] == 1:
+        return -1
+    
+    # 8 directions
+    directions = [(-1,-1),(-1,0),(-1,1),(0,-1),
+                  (0,1),(1,-1),(1,0),(1,1)]
+    
+    queue = deque([(0, 0, 1)])  # row, col, distance
+    grid[0][0] = 1  # Mark as visited
+    
+    while queue:
+        r, c, dist = queue.popleft()
+        
+        if r == n-1 and c == n-1:
+            return dist
+        
+        for dr, dc in directions:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] == 0:
+                grid[nr][nc] = 1  # Mark as visited
+                queue.append((nr, nc, dist + 1))
+    
+    return -1</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(N²)</span><br>
+                    <strong>Space:</strong> <span>O(N²)</span> for queue in worst case
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 5 -->
+        <div class="exercise">
+            <h2>5. Network Delay Time <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>You have n network nodes labeled 1 to n. Given times array where times[i] = (u, v, w) means signal travels from u to v in w time. Find the minimum time for all nodes to receive a signal starting from node k. Return -1 if impossible.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: times = [[2,1,1],[2,3,1],[3,4,1]], n = 4, k = 2
+Output: 2
+Explanation: From node 2: reaches 1 and 3 at time 1, reaches 4 at time 2</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(5)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(5)">Show Solution</button>
+            
+            <div class="hint" id="hint5">
+                Classic Dijkstra's algorithm! Find shortest path from source k to all nodes, then return the maximum distance. If any node unreachable, return -1.
+            </div>
+            
+            <div class="solution" id="solution5">
+<pre><code>import heapq
+from collections import defaultdict
+
+def networkDelayTime(times, n, k):
+    # Build adjacency list
+    graph = defaultdict(list)
+    for u, v, w in times:
+        graph[u].append((v, w))
+    
+    # Dijkstra's algorithm
+    dist = {k: 0}
+    heap = [(0, k)]  # (distance, node)
+    
+    while heap:
+        d, u = heapq.heappop(heap)
+        
+        if d > dist.get(u, float('inf')):
+            continue
+        
+        for v, w in graph[u]:
+            new_dist = d + w
+            if new_dist < dist.get(v, float('inf')):
+                dist[v] = new_dist
+                heapq.heappush(heap, (new_dist, v))
+    
+    if len(dist) != n:
+        return -1
+    
+    return max(dist.values())</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(E log V)</span><br>
+                    <strong>Space:</strong> <span>O(V + E)</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 6 -->
+        <div class="exercise">
+            <h2>6. Minimum Cost to Connect All Cities <span class="difficulty medium">Medium</span></h2>
+            <div class="problem">
+                <p>Given n cities and connections where connections[i] = [city1, city2, cost], find the minimum cost to connect all cities. If not possible, return -1. This is finding a Minimum Spanning Tree.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: n = 3, connections = [[1,2,5],[1,3,6],[2,3,1]]
+Output: 6
+Explanation: Connect 2-3 (cost 1) and 1-2 (cost 5) = 6</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(6)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(6)">Show Solution</button>
+            
+            <div class="hint" id="hint6">
+                Use Kruskal's algorithm: Sort edges by cost, use Union-Find to avoid cycles, add edges until all cities connected (n-1 edges).
+            </div>
+            
+            <div class="solution" id="solution6">
+<pre><code>def minimumCost(n, connections):
+    # Union-Find
+    parent = list(range(n + 1))
+    rank = [0] * (n + 1)
+    
+    def find(x):
+        if parent[x] != x:
+            parent[x] = find(parent[x])  # Path compression
+        return parent[x]
+    
+    def union(x, y):
+        px, py = find(x), find(y)
+        if px == py:
+            return False  # Already connected
+        
+        # Union by rank
+        if rank[px] < rank[py]:
+            px, py = py, px
+        parent[py] = px
+        if rank[px] == rank[py]:
+            rank[px] += 1
+        return True
+    
+    # Kruskal's algorithm
+    connections.sort(key=lambda x: x[2])
+    
+    total_cost = 0
+    edges_used = 0
+    
+    for city1, city2, cost in connections:
+        if union(city1, city2):
+            total_cost += cost
+            edges_used += 1
+            if edges_used == n - 1:
+                return total_cost
+    
+    return -1  # Not all cities connected</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(E log E)</span> for sorting<br>
+                    <strong>Space:</strong> <span>O(V)</span> for Union-Find
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 7 -->
+        <div class="exercise">
+            <h2>7. Word Ladder <span class="difficulty hard">Hard</span></h2>
+            <div class="problem">
+                <p>Given beginWord, endWord, and wordList, find the length of shortest transformation sequence from beginWord to endWord, such that only one letter can change at a time and each transformed word must exist in wordList. Return 0 if no sequence exists.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: beginWord = "hit", endWord = "cog"
+       wordList = ["hot","dot","dog","lot","log","cog"]
+Output: 5
+Explanation: hit → hot → dot → dog → cog</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(7)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(7)">Show Solution</button>
+            
+            <div class="hint" id="hint7">
+                Model as a graph where words are nodes and edges connect words differing by one letter. Use BFS for shortest path. Optimization: use wildcard patterns like "h*t" to find neighbors efficiently.
+            </div>
+            
+            <div class="solution" id="solution7">
+<pre><code>from collections import deque, defaultdict
+
+def ladderLength(beginWord, endWord, wordList):
+    if endWord not in wordList:
+        return 0
+    
+    # Build pattern -> words mapping
+    # "hot" -> ["h*t", "*ot", "ho*"]
+    wordList = set(wordList)
+    wordList.add(beginWord)
+    
+    patterns = defaultdict(list)
+    for word in wordList:
+        for i in range(len(word)):
+            pattern = word[:i] + '*' + word[i+1:]
+            patterns[pattern].append(word)
+    
+    # BFS
+    queue = deque([(beginWord, 1)])
+    visited = {beginWord}
+    
+    while queue:
+        word, length = queue.popleft()
+        
+        if word == endWord:
+            return length
+        
+        for i in range(len(word)):
+            pattern = word[:i] + '*' + word[i+1:]
+            for neighbor in patterns[pattern]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append((neighbor, length + 1))
+    
+    return 0</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(M² × N)</span> where M = word length, N = words<br>
+                    <strong>Space:</strong> <span>O(M² × N)</span> for patterns map
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exercise 8 -->
+        <div class="exercise">
+            <h2>8. Alien Dictionary <span class="difficulty hard">Hard</span></h2>
+            <div class="problem">
+                <p>Given a sorted dictionary of an alien language, determine the order of characters. If invalid, return empty string.</p>
+                
+                <div class="example">
+                    <div class="example-label">Example:</div>
+                    <pre>
+Input: words = ["wrt","wrf","er","ett","rftt"]
+Output: "wertf"
+Explanation: From adjacent pairs:
+  wrt, wrf → t < f
+  wrf, er  → w < e
+  er, ett  → r < t
+  ett,rftt → e < r
+Order: w → e → r → t → f</pre>
+                </div>
+            </div>
+            
+            <button class="hint-toggle" onclick="toggleHint(8)">Show Hint</button>
+            <button class="solution-toggle" onclick="toggleSolution(8)">Show Solution</button>
+            
+            <div class="hint" id="hint8">
+                Build a directed graph from letter ordering rules (compare adjacent words). Use topological sort (Kahn's algorithm or DFS). Detect cycles for invalid input.
+            </div>
+            
+            <div class="solution" id="solution8">
+<pre><code>from collections import defaultdict, deque
+
+def alienOrder(words):
+    # Build graph and count in-degrees
+    graph = defaultdict(set)
+    in_degree = {c: 0 for word in words for c in word}
+    
+    # Compare adjacent words
+    for i in range(len(words) - 1):
+        w1, w2 = words[i], words[i+1]
+        
+        # Invalid: prefix comes after longer word
+        if len(w1) > len(w2) and w1.startswith(w2):
+            return ""
+        
+        # Find first different character
+        for c1, c2 in zip(w1, w2):
+            if c1 != c2:
+                if c2 not in graph[c1]:
+                    graph[c1].add(c2)
+                    in_degree[c2] += 1
+                break
+    
+    # Kahn's algorithm (topological sort)
+    queue = deque([c for c in in_degree if in_degree[c] == 0])
+    result = []
+    
+    while queue:
+        c = queue.popleft()
+        result.append(c)
+        
+        for neighbor in graph[c]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor] == 0:
+                queue.append(neighbor)
+    
+    # Check for cycle
+    if len(result) != len(in_degree):
+        return ""
+    
+    return ''.join(result)</code></pre>
+                <div class="complexity">
+                    <strong>Time:</strong> <span>O(C)</span> where C = total characters in all words<br>
+                    <strong>Space:</strong> <span>O(1)</span> or O(U) where U = unique characters (≤26)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleHint(n) {
+            document.getElementById('hint' + n).classList.toggle('show');
+        }
+        function toggleSolution(n) {
+            document.getElementById('solution' + n).classList.toggle('show');
+        }
+    </script>
+</body>
+</html>
