@@ -69,6 +69,20 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 │                            │   analysis)   │                                 │
 │                            └──────────────┘                                  │
 │                                                                              │
+└──────────────────────────────────┬───────────────────────────────────────────┘
+                                   │
+                                   ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│  TIER 4: ALGORITHMS & DATA STRUCTURES          21 notebooks + 30 interactive │
+│  ──────────────────────────────────────────────────────────────────────────  │
+│  Skills Check │ Complexity │ Sorting │ Searching │ Linked Lists             │
+│  Stacks/Queues │ BST │ AVL │ Red-Black Trees │ Hash Tables                 │
+│  Bloom Filters │ KMP │ Rabin-Karp │ Tries │ Suffix Trees │ Graphs │ DP    │
+│                                                                              │
+│  The CS theory behind bioinformatics tools. Study alongside                  │
+│  Tiers 2--3: DP = alignment, string matching = BLAST, graphs = pathways.    │
+│                                                                              │
 └──────────────────────────────────────────────────────────────────────────────┘
 
   ENTRY POINTS ──────────────────────────────────────────────────────────────
@@ -76,6 +90,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
   Take the Skills Check at the start of any tier.
   Score above 80%  ──>  skip that tier and move to the next.
   Score below 80%  ──>  work through the tier's notebooks.
+  Tier 4 runs in parallel with Tiers 2--3 (not sequential).
 ```
 
 ---
