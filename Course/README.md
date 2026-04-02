@@ -2,7 +2,7 @@
 
 A modular, five-tier curriculum that takes you from computational basics to applied bioinformatics research skills. Built on materials from the Kodomo Bioinformatics Program at Moscow State University and the IAB open-source textbook, every concept is taught through hands-on Jupyter notebooks with real biological data. Whether you are a biology student learning to code, a programmer entering the life sciences, or a researcher looking to sharpen your computational toolkit, this course meets you where you are.
 
-`73 notebooks` | `3,585 cells` | `5 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
+`76 notebooks` | `3,705 cells` | `5 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
 
 ---
 
@@ -53,11 +53,11 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 3: APPLIED BIOINFORMATICS                                12 notebooks  │
+│  TIER 3: APPLIED BIOINFORMATICS                                15 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ NGS │ Variant Calling │ RNA-seq │ Microbial Diversity       │
 │  Promoters │ Statistics │ Machine Learning │ Capstone Project               │
-│  Molecular Modeling │ Deep Learning │ Clinical Genomics                      │
+│  Molecular Modeling │ Deep Learning │ Clinical Genomics │ Modern Workflows  │
 │                                                                              │
 │  Entry: Have bioinformatics fundamentals, want real-world                    │
 │         pipeline experience and advanced methods.                            │
@@ -526,9 +526,9 @@ Goals and rationale of comparative genomics: identifying conserved elements, det
 
 ---
 
-### Tier 3: Applied Bioinformatics -- 12 notebooks, 634 cells
+### Tier 3: Applied Bioinformatics -- 15 notebooks, 754 cells
 
-Advanced topics and real-world analysis pipelines. Each notebook covers a complete workflow from raw data to biological conclusions. Includes a capstone project integrating skills from every tier, plus specialized modules on molecular modeling, deep learning, and clinical genomics.
+Advanced topics and real-world analysis pipelines. Each notebook covers a complete workflow from raw data to biological conclusions. Includes a capstone project integrating skills from every tier, plus specialized modules on molecular modeling, deep learning, clinical genomics, and modern bioinformatics workflows (single-cell analysis, pipeline engines, testing/CI-CD).
 
 ---
 
@@ -649,6 +649,18 @@ When deep learning outperforms classical ML: image data, raw sequences, large-sc
 Precision medicine and the journey from the Human Genome Project to routine clinical sequencing. Types of genetic testing: diagnostic, predictive, carrier, pharmacogenomic. ACMG/AMP variant classification: pathogenic, likely pathogenic, VUS, likely benign, benign. ClinVar and variant databases. Clinical sequencing approaches: gene panels, whole-exome sequencing (WES), whole-genome sequencing (WGS). Pharmacogenomics: drug-gene interactions, CYP enzymes. Ethical considerations in clinical genomics. Adapted from Kodomo Semester 9 material by V.E. Ramensky and A.A. Zharikova.
 
 `ACMG` `ClinVar` `pharmacogenomics` `WES` `WGS` `variant classification` `precision medicine`
+
+---
+
+#### 3.12 Modern Bioinformatics Workflows
+
+[01_single_cell_scanpy.ipynb](Tier_3_Applied_Bioinformatics/12_Modern_Workflows/01_single_cell_scanpy.ipynb) -- 45 cells
+[02_workflow_engines.ipynb](Tier_3_Applied_Bioinformatics/12_Modern_Workflows/02_workflow_engines.ipynb) -- 35 cells
+[03_testing_cicd.ipynb](Tier_3_Applied_Bioinformatics/12_Modern_Workflows/03_testing_cicd.ipynb) -- 40 cells
+
+Contemporary tools for professional bioinformatics. Single-cell RNA-seq analysis with Scanpy: AnnData structure, quality control, normalization, dimensionality reduction (PCA/UMAP), Leiden clustering, marker gene detection. Workflow engines: Snakemake rules/wildcards, Nextflow processes/channels, nf-core community pipelines. Testing and CI/CD: pytest fixtures and parametrized tests, GitHub Actions, code coverage, linting with ruff/black.
+
+`single-cell` `scanpy` `Snakemake` `Nextflow` `nf-core` `pytest` `GitHub Actions` `CI/CD`
 
 ---
 
