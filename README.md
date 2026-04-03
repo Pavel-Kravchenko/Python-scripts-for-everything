@@ -2,7 +2,7 @@
 
 A self-paced bioinformatics course built from materials by the [Kodomo Program](https://kodomo.fbb.msu.ru/wiki/2017) at Moscow State University, the [IAB textbook](https://readiab.org/) by J. Gregory Caporaso, and the Summer School of Bioinformatics.
 
-**82 notebooks** · **5 tiers** · **30 interactive visualizations** · **108 glossary terms**
+**85 notebooks** · **5 tiers** · **30 interactive visualizations** · **108 glossary terms**
 
 ---
 
@@ -22,12 +22,12 @@ Tier 2  Core Bioinformatics            14 notebooks
         Phylogenetics · Protein Structure · Nucleic Acids ·
         Chromatograms · Motifs · GO/Pathways · Comparative Genomics
 
-Tier 3  Applied Bioinformatics         12 notebooks
+Tier 3  Applied Bioinformatics         15 notebooks
         NGS · Variant Calling · RNA-seq · Microbial Diversity ·
         Promoters · Statistics · Machine Learning · Deep Learning ·
         Molecular Modeling · Clinical Genomics · Capstone Project
 
-Tier 4  Algorithms & Data Structures  21 notebooks + 30 interactive visualizations
+Tier 4  Algorithms & Data Structures  30 notebooks + 30 interactive visualizations
         Complexity · Sorting · Searching · Linked Lists · Stacks/Queues ·
         BST · AVL · Red-Black Trees · Hash Tables · Bloom Filters ·
         KMP · Rabin-Karp · Tries · Suffix Trees · Graphs · DP
@@ -38,6 +38,20 @@ Each tier starts with a **Skills Check** — score above 80% and skip ahead.
 **Tier 4** runs in parallel with Tiers 2-3 — it provides the CS theory behind bioinformatics tools (DP = sequence alignment, string matching = BLAST, graphs = pathways).
 
 See the full table of contents in [Course/README.md](Course/README.md) and [Tier 4 README](Course/Tier_4_Algorithms_and_Data_Structures/README.md).
+
+---
+
+## What You'll Build
+
+- GC content calculator with sliding window
+- DNA to protein translator
+- FASTA file parser and analyzer
+- Restriction site finder and Open Reading Frame (ORF) detector
+- Gene expression heatmaps and genome GC landscape visualizer
+- Sequence alignment tools with BLOSUM scoring
+- BLAST result analyzer with homology assessment
+- Molecular visualization scripts (Jmol/PyMol)
+- DNA structure models (A/B/Z forms)
 
 ---
 

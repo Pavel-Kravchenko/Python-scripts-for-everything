@@ -24,3 +24,14 @@ Sample biological data files used by course notebooks. All files are small enoug
 
 - **sequence.gb** -- GenBank-format annotated genomic sequence (50 KB). Used in Biological Databases, BioPython Essentials.
 - **snp.vcf** -- VCF file with SNP variant calls (31 KB). Used in Variant Calling and SNP Analysis, NGS Fundamentals.
+
+## Machine Learning Datasets
+
+- **agaricus-lepiota.csv** -- Mushroom classification dataset with 8,124 instances and 22 categorical attributes (edible/poisonous). Classic ML teaching dataset. Used in Machine Learning for Biology.
+- **wine.csv** -- Wine cultivar classification dataset with 178 instances and 13 chemical analysis features. Used in Machine Learning for Biology.
+- **parkinsons.csv** -- Parkinson's disease vocal measurement dataset with 195 instances and 22 features. Status column is the target (1=PD, 0=healthy). Used in Machine Learning for Biology.
+
+## Graph Data
+
+- **graph1.txt** -- Weighted undirected graph with 15 edges (vertices A-H). Used in Graph Algorithms.
+- **graph2.txt** -- Weighted directed graph with 25 edges including negative weights (vertices A-P). Used in Graph Algorithms.

@@ -1,6 +1,6 @@
 # Tier 4: Algorithms & Data Structures
 
-The computer science foundation behind bioinformatics tools. 10 modules with 21 Jupyter notebooks, 30 interactive HTML5 visualizations, and animated GIF demonstrations.
+The computer science foundation behind bioinformatics tools. 10 modules with 30 Jupyter notebooks, 30 interactive HTML5 visualizations, and animated GIF demonstrations.
 
 **Study this tier alongside Tier 2 and 3** to understand _why_ the algorithms work, not just _how_ to call them.
 
@@ -19,8 +19,8 @@ The computer science foundation behind bioinformatics tools. 10 modules with 21 
 | 06 | [Hash-Based Structures](06_Hash_Based_Structures/) | 1 | Hash tables, collision resolution, Bloom filters |
 | 07 | [String Algorithms](07_String_Algorithms/) | 4 | Naive, KMP, Rabin-Karp, DFA matching |
 | 08 | [Advanced String Structures](08_Advanced_String_Structures/) | 4 | Tries, Aho-Corasick, suffix arrays, suffix trees |
-| 09 | [Graph Algorithms](09_Graph_Algorithms/) | — | BFS, DFS, Dijkstra, Bellman-Ford, MST, topological sort |
-| 10 | [Dynamic Programming](10_Dynamic_Programming/) | — | Memoization, tabulation, LCS, edit distance, knapsack |
+| 09 | [Graph Algorithms](09_Graph_Algorithms/) | 5 | BFS, DFS, Dijkstra, Bellman-Ford, MST, topological sort |
+| 10 | [Dynamic Programming](10_Dynamic_Programming/) | 4 | Memoization, tabulation, LCS, edit distance, knapsack |
 
 ---
 
@@ -56,11 +56,27 @@ Every module here directly underpins tools used in the bioinformatics tiers:
 
 ---
 
+## Quick Reference
+
+See the [Data Structure Complexity Reference](assets/data_structure_complexity.md) for a complete cheat sheet of time/space complexity across all data structures and algorithms covered in this tier.
+
+---
+
+## Kodomo Reference Implementations
+
+Alternative implementations from the Kodomo Bioinformatics Program coursework are available in [Solutions/Kodomo_Algorithm_Implementations/](../../Solutions/Kodomo_Algorithm_Implementations/). These show student approaches to the same algorithms covered in the course notebooks.
+
+---
+
 ## Animated Demonstrations
 
 <p align="center">
   <img src="assets/gifs/quicksort.gif" width="320" alt="QuickSort"/>
   <img src="assets/gifs/binary-search.gif" width="320" alt="Binary Search"/>
+</p>
+<p align="center">
+  <img src="assets/gifs/merge-sort.gif" width="320" alt="Merge Sort"/>
+  <img src="assets/gifs/counting-sort.gif" width="320" alt="Counting Sort"/>
 </p>
 <p align="center">
   <img src="assets/gifs/avl-rotation.gif" width="320" alt="AVL Rotation"/>

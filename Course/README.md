@@ -2,7 +2,7 @@
 
 A modular, five-tier curriculum that takes you from computational basics to applied bioinformatics research skills. Built on materials from the Kodomo Bioinformatics Program at Moscow State University and the IAB open-source textbook, every concept is taught through hands-on Jupyter notebooks with real biological data. Whether you are a biology student learning to code, a programmer entering the life sciences, or a researcher looking to sharpen your computational toolkit, this course meets you where you are.
 
-`76 notebooks` | `3,705 cells` | `5 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
+`85 notebooks` | `4,034 cells` | `5 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
 
 ---
 
@@ -74,7 +74,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 4: ALGORITHMS & DATA STRUCTURES          21 notebooks + 30 interactive │
+│  TIER 4: ALGORITHMS & DATA STRUCTURES          30 notebooks + 30 interactive │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ Complexity │ Sorting │ Searching │ Linked Lists             │
 │  Stacks/Queues │ BST │ AVL │ Red-Black Trees │ Hash Tables                 │
@@ -526,7 +526,7 @@ Goals and rationale of comparative genomics: identifying conserved elements, det
 
 ---
 
-### Tier 3: Applied Bioinformatics -- 15 notebooks, 754 cells
+### Tier 3: Applied Bioinformatics -- 15 notebooks, 731 cells
 
 Advanced topics and real-world analysis pipelines. Each notebook covers a complete workflow from raw data to biological conclusions. Includes a capstone project integrating skills from every tier, plus specialized modules on molecular modeling, deep learning, clinical genomics, and modern bioinformatics workflows (single-cell analysis, pipeline engines, testing/CI-CD).
 
@@ -664,7 +664,7 @@ Contemporary tools for professional bioinformatics. Single-cell RNA-seq analysis
 
 ---
 
-### Tier 4: Algorithms & Data Structures -- 21 notebooks, 655 cells
+### Tier 4: Algorithms & Data Structures -- 30 notebooks, 927 cells
 
 The computer science foundation behind bioinformatics tools. Study alongside Tiers 2--3 to understand *why* the algorithms work. Includes 30 interactive HTML5 visualizations and animated GIF demonstrations. See the [Tier 4 README](Tier_4_Algorithms_and_Data_Structures/README.md) for the full bioinformatics cross-reference table.
 
@@ -1156,7 +1156,7 @@ Course/
 │   ├── 10_Deep_Learning_for_Biology/
 │   └── 11_Clinical_Genomics/
 │
-├── Tier_4_Algorithms_and_Data_Structures/   21 notebooks + 30 interactive visualizations
+├── Tier_4_Algorithms_and_Data_Structures/   30 notebooks + 30 interactive visualizations
 │   ├── 01-Fundamentals/                   Complexity analysis, Big-O
 │   ├── 02-Sorting/                        Comparison and linear sorts
 │   ├── 03-Searching/                      Binary search, two-pointer
