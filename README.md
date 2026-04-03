@@ -1,4 +1,4 @@
-# Bioinformatics with Python
+# Bioinformatics
 
 A self-paced bioinformatics course built from materials by the [Kodomo Program](https://kodomo.fbb.msu.ru/wiki/2017) at Moscow State University, the [IAB textbook](https://readiab.org/) by J. Gregory Caporaso, and the Summer School of Bioinformatics.
 
