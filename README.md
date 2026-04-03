@@ -77,11 +77,11 @@ FASTA sequences · PDB protein structures · Sanger chromatograms (.ab1) · VCF 
 ---
 
 <p align="center">
-  <img src="Assets/images/protein.png" alt="Protein structure" width="200"/>
+  <img src="Assets/images/ncbi_six_frame_translation_genomic.png" alt="Protein structure" width="200"/>
   &nbsp;&nbsp;
-  <img src="Assets/images/tree.png" alt="Phylogenetic tree" width="200"/>
+  <img src="Assets/images/phylogenetic_tree_dnak.png" alt="Phylogenetic tree" width="200"/>
   &nbsp;&nbsp;
-  <img src="Assets/images/ali_scheme.png" alt="Sequence alignment" width="200"/>
+  <img src="Assets/images/blast_alignment_score_color_key.png" alt="Sequence alignment" width="200"/>
 </p>
 
 <p align="center">
