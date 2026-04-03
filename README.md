@@ -2,7 +2,7 @@
 
 A self-paced bioinformatics course built from materials by the [Kodomo Program](https://kodomo.fbb.msu.ru/wiki/2017) at Moscow State University, the [IAB textbook](https://readiab.org/) by J. Gregory Caporaso, and the Summer School of Bioinformatics.
 
-**86 notebooks** · **5 tiers** · **30 interactive visualizations** · **108 glossary terms**
+**86 notebooks** · **5 tiers** · **30 interactive visualizations** · **108 glossary terms** · **[20 Claude Code skills](#claude-code-skills)**
 
 ---
 
@@ -90,6 +90,22 @@ FASTA sequences · PDB protein structures · Sanger chromatograms (.ab1) · VCF 
   <img src="Course/Tier_4_Algorithms_and_Data_Structures/assets/gifs/binary-search.gif" alt="Binary Search" width="280"/>
 </p>
 <p align="center"><em>Algorithm visualizations: QuickSort partitioning · Binary search halving</em></p>
+
+---
+
+## Claude Code Skills
+
+The entire course is compressed into **20 modular skill files** for [Claude Code](https://claude.com/claude-code) — maximum knowledge density, minimum tokens. Each skill provides quick-reference tables, copy-paste code templates, and common pitfalls for a focused topic.
+
+| Category | Skills |
+|----------|--------|
+| **Foundations** | `linux-git-bash` · `biostatistics-r` |
+| **Python** | `python-core-bio` · `python-collections-regex` · `python-advanced-sql` · `numpy-pandas-wrangling` · `data-visualization-bio` |
+| **Core Bio** | `biopython-databases` · `sequence-alignment` · `phylogenetics-evolution` · `structural-bioinformatics` |
+| **Applied Bio** | `ngs-variant-calling` · `rnaseq-metagenomics` · `ml-deep-learning-bio` · `clinical-modeling-workflows` |
+| **Algorithms** | `complexity-sorting-searching` · `linear-tree-hash-structures` · `string-algorithms` · `advanced-string-structures` · `graphs-dynamic-programming` |
+
+**Usage:** Reference any skill by name in your prompt — Claude activates it automatically. See the full guide in [Skills/README.md](Skills/README.md).
 
 ---
 
