@@ -2,7 +2,7 @@
 
 A self-paced bioinformatics course built from materials by the [Kodomo Program](https://kodomo.fbb.msu.ru/wiki/2017) at Moscow State University, the [IAB textbook](https://readiab.org/) by J. Gregory Caporaso, and the Summer School of Bioinformatics.
 
-**85 notebooks** · **5 tiers** · **30 interactive visualizations** · **108 glossary terms**
+**86 notebooks** · **5 tiers** · **30 interactive visualizations** · **108 glossary terms**
 
 ---
 
@@ -12,10 +12,10 @@ A self-paced bioinformatics course built from materials by the [Kodomo Program](
 Tier 0  Computational Foundations       7 notebooks
         Linux · Git · Bash · Encodings · R · Biostatistics
 
-Tier 1  Python for Bioinformatics      19 notebooks
+Tier 1  Python for Bioinformatics      20 notebooks
         Variables → Strings → Control Flow → Functions → Files →
         Data Structures → Iterators → Regex → OOP → Decorators →
-        NumPy/Pandas → Visualization
+        NumPy/Pandas → Visualization → SQL
 
 Tier 2  Core Bioinformatics            14 notebooks
         Databases · BioPython · Alignment · BLAST · MSA ·

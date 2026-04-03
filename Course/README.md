@@ -2,7 +2,7 @@
 
 A modular, five-tier curriculum that takes you from computational basics to applied bioinformatics research skills. Built on materials from the Kodomo Bioinformatics Program at Moscow State University and the IAB open-source textbook, every concept is taught through hands-on Jupyter notebooks with real biological data. Whether you are a biology student learning to code, a programmer entering the life sciences, or a researcher looking to sharpen your computational toolkit, this course meets you where you are.
 
-`85 notebooks` | `4,034 cells` | `5 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
+`86 notebooks` | `4,112 cells` | `5 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
 
 ---
 
