@@ -2,7 +2,7 @@
 
 A modular, five-tier curriculum that takes you from computational basics to applied bioinformatics research skills. Built on materials from the Kodomo Bioinformatics Program at Moscow State University and the IAB open-source textbook, every concept is taught through hands-on Jupyter notebooks with real biological data. Whether you are a biology student learning to code, a programmer entering the life sciences, or a researcher looking to sharpen your computational toolkit, this course meets you where you are.
 
-`91 notebooks` | `5 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
+`96 notebooks` | `5 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
 
 ---
 
@@ -11,10 +11,10 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 0: COMPUTATIONAL FOUNDATIONS                              8 notebooks  │
+│  TIER 0: COMPUTATIONAL FOUNDATIONS                             10 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ Linux │ Git │ Bash │ Encodings │ R Basics │ Biostatistics  │
-│  Probability & Statistics (Python)                                          │
+│  Probability & Statistics (Python) │ Advanced R Statistics                  │
 │                                                                              │
 │  Entry: No programming experience. Learn the tools every                     │
 │         bioinformatician needs before writing Python.                         │
@@ -54,13 +54,14 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 3: APPLIED BIOINFORMATICS                                18 notebooks  │
+│  TIER 3: APPLIED BIOINFORMATICS                                21 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ NGS │ Variant Calling │ RNA-seq │ Microbial Diversity       │
 │  Promoters │ Statistics │ Machine Learning │ Capstone Project               │
 │  Molecular Modeling │ Deep Learning │ Clinical Genomics │ Modern Workflows  │
 │  Biochemistry & Enzyme Kinetics │ Genetic Engineering In Silico            │
-│  Population Genetics & Molecular Evolution                                  │
+│  Population Genetics │ Numerical Methods │ Genome Assembly                 │
+│  Proteomics & Structural Methods                                           │
 │                                                                              │
 │  Entry: Have bioinformatics fundamentals, want real-world                    │
 │         pipeline experience and advanced methods.                            │
@@ -111,7 +112,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 
 ## Complete Table of Contents
 
-### Tier 0: Computational Foundations -- 8 notebooks
+### Tier 0: Computational Foundations -- 10 notebooks
 
 These modules cover the computing skills that every bioinformatician needs before writing Python. If you can navigate a Linux file system, use Git confidently, and write basic Bash scripts, take the Skills Check and skip ahead.
 
@@ -194,6 +195,17 @@ Populations vs. samples, parameter estimation, types of data (nominal, ordinal, 
 Python-native statistical analysis using scipy.stats and statsmodels. Probability distributions (normal, binomial, Poisson, negative binomial) with biological examples. Hypothesis testing: t-tests, Mann-Whitney U, chi-squared, Fisher's exact. Multiple group comparisons with ANOVA and Kruskal-Wallis. Correlation and linear regression with full diagnostics. Bootstrap confidence intervals and permutation tests. Power analysis for experimental design.
 
 `scipy.stats` `statsmodels` `distributions` `regression` `bootstrap` `power analysis` `ANOVA`
+
+---
+
+#### 0.08 Advanced R Statistics
+
+[01_r_hypothesis_testing_and_nonparametrics.ipynb](Tier_0_Computational_Foundations/08_Advanced_R_Statistics/01_r_hypothesis_testing_and_nonparametrics.ipynb) -- 57 cells
+[02_r_regression_correlation_and_diagnostics.ipynb](Tier_0_Computational_Foundations/08_Advanced_R_Statistics/02_r_regression_correlation_and_diagnostics.ipynb) -- 76 cells
+
+Hands-on R statistical computing with real biological datasets. Notebook 1 covers nonparametric methods: exact binomial tests, sign test, Wilcoxon signed-rank and rank-sum, Mann-Whitney U, Kruskal-Wallis with Dunn post-hoc, Hodges-Lehman estimation, and power analysis. Notebook 2 covers parametric methods and diagnostics: confidence intervals (Student-t, chi-squared, asymptotic), normality testing (Shapiro-Wilk, QQ plots), Pearson/Spearman/Kendall correlation with Fisher z-transform, chi-squared tests for independence and homogeneity, linear and polynomial regression with residual diagnostics, ANOVA vs Kruskal-Wallis, and Central Limit Theorem simulation. Adapted from ФББ Semester 7 biostatistics seminars by Pervushin/Muromskaya.
+
+`R` `nonparametric tests` `Wilcoxon` `Hodges-Lehman` `regression diagnostics` `chi-squared` `CLT` `power analysis`
 
 ---
 
@@ -549,7 +561,7 @@ Programming the genetic code: building codon tables, translation, degeneracy ana
 
 ---
 
-### Tier 3: Applied Bioinformatics -- 18 notebooks, 731 cells
+### Tier 3: Applied Bioinformatics -- 21 notebooks
 
 Advanced topics and real-world analysis pipelines. Each notebook covers a complete workflow from raw data to biological conclusions. Includes a capstone project integrating skills from every tier, plus specialized modules on molecular modeling, deep learning, clinical genomics, and modern bioinformatics workflows (single-cell analysis, pipeline engines, testing/CI-CD).
 
@@ -714,6 +726,36 @@ Computational tools for molecular cloning and genome editing. In silico restrict
 Population-level processes and molecular evolution. Hardy-Weinberg equilibrium: allele frequency estimation, chi-squared testing, multi-allelic extension. Genetic drift: Wright-Fisher simulation, fixation probability, effective population size, bottleneck effects. Natural selection: directional, balancing, and purifying selection; frequency dependence; selection-drift interplay. Molecular clock: Jukes-Cantor correction, divergence time estimation. dN/dS ratio: Nei-Gojobori method, sliding window analysis, interpreting selection signals. Neutrality tests: Tajima's D, McDonald-Kreitman test. Population structure: Fst computation, linkage disequilibrium decay.
 
 `genetic drift` `Wright-Fisher` `natural selection` `dN/dS` `molecular clock` `Tajima's D` `Fst` `linkage disequilibrium`
+
+---
+
+#### 3.16 Numerical Methods for Bioinformatics
+
+[01_numerical_methods_for_bioinformatics.ipynb](Tier_3_Applied_Bioinformatics/16_Numerical_Methods_for_Bioinformatics/01_numerical_methods_for_bioinformatics.ipynb) -- 45 cells
+
+Numerical algorithms essential for bioinformatics data analysis. Polynomial interpolation (Lagrange, Newton) for missing data points. Cubic splines for smooth curve fitting. Numerical differentiation and integration (trapezoidal, Simpson's rules) for dose-response AUC. Nonlinear least squares curve fitting with scipy.optimize.curve_fit for Michaelis-Menten and Hill equations. Gradient descent and optimization methods. Fourier transform and FFT for circadian rhythm detection and spectral analysis. Every technique demonstrated with biological applications. Adapted from ФББ Semester 7 numerical methods lectures.
+
+`interpolation` `splines` `curve fitting` `least squares` `gradient descent` `FFT` `optimization` `AUC`
+
+---
+
+#### 3.17 Genome Assembly and Advanced NGS
+
+[01_genome_assembly_and_advanced_ngs.ipynb](Tier_3_Applied_Bioinformatics/17_Genome_Assembly_and_Advanced_NGS/01_genome_assembly_and_advanced_ngs.ipynb) -- 30 cells
+
+De novo genome assembly from short and long reads. Overlap-Layout-Consensus (OLC) approach for long reads -- implementing a greedy assembler in Python. De Bruijn graph approach for short reads -- k-mer decomposition and Eulerian path finding. Assembly quality metrics: N50, L50, NG50 calculated from scratch, BUSCO completeness, QUAST statistics. Scaffolding with paired-end, mate-pair, and Hi-C data. Read mapping algorithms in depth: Burrows-Wheeler Transform (BWT) construction and FM-index backward search implemented in Python. Advanced QC: k-mer spectra with GenomeScope, contamination screening. Long-read technologies deep dive: ONT vs PacBio HiFi, hybrid assembly strategies. Adapted from ФББ Semester 9 NGS lectures by Logacheva et al.
+
+`de novo assembly` `de Bruijn graph` `OLC` `N50` `BUSCO` `BWT` `FM-index` `scaffolding` `long reads`
+
+---
+
+#### 3.18 Proteomics and Structural Methods
+
+[01_proteomics_and_structural_methods.ipynb](Tier_3_Applied_Bioinformatics/18_Proteomics_and_Structural_Methods/01_proteomics_and_structural_methods.ipynb) -- 40 cells
+
+Mass spectrometry-based proteomics and structural biology methods. Ionization (MALDI, ESI), mass analyzers (TOF, Orbitrap), and MS/MS fragmentation with b/y ion series -- implementing peptide mass and fragment calculators in Python. Bottom-up proteomics: in silico trypsin digestion, peptide mass fingerprinting, database searching concepts (Mascot, MaxQuant), target-decoy FDR. Quantitative proteomics: label-free (LFQ, iBAQ), isotope labeling (SILAC, TMT), DDA vs DIA. Protein engineering computational design: rational design, directed evolution library design, conservation-based mutability scoring from MSA, stability predictions (ΔΔG). Structural determination methods: X-ray crystallography (Bragg's law, R-factor), cryo-EM (single-particle analysis), NMR (chemical shifts, NOEs). Adapted from ФББ Semester 9 physical-chemical methods and protein engineering lectures by Suplatov.
+
+`mass spectrometry` `proteomics` `MS/MS` `peptide identification` `FDR` `TMT` `protein engineering` `X-ray crystallography` `cryo-EM`
 
 ---
 

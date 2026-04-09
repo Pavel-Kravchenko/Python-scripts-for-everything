@@ -1,6 +1,6 @@
 # Bioinformatics Skills for Claude Code
 
-25 skill files compressing a 91-notebook, 5-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
+28 skill files compressing a 96-notebook, 5-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
 
 **Maximum content. Maximum yield. Minimum tokens.**
 
@@ -34,12 +34,13 @@ Skills are modular — combine them for complex workflows:
 
 ## Skill Index
 
-### Foundations (Skills 1–2)
+### Foundations (Skills 1–3)
 
 | Skill | Use When... |
 |-------|-------------|
 | [`linux-git-bash`](linux-git-bash.md) | Writing shell pipelines, git workflows, processing FASTA/BAM/VCF on CLI |
 | [`biostatistics-r`](biostatistics-r.md) | Choosing statistical tests, multiple testing correction, R code for bio data |
+| [`advanced-r-statistics`](advanced-r-statistics.md) | Nonparametric tests in R, regression diagnostics, Hodges-Lehman, power analysis |
 
 ### Python for Bioinformatics (Skills 3–7)
 
@@ -60,7 +61,7 @@ Skills are modular — combine them for complex workflows:
 | [`phylogenetics-evolution`](phylogenetics-evolution.md) | Building trees (NJ, UPGMA, ML), bootstrap, comparative genomics, synteny |
 | [`structural-bioinformatics`](structural-bioinformatics.md) | PDB parsing, protein structure, chromatograms, motifs/PWM, GO enrichment |
 
-### Applied Bioinformatics (Skills 12–15)
+### Applied Bioinformatics (Skills 12–16)
 
 | Skill | Use When... |
 |-------|-------------|
@@ -68,6 +69,7 @@ Skills are modular — combine them for complex workflows:
 | [`rnaseq-metagenomics`](rnaseq-metagenomics.md) | Differential expression (DESeq2), 16S amplicon analysis, promoter scanning |
 | [`ml-deep-learning-bio`](ml-deep-learning-bio.md) | scikit-learn classifiers, CNNs for genomics, protein language models |
 | [`clinical-modeling-workflows`](clinical-modeling-workflows.md) | Molecular docking, ACMG classification, Scanpy, Snakemake, CI/CD |
+| [`genome-assembly-proteomics`](genome-assembly-proteomics.md) | De novo assembly metrics, mass spectrometry data, protein identification |
 
 ### Algorithms & Data Structures (Skills 16–20)
 
@@ -79,7 +81,7 @@ Skills are modular — combine them for complex workflows:
 | [`advanced-string-structures`](advanced-string-structures.md) | Tries, Aho-Corasick, suffix arrays/trees for genome indexing |
 | [`graphs-dynamic-programming`](graphs-dynamic-programming.md) | Graph traversal, shortest paths, MST, DP for sequence alignment |
 
-### Biology & Computation (Skills 21–25)
+### Biology & Computation (Skills 22–28)
 
 | Skill | Use When... |
 |-------|-------------|
@@ -88,6 +90,7 @@ Skills are modular — combine them for complex workflows:
 | [`biochemistry-enzymology`](biochemistry-enzymology.md) | Enzyme kinetics fitting, inhibition analysis, EC classification, metabolic pathways |
 | [`genetic-engineering-insilico`](genetic-engineering-insilico.md) | Primer design, CRISPR guides, cloning workflows, codon optimization |
 | [`population-genetics-evolution`](population-genetics-evolution.md) | Drift simulation, selection, dN/dS, molecular clock, Fst, neutrality tests |
+| [`numerical-methods-bio`](numerical-methods-bio.md) | Interpolation, curve fitting, optimization, FFT for bioinformatics data |
 
 ---
 
@@ -108,7 +111,7 @@ Each skill follows a consistent structure for fast scanning:
 
 ## Course Origin
 
-Based on the **Bioinformatics with Python** course — 91 notebooks across 5 tiers, built from materials by:
+Based on the **Bioinformatics with Python** course — 96 notebooks across 5 tiers, built from materials by:
 
 - **[Kodomo Bioinformatics Program](https://kodomo.fbb.msu.ru/wiki/2017)** — Moscow State University (10-semester curriculum)
 - **[An Introduction to Applied Bioinformatics](https://readiab.org/)** — J. Gregory Caporaso, Northern Arizona University
