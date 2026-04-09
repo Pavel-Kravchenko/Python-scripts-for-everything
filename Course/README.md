@@ -2,7 +2,7 @@
 
 A modular, five-tier curriculum that takes you from computational basics to applied bioinformatics research skills. Built on materials from the Kodomo Bioinformatics Program at Moscow State University and the IAB open-source textbook, every concept is taught through hands-on Jupyter notebooks with real biological data. Whether you are a biology student learning to code, a programmer entering the life sciences, or a researcher looking to sharpen your computational toolkit, this course meets you where you are.
 
-`86 notebooks` | `4,112 cells` | `5 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
+`91 notebooks` | `5 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
 
 ---
 
@@ -11,9 +11,10 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 0: COMPUTATIONAL FOUNDATIONS                              7 notebooks  │
+│  TIER 0: COMPUTATIONAL FOUNDATIONS                              8 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
-│  Skills Check │ Linux │ Git │ Bash │ Encodings │ R Basics │ Biostatistics   │
+│  Skills Check │ Linux │ Git │ Bash │ Encodings │ R Basics │ Biostatistics  │
+│  Probability & Statistics (Python)                                          │
 │                                                                              │
 │  Entry: No programming experience. Learn the tools every                     │
 │         bioinformatician needs before writing Python.                         │
@@ -38,12 +39,12 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 2: CORE BIOINFORMATICS                                   14 notebooks  │
+│  TIER 2: CORE BIOINFORMATICS                                   15 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ Glossary │ Databases │ BioPython │ Pairwise Alignment       │
 │  BLAST │ Multiple Alignment │ Phylogenetics │ Protein Structure             │
 │  Nucleic Acid Structure │ Chromatograms │ Motifs & Domains                  │
-│  GO & Pathways │ Comparative Genomics                                        │
+│  GO & Pathways │ Comparative Genomics │ Computational Genetics              │
 │                                                                              │
 │  Entry: Know Python, new to bioinformatics. The algorithmic                  │
 │         and biological core of the field.                                    │
@@ -53,11 +54,13 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 3: APPLIED BIOINFORMATICS                                15 notebooks  │
+│  TIER 3: APPLIED BIOINFORMATICS                                18 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ NGS │ Variant Calling │ RNA-seq │ Microbial Diversity       │
 │  Promoters │ Statistics │ Machine Learning │ Capstone Project               │
 │  Molecular Modeling │ Deep Learning │ Clinical Genomics │ Modern Workflows  │
+│  Biochemistry & Enzyme Kinetics │ Genetic Engineering In Silico            │
+│  Population Genetics & Molecular Evolution                                  │
 │                                                                              │
 │  Entry: Have bioinformatics fundamentals, want real-world                    │
 │         pipeline experience and advanced methods.                            │
@@ -108,7 +111,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 
 ## Complete Table of Contents
 
-### Tier 0: Computational Foundations -- 7 notebooks, 399 cells
+### Tier 0: Computational Foundations -- 8 notebooks
 
 These modules cover the computing skills that every bioinformatician needs before writing Python. If you can navigate a Linux file system, use Git confidently, and write basic Bash scripts, take the Skills Check and skip ahead.
 
@@ -181,6 +184,16 @@ Why R matters in bioinformatics: Bioconductor, DESeq2, edgeR, Seurat, ggplot2. R
 Populations vs. samples, parameter estimation, types of data (nominal, ordinal, discrete, continuous). Probability distributions relevant to biology: normal, Poisson, negative binomial, binomial. Hypothesis testing framework: null and alternative hypotheses, test statistics, p-values, significance levels. Multiple testing correction (Bonferroni, Benjamini-Hochberg FDR). Practical examples from differential expression, variant calling, and enrichment analysis.
 
 `distributions` `hypothesis testing` `p-values` `multiple testing` `FDR` `Bonferroni`
+
+---
+
+#### 0.07 Probability and Statistics with Python
+
+[01_probability_and_statistics_python.ipynb](Tier_0_Computational_Foundations/07_Probability_and_Statistics_Python/01_probability_and_statistics_python.ipynb) -- 68 cells
+
+Python-native statistical analysis using scipy.stats and statsmodels. Probability distributions (normal, binomial, Poisson, negative binomial) with biological examples. Hypothesis testing: t-tests, Mann-Whitney U, chi-squared, Fisher's exact. Multiple group comparisons with ANOVA and Kruskal-Wallis. Correlation and linear regression with full diagnostics. Bootstrap confidence intervals and permutation tests. Power analysis for experimental design.
+
+`scipy.stats` `statsmodels` `distributions` `regression` `bootstrap` `power analysis` `ANOVA`
 
 ---
 
@@ -380,7 +393,7 @@ Matplotlib fundamentals: figures, axes, the object-oriented interface. All major
 
 ---
 
-### Tier 2: Core Bioinformatics -- 14 notebooks, 725 cells
+### Tier 2: Core Bioinformatics -- 15 notebooks
 
 The heart of bioinformatics: databases, algorithms, structural biology, and analysis methods. You will learn how to search databases, align sequences, build phylogenetic trees, analyze protein structures, and interpret functional annotations.
 
@@ -526,7 +539,17 @@ Goals and rationale of comparative genomics: identifying conserved elements, det
 
 ---
 
-### Tier 3: Applied Bioinformatics -- 15 notebooks, 731 cells
+#### 2.13 Computational Genetics
+
+[01_computational_genetics.ipynb](Tier_2_Core_Bioinformatics/13_Computational_Genetics/01_computational_genetics.ipynb) -- 64 cells
+
+Programming the genetic code: building codon tables, translation, degeneracy analysis. Codon usage bias: RSCU, Codon Adaptation Index (CAI), GC content at codon positions. Restriction enzyme analysis: recognition sites, virtual digests, gel simulation, compatible ends. Open reading frame finding across all six frames. Genetic mapping: two-point and three-point crosses, map distance, interference. Mutation analysis: transition/transversion ratios, mutation spectra, CpG deamination. Hardy-Weinberg equilibrium testing.
+
+`genetic code` `codon usage` `CAI` `restriction enzymes` `ORF finding` `genetic mapping` `Ts/Tv` `Hardy-Weinberg`
+
+---
+
+### Tier 3: Applied Bioinformatics -- 18 notebooks, 731 cells
 
 Advanced topics and real-world analysis pipelines. Each notebook covers a complete workflow from raw data to biological conclusions. Includes a capstone project integrating skills from every tier, plus specialized modules on molecular modeling, deep learning, clinical genomics, and modern bioinformatics workflows (single-cell analysis, pipeline engines, testing/CI-CD).
 
@@ -661,6 +684,36 @@ Precision medicine and the journey from the Human Genome Project to routine clin
 Contemporary tools for professional bioinformatics. Single-cell RNA-seq analysis with Scanpy: AnnData structure, quality control, normalization, dimensionality reduction (PCA/UMAP), Leiden clustering, marker gene detection. Workflow engines: Snakemake rules/wildcards, Nextflow processes/channels, nf-core community pipelines. Testing and CI/CD: pytest fixtures and parametrized tests, GitHub Actions, code coverage, linting with ruff/black.
 
 `single-cell` `scanpy` `Snakemake` `Nextflow` `nf-core` `pytest` `GitHub Actions` `CI/CD`
+
+---
+
+#### 3.13 Biochemistry and Enzyme Kinetics
+
+[01_biochemistry_and_enzyme_kinetics.ipynb](Tier_3_Applied_Bioinformatics/13_Biochemistry_and_Enzyme_Kinetics/01_biochemistry_and_enzyme_kinetics.ipynb) -- 54 cells
+
+Enzyme kinetics from first principles to curve fitting. Beer-Lambert law and spectrophotometric assays. Michaelis-Menten equation: fitting Km and Vmax with scipy.optimize. Linearization methods (Lineweaver-Burk, Eadie-Hofstee, Hanes-Woolf) and their limitations. Enzyme inhibition: competitive, non-competitive, uncompetitive, and mixed — model fitting and type determination via AIC. Allosteric enzymes and the Hill equation. EC classification system. Metabolic pathway computation: stoichiometric matrices and flux balance concepts.
+
+`Michaelis-Menten` `enzyme inhibition` `Hill equation` `EC numbers` `curve fitting` `stoichiometric matrix` `Beer-Lambert`
+
+---
+
+#### 3.14 Genetic Engineering In Silico
+
+[01_genetic_engineering_in_silico.ipynb](Tier_3_Applied_Bioinformatics/14_Genetic_Engineering_In_Silico/01_genetic_engineering_in_silico.ipynb) -- 56 cells
+
+Computational tools for molecular cloning and genome editing. In silico restriction digestion: multi-enzyme digests, fragment prediction, gel electrophoresis simulation. PCR primer design: nearest-neighbor Tm calculation, GC constraints, dimer and hairpin checking, adding restriction tails. Cloning workflows: insert/vector compatibility, reading frame verification, Gateway cloning. CRISPR guide RNA design: PAM identification for SpCas9/SaCas9/Cas12a, on-target scoring, off-target assessment. Codon optimization for E. coli, yeast, and mammalian expression. Gibson Assembly overlap design.
+
+`restriction digests` `primer design` `Tm calculation` `CRISPR` `guide RNA` `codon optimization` `Gibson Assembly` `cloning`
+
+---
+
+#### 3.15 Population Genetics and Molecular Evolution
+
+[01_population_genetics_and_molecular_evolution.ipynb](Tier_3_Applied_Bioinformatics/15_Population_Genetics_and_Molecular_Evolution/01_population_genetics_and_molecular_evolution.ipynb) -- 61 cells
+
+Population-level processes and molecular evolution. Hardy-Weinberg equilibrium: allele frequency estimation, chi-squared testing, multi-allelic extension. Genetic drift: Wright-Fisher simulation, fixation probability, effective population size, bottleneck effects. Natural selection: directional, balancing, and purifying selection; frequency dependence; selection-drift interplay. Molecular clock: Jukes-Cantor correction, divergence time estimation. dN/dS ratio: Nei-Gojobori method, sliding window analysis, interpreting selection signals. Neutrality tests: Tajima's D, McDonald-Kreitman test. Population structure: Fst computation, linkage disequilibrium decay.
+
+`genetic drift` `Wright-Fisher` `natural selection` `dN/dS` `molecular clock` `Tajima's D` `Fst` `linkage disequilibrium`
 
 ---
 
@@ -1104,9 +1157,10 @@ Course/
 │   ├── 03_Bash_Scripting/
 │   ├── 04_File_Encodings/
 │   ├── 05_R_Basics/
-│   └── 06_Biostatistics/
+│   ├── 06_Biostatistics/
+│   └── 07_Probability_and_Statistics_Python/
 │
-├── Tier_1_Python_for_Bioinformatics/       19 notebooks, 1,172 cells
+├── Tier_1_Python_for_Bioinformatics/       19 notebooks
 │   ├── 00_Skills_Check/
 │   ├── 01_Python_Introduction/
 │   ├── 02_Variables_and_Data_Types/
@@ -1140,9 +1194,10 @@ Course/
 │   ├── 09_Chromatogram_Analysis/
 │   ├── 10_Sequence_Motifs_and_Domains/
 │   ├── 11_Gene_Ontology_and_Pathways/
-│   └── 12_Comparative_Genomics/
+│   ├── 12_Comparative_Genomics/
+│   └── 13_Computational_Genetics/
 │
-├── Tier_3_Applied_Bioinformatics/          12 notebooks, 634 cells
+├── Tier_3_Applied_Bioinformatics/          18 notebooks
 │   ├── 00_Skills_Check/
 │   ├── 01_NGS_Fundamentals/
 │   ├── 02_Variant_Calling_and_SNP_Analysis/
@@ -1154,7 +1209,11 @@ Course/
 │   ├── 08_Capstone_Project/
 │   ├── 09_Molecular_Modeling_and_Docking/
 │   ├── 10_Deep_Learning_for_Biology/
-│   └── 11_Clinical_Genomics/
+│   ├── 11_Clinical_Genomics/
+│   ├── 12_Modern_Workflows/
+│   ├── 13_Biochemistry_and_Enzyme_Kinetics/
+│   ├── 14_Genetic_Engineering_In_Silico/
+│   └── 15_Population_Genetics_and_Molecular_Evolution/
 │
 ├── Tier_4_Algorithms_and_Data_Structures/   30 notebooks + 30 interactive visualizations
 │   ├── 01-Fundamentals/                   Complexity analysis, Big-O

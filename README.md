@@ -2,30 +2,34 @@
 
 A self-paced bioinformatics course built from materials by the [Kodomo Program](https://kodomo.fbb.msu.ru/wiki/2017) at Moscow State University, the [IAB textbook](https://readiab.org/) by J. Gregory Caporaso, and the Summer School of Bioinformatics.
 
-**86 notebooks** · **5 tiers** · **30 interactive visualizations** · **108 glossary terms** · **[20 Claude Code skills](#claude-code-skills)**
+**91 notebooks** · **5 tiers** · **30 interactive visualizations** · **108 glossary terms** · **[25 Claude Code skills](#claude-code-skills)**
 
 ---
 
 ## Structure
 
 ```
-Tier 0  Computational Foundations       7 notebooks
-        Linux · Git · Bash · Encodings · R · Biostatistics
+Tier 0  Computational Foundations       8 notebooks
+        Linux · Git · Bash · Encodings · R · Biostatistics ·
+        Probability & Statistics (Python)
 
 Tier 1  Python for Bioinformatics      20 notebooks
         Variables → Strings → Control Flow → Functions → Files →
         Data Structures → Iterators → Regex → OOP → Decorators →
         NumPy/Pandas → Visualization → SQL
 
-Tier 2  Core Bioinformatics            14 notebooks
+Tier 2  Core Bioinformatics            15 notebooks
         Databases · BioPython · Alignment · BLAST · MSA ·
         Phylogenetics · Protein Structure · Nucleic Acids ·
-        Chromatograms · Motifs · GO/Pathways · Comparative Genomics
+        Chromatograms · Motifs · GO/Pathways · Comparative Genomics ·
+        Computational Genetics
 
-Tier 3  Applied Bioinformatics         15 notebooks
+Tier 3  Applied Bioinformatics         18 notebooks
         NGS · Variant Calling · RNA-seq · Microbial Diversity ·
         Promoters · Statistics · Machine Learning · Deep Learning ·
-        Molecular Modeling · Clinical Genomics · Capstone Project
+        Molecular Modeling · Clinical Genomics · Capstone Project ·
+        Biochemistry & Enzyme Kinetics · Genetic Engineering ·
+        Population Genetics & Molecular Evolution
 
 Tier 4  Algorithms & Data Structures  30 notebooks + 30 interactive visualizations
         Complexity · Sorting · Searching · Linked Lists · Stacks/Queues ·
@@ -52,6 +56,10 @@ See the full table of contents in [Course/README.md](Course/README.md) and [Tier
 - BLAST result analyzer with homology assessment
 - Molecular visualization scripts (Jmol/PyMol)
 - DNA structure models (A/B/Z forms)
+- Enzyme kinetics curve fitter (Michaelis-Menten, inhibition models)
+- CRISPR guide RNA designer with off-target scoring
+- Genetic drift and selection simulator
+- Codon optimizer for heterologous expression
 
 ---
 
@@ -95,7 +103,7 @@ FASTA sequences · PDB protein structures · Sanger chromatograms (.ab1) · VCF 
 
 ## Claude Code Skills
 
-The entire course is compressed into **20 modular skill files** for [Claude Code](https://claude.com/claude-code) — maximum knowledge density, minimum tokens. Each skill provides quick-reference tables, copy-paste code templates, and common pitfalls for a focused topic.
+The entire course is compressed into **25 modular skill files** for [Claude Code](https://claude.com/claude-code) — maximum knowledge density, minimum tokens. Each skill provides quick-reference tables, copy-paste code templates, and common pitfalls for a focused topic.
 
 | Category | Skills |
 |----------|--------|
@@ -104,6 +112,7 @@ The entire course is compressed into **20 modular skill files** for [Claude Code
 | **Core Bio** | `biopython-databases` · `sequence-alignment` · `phylogenetics-evolution` · `structural-bioinformatics` |
 | **Applied Bio** | `ngs-variant-calling` · `rnaseq-metagenomics` · `ml-deep-learning-bio` · `clinical-modeling-workflows` |
 | **Algorithms** | `complexity-sorting-searching` · `linear-tree-hash-structures` · `string-algorithms` · `advanced-string-structures` · `graphs-dynamic-programming` |
+| **Biology & Computation** | `probability-statistics-python` · `genetics-computational` · `biochemistry-enzymology` · `genetic-engineering-insilico` · `population-genetics-evolution` |
 
 **Usage:** Reference any skill by name in your prompt — Claude activates it automatically. See the full guide in [Skills/README.md](Skills/README.md).
 
