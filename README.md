@@ -132,7 +132,7 @@ This course would not exist without the work of the original authors:
 
 **Summer School of Bioinformatics** — statistical methods, NGS analysis, and promoter research materials.
 
-**ФББ Semester Materials (Напутствие)** — Faculty of Bioengineering and Bioinformatics archive covering advanced R biostatistics (Pervushin/Muromskaya), numerical methods, genome assembly and NGS (Logacheva et al.), proteomics and physical-chemical methods, and protein engineering (Suplatov).
+**FBB Semester Materials** — Faculty of Bioengineering and Bioinformatics archive covering advanced R biostatistics (Pervushin/Muromskaya), numerical methods, genome assembly and NGS (Logacheva et al.), proteomics and physical-chemical methods, and protein engineering (Suplatov).
 
 Full attribution details in [Course/CREDITS.md](Course/CREDITS.md).
 
