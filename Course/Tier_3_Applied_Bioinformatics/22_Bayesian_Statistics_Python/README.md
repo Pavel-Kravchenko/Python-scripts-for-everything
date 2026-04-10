@@ -25,3 +25,7 @@ Statistical concepts based on Fränzi Korner-Nievergelt's Applied Statistics cou
 
 ## Related Skill
 `bayesian-python.md`
+
+---
+
+[← Previous: 3.21 Copy Number Analysis](../21_Copy_Number_Analysis/) | [Course Overview](../../README.md) | [Next: 3.23 TF Footprinting →](../23_TF_Footprinting/)

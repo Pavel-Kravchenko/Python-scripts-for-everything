@@ -1,6 +1,6 @@
 # Bioinformatics Skills for Claude Code
 
-36 skill files compressing a 106-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
+38 skill files compressing a 106-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
 
 **Maximum content. Maximum yield. Minimum tokens.**
 
@@ -99,15 +99,17 @@ Skills are modular — combine them for complex workflows:
 | [`hic-analysis`](hic-analysis.md) | Analyzing 3D genome organization: loading cooler/mcool files, computing A/B compartments, TAD boundaries, pileup plots with cooltools |
 | [`motif-discovery`](motif-discovery.md) | Building PWMs from aligned binding sites, IC/KDIC scoring, Fisher enrichment testing, TomTom database matching |
 
-### Applied Bioinformatics Depth (Skills 31–33)
+### Applied Bioinformatics Depth (Skills 31–35)
 
 | Skill | Use When... |
 |-------|-------------|
 | [`gwas-population-genetics`](gwas-population-genetics.md) | GWAS study design, QC pipelines, PCA for stratification, Manhattan/QQ plots, LD clumping, fine-mapping |
-| [`spatial-transcriptomics`](spatial-transcriptomics.md) | AnnData with spatial coordinates, spatially variable gene detection, Squidpy neighborhood graphs, cell-type deconvolution |
+| [`spatial-transcriptomics`](spatial-transcriptomics.md) | AnnData with spatial coordinates, spatially variable gene detection, Squidpy neighborhood graphs, cell-type deconvolution, NMF programs |
 | [`bayesian-python`](bayesian-python.md) | Bayesian linear and generalized linear models with pymc/bambi, model comparison via arviz LOO-CV/WAIC, prior specification |
+| [`copy-number-analysis`](copy-number-analysis.md) | Log2 ratio computation, CBS segmentation, CN state calling, read depth normalization, gene annotation with pyranges, tumor purity |
+| [`tf-footprinting-atac`](tf-footprinting-atac.md) | ATAC-seq QC (NFR fraction, nucleosomal ladder), Tn5 offset correction, footprint scoring, pybedtools operations, meta-profile plots |
 
-### Modern AI for Science (Skills 34–36)
+### Modern AI for Science (Skills 36–38)
 
 | Skill | Use When... |
 |-------|-------------|

@@ -129,6 +129,70 @@ apply(expr, 1, mean)   # row-wise (per gene)
 apply(expr, 2, mean)   # col-wise (per sample)
 ```
 
+### R: Factors, Lists, and Functional Programming
+```r
+# Factors: categorical with levels (essential for model matrices and ggplot ordering)
+condition <- factor(c("tumor","normal","tumor","normal"), levels=c("normal","tumor"))
+levels(condition)          # [1] "normal" "tumor"
+table(condition)           # frequency table
+as.integer(condition)      # 2 1 2 1 (level codes)
+
+# Lists (heterogeneous; like Python dicts)
+result <- list(gene="TP53", pvalue=0.001, log2fc=-2.3, significant=TRUE)
+result$pvalue              # access by name
+result[["log2fc"]]         # same; prefer [[ ]] in functions
+
+# Apply family (vectorized iteration, faster than for-loops)
+lapply(gene_list, function(g) nchar(g))          # → list
+sapply(gene_list, function(g) nchar(g))          # → vector (simplified)
+vapply(gene_list, nchar, integer(1))             # → typed vector (safest)
+mapply(function(a,b) a/b, numerator, denominator) # → element-wise two-list map
+```
+
+### R: ggplot2 Essentials
+```r
+library(ggplot2)
+
+# Scatter (volcano plot)
+ggplot(df, aes(x=log2fc, y=-log10(pvalue), color=significant)) +
+    geom_point(alpha=0.6, size=1.5) +
+    geom_hline(yintercept=-log10(0.05), linetype="dashed") +
+    geom_vline(xintercept=c(-1,1), linetype="dashed") +
+    scale_color_manual(values=c("grey70","red")) +
+    theme_classic() + labs(title="Volcano plot")
+
+# Boxplot by condition
+ggplot(long_df, aes(x=condition, y=expression, fill=condition)) +
+    geom_boxplot(outlier.size=0.5) +
+    geom_jitter(width=0.2, alpha=0.3) +
+    theme_minimal()
+
+# Heatmap via geom_tile
+ggplot(melt_df, aes(x=sample, y=gene, fill=log2_expr)) +
+    geom_tile() +
+    scale_fill_gradient2(low="blue", mid="white", high="red", midpoint=0)
+```
+
+### R: Bioconductor Essentials
+```r
+# Install
+if (!require("BiocManager", quietly=TRUE)) install.packages("BiocManager")
+BiocManager::install(c("DESeq2","edgeR","limma","GenomicRanges","Biostrings"))
+
+# DESeq2 minimal workflow
+library(DESeq2)
+dds <- DESeqDataSetFromMatrix(countData=counts, colData=meta, design=~condition)
+dds <- DESeq(dds)                          # normalization + dispersion + testing
+res <- results(dds, contrast=c("condition","tumor","normal"))
+res_df <- as.data.frame(res[!is.na(res$padj),])
+sig <- res_df[res_df$padj < 0.05 & abs(res_df$log2FoldChange) > 1, ]
+
+# GenomicRanges (interval arithmetic — R equivalent of pybedtools)
+library(GenomicRanges)
+gr <- GRanges("chr1", IRanges(c(100,500), c(200,600)))
+subsetByOverlaps(gr, GRanges("chr1", IRanges(150,550)))   # intersection
+```
+
 ### R: Distributions
 ```r
 set.seed(42)

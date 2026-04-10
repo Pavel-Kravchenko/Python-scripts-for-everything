@@ -22,3 +22,7 @@ Public 10x Visium mouse brain dataset (bundled with Squidpy via `sq.datasets.vis
 
 ## Related Skill
 `spatial-transcriptomics.md`
+
+---
+
+[← Previous: 3.19 GWAS](../19_GWAS/) | [Course Overview](../../README.md) | [Next: 3.21 Copy Number Analysis →](../21_Copy_Number_Analysis/)

@@ -21,3 +21,7 @@ Simulated read depth data (notebook generates synthetic data). Real data: TCGA W
 
 ## Related Skill
 `ngs-variant-calling.md` — extends the copy number section
+
+---
+
+[← Previous: 3.20 Spatial Transcriptomics](../20_Spatial_Transcriptomics/) | [Course Overview](../../README.md) | [Next: 3.22 Bayesian Statistics →](../22_Bayesian_Statistics_Python/)

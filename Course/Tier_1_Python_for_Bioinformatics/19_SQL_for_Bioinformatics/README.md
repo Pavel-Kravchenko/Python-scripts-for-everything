@@ -27,4 +27,4 @@ Query biological databases using SQL. Learn SELECT, JOIN, and subqueries with Py
 
 ---
 
-[<- Data Visualization](../18_Data_Visualization/) | [Back to Course Overview](../../README.md)
+[<- Data Visualization](../18_Data_Visualization/) | [Back to Course Overview](../../README.md) | [Next Tier ->](../../Tier_2_Core_Bioinformatics/00_Skills_Check/)
