@@ -82,6 +82,29 @@ Materials used for:
 
 ---
 
+## NGSchool 2023
+
+Materials from NGSchool 2023 (summer school on computational genomics) informed code patterns for GWAS, spatial transcriptomics, and copy number analysis modules.
+
+---
+
+## Bayesian Data Analysis in Ecology Using Linear Models with R, BUGS, and Stan
+
+**Authors:** Fränzi Korner-Nievergelt, Tobias Roth, Stefanie von Felten, Jérôme Guélat, Bettina Almasi, Pius Korner-Nievergelt  
+**Publisher:** Academic Press / Elsevier, 2015  
+**ISBN:** 9780128013700  
+**Source:** [ScienceDirect](https://www.sciencedirect.com/book/monograph/9780128013700/bayesian-data-analysis-in-ecology-using-linear-models-with-r-bugs-and-stan)
+
+The Bayesian statistics module (Tier 3) adapts concepts and model structures from this book — converted from R/BUGS/Stan to Python (PyMC, bambi, arviz). No original code or data copied; only statistical framing and model design patterns used for educational purposes.
+
+---
+
+## Computational Genomics Workshops
+
+Python workshop materials and open-source tools (MIT license) from computational genomics training events provided code pattern inspiration for Hi-C analysis, motif discovery, and TF footprinting modules. All patterns extracted and generalized; no project-specific data or research context included.
+
+---
+
 ## Additional Sources
 
 - **Python lecture materials** from MSU Bioengineering faculty

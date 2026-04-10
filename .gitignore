@@ -62,3 +62,6 @@ Data/sequences/sra_data.fasta
 *.tar.gz
 *.gz
 *.bz2
+
+# Internal planning documents
+docs/
