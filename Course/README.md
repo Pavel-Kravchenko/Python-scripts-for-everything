@@ -24,12 +24,12 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 1: PYTHON FOR BIOINFORMATICS                             19 notebooks  │
+│  TIER 1: PYTHON FOR BIOINFORMATICS                             20 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ Intro │ Variables │ Operators │ Strings │ Control Flow      │
 │  Functions │ File I/O │ Lists │ Dicts │ Comprehensions │ Iterators          │
 │  Regex │ OOP │ Decorators │ Error Handling │ NumPy/Pandas │ Wrangling       │
-│  Visualization                                                               │
+│  Visualization │ SQL                                                         │
 │                                                                              │
 │  Entry: Comfortable with the command line but new to Python.                 │
 │         Every example uses biological data.                                  │
@@ -45,6 +45,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 │  BLAST │ Multiple Alignment │ Phylogenetics │ Protein Structure             │
 │  Nucleic Acid Structure │ Chromatograms │ Motifs & Domains                  │
 │  GO & Pathways │ Comparative Genomics │ Computational Genetics              │
+│  Hi-C Analysis │ Motif Discovery                                            │
 │                                                                              │
 │  Entry: Know Python, new to bioinformatics. The algorithmic                  │
 │         and biological core of the field.                                    │
@@ -61,7 +62,8 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 │  Molecular Modeling │ Deep Learning │ Clinical Genomics │ Modern Workflows  │
 │  Biochemistry & Enzyme Kinetics │ Genetic Engineering In Silico            │
 │  Population Genetics │ Numerical Methods │ Genome Assembly                 │
-│  Proteomics & Structural Methods                                           │
+│  Proteomics & Structural Methods │ GWAS │ Spatial Transcriptomics          │
+│  Copy Number Analysis │ Bayesian Statistics │ TF Footprinting              │
 │                                                                              │
 │  Entry: Have bioinformatics fundamentals, want real-world                    │
 │         pipeline experience and advanced methods.                            │
@@ -219,7 +221,7 @@ Hands-on R statistical computing with real biological datasets. Notebook 1 cover
 
 ---
 
-### Tier 1: Python for Bioinformatics -- 19 notebooks, 1,172 cells
+### Tier 1: Python for Bioinformatics -- 20 notebooks
 
 Core Python programming taught entirely through biological examples. From your first program to publication-quality figures, every exercise works with sequences, gene data, or biological datasets.
 
@@ -412,6 +414,16 @@ Handling missing values: when to drop vs. fill, biological context for each stra
 Matplotlib fundamentals: figures, axes, the object-oriented interface. All major plot types: line, scatter, bar, histogram, box, violin, heatmap. Customization: colors, labels, legends, annotations, styles. Seaborn for statistical plots, pair plots, and clustered heatmaps. Biological plot types: volcano plots, MA plots, sequence logos, genome coverage plots. Multi-panel figures and saving publication-quality output.
 
 `matplotlib` `seaborn` `heatmaps` `volcano plots` `publication figures` `multi-panel`
+
+---
+
+#### 1.19 SQL for Bioinformatics
+
+[01_sql_for_bioinformatics.ipynb](Tier_1_Python_for_Bioinformatics/19_SQL_for_Bioinformatics/01_sql_for_bioinformatics.ipynb) -- 20 cells
+
+Querying biological databases using SQL with Python's built-in `sqlite3` module -- no server installation required. SELECT, WHERE, ORDER BY, GROUP BY, and aggregate functions (COUNT, AVG, MAX, MIN, SUM). JOIN operations: INNER, LEFT, and self-joins for connecting gene annotation tables. Subqueries and set operations with UNION. CREATE TABLE, INSERT, UPDATE, DELETE for building local biological databases. Integrating sqlite3 with pandas: reading query results directly into DataFrames, writing DataFrames to SQL tables.
+
+`sqlite3` `SELECT` `JOIN` `GROUP BY` `subqueries` `pandas` `biological databases`
 
 ---
 
@@ -949,7 +961,13 @@ Prefix trees for autocomplete and spell-checking. Aho-Corasick multi-pattern aut
 
 #### 4.09 Graph Algorithms
 
-Topics covered (interactive visualizations available): graph representations (adjacency matrix, list, edge list), BFS, DFS, Dijkstra, Bellman-Ford, Floyd-Warshall, Kruskal and Prim MST, topological sort, cycle detection. **Bio connection:** metabolic pathway analysis, gene regulatory networks, protein interaction graphs.
+[01_graph_representations.ipynb](Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/01_graph_representations.ipynb) -- 25 cells
+[02_bfs_dfs.ipynb](Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/02_bfs_dfs.ipynb) -- 17 cells
+[03_dijkstra.ipynb](Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/03_dijkstra.ipynb) -- 15 cells
+[04_mst_kruskal_prim.ipynb](Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/04_mst_kruskal_prim.ipynb) -- 18 cells
+[05_topological_sort.ipynb](Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/05_topological_sort.ipynb) -- 15 cells
+
+Graph representations: adjacency matrix, adjacency list, and edge list with complexity trade-offs. Breadth-first and depth-first traversal with step-by-step tracing. Dijkstra's single-source shortest path with a priority queue; Bellman-Ford for negative weights; Floyd-Warshall all-pairs. Minimum spanning trees: Kruskal's (Union-Find) and Prim's (priority queue). Topological sort and cycle detection in DAGs. **Bio connection:** metabolic pathway analysis, gene regulatory networks, protein interaction graphs.
 
 `BFS` `DFS` `Dijkstra` `MST` `topological sort` `pathways`
 
@@ -957,9 +975,14 @@ Topics covered (interactive visualizations available): graph representations (ad
 
 #### 4.10 Dynamic Programming
 
-Topics covered (interactive visualization available): memoization vs tabulation, Fibonacci, climbing stairs, coin change, longest common subsequence, longest increasing subsequence, edit distance, 0/1 knapsack, matrix chain multiplication. **Bio connection:** Needleman-Wunsch and Smith-Waterman are DP algorithms; RNA secondary structure prediction uses DP.
+[01_intro_memoization.ipynb](Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/01_intro_memoization.ipynb) -- 24 cells
+[02_tabulation.ipynb](Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/02_tabulation.ipynb) -- 19 cells
+[03_knapsack.ipynb](Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/03_knapsack.ipynb) -- 17 cells
+[04_sequence_alignment.ipynb](Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/04_sequence_alignment.ipynb) -- 26 cells
 
-`memoization` `tabulation` `LCS` `edit distance` `sequence alignment`
+Memoization vs. tabulation: top-down vs. bottom-up with complexity comparison. Foundational problems: Fibonacci, climbing stairs, coin change. Sequence DP: longest common subsequence, longest increasing subsequence, edit distance. 0/1 knapsack and subset sum. Needleman-Wunsch and Smith-Waterman sequence alignment implemented as DP algorithms with traceback reconstruction. **Bio connection:** global and local sequence alignment are DP; RNA secondary structure prediction uses DP.
+
+`memoization` `tabulation` `LCS` `edit distance` `sequence alignment` `Needleman-Wunsch` `Smith-Waterman`
 
 ---
 
@@ -1024,6 +1047,7 @@ Each of the five tiers opens with a **Skills Check** notebook -- a self-graded a
 | **Tier 1** | [00_skills_check.ipynb](Tier_1_Python_for_Bioinformatics/00_Skills_Check/00_skills_check.ipynb) | varies | Python variables, data types, control flow, functions, data structures |
 | **Tier 2** | [00_skills_check.ipynb](Tier_2_Core_Bioinformatics/00_Skills_Check/00_skills_check.ipynb) | 15 | BLAST, alignment, phylogenetics, protein structure, GO |
 | **Tier 3** | [00_skills_check.ipynb](Tier_3_Applied_Bioinformatics/00_Skills_Check/00_skills_check.ipynb) | varies | NGS, sequencing platforms, RNA-seq, variant calling |
+| **Tier 4** | [00_skills_check.ipynb](Tier_4_Algorithms_and_Data_Structures/00_Skills_Check/00_skills_check.ipynb) | 24 cells | Big-O notation, sorting, searching, basic data structures, recursion |
 
 **Recommended approach for uncertain students:** Start with the Tier 1 Skills Check. Most students with any programming background can begin at Tier 1. If you score well there, try the Tier 2 Skills Check next.
 
@@ -1109,11 +1133,14 @@ Cherry-pick individual Tier 3 modules based on your needs. Each module is relati
 | NGS pipeline skills | 3.01 NGS Fundamentals + 3.02 Variant Calling |
 | Transcriptomics | 3.03 RNA-seq Analysis |
 | Metagenomics | 3.04 Microbial Diversity |
-| Regulatory genomics | 3.05 Promoter and Regulatory Analysis |
-| Statistical methods | 3.06 Statistics for Bioinformatics |
+| Regulatory genomics | 3.05 Promoter and Regulatory Analysis + 3.23 TF Footprinting |
+| Statistical methods | 3.06 Statistics for Bioinformatics + 3.22 Bayesian Statistics |
 | ML/DL for biology | 3.07 Machine Learning + 3.10 Deep Learning |
 | Structural/drug design | 3.09 Molecular Modeling and Docking |
 | Clinical applications | 3.11 Clinical Genomics |
+| GWAS and population genetics | 3.19 GWAS + 3.15 Population Genetics |
+| Single-cell and spatial omics | 3.12 Modern Workflows + 3.20 Spatial Transcriptomics |
+| Cancer genomics | 3.21 Copy Number Analysis + 3.02 Variant Calling |
 
 ---
 
@@ -1308,7 +1335,7 @@ This course relies on the following open-source tools and libraries:
 
 ```
 Course/
-├── Tier_0_Computational_Foundations/        7 notebooks, 399 cells
+├── Tier_0_Computational_Foundations/        10 notebooks
 │   ├── 00_Skills_Check/
 │   ├── 01_Linux_Basics/
 │   ├── 02_Git_Version_Control/
@@ -1316,9 +1343,10 @@ Course/
 │   ├── 04_File_Encodings/
 │   ├── 05_R_Basics/
 │   ├── 06_Biostatistics/
-│   └── 07_Probability_and_Statistics_Python/
+│   ├── 07_Probability_and_Statistics_Python/
+│   └── 08_Advanced_R_Statistics/
 │
-├── Tier_1_Python_for_Bioinformatics/       19 notebooks
+├── Tier_1_Python_for_Bioinformatics/       20 notebooks
 │   ├── 00_Skills_Check/
 │   ├── 01_Python_Introduction/
 │   ├── 02_Variables_and_Data_Types/
@@ -1337,9 +1365,10 @@ Course/
 │   ├── 15_Error_Handling/
 │   ├── 16_NumPy_and_Pandas/
 │   ├── 17_Data_Wrangling/
-│   └── 18_Data_Visualization/
+│   ├── 18_Data_Visualization/
+│   └── 19_SQL_for_Bioinformatics/
 │
-├── Tier_2_Core_Bioinformatics/             14 notebooks, 725 cells
+├── Tier_2_Core_Bioinformatics/             17 notebooks
 │   ├── 00_Skills_Check/                    (includes Glossary)
 │   ├── 01_Biological_Databases/
 │   ├── 02_BioPython_Essentials/
@@ -1353,9 +1382,11 @@ Course/
 │   ├── 10_Sequence_Motifs_and_Domains/
 │   ├── 11_Gene_Ontology_and_Pathways/
 │   ├── 12_Comparative_Genomics/
-│   └── 13_Computational_Genetics/
+│   ├── 13_Computational_Genetics/
+│   ├── 14_Hi-C_Analysis/
+│   └── 15_Motif_Discovery/
 │
-├── Tier_3_Applied_Bioinformatics/          18 notebooks
+├── Tier_3_Applied_Bioinformatics/          26 notebooks
 │   ├── 00_Skills_Check/
 │   ├── 01_NGS_Fundamentals/
 │   ├── 02_Variant_Calling_and_SNP_Analysis/
@@ -1371,7 +1402,15 @@ Course/
 │   ├── 12_Modern_Workflows/
 │   ├── 13_Biochemistry_and_Enzyme_Kinetics/
 │   ├── 14_Genetic_Engineering_In_Silico/
-│   └── 15_Population_Genetics_and_Molecular_Evolution/
+│   ├── 15_Population_Genetics_and_Molecular_Evolution/
+│   ├── 16_Numerical_Methods_for_Bioinformatics/
+│   ├── 17_Genome_Assembly_and_Advanced_NGS/
+│   ├── 18_Proteomics_and_Structural_Methods/
+│   ├── 19_GWAS/
+│   ├── 20_Spatial_Transcriptomics/
+│   ├── 21_Copy_Number_Analysis/
+│   ├── 22_Bayesian_Statistics_Python/
+│   └── 23_TF_Footprinting/
 │
 ├── Tier_4_Algorithms_and_Data_Structures/   30 notebooks + 30 interactive visualizations
 │   ├── 01-Fundamentals/                   Complexity analysis, Big-O
