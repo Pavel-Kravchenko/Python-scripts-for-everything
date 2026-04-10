@@ -1,6 +1,6 @@
 # Bioinformatics Skills for Claude Code
 
-28 skill files compressing a 96-notebook, 5-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
+36 skill files compressing a 106-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
 
 **Maximum content. Maximum yield. Minimum tokens.**
 
@@ -92,6 +92,29 @@ Skills are modular — combine them for complex workflows:
 | [`population-genetics-evolution`](population-genetics-evolution.md) | Drift simulation, selection, dN/dS, molecular clock, Fst, neutrality tests |
 | [`numerical-methods-bio`](numerical-methods-bio.md) | Interpolation, curve fitting, optimization, FFT for bioinformatics data |
 
+### Tier 2 Depth (Skills 29–30)
+
+| Skill | Use When... |
+|-------|-------------|
+| [`hic-analysis`](hic-analysis.md) | Analyzing 3D genome organization: loading cooler/mcool files, computing A/B compartments, TAD boundaries, pileup plots with cooltools |
+| [`motif-discovery`](motif-discovery.md) | Building PWMs from aligned binding sites, IC/KDIC scoring, Fisher enrichment testing, TomTom database matching |
+
+### Applied Bioinformatics Depth (Skills 31–33)
+
+| Skill | Use When... |
+|-------|-------------|
+| [`gwas-population-genetics`](gwas-population-genetics.md) | GWAS study design, QC pipelines, PCA for stratification, Manhattan/QQ plots, LD clumping, fine-mapping |
+| [`spatial-transcriptomics`](spatial-transcriptomics.md) | AnnData with spatial coordinates, spatially variable gene detection, Squidpy neighborhood graphs, cell-type deconvolution |
+| [`bayesian-python`](bayesian-python.md) | Bayesian linear and generalized linear models with pymc/bambi, model comparison via arviz LOO-CV/WAIC, prior specification |
+
+### Modern AI for Science (Skills 34–36)
+
+| Skill | Use When... |
+|-------|-------------|
+| [`llm-finetuning`](llm-finetuning.md) | Fine-tuning LLMs with LoRA and quantization, configuring SFTTrainer, designing chat templates, building instruction datasets |
+| [`vision-rag`](vision-rag.md) | Vision-language models, ColPali document retrieval, RAG pipeline construction, Qwen2-VL inference patterns |
+| [`diffusion-generative`](diffusion-generative.md) | DDIM sampling, linear/cosine noise schedules, score matching intuition, inverse imaging problems, scientific image restoration |
+
 ---
 
 ## Skill File Format
@@ -111,7 +134,7 @@ Each skill follows a consistent structure for fast scanning:
 
 ## Course Origin
 
-Based on the **Bioinformatics with Python** course — 96 notebooks across 5 tiers, built from materials by:
+Based on the **Bioinformatics with Python** course — 106 notebooks across 6 tiers, built from materials by:
 
 - **[Kodomo Bioinformatics Program](https://kodomo.fbb.msu.ru/wiki/2017)** — Moscow State University (10-semester curriculum)
 - **[An Introduction to Applied Bioinformatics](https://readiab.org/)** — J. Gregory Caporaso, Northern Arizona University

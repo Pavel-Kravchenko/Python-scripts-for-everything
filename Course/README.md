@@ -2,7 +2,7 @@
 
 A modular, five-tier curriculum that takes you from computational basics to applied bioinformatics research skills. Built on materials from the Kodomo Bioinformatics Program at Moscow State University and the IAB open-source textbook, every concept is taught through hands-on Jupyter notebooks with real biological data. Whether you are a biology student learning to code, a programmer entering the life sciences, or a researcher looking to sharpen your computational toolkit, this course meets you where you are.
 
-`96 notebooks` | `5 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
+`106 notebooks` | `6 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
 
 ---
 
@@ -39,7 +39,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 2: CORE BIOINFORMATICS                                   15 notebooks  │
+│  TIER 2: CORE BIOINFORMATICS                                   17 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ Glossary │ Databases │ BioPython │ Pairwise Alignment       │
 │  BLAST │ Multiple Alignment │ Phylogenetics │ Protein Structure             │
@@ -54,7 +54,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 3: APPLIED BIOINFORMATICS                                21 notebooks  │
+│  TIER 3: APPLIED BIOINFORMATICS                                26 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ NGS │ Variant Calling │ RNA-seq │ Microbial Diversity       │
 │  Promoters │ Statistics │ Machine Learning │ Capstone Project               │
@@ -89,6 +89,16 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 │                                                                              │
 └──────────────────────────────────────────────────────────────────────────────┘
 
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│  TIER 5: MODERN AI FOR SCIENCE                                  3 notebooks  │
+│  ──────────────────────────────────────────────────────────────────────────  │
+│  LLM Fine-tuning │ Vision RAG │ Diffusion & Generative Models                │
+│                                                                              │
+│  Entry: Tiers 1–3 complete. GPU-optional; runs on free-tier Colab.          │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
   ENTRY POINTS ──────────────────────────────────────────────────────────────
 
   Take the Skills Check at the start of any tier.
@@ -103,7 +113,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 
 | Audience | Where to Start | Tiers to Take | Estimated Time |
 |----------|---------------|---------------|----------------|
-| **Complete beginner** -- no programming experience, new to biology or coming from a wet-lab background | Tier 0, Module 01 (Linux Fundamentals) | All five tiers (0 through 4) | 150--200 hours |
+| **Complete beginner** -- no programming experience, new to biology or coming from a wet-lab background | Tier 0, Module 01 (Linux Fundamentals) | All six tiers (0 through 5) | 160--215 hours |
 | **Biology student** -- comfortable with a terminal and basic scripting, wants to learn Python for research | Tier 1 Skills Check, then Tier 1 Module 01 | Tiers 1, 2, 3 | 90--120 hours |
 | **Experienced programmer** -- knows Python well, new to bioinformatics and biological data | Tier 2 Skills Check, then Tier 2 Module 01 | Tiers 2, 3 | 50--70 hours |
 | **Bioinformatics researcher** -- has bioinformatics experience, wants applied pipelines and advanced methods | Tier 3 Skills Check, then individual Tier 3 modules | Tier 3 selectively | 25--35 hours |
@@ -405,7 +415,7 @@ Matplotlib fundamentals: figures, axes, the object-oriented interface. All major
 
 ---
 
-### Tier 2: Core Bioinformatics -- 15 notebooks
+### Tier 2: Core Bioinformatics -- 17 notebooks
 
 The heart of bioinformatics: databases, algorithms, structural biology, and analysis methods. You will learn how to search databases, align sequences, build phylogenetic trees, analyze protein structures, and interpret functional annotations.
 
@@ -561,9 +571,29 @@ Programming the genetic code: building codon tables, translation, degeneracy ana
 
 ---
 
-### Tier 3: Applied Bioinformatics -- 21 notebooks
+#### 2.14 Hi-C Analysis
 
-Advanced topics and real-world analysis pipelines. Each notebook covers a complete workflow from raw data to biological conclusions. Includes a capstone project integrating skills from every tier, plus specialized modules on molecular modeling, deep learning, clinical genomics, and modern bioinformatics workflows (single-cell analysis, pipeline engines, testing/CI-CD).
+[14_hic_analysis.ipynb](Tier_2_Core_Bioinformatics/14_Hi-C_Analysis/14_hic_analysis.ipynb)
+
+3D genome organization from Hi-C experiments using the cooler and cooltools Python stack. cooler file format: loading, inspecting metadata, and slicing contact matrices. Contact decay (expected) curves to normalize distance effects. Eigenvector decomposition for A/B compartment identification. Insulation score calculation and TAD boundary detection. Saddle plots for compartment strength visualization. Pileup (aggregate) analysis around genomic features such as CTCF sites and loop anchors. Uses public Hi-C data from the 4DN Data Portal or ENCODE.
+
+`cooler` `cooltools` `contact matrices` `A/B compartments` `TADs` `insulation score` `saddle plots` `pileup`
+
+---
+
+#### 2.15 Motif Discovery
+
+[15_motif_discovery.ipynb](Tier_2_Core_Bioinformatics/15_Motif_Discovery/15_motif_discovery.ipynb)
+
+Quantitative motif analysis from position frequency matrices to enrichment testing. PPM/PWM construction, normalization, and pseudocount handling. Information content per position and total IC calculation. KDIC score (mean IC normalized to [0,1]). IUPAC consensus sequence generation. Score distributions: exact enumeration for short motifs (length ≤ 10), Monte Carlo with confidence intervals for longer. Motif enrichment using Fisher's exact test with Benjamini-Hochberg correction. TomTom matching concept against JASPAR 2024 and HOCOMOCO public databases. Pipeline design patterns using abstract interfaces and dataclasses; BED/FASTA I/O patterns.
+
+`PWM` `PPM` `information content` `KDIC` `IUPAC` `Fisher enrichment` `Benjamini-Hochberg` `TomTom` `JASPAR`
+
+---
+
+### Tier 3: Applied Bioinformatics -- 26 notebooks
+
+Advanced topics and real-world analysis pipelines. Each notebook covers a complete workflow from raw data to biological conclusions. Includes a capstone project integrating skills from every tier, plus specialized modules on molecular modeling, deep learning, clinical genomics, modern bioinformatics workflows, GWAS, spatial transcriptomics, copy number analysis, Bayesian statistics, and TF footprinting.
 
 ---
 
@@ -759,6 +789,56 @@ Mass spectrometry-based proteomics and structural biology methods. Ionization (M
 
 ---
 
+#### 3.19 Genome-Wide Association Studies (GWAS)
+
+[19_gwas.ipynb](Tier_3_Applied_Bioinformatics/19_GWAS/19_gwas.ipynb)
+
+GWAS study design from first principles. Case/control phenotype definition and confounder identification. Quality control: SNP and sample filtering, Hardy-Weinberg equilibrium testing, MAF thresholds. Population stratification detection via PCA on genotype data. Association testing using logistic and linear regression per SNP. Multiple testing correction with the genome-wide significance threshold (5×10⁻⁸). Manhattan and QQ plot generation from scratch. Linkage disequilibrium and clumping concepts. Downstream: fine-mapping principles and GWAS catalog lookup. Uses 1000 Genomes public data or simulated genotype matrices.
+
+`GWAS` `population stratification` `PCA` `Manhattan plot` `QQ plot` `LD` `clumping` `fine-mapping` `5e-8`
+
+---
+
+#### 3.20 Spatial Transcriptomics
+
+[20_spatial_transcriptomics.ipynb](Tier_3_Applied_Bioinformatics/20_Spatial_Transcriptomics/20_spatial_transcriptomics.ipynb)
+
+Spatial gene expression analysis with Squidpy and Scanpy. AnnData structure with spatial coordinates; Visium and Xenium layout conventions. Quality control for spatial data: mitochondrial fraction and spot-level filtering. Normalization and dimensionality reduction in spatial context. Spatial neighborhood graph construction. Spatially variable gene detection. Cell-type deconvolution concepts (RCTD, cell2location patterns). Visualization: spatial scatter plots and expression overlays on tissue sections. Uses the public 10x Visium mouse brain dataset available through Squidpy.
+
+`spatial transcriptomics` `Squidpy` `AnnData` `Visium` `spatially variable genes` `deconvolution` `neighborhood graph` `scanpy`
+
+---
+
+#### 3.21 DNA Copy Number Analysis
+
+[21_copy_number_analysis.ipynb](Tier_3_Applied_Bioinformatics/21_Copy_Number_Analysis/21_copy_number_analysis.ipynb)
+
+Copy number variation analysis from sequencing data. CNV concepts: gains, losses, and loss of heterozygosity. Read depth normalization approaches across genomic windows. Segmentation using the Circular Binary Segmentation (CBS) algorithm concept. Copy number state calling from segments. Genome-wide CN profile visualization. Gene-level annotation of CN events. Extends the variant calling pipeline concepts from Module 3.02.
+
+`copy number` `CNV` `CBS segmentation` `read depth normalization` `LOH` `genome-wide profile` `somatic variants`
+
+---
+
+#### 3.22 Bayesian Statistics in Python
+
+[22_bayesian_statistics_python.ipynb](Tier_3_Applied_Bioinformatics/22_Bayesian_Statistics_Python/22_bayesian_statistics_python.ipynb)
+
+Bayesian statistical modeling in Python across seven sub-sections. Frequentist vs. Bayesian framing: posterior = likelihood × prior, credible intervals. Prior specification: informative vs. weakly informative priors, prior predictive checks. Multiple regression: collinearity diagnostics and variance inflation factor. Model comparison with WAIC and LOO-CV using ArviZ. Linear mixed-effects models with random intercepts and slopes using Bambi. GLMs in a Bayesian framework: Bernoulli, Binomial, Poisson, Negative Binomial with PyMC. Advanced: GLMM, zero-inflated models, GAM concepts, and Bayesian meta-analysis. Converted from Fränzi Korner-Nievergelt's applied statistics R course; uses the public palmerpenguins dataset.
+
+`pymc` `bambi` `arviz` `LOO-CV` `WAIC` `credible intervals` `GLM` `mixed-effects` `prior predictive` `zero-inflated`
+
+---
+
+#### 3.23 TF Footprinting & Chromatin Accessibility
+
+[23_tf_footprinting.ipynb](Tier_3_Applied_Bioinformatics/23_TF_Footprinting/23_tf_footprinting.ipynb)
+
+Transcription factor footprinting from ATAC-seq data. ATAC-seq recap: fragment size distribution and nucleosome-free region identification. TF footprinting concept: Tn5 insertion bias around motif binding sites. Expected vs. observed cut-site profiles around motif centers. Footprint score calculation and interpretation across conditions. Genomic interval arithmetic with pybedtools: intersection, subtraction, closest-feature queries. Accumulation plots: average signal enrichment around genomic features. Extends the ngs-variant-calling and motif-discovery skills; uses public ENCODE ATAC-seq data.
+
+`ATAC-seq` `TF footprinting` `Tn5 bias` `cut-site profiles` `pybedtools` `genomic intervals` `accumulation plots` `chromatin accessibility`
+
+---
+
 ### Tier 4: Algorithms & Data Structures -- 30 notebooks, 927 cells
 
 The computer science foundation behind bioinformatics tools. Study alongside Tiers 2--3 to understand *why* the algorithms work. Includes 30 interactive HTML5 visualizations and animated GIF demonstrations. See the [Tier 4 README](Tier_4_Algorithms_and_Data_Structures/README.md) for the full bioinformatics cross-reference table.
@@ -880,6 +960,42 @@ Topics covered (interactive visualizations available): graph representations (ad
 Topics covered (interactive visualization available): memoization vs tabulation, Fibonacci, climbing stairs, coin change, longest common subsequence, longest increasing subsequence, edit distance, 0/1 knapsack, matrix chain multiplication. **Bio connection:** Needleman-Wunsch and Smith-Waterman are DP algorithms; RNA secondary structure prediction uses DP.
 
 `memoization` `tabulation` `LCS` `edit distance` `sequence alignment`
+
+---
+
+### Tier 5: Modern AI for Science -- 3 notebooks
+
+GPU-optional modules covering contemporary AI methods for scientific research. Each notebook is designed to run on free-tier Google Colab. Theory cells run without GPU; hands-on training cells require a T4 or better. See the [Tier 5 README](Tier_5_Modern_AI_for_Science/README.md) for GPU setup and Colab instructions.
+
+---
+
+#### 5.01 LLM Fine-tuning
+
+[01_LLM_Finetuning.ipynb](Tier_5_Modern_AI_for_Science/01_LLM_Finetuning/01_LLM_Finetuning.ipynb)
+
+Fine-tuning large language models for domain-specific instruction following. Base vs. instruction/chat models: what changes during fine-tuning and why. LoRA: low-rank adapter mathematics, rank selection, and target module identification. Quantization: 4-bit NF4 with bitsandbytes and trade-offs with output quality. Chat template formatting: system/user/assistant structure. SFTTrainer workflow: dataset preparation, training loop configuration, and evaluation. Synthetic data generation for instruction tuning. Practical tips: gradient checkpointing, batch size scheduling, learning rate warm-up. Inspired by Unsloth AI and Manuel Faysse fine-tuning patterns; uses public instruction datasets from HuggingFace Hub.
+
+`LoRA` `quantization` `NF4` `SFTTrainer` `trl` `peft` `bitsandbytes` `chat templates` `instruction tuning` `synthetic data`
+
+---
+
+#### 5.02 Vision RAG
+
+[02_Vision_RAG.ipynb](Tier_5_Modern_AI_for_Science/02_Vision_RAG/02_Vision_RAG.ipynb)
+
+Retrieval-augmented generation with vision-language models for document understanding. VLM architecture overview: visual encoder + LLM decoder. Document understanding: page-level vs. token-level retrieval approaches. ColPali: late-interaction document retrieval concept and API pattern. RAG pipeline: retrieval → context injection → generation. Qwen2-VL inference pattern for multi-page document Q&A. Evaluation: retrieval recall and generation faithfulness metrics. Uses public PDF documents (arXiv papers, open-access reports). Inspired by Unsloth AI and Manuel Faysse patterns.
+
+`VLM` `ColPali` `late interaction` `RAG` `document retrieval` `Qwen2-VL` `retrieval recall` `generation faithfulness`
+
+---
+
+#### 5.03 Diffusion & Generative Models
+
+[03_Diffusion_Generative_Models.ipynb](Tier_5_Modern_AI_for_Science/03_Diffusion_Generative_Models/03_Diffusion_Generative_Models.ipynb)
+
+Score-based generative models and diffusion for scientific imaging applications. Score matching intuition: score field as ∇ₓ log p(x), learned denoising. DDIM: deterministic sampling, linear and cosine noise schedules, reverse process equations. Inverse problems in imaging: denoising, inpainting, and colorization as special cases of DDRM. SVD-based degradation operators and the pseudoinverse projection step. Linear and cosine scheduler implementation patterns with explicit tensor shapes. Score field visualization with quiver plots. Scientific applications: cryo-EM denoising and medical image restoration concepts. Adapted from DDRM (Kawar et al., 2022), github.com/bahjat-kawar/ddrm; uses public MNIST/CIFAR-10 data.
+
+`diffusion models` `DDIM` `score matching` `noise schedule` `inverse problems` `DDRM` `SVD` `cryo-EM` `image restoration`
 
 ---
 
