@@ -23,3 +23,7 @@ GWAS from study design to fine-mapping.
 
 ## Related Skill
 `gwas-population-genetics.md`
+
+---
+
+[← Previous: 3.18 Proteomics](../18_Proteomics_and_Structural_Methods/) | [Course Overview](../../README.md) | [Next: 3.20 Spatial Transcriptomics →](../20_Spatial_Transcriptomics/)

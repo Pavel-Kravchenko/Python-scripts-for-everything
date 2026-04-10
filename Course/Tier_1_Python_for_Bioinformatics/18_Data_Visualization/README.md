@@ -25,4 +25,4 @@ Matplotlib fundamentals through publication-quality multi-panel figures, Seaborn
 
 ---
 
-[<- Previous Module](../17_Data_Wrangling/) | [Back to Course Overview](../../README.md)
+[<- Previous Module](../17_Data_Wrangling/) | [Back to Course Overview](../../README.md) | [Next Module ->](../19_SQL_for_Bioinformatics/)

@@ -28,3 +28,7 @@ JASPAR 2024 public motif database; ENCODE ChIP-seq peaks (public). The notebook 
 ## Related Skill
 
 `motif-discovery.md` — Quick reference tables, patterns, and pitfalls
+
+---
+
+[<- Previous Module](../14_Hi-C_Analysis/) | [Back to Course Overview](../../README.md) | [Next Tier ->](../../Tier_3_Applied_Bioinformatics/00_Skills_Check/)

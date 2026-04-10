@@ -27,4 +27,4 @@ Decoding the genetic code, analyzing codon usage bias, and mapping genes computa
 
 ---
 
-[<- Previous Module](../12_Comparative_Genomics/) | [Back to Course Overview](../../README.md) | [Next Module ->](../../Tier_3_Applied_Bioinformatics/00_Skills_Check/)
+[<- Previous Module](../12_Comparative_Genomics/) | [Back to Course Overview](../../README.md) | [Next Module ->](../14_Hi-C_Analysis/)

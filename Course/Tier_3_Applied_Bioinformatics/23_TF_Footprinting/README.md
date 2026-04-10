@@ -28,3 +28,7 @@ Simulated ATAC-seq fragment data and insertion profiles. Real data: ENCODE ATAC-
 
 - `motif-discovery.md` — PWM scanning for TF motif sites
 - `ngs-variant-calling.md` — upstream ATAC-seq alignment pipeline
+
+---
+
+[← Previous: 3.22 Bayesian Statistics](../22_Bayesian_Statistics_Python/) | [Course Overview](../../README.md) | [Next Tier: Tier 4 Algorithms →](../../Tier_4_Algorithms_and_Data_Structures/README.md)

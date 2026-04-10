@@ -27,3 +27,7 @@ Public Hi-C contact matrices from the [4DN Data Portal](https://data.4dnucleome.
 ## Related Skill
 
 `hic-analysis.md` — Quick reference tables, patterns, and pitfalls for cooler/cooltools
+
+---
+
+[<- Previous Module](../13_Computational_Genetics/) | [Back to Course Overview](../../README.md) | [Next Module ->](../15_Motif_Discovery/)

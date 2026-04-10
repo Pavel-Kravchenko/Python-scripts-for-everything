@@ -38,4 +38,4 @@ This module bridges experimental and computational biology: it covers mass spect
 - **3.09 Molecular Modeling and Docking** — force fields, MD simulation concepts (recommended; not required)
 
 ---
-[← Previous: 3.17 Genome Assembly](../17_Genome_Assembly_and_Advanced_NGS/) | [Course Overview](../../README.md)
+[← Previous: 3.17 Genome Assembly](../17_Genome_Assembly_and_Advanced_NGS/) | [Course Overview](../../README.md) | [Next: 3.19 GWAS →](../19_GWAS/)

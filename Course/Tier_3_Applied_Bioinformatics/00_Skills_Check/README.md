@@ -25,4 +25,4 @@ Self-assessment covering NGS concepts, file formats, RNA-seq workflows, and stat
 
 ---
 
-[<- Previous Module](../../Tier_2_Core_Bioinformatics/12_Comparative_Genomics/) | [Back to Course Overview](../../README.md) | [Next Module ->](../01_NGS_Fundamentals/)
+[<- Previous Module](../../Tier_2_Core_Bioinformatics/15_Motif_Discovery/) | [Back to Course Overview](../../README.md) | [Next Module ->](../01_NGS_Fundamentals/)
