@@ -1,6 +1,6 @@
 # Bioinformatics Skills for Claude Code
 
-38 skill files compressing a 106-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
+38 skill files compressing a 106-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area. **7 additional skills are planned** for new modules (marked 🚧 below).
 
 **Maximum content. Maximum yield. Minimum tokens.**
 
@@ -116,6 +116,18 @@ Skills are modular — combine them for complex workflows:
 | [`llm-finetuning`](llm-finetuning.md) | Fine-tuning LLMs with LoRA and quantization, configuring SFTTrainer, designing chat templates, building instruction datasets |
 | [`vision-rag`](vision-rag.md) | Vision-language models, ColPali document retrieval, RAG pipeline construction, Qwen2-VL inference patterns |
 | [`diffusion-generative`](diffusion-generative.md) | DDIM sampling, linear/cosine noise schedules, score matching intuition, inverse imaging problems, scientific image restoration |
+| [`alphafold-protein-design`](alphafold-protein-design.md) 🚧 | AlphaFold2 confidence metrics, ColabFold, ESMFold API, RFdiffusion backbone design, ProteinMPNN inverse folding |
+
+### New Topic Skills (Planned 🚧)
+
+| Skill | Use When... |
+|-------|-------------|
+| [`chipseq-epigenomics`](chipseq-epigenomics.md) 🚧 | ChIP-seq processing, MACS3 peak calling, deepTools visualization, DiffBind differential binding, ChIPseeker annotation |
+| [`long-read-sequencing`](long-read-sequencing.md) 🚧 | ONT/PacBio processing, Dorado basecalling, Minimap2, Flye/Hifiasm assembly, Sniffles2 SVs, methylation, isoform analysis |
+| [`metagenomics-shotgun`](metagenomics-shotgun.md) 🚧 | Kraken2 profiling, Bracken, HUMAnN3 pathways, MEGAHIT assembly, MetaBAT2 binning, CheckM MAGs, QIIME2 16S |
+| [`multi-omics-integration`](multi-omics-integration.md) 🚧 | MOFA2 latent factor analysis, mixOmics PLS-DA/DIABLO, multi-omics data harmonization |
+| [`network-biology`](network-biology.md) 🚧 | STRING PPI networks, NetworkX metrics, Louvain community detection, GO enrichment per module, GENIE3 GRN inference |
+| [`cheminformatics-drug-discovery`](cheminformatics-drug-discovery.md) 🚧 | RDKit molecular fingerprints, Tanimoto similarity, QSAR modeling, AutoDock Vina docking, ADMET prediction, molecular GNNs |
 
 ---
 

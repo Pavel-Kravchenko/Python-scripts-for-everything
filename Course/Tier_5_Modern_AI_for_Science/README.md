@@ -14,6 +14,7 @@ GPU-optional modules covering contemporary AI methods applied to scientific rese
 | [01 LLM Fine-tuning](01_LLM_Finetuning/01_LLM_Finetuning.ipynb) | LoRA, quantization, SFTTrainer, instruction datasets | Yes (T4 or better) |
 | [02 Vision RAG](02_Vision_RAG/02_Vision_RAG.ipynb) | VLMs, ColPali, document retrieval, RAG pipeline | Optional (CPU feasible for inference) |
 | [03 Diffusion & Generative Models](03_Diffusion_Generative_Models/03_Diffusion_Generative_Models.ipynb) | Score matching, DDIM, inverse problems, noise schedules | Optional (CPU feasible for small examples) |
+| [04 AlphaFold & Protein Design](04_AlphaFold_Protein_Design/04_AlphaFold_Protein_Design.ipynb) 🚧 | AlphaFold2 architecture, pLDDT/PAE, ESMFold, RFdiffusion, ProteinMPNN | Optional (T4 for design) |
 
 ## Running on Colab
 
