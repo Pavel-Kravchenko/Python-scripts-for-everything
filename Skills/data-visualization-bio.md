@@ -326,6 +326,6 @@ g = sns.pairplot(df[['Condition', 'gene1', 'gene2', 'gene3']], hue='Condition',
 - **Saving figures:** call `fig.savefig()` inside `plt.rc_context(pub_params)` block; use `.svg` for editable vector output
 
 ## Related Skills
-- `rnaseq-metagenomics` — DESeq2/edgeR results feeding into volcano/MA plots
+- `rnaseq` — DESeq2/edgeR results feeding into volcano/MA plots
 - `numpy-pandas-wrangling` — data wrangling to prepare DataFrames for seaborn
 - `ml-deep-learning-bio` — dimensionality reduction and unsupervised analysis

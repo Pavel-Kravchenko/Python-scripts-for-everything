@@ -386,5 +386,5 @@ results = goe.run_study(study_genes)
 
 ## Related Skills
 - `numpy-pandas-wrangling` — expression matrix operations and PWM scoring
-- `rnaseq-metagenomics` — GO/KEGG enrichment is the standard downstream step
+- `rnaseq` — GO/KEGG enrichment is the standard downstream step
 - `biopython-databases` — BioPython SeqIO for FASTA/FASTQ preceding structure work

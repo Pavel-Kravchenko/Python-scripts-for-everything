@@ -283,4 +283,4 @@ def find_orfs(seq, min_length=100):
 ## Related Skills
 - `sequence-alignment` — pairwise/multiple alignment, scoring matrices
 - `ngs-variant-calling` — BLAST via BioPython (`Bio.Blast.NCBIWWW`) and QC pipelines
-- `rnaseq-metagenomics` — quality trimming, adapter removal pipelines
+- `rnaseq` — RNA-seq differential expression, DESeq2/edgeR

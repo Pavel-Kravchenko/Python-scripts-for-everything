@@ -1,6 +1,6 @@
 # Bioinformatics Skills for Claude Code
 
-38 skill files compressing a 106-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area. **7 additional skills are planned** for new modules (marked 🚧 below).
+48 skill files compressing a 106-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
 
 **Maximum content. Maximum yield. Minimum tokens.**
 
@@ -61,15 +61,18 @@ Skills are modular — combine them for complex workflows:
 | [`phylogenetics-evolution`](phylogenetics-evolution.md) | Building trees (NJ, UPGMA, ML), bootstrap, comparative genomics, synteny |
 | [`structural-bioinformatics`](structural-bioinformatics.md) | PDB parsing, protein structure, chromatograms, motifs/PWM, GO enrichment |
 
-### Applied Bioinformatics (Skills 12–16)
+### Applied Bioinformatics (Skills 12–18)
 
 | Skill | Use When... |
 |-------|-------------|
 | [`ngs-variant-calling`](ngs-variant-calling.md) | FASTQ QC, read alignment, SAM/BAM, variant calling pipelines, VCF parsing |
-| [`rnaseq-metagenomics`](rnaseq-metagenomics.md) | Differential expression (DESeq2), 16S amplicon analysis, promoter scanning |
+| [`rnaseq`](rnaseq.md) | Differential expression (DESeq2/edgeR), TPM/RPKM normalization, volcano plots, STAR/Salmon |
+| [`metagenomics-shotgun`](metagenomics-shotgun.md) | Kraken2 profiling, Bracken, HUMAnN3 pathways, MEGAHIT, MetaBAT2 MAGs, QIIME2 16S, alpha/beta diversity |
+| [`promoter-regulatory-analysis`](promoter-regulatory-analysis.md) | TATA box detection, CpG island scanning, PWM/TFBS construction and scoring |
 | [`ml-deep-learning-bio`](ml-deep-learning-bio.md) | scikit-learn classifiers, CNNs for genomics, protein language models |
 | [`clinical-modeling-workflows`](clinical-modeling-workflows.md) | Molecular docking, ACMG classification, Scanpy, Snakemake, CI/CD |
-| [`genome-assembly-proteomics`](genome-assembly-proteomics.md) | De novo assembly metrics, mass spectrometry data, protein identification |
+| [`genome-assembly`](genome-assembly.md) | De novo assembly metrics (N50/BUSCO), de Bruijn graphs, SPAdes/Flye/Hifiasm, contamination screening |
+| [`proteomics`](proteomics.md) | Mass spectrometry, b/y ions, trypsin digestion, target-decoy FDR, LFQ/SILAC/TMT quantification |
 
 ### Algorithms & Data Structures (Skills 16–20)
 
@@ -118,13 +121,12 @@ Skills are modular — combine them for complex workflows:
 | [`diffusion-generative`](diffusion-generative.md) | DDIM sampling, linear/cosine noise schedules, score matching intuition, inverse imaging problems, scientific image restoration |
 | [`alphafold-protein-design`](alphafold-protein-design.md) 🚧 | AlphaFold2 confidence metrics, ColabFold, ESMFold API, RFdiffusion backbone design, ProteinMPNN inverse folding |
 
-### New Topic Skills (Planned 🚧)
+### New Topic Skills
 
 | Skill | Use When... |
 |-------|-------------|
 | [`chipseq-epigenomics`](chipseq-epigenomics.md) 🚧 | ChIP-seq processing, MACS3 peak calling, deepTools visualization, DiffBind differential binding, ChIPseeker annotation |
 | [`long-read-sequencing`](long-read-sequencing.md) 🚧 | ONT/PacBio processing, Dorado basecalling, Minimap2, Flye/Hifiasm assembly, Sniffles2 SVs, methylation, isoform analysis |
-| [`metagenomics-shotgun`](metagenomics-shotgun.md) 🚧 | Kraken2 profiling, Bracken, HUMAnN3 pathways, MEGAHIT assembly, MetaBAT2 binning, CheckM MAGs, QIIME2 16S |
 | [`multi-omics-integration`](multi-omics-integration.md) 🚧 | MOFA2 latent factor analysis, mixOmics PLS-DA/DIABLO, multi-omics data harmonization |
 | [`network-biology`](network-biology.md) 🚧 | STRING PPI networks, NetworkX metrics, Louvain community detection, GO enrichment per module, GENIE3 GRN inference |
 | [`cheminformatics-drug-discovery`](cheminformatics-drug-discovery.md) 🚧 | RDKit molecular fingerprints, Tanimoto similarity, QSAR modeling, AutoDock Vina docking, ADMET prediction, molecular GNNs |

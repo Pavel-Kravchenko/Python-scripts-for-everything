@@ -192,6 +192,6 @@ print(f"N50 = {stats['n50']:,} bp | Total = {stats['total_length']:,} bp")
 
 ## Related Skills
 - `ngs-variant-calling` — short-read alignment, GATK variant calling, VCF format
-- `genome-assembly-proteomics` — assembly algorithms, quality metrics, annotation
+- `genome-assembly` / `proteomics` — assembly algorithms, quality metrics, annotation
 - `sequence-alignment` — pairwise alignment, BLAST, Minimap2 PAF format
 - `structural-bioinformatics` — interpreting structural variants in protein context

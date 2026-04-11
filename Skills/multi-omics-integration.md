@@ -194,7 +194,7 @@ def mofa2_variance_explained(h5_path):
 ```
 
 ## Related Skills
-- `rnaseq-metagenomics` — RNA-seq differential expression (DESeq2, edgeR)
+- `rnaseq` — RNA-seq differential expression (DESeq2, edgeR)
 - `ml-deep-learning-bio` — dimensionality reduction (PCA, UMAP, autoencoders)
 - `numpy-pandas-wrangling` — DataFrame merging, scaling, handling missing data
 - `cancer-transcriptomics` — tumor subtype classification, multi-omics cancer studies
