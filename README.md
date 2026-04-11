@@ -2,7 +2,7 @@
 
 A self-paced bioinformatics course built from materials by the [Kodomo Program](https://kodomo.fbb.msu.ru/wiki/2017) at Moscow State University, the [IAB textbook](https://readiab.org/) by J. Gregory Caporaso, and the Summer School of Bioinformatics.
 
-**106 notebooks** · **6 tiers** · **30 interactive visualizations** · **108 glossary terms** · **[36 Claude Code skills](#claude-code-skills)**
+**106 notebooks** · **6 tiers** · **30 interactive visualizations** · **108 glossary terms** · **[38 Claude Code skills](#claude-code-skills)**
 
 ---
 
@@ -112,7 +112,7 @@ FASTA sequences · PDB protein structures · Sanger chromatograms (.ab1) · VCF 
 
 ## Claude Code Skills
 
-The entire course is compressed into **36 modular skill files** for [Claude Code](https://claude.com/claude-code) — maximum knowledge density, minimum tokens. Each skill provides quick-reference tables, copy-paste code templates, and common pitfalls for a focused topic.
+The entire course is compressed into **38 modular skill files** for [Claude Code](https://claude.com/claude-code) — maximum knowledge density, minimum tokens. Each skill provides quick-reference tables, copy-paste code templates, and common pitfalls for a focused topic.
 
 | Category | Skills |
 |----------|--------|
@@ -123,7 +123,7 @@ The entire course is compressed into **36 modular skill files** for [Claude Code
 | **Algorithms** | `complexity-sorting-searching` · `linear-tree-hash-structures` · `string-algorithms` · `advanced-string-structures` · `graphs-dynamic-programming` |
 | **Biology & Computation** | `probability-statistics-python` · `genetics-computational` · `biochemistry-enzymology` · `genetic-engineering-insilico` · `population-genetics-evolution` · `numerical-methods-bio` |
 | **Tier 2 Depth** | `hic-analysis` · `motif-discovery` |
-| **Applied Bio Depth** | `gwas-population-genetics` · `spatial-transcriptomics` · `bayesian-python` |
+| **Applied Bio Depth** | `gwas-population-genetics` · `spatial-transcriptomics` · `bayesian-python` · `copy-number-analysis` · `tf-footprinting-atac` |
 | **Modern AI** | `llm-finetuning` · `vision-rag` · `diffusion-generative` |
 
 **Usage:** Reference any skill by name in your prompt — Claude activates it automatically. See the full guide in [Skills/README.md](Skills/README.md).
