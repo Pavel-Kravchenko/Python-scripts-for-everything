@@ -55,7 +55,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 3: APPLIED BIOINFORMATICS                                27 notebooks  │
+│  TIER 3: APPLIED BIOINFORMATICS                                28 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ NGS │ Variant Calling │ RNA-seq │ Microbial Diversity       │
 │  Promoters │ Statistics │ Machine Learning │ Capstone Project               │
@@ -64,6 +64,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 │  Population Genetics │ Numerical Methods │ Genome Assembly                 │
 │  Proteomics & Structural Methods │ GWAS │ Spatial Transcriptomics          │
 │  Copy Number Analysis │ Bayesian Statistics │ TF Footprinting              │
+│  Cancer Transcriptomics: Subtype Classification                             │
 │                                                                              │
 │  Entry: Have bioinformatics fundamentals, want real-world                    │
 │         pipeline experience and advanced methods.                            │
