@@ -21,6 +21,10 @@ This module bridges experimental and computational biology: it covers mass spect
 - **Conservation scoring**: Shannon entropy, mutability score from MSA
 - **Stability prediction**: ΔΔG framework, FoldX concepts, scanning mutagenesis
 - **X-ray crystallography**: Bragg's law, resolution, R-factor, phase problem, solution methods (MR, SIR, SAD)
+- **Electron density maps**: 2Fo-Fc and Fo-Fc difference maps, Uppsala Electron Density Server (EDS) download
+- **Resolution and density quality**: five resolution bands (1.0–3.5 Å) and what each reveals
+- **Crystal lattices and unit cell**: 7 crystal systems, lattice parameters, CRYST1 record parsing (`parse_cryst1`)
+- **Space groups and asymmetric units**: 230 space groups, 65 chiral groups compatible with proteins, symmetry operations (`apply_symmetry_operation`)
 - **Cryo-EM**: single-particle analysis workflow, resolution revolution, comparison with X-ray
 - **NMR spectroscopy**: chemical shifts, NOE restraints, structure calculation, dynamics, size limitations
 - **Method selection**: decision framework for choosing X-ray / cryo-EM / NMR based on sample properties
