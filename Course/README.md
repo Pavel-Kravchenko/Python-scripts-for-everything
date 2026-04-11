@@ -2,7 +2,7 @@
 
 A modular, five-tier curriculum that takes you from computational basics to applied bioinformatics research skills. Built on materials from the Kodomo Bioinformatics Program at Moscow State University and the IAB open-source textbook, every concept is taught through hands-on Jupyter notebooks with real biological data. Whether you are a biology student learning to code, a programmer entering the life sciences, or a researcher looking to sharpen your computational toolkit, this course meets you where you are.
 
-`106 notebooks` | `6 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
+`107 notebooks` | `6 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
 
 ---
 
@@ -55,7 +55,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 3: APPLIED BIOINFORMATICS                                26 notebooks  │
+│  TIER 3: APPLIED BIOINFORMATICS                                27 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ NGS │ Variant Calling │ RNA-seq │ Microbial Diversity       │
 │  Promoters │ Statistics │ Machine Learning │ Capstone Project               │
@@ -603,7 +603,7 @@ Quantitative motif analysis from position frequency matrices to enrichment testi
 
 ---
 
-### Tier 3: Applied Bioinformatics -- 26 notebooks
+### Tier 3: Applied Bioinformatics -- 27 notebooks
 
 Advanced topics and real-world analysis pipelines. Each notebook covers a complete workflow from raw data to biological conclusions. Includes a capstone project integrating skills from every tier, plus specialized modules on molecular modeling, deep learning, clinical genomics, modern bioinformatics workflows, GWAS, spatial transcriptomics, copy number analysis, Bayesian statistics, and TF footprinting.
 
@@ -626,6 +626,16 @@ Self-assessment covering NGS concepts, file formats (FASTQ, SAM/BAM, VCF), RNA-s
 The complete NGS pipeline from sequencing to alignment. How Illumina, PacBio SMRT, and Oxford Nanopore sequencing work -- principles, strengths, and error profiles. FASTQ format: structure, quality encoding, parsing. Quality control with FastQC: per-base quality, adapter content, duplication levels. Read trimming with Trimmomatic and fastp. SAM/BAM format: header, alignment records, FLAG fields, CIGAR strings. Alignment with BWA and HISAT2.
 
 `FASTQ` `FastQC` `trimming` `SAM/BAM` `CIGAR` `Illumina` `PacBio` `Nanopore` `BWA`
+
+---
+
+#### 3.01b Bioinformatics Data Formats
+
+[02_bio_data_formats.ipynb](Tier_3_Applied_Bioinformatics/01_NGS_Fundamentals/02_bio_data_formats.ipynb) -- 35 cells
+
+A comprehensive guide to every major bioinformatics file format with hands-on Python parsing examples. FASTA: structure, .fai indexing, random-access fetch. FASTQ: Phred encoding, quality histograms. SAM/BAM/CRAM: FLAG decoding, CIGAR string parsing. VCF/BCF: variant records, genotype fields, INFO/FORMAT parsing. BED: 0-based intervals, overlap detection. GFF3/GTF: gene annotations, attribute parsing. WIG/BedGraph/BigWig: coverage tracks. PDB: fixed-width ATOM/HETATM records, backbone extraction, distance calculation. mmCIF/PDBx: modern structure format, AlphaFold pLDDT scores. FAST5/POD5: Oxford Nanopore raw signal. Newick/Nexus/NHX: phylogenetic tree serialization and recursive parsing.
+
+`FASTA` `FASTQ` `SAM/BAM/CRAM` `VCF/BCF` `BED` `GFF3` `GTF` `WIG` `BedGraph` `BigWig` `PDB` `mmCIF` `FAST5` `POD5` `Newick` `Nexus` `NHX`
 
 ---
 
@@ -732,12 +742,12 @@ Precision medicine and the journey from the Human Genome Project to routine clin
 #### 3.12 Modern Bioinformatics Workflows
 
 [01_single_cell_scanpy.ipynb](Tier_3_Applied_Bioinformatics/12_Modern_Workflows/01_single_cell_scanpy.ipynb) -- 45 cells
-[02_workflow_engines.ipynb](Tier_3_Applied_Bioinformatics/12_Modern_Workflows/02_workflow_engines.ipynb) -- 35 cells
+[02_workflow_engines.ipynb](Tier_3_Applied_Bioinformatics/12_Modern_Workflows/02_workflow_engines.ipynb) -- 55 cells
 [03_testing_cicd.ipynb](Tier_3_Applied_Bioinformatics/12_Modern_Workflows/03_testing_cicd.ipynb) -- 40 cells
 
-Contemporary tools for professional bioinformatics. Single-cell RNA-seq analysis with Scanpy: AnnData structure, quality control, normalization, dimensionality reduction (PCA/UMAP), Leiden clustering, marker gene detection. Workflow engines: Snakemake rules/wildcards, Nextflow processes/channels, nf-core community pipelines. Testing and CI/CD: pytest fixtures and parametrized tests, GitHub Actions, code coverage, linting with ruff/black.
+Contemporary tools for professional bioinformatics. Single-cell RNA-seq analysis with Scanpy: AnnData structure, quality control, normalization, dimensionality reduction (PCA/UMAP), Leiden clustering, marker gene detection. Workflow engines: Snakemake rules/wildcards/config/conda/containers, SLURM/cloud cluster execution; Nextflow DSL2 processes/channels; nf-core community pipelines (rnaseq, sarek, scrnaseq), samplesheet format, institutional configs, module installation. Testing and CI/CD: pytest fixtures and parametrized tests, GitHub Actions, code coverage, linting with ruff/black.
 
-`single-cell` `scanpy` `Snakemake` `Nextflow` `nf-core` `pytest` `GitHub Actions` `CI/CD`
+`single-cell` `scanpy` `Snakemake` `Nextflow` `nf-core` `DSL2` `SLURM` `cluster` `pytest` `GitHub Actions` `CI/CD`
 
 ---
 
