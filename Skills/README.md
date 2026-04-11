@@ -1,6 +1,6 @@
 # Bioinformatics Skills for Claude Code
 
-38 skill files compressing a 106-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area. **7 additional skills are planned** for new modules (marked 🚧 below).
+46 skill files compressing a 129-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
 
 **Maximum content. Maximum yield. Minimum tokens.**
 
@@ -108,6 +108,7 @@ Skills are modular — combine them for complex workflows:
 | [`bayesian-python`](bayesian-python.md) | Bayesian linear and generalized linear models with pymc/bambi, model comparison via arviz LOO-CV/WAIC, prior specification |
 | [`copy-number-analysis`](copy-number-analysis.md) | Log2 ratio computation, CBS segmentation, CN state calling, read depth normalization, gene annotation with pyranges, tumor purity |
 | [`tf-footprinting-atac`](tf-footprinting-atac.md) | ATAC-seq QC (NFR fraction, nucleosomal ladder), Tn5 offset correction, footprint scoring, pybedtools operations, meta-profile plots |
+| [`cancer-transcriptomics`](cancer-transcriptomics.md) | Tumor subtype classification, variance filtering, hierarchical clustering, Random Forest on labeled samples, Kaplan-Meier survival, NMI |
 
 ### Modern AI for Science (Skills 36–38)
 
@@ -116,18 +117,18 @@ Skills are modular — combine them for complex workflows:
 | [`llm-finetuning`](llm-finetuning.md) | Fine-tuning LLMs with LoRA and quantization, configuring SFTTrainer, designing chat templates, building instruction datasets |
 | [`vision-rag`](vision-rag.md) | Vision-language models, ColPali document retrieval, RAG pipeline construction, Qwen2-VL inference patterns |
 | [`diffusion-generative`](diffusion-generative.md) | DDIM sampling, linear/cosine noise schedules, score matching intuition, inverse imaging problems, scientific image restoration |
-| [`alphafold-protein-design`](alphafold-protein-design.md) 🚧 | AlphaFold2 confidence metrics, ColabFold, ESMFold API, RFdiffusion backbone design, ProteinMPNN inverse folding |
+| [`alphafold-protein-design`](alphafold-protein-design.md) | AlphaFold2 confidence metrics, ColabFold, ESMFold API, RFdiffusion backbone design, ProteinMPNN inverse folding |
 
-### New Topic Skills (Planned 🚧)
+### New Topic Skills (Skills 39–45)
 
 | Skill | Use When... |
 |-------|-------------|
-| [`chipseq-epigenomics`](chipseq-epigenomics.md) 🚧 | ChIP-seq processing, MACS3 peak calling, deepTools visualization, DiffBind differential binding, ChIPseeker annotation |
-| [`long-read-sequencing`](long-read-sequencing.md) 🚧 | ONT/PacBio processing, Dorado basecalling, Minimap2, Flye/Hifiasm assembly, Sniffles2 SVs, methylation, isoform analysis |
-| [`metagenomics-shotgun`](metagenomics-shotgun.md) 🚧 | Kraken2 profiling, Bracken, HUMAnN3 pathways, MEGAHIT assembly, MetaBAT2 binning, CheckM MAGs, QIIME2 16S |
-| [`multi-omics-integration`](multi-omics-integration.md) 🚧 | MOFA2 latent factor analysis, mixOmics PLS-DA/DIABLO, multi-omics data harmonization |
-| [`network-biology`](network-biology.md) 🚧 | STRING PPI networks, NetworkX metrics, Louvain community detection, GO enrichment per module, GENIE3 GRN inference |
-| [`cheminformatics-drug-discovery`](cheminformatics-drug-discovery.md) 🚧 | RDKit molecular fingerprints, Tanimoto similarity, QSAR modeling, AutoDock Vina docking, ADMET prediction, molecular GNNs |
+| [`chipseq-epigenomics`](chipseq-epigenomics.md) | ChIP-seq processing, MACS3 peak calling, deepTools visualization, DiffBind differential binding, ChIPseeker annotation |
+| [`long-read-sequencing`](long-read-sequencing.md) | ONT/PacBio processing, Dorado basecalling, Minimap2, Flye/Hifiasm assembly, Sniffles2 SVs, methylation, isoform analysis |
+| [`metagenomics-shotgun`](metagenomics-shotgun.md) | Kraken2 profiling, Bracken, HUMAnN3 pathways, MEGAHIT assembly, MetaBAT2 binning, CheckM MAGs, QIIME2 16S |
+| [`multi-omics-integration`](multi-omics-integration.md) | MOFA2 latent factor analysis, mixOmics PLS-DA/DIABLO, multi-omics data harmonization |
+| [`network-biology`](network-biology.md) | STRING PPI networks, NetworkX metrics, Louvain community detection, GO enrichment per module, GENIE3 GRN inference |
+| [`cheminformatics-drug-discovery`](cheminformatics-drug-discovery.md) | RDKit molecular fingerprints, Tanimoto similarity, QSAR modeling, AutoDock Vina docking, ADMET prediction, molecular GNNs |
 
 ---
 
@@ -148,7 +149,7 @@ Each skill follows a consistent structure for fast scanning:
 
 ## Course Origin
 
-Based on the **Bioinformatics with Python** course — 106 notebooks across 6 tiers, built from materials by:
+Based on the **Bioinformatics with Python** course — 129 notebooks across 6 tiers, built from materials by:
 
 - **[Kodomo Bioinformatics Program](https://kodomo.fbb.msu.ru/wiki/2017)** — Moscow State University (10-semester curriculum)
 - **[An Introduction to Applied Bioinformatics](https://readiab.org/)** — J. Gregory Caporaso, Northern Arizona University

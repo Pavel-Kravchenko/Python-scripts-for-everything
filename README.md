@@ -2,7 +2,7 @@
 
 A self-paced bioinformatics course built from materials by the [Kodomo Program](https://kodomo.fbb.msu.ru/wiki/2017) at Moscow State University, the [IAB textbook](https://readiab.org/) by J. Gregory Caporaso, and the Summer School of Bioinformatics.
 
-**106 notebooks + 7 planned** · **6 tiers** · **30 interactive visualizations** · **108 glossary terms** · **[38 Claude Code skills + 7 planned](#claude-code-skills)**
+**129 notebooks** · **6 tiers** · **30 interactive visualizations** · **108 glossary terms** · **[46 Claude Code skills](#claude-code-skills)**
 
 ---
 
@@ -24,7 +24,7 @@ Tier 2  Core Bioinformatics            17 notebooks
         Chromatograms · Motifs · GO/Pathways · Comparative Genomics ·
         Computational Genetics · Hi-C Analysis · Motif Discovery
 
-Tier 3  Applied Bioinformatics         26 notebooks
+Tier 3  Applied Bioinformatics         48 notebooks
         NGS · Variant Calling · RNA-seq · Microbial Diversity ·
         Promoters · Statistics · Machine Learning · Deep Learning ·
         Molecular Modeling · Clinical Genomics · Capstone Project ·
@@ -32,19 +32,19 @@ Tier 3  Applied Bioinformatics         26 notebooks
         Population Genetics · Numerical Methods ·
         Genome Assembly · Proteomics & Structural Methods ·
         GWAS · Spatial Transcriptomics · Copy Number Analysis ·
-        Bayesian Statistics · TF Footprinting ·
-        [ChIP-seq & Epigenomics 🚧] · [Long-Read Sequencing 🚧] ·
-        [Shotgun Metagenomics 🚧] · [Multi-Omics Integration 🚧] ·
-        [Network Biology 🚧] · [Cheminformatics & Drug Discovery 🚧]
+        Bayesian Statistics · TF Footprinting · Cancer Transcriptomics ·
+        ChIP-seq & Epigenomics · Long-Read Sequencing ·
+        Shotgun Metagenomics · Multi-Omics Integration ·
+        Network Biology · Cheminformatics & Drug Discovery
 
 Tier 4  Algorithms & Data Structures  30 notebooks + 30 interactive visualizations
         Complexity · Sorting · Searching · Linked Lists · Stacks/Queues ·
         BST · AVL · Red-Black Trees · Hash Tables · Bloom Filters ·
         KMP · Rabin-Karp · Tries · Suffix Trees · Graphs · DP
 
-Tier 5  Modern AI for Science          3 notebooks + 1 planned
+Tier 5  Modern AI for Science          4 notebooks
         LLM Fine-tuning · Vision RAG · Diffusion & Generative Models ·
-        [AlphaFold & Protein Design 🚧]
+        AlphaFold & Protein Design
 ```
 
 Each tier starts with a **Skills Check** — score above 80% and skip ahead.
@@ -127,9 +127,9 @@ The entire course is compressed into **38 modular skill files** for [Claude Code
 | **Algorithms** | `complexity-sorting-searching` · `linear-tree-hash-structures` · `string-algorithms` · `advanced-string-structures` · `graphs-dynamic-programming` |
 | **Biology & Computation** | `probability-statistics-python` · `genetics-computational` · `biochemistry-enzymology` · `genetic-engineering-insilico` · `population-genetics-evolution` · `numerical-methods-bio` |
 | **Tier 2 Depth** | `hic-analysis` · `motif-discovery` |
-| **Applied Bio Depth** | `gwas-population-genetics` · `spatial-transcriptomics` · `bayesian-python` · `copy-number-analysis` · `tf-footprinting-atac` |
-| **Modern AI** | `llm-finetuning` · `vision-rag` · `diffusion-generative` · `alphafold-protein-design` 🚧 |
-| **New Topics** 🚧 | `chipseq-epigenomics` · `long-read-sequencing` · `metagenomics-shotgun` · `multi-omics-integration` · `network-biology` · `cheminformatics-drug-discovery` |
+| **Applied Bio Depth** | `gwas-population-genetics` · `spatial-transcriptomics` · `bayesian-python` · `copy-number-analysis` · `tf-footprinting-atac` · `cancer-transcriptomics` |
+| **Modern AI** | `llm-finetuning` · `vision-rag` · `diffusion-generative` · `alphafold-protein-design` |
+| **New Topics** | `chipseq-epigenomics` · `long-read-sequencing` · `metagenomics-shotgun` · `multi-omics-integration` · `network-biology` · `cheminformatics-drug-discovery` |
 
 **Usage:** Reference any skill by name in your prompt — Claude activates it automatically. See the full guide in [Skills/README.md](Skills/README.md).
 
