@@ -2,7 +2,7 @@
 
 A modular, five-tier curriculum that takes you from computational basics to applied bioinformatics research skills. Built on materials from the Kodomo Bioinformatics Program at Moscow State University and the IAB open-source textbook, every concept is taught through hands-on Jupyter notebooks with real biological data. Whether you are a biology student learning to code, a programmer entering the life sciences, or a researcher looking to sharpen your computational toolkit, this course meets you where you are.
 
-`107 notebooks` | `6 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
+`129 notebooks` | `6 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
 
 ---
 
@@ -55,7 +55,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 3: APPLIED BIOINFORMATICS                                28 notebooks  │
+│  TIER 3: APPLIED BIOINFORMATICS                                48 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ NGS │ Variant Calling │ RNA-seq │ Microbial Diversity       │
 │  Promoters │ Statistics │ Machine Learning │ Capstone Project               │
@@ -64,7 +64,9 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 │  Population Genetics │ Numerical Methods │ Genome Assembly                 │
 │  Proteomics & Structural Methods │ GWAS │ Spatial Transcriptomics          │
 │  Copy Number Analysis │ Bayesian Statistics │ TF Footprinting              │
-│  Cancer Transcriptomics: Subtype Classification                             │
+│  Cancer Transcriptomics │ ChIP-seq & Epigenomics │ Long-Read Sequencing    │
+│  Shotgun Metagenomics │ Multi-Omics Integration │ Network Biology          │
+│  Cheminformatics & Drug Discovery                                           │
 │                                                                              │
 │  Entry: Have bioinformatics fundamentals, want real-world                    │
 │         pipeline experience and advanced methods.                            │
@@ -94,9 +96,10 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 5: MODERN AI FOR SCIENCE                                  3 notebooks  │
+│  TIER 5: MODERN AI FOR SCIENCE                                  4 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
-│  LLM Fine-tuning │ Vision RAG │ Diffusion & Generative Models                │
+│  LLM Fine-tuning │ Vision RAG │ Diffusion & Generative Models               │
+│  AlphaFold & Protein Design                                                  │
 │                                                                              │
 │  Entry: Tiers 1–3 complete. GPU-optional; runs on free-tier Colab.          │
 │                                                                              │
@@ -604,7 +607,7 @@ Quantitative motif analysis from position frequency matrices to enrichment testi
 
 ---
 
-### Tier 3: Applied Bioinformatics -- 27 notebooks
+### Tier 3: Applied Bioinformatics -- 48 notebooks
 
 Advanced topics and real-world analysis pipelines. Each notebook covers a complete workflow from raw data to biological conclusions. Includes a capstone project integrating skills from every tier, plus specialized modules on molecular modeling, deep learning, clinical genomics, modern bioinformatics workflows, GWAS, spatial transcriptomics, copy number analysis, Bayesian statistics, and TF footprinting.
 
@@ -862,6 +865,89 @@ Transcription factor footprinting from ATAC-seq data. ATAC-seq recap: fragment s
 
 ---
 
+#### 3.24 Cancer Transcriptomics: Subtype Classification
+
+[01_cancer_transcriptomics.ipynb](Tier_3_Applied_Bioinformatics/24_Cancer_Transcriptomics/01_cancer_transcriptomics.ipynb) -- 19 cells
+
+Classify melanoma tumors into molecular subtypes using variance filtering, hierarchical clustering, semi-supervised Random Forest, and Kaplan–Meier survival analysis on TCGA-SKCM-style expression data. Preprocessing with log1p transform and z-score normalization. Unsupervised exploration via hierarchically clustered heatmaps (seaborn clustermap), PCA, and t-SNE. Semi-supervised classification: training a Random Forest on labeled samples to assign subtypes to unlabeled tumors (Tirosh framework). Harbst subtype assignment using Ward-linkage hierarchical clustering on marker gene panels. Kaplan–Meier survival curves with lifelines. Subtype agreement quantification using normalized mutual information (NMI) and cross-tabulation.
+
+`cancer transcriptomics` `RNA-seq` `subtype classification` `Random Forest` `Kaplan-Meier` `survival analysis` `hierarchical clustering` `NMI` `TCGA` `melanoma`
+
+---
+
+#### 3.25 ChIP-seq & Epigenomics
+
+[01_chipseq_pipeline.ipynb](Tier_3_Applied_Bioinformatics/24_ChIP_seq_Epigenomics/01_chipseq_pipeline.ipynb) -- 22 cells
+[02_differential_binding.ipynb](Tier_3_Applied_Bioinformatics/24_ChIP_seq_Epigenomics/02_differential_binding.ipynb) -- 18 cells
+
+ChIP-seq peak calling, differential binding analysis, and epigenomic data integration. Notebook 1 covers experimental design and controls (Input, IgG), read trimming, alignment with Bowtie2, duplicate removal with Picard, peak calling with MACS3 for transcription factors and histone marks, and quality metrics including FRiP score, cross-correlation, and IDR reproducibility. Notebook 2 covers differential binding analysis with DiffBind, functional peak annotation with ChIPseeker, integration with RNA-seq data (overlap of enriched peaks with DEGs), and visualization: heatmaps with deepTools and genome browser tracks.
+
+`ChIP-seq` `MACS3` `peak calling` `Bowtie2` `DiffBind` `differential binding` `ChIPseeker` `deepTools` `FRiP` `IDR` `epigenomics` `histone marks`
+
+---
+
+#### 3.26 Long-Read Sequencing
+
+[01_ont_processing.ipynb](Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/01_ont_processing.ipynb) -- 17 cells
+[02_assembly_sv.ipynb](Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/02_assembly_sv.ipynb) -- 21 cells
+[03_isoform_analysis.ipynb](Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/03_isoform_analysis.ipynb) -- 11 cells
+
+Oxford Nanopore and PacBio sequencing from basecalling to assembly, structural variant detection, and isoform analysis. Notebook 1 covers technology comparison (ONT R9/R10 vs. PacBio HiFi/CLR), basecalling with Dorado, quality assessment, and long-read alignment with Minimap2. Notebook 2 covers de novo assembly with Flye (genomes/metagenomes) and Hifiasm (HiFi data), structural variant detection with Sniffles2 and PBSV, and hybrid assembly strategies. Notebook 3 covers full-length transcript isoform analysis with FLAMES and IsoSeq3, and methylation/base modification detection from ONT signal.
+
+`Oxford Nanopore` `PacBio` `HiFi` `Dorado` `Minimap2` `Flye` `Hifiasm` `Sniffles2` `structural variants` `isoforms` `methylation` `long reads`
+
+---
+
+#### 3.27 Shotgun Metagenomics
+
+[01_taxonomic_profiling.ipynb](Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/01_taxonomic_profiling.ipynb) -- 13 cells
+[02_functional_annotation.ipynb](Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/02_functional_annotation.ipynb) -- 11 cells
+[03_assembly_binning.ipynb](Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/03_assembly_binning.ipynb) -- 14 cells
+[04_qiime2_16s.ipynb](Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/04_qiime2_16s.ipynb) -- 14 cells
+
+Whole-community sequencing analysis: taxonomic profiling, functional annotation, assembly, and binning. Notebook 1 covers read QC, host decontamination (Bowtie2), and taxonomic profiling with Kraken2 and Bracken. Notebook 2 covers functional annotation with HUMAnN3 (UniRef/MetaCyc pathways) and alpha/beta diversity comparisons. Notebook 3 covers de novo metagenomic assembly with MEGAHIT, binning with MetaBAT2, bin quality assessment with CheckM, and MAG annotation with Prokka. Notebook 4 covers 16S amplicon analysis with QIIME2 as a complementary approach. Uses SRA public metagenome datasets.
+
+`metagenomics` `Kraken2` `Bracken` `HUMAnN3` `MEGAHIT` `MetaBAT2` `CheckM` `MAGs` `Prokka` `QIIME2` `taxonomic profiling` `functional annotation`
+
+---
+
+#### 3.28 Multi-Omics Integration
+
+[01_data_harmonization.ipynb](Tier_3_Applied_Bioinformatics/27_Multi_Omics_Integration/01_data_harmonization.ipynb) -- 13 cells
+[02_mofa2.ipynb](Tier_3_Applied_Bioinformatics/27_Multi_Omics_Integration/02_mofa2.ipynb) -- 13 cells
+[03_mixomics.ipynb](Tier_3_Applied_Bioinformatics/27_Multi_Omics_Integration/03_mixomics.ipynb) -- 12 cells
+
+Integrating RNA-seq, proteomics, metabolomics, and other omics layers to uncover systems-level biology. Notebook 1 covers data harmonization: scaling, missing value imputation across platforms, and pairwise correlation analysis between omics layers. Notebook 2 covers latent factor methods with MOFA2 (Multi-Omics Factor Analysis): training, factor loading visualization, and biological interpretation. Notebook 3 covers supervised multi-omics classification with mixOmics: PLS-DA, multi-block DIABLO, loadings plots, and STACKED integration plots. Pathway enrichment applied across integrated layers.
+
+`multi-omics` `MOFA2` `mixOmics` `PLS-DA` `DIABLO` `data harmonization` `latent factors` `omics integration` `pathway enrichment`
+
+---
+
+#### 3.29 Network Biology
+
+[01_ppi_networks.ipynb](Tier_3_Applied_Bioinformatics/28_Network_Biology/01_ppi_networks.ipynb) -- 13 cells
+[02_network_modules.ipynb](Tier_3_Applied_Bioinformatics/28_Network_Biology/02_network_modules.ipynb) -- 14 cells
+[03_gene_regulatory_networks.ipynb](Tier_3_Applied_Bioinformatics/28_Network_Biology/03_gene_regulatory_networks.ipynb) -- 13 cells
+
+Protein-protein interaction networks, gene regulatory networks, and pathway topology analysis. Notebook 1 covers PPI data sources (STRING, BioGRID, IntAct), network construction with NetworkX, and key metrics: degree distribution, clustering coefficient, betweenness centrality, hub genes, and network motifs. Notebook 2 covers community detection and module finding (Louvain, Girvan-Newman), visualization with Cytoscape (py4cytoscape) and NetworkX layouts, and pathway network analysis. Notebook 3 covers gene regulatory network inference from expression data (GENIE3, ARACNE concepts) and GRN visualization.
+
+`PPI networks` `NetworkX` `STRING` `Louvain` `community detection` `betweenness centrality` `hub genes` `GRN` `GENIE3` `Cytoscape` `network motifs`
+
+---
+
+#### 3.30 Cheminformatics & Drug Discovery
+
+[01_rdkit_basics.ipynb](Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/01_rdkit_basics.ipynb) -- 14 cells
+[02_qsar_modeling.ipynb](Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/02_qsar_modeling.ipynb) -- 14 cells
+[03_virtual_screening.ipynb](Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/03_virtual_screening.ipynb) -- 13 cells
+[04_molecular_gnn.ipynb](Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/04_molecular_gnn.ipynb) -- 12 cells
+
+Molecular representations, fingerprints, QSAR modeling, virtual screening, and graph neural networks for drug discovery. Notebook 1 covers RDKit basics: SMILES/InChI parsing, structure drawing, descriptor computation, Morgan/ECFP and MACCS fingerprints, and Tanimoto similarity search. Notebook 2 covers QSAR modeling with scikit-learn: feature engineering, model selection, and ADMET property prediction (Lipinski's Rule of Five). Notebook 3 covers virtual screening: docking concepts, AutoDock Vina workflows, and target-ligand interaction databases (ChEMBL, PubChem). Notebook 4 covers deep learning for molecules: graph neural networks with PyTorch Geometric/DGL-LifeSci for property prediction.
+
+`RDKit` `SMILES` `fingerprints` `Tanimoto` `QSAR` `virtual screening` `AutoDock Vina` `ChEMBL` `molecular GNN` `PyTorch Geometric` `ADMET` `drug discovery`
+
+---
+
 ### Tier 4: Algorithms & Data Structures -- 30 notebooks, 927 cells
 
 The computer science foundation behind bioinformatics tools. Study alongside Tiers 2--3 to understand *why* the algorithms work. Includes 30 interactive HTML5 visualizations and animated GIF demonstrations. See the [Tier 4 README](Tier_4_Algorithms_and_Data_Structures/README.md) for the full bioinformatics cross-reference table.
@@ -997,7 +1083,7 @@ Memoization vs. tabulation: top-down vs. bottom-up with complexity comparison. F
 
 ---
 
-### Tier 5: Modern AI for Science -- 3 notebooks
+### Tier 5: Modern AI for Science -- 4 notebooks
 
 GPU-optional modules covering contemporary AI methods for scientific research. Each notebook is designed to run on free-tier Google Colab. Theory cells run without GPU; hands-on training cells require a T4 or better. See the [Tier 5 README](Tier_5_Modern_AI_for_Science/README.md) for GPU setup and Colab instructions.
 
@@ -1030,6 +1116,16 @@ Retrieval-augmented generation with vision-language models for document understa
 Score-based generative models and diffusion for scientific imaging applications. Score matching intuition: score field as ∇ₓ log p(x), learned denoising. DDIM: deterministic sampling, linear and cosine noise schedules, reverse process equations. Inverse problems in imaging: denoising, inpainting, and colorization as special cases of DDRM. SVD-based degradation operators and the pseudoinverse projection step. Linear and cosine scheduler implementation patterns with explicit tensor shapes. Score field visualization with quiver plots. Scientific applications: cryo-EM denoising and medical image restoration concepts. Adapted from DDRM (Kawar et al., 2022), github.com/bahjat-kawar/ddrm; uses public MNIST/CIFAR-10 data.
 
 `diffusion models` `DDIM` `score matching` `noise schedule` `inverse problems` `DDRM` `SVD` `cryo-EM` `image restoration`
+
+---
+
+#### 5.04 AlphaFold & Protein Design
+
+[04_AlphaFold_Protein_Design.ipynb](Tier_5_Modern_AI_for_Science/04_AlphaFold_Protein_Design/04_AlphaFold_Protein_Design.ipynb) -- 17 cells
+
+AlphaFold2 architecture, structure prediction confidence metrics, and computational protein design tools. AlphaFold2 architecture overview: MSA encoding, Evoformer (48 axial-attention blocks on MSA rows/columns and pairwise representation), and structure module (invariant point attention in 3D). Running ColabFold for fast structure prediction using MMseqs2-based MSA generation. Interpreting confidence metrics: pLDDT (per-residue Local Distance Difference Test, 0–100 scale) and PAE (Predicted Aligned Error in Å) for domain orientation confidence. ESMFold: protein language model-only prediction for orphan sequences. RFdiffusion for de novo backbone design. ProteinMPNN inverse folding for sequence design given a backbone. Visualization with nglview and PyMOL coloring by pLDDT. GPU optional — structure prediction cells require a T4 runtime.
+
+`AlphaFold2` `ColabFold` `pLDDT` `PAE` `ESMFold` `RFdiffusion` `ProteinMPNN` `protein design` `inverse folding` `structure prediction`
 
 ---
 
