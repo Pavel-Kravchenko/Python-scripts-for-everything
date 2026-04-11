@@ -3,6 +3,8 @@ name: chipseq-epigenomics
 description: ChIP-seq processing pipeline, peak calling with MACS3, differential binding with DiffBind, peak annotation with ChIPseeker, deepTools visualization
 ---
 
+# ChIP-seq & Epigenomics
+
 ## When to Use
 
 Use this skill when:
@@ -113,3 +115,71 @@ bedtools intersect -v -a peaks.narrowPeak -b encode_blacklist.bed > peaks_filter
 # TF ChIP-seq: 20M uniquely mapped reads
 # Histone ChIP-seq: 40-80M uniquely mapped reads
 ```
+
+## Code Templates
+
+### Parse narrowPeak File
+```python
+import pandas as pd
+
+def read_narrowpeak(path):
+    cols = ['chrom','start','end','name','score','strand',
+            'signal','pvalue','qvalue','peak']
+    df = pd.read_csv(path, sep='\t', header=None, names=cols)
+    return df
+
+peaks = read_narrowpeak('sample_peaks.narrowPeak')
+# Filter by q-value (column is -log10 q-value; 1.3 ≈ q<0.05)
+sig_peaks = peaks[peaks['qvalue'] >= 1.3]
+print(f"{len(sig_peaks)} significant peaks")
+```
+
+### Overlap Two Peak Sets
+```python
+import pybedtools
+
+a = pybedtools.BedTool('condition_A.narrowPeak')
+b = pybedtools.BedTool('condition_B.narrowPeak')
+
+# Peaks shared in both conditions (reciprocal 50% overlap)
+shared = a.intersect(b, f=0.5, r=True)
+a_only  = a.intersect(b, f=0.5, r=True, v=True)
+b_only  = b.intersect(a, f=0.5, r=True, v=True)
+print(f"Shared: {len(shared)}, A-only: {len(a_only)}, B-only: {len(b_only)}")
+```
+
+### Compute FRiP Score
+```python
+import subprocess
+
+def frip_score(bam, peaks_bed):
+    """Fraction of Reads in Peaks."""
+    total = int(subprocess.check_output(
+        ['samtools', 'view', '-c', '-F', '4', bam]).decode().strip())
+    in_peaks = int(subprocess.check_output(
+        ['bedtools', 'intersect', '-a', bam, '-b', peaks_bed,
+         '-u', '-f', '0.5']).decode().count('\n'))
+    # Faster with featureCounts; this is a quick estimate
+    return in_peaks / total
+
+frip = frip_score('sample_dedup.bam', 'sample_peaks.narrowPeak')
+print(f"FRiP = {frip:.3f}  ({'PASS' if frip >= 0.05 else 'FAIL'} for TF)")
+```
+
+### Load BigWig Signal in Python
+```python
+import pyBigWig
+import numpy as np
+
+bw = pyBigWig.open('sample.bw')
+# Mean signal over a region
+signal = bw.stats('chr1', 1_000_000, 1_100_000, type='mean', nBins=100)
+signal = np.array([v if v is not None else 0 for v in signal])
+bw.close()
+```
+
+## Related Skills
+- `ngs-variant-calling` — FASTQ QC, alignment with BWA, samtools operations
+- `rnaseq-metagenomics` — differential expression, DESeq2 normalization
+- `tf-footprinting-atac` — ATAC-seq, open chromatin, TF footprinting
+- `data-visualization-bio` — heatmaps, genome browser tracks, volcano plots

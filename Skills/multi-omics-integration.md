@@ -3,6 +3,8 @@ name: multi-omics-integration
 description: Multi-omics integration — data harmonization, MOFA2 latent factor analysis, mixOmics PLS-DA and DIABLO, batch correction, missing data imputation
 ---
 
+# Multi-Omics Integration
+
 ## When to Use
 
 Use this skill when:
@@ -124,3 +126,75 @@ cimDiablo(diablo)
 - **Feature selection** — reduce to high-variance features (top 5000 per layer) before MOFA2 to reduce noise
 - **DIABLO keepX tuning** — use `tune.block.splsda()` to select the optimal number of features per component
 - **Biological interpretation** — MOFA2 factors and PLS loadings need GO enrichment to interpret; top weights alone are insufficient
+
+## Code Templates
+
+### Batch Correction with pyComBat
+```python
+import pandas as pd
+from inmoose.pycombat import pycombat_norm
+
+# data: features × samples DataFrame
+# batch: list of batch labels per sample
+data_corrected = pycombat_norm(data, batch)
+# Returns features × samples DataFrame with batch effect removed
+```
+
+### Top-Variance Feature Selection
+```python
+import pandas as pd
+import numpy as np
+
+def select_top_variance(df, n_features=5000):
+    """Select top N most variable features (features in rows)."""
+    variances = df.var(axis=1)
+    top_idx = variances.nlargest(n_features).index
+    return df.loc[top_idx]
+
+rna_hv = select_top_variance(rna_matrix, n_features=5000)
+prot_hv = select_top_variance(prot_matrix, n_features=3000)
+```
+
+### Load MOFA2 Factor Scores
+```python
+import h5py
+import numpy as np
+import pandas as pd
+
+def load_mofa2_factors(h5_path):
+    """Extract factor scores from MOFA2 HDF5 output."""
+    with h5py.File(h5_path, 'r') as f:
+        # Factor scores: groups × samples × factors
+        factors = f['expectations/Z/group1'][:]  # samples × factors
+        factor_names = [f'Factor{i+1}' for i in range(factors.shape[1])]
+        samples = [s.decode() for s in f['samples/group1'][:]]
+    return pd.DataFrame(factors, index=samples, columns=factor_names)
+
+factors_df = load_mofa2_factors('mofa2_model.hdf5')
+print(factors_df.shape)  # (n_samples, n_factors)
+```
+
+### Variance Explained per Factor/View
+```python
+import h5py
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def mofa2_variance_explained(h5_path):
+    with h5py.File(h5_path, 'r') as f:
+        r2 = f['variance_explained/r2_per_factor/group1'][:]
+        views = [v.decode() for v in f['views/views'][:]]
+        n_factors = r2.shape[1]
+    df = pd.DataFrame(r2.T, columns=views,
+                      index=[f'Factor{i+1}' for i in range(n_factors)])
+    df.plot(kind='bar', figsize=(10, 4), title='Variance Explained by Factor/View')
+    plt.tight_layout()
+    return df
+```
+
+## Related Skills
+- `rnaseq-metagenomics` — RNA-seq differential expression (DESeq2, edgeR)
+- `ml-deep-learning-bio` — dimensionality reduction (PCA, UMAP, autoencoders)
+- `numpy-pandas-wrangling` — DataFrame merging, scaling, handling missing data
+- `cancer-transcriptomics` — tumor subtype classification, multi-omics cancer studies
