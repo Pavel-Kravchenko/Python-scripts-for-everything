@@ -19,6 +19,7 @@ The end-to-end pipeline for identifying and annotating genetic variants from seq
 | Notebook | Description |
 |----------|-------------|
 | [01_variant_calling_and_snp_analysis.ipynb](01_variant_calling_and_snp_analysis.ipynb) | Variant calling pipeline, VCF format, annotation, and population genetics |
+| [02_snp_calling_pipeline.ipynb](02_snp_calling_pipeline.ipynb) | Hands-on SNP calling pipeline: Trimmomatic → HISAT2 → samtools/bcftools → ANNOVAR |
 
 ## Prerequisites
 
