@@ -793,11 +793,11 @@ De novo genome assembly from short and long reads. Overlap-Layout-Consensus (OLC
 
 #### 3.18 Proteomics and Structural Methods
 
-[01_proteomics_and_structural_methods.ipynb](Tier_3_Applied_Bioinformatics/18_Proteomics_and_Structural_Methods/01_proteomics_and_structural_methods.ipynb) -- 40 cells
+[01_proteomics_and_structural_methods.ipynb](Tier_3_Applied_Bioinformatics/18_Proteomics_and_Structural_Methods/01_proteomics_and_structural_methods.ipynb) -- 48 cells
 
-Mass spectrometry-based proteomics and structural biology methods. Ionization (MALDI, ESI), mass analyzers (TOF, Orbitrap), and MS/MS fragmentation with b/y ion series -- implementing peptide mass and fragment calculators in Python. Bottom-up proteomics: in silico trypsin digestion, peptide mass fingerprinting, database searching concepts (Mascot, MaxQuant), target-decoy FDR. Quantitative proteomics: label-free (LFQ, iBAQ), isotope labeling (SILAC, TMT), DDA vs DIA. Protein engineering computational design: rational design, directed evolution library design, conservation-based mutability scoring from MSA, stability predictions (ΔΔG). Structural determination methods: X-ray crystallography (Bragg's law, R-factor), cryo-EM (single-particle analysis), NMR (chemical shifts, NOEs). Adapted from ФББ Semester 9 physical-chemical methods and protein engineering lectures by Suplatov.
+Mass spectrometry-based proteomics and structural biology methods. Ionization (MALDI, ESI), mass analyzers (TOF, Orbitrap), and MS/MS fragmentation with b/y ion series -- implementing peptide mass and fragment calculators in Python. Bottom-up proteomics: in silico trypsin digestion, peptide mass fingerprinting, database searching concepts (Mascot, MaxQuant), target-decoy FDR. Quantitative proteomics: label-free (LFQ, iBAQ), isotope labeling (SILAC, TMT), DDA vs DIA. Protein engineering computational design: rational design, directed evolution library design, conservation-based mutability scoring from MSA, stability predictions (ΔΔG). Structural determination methods: X-ray crystallography (Bragg's law, R-factor, electron density maps, crystal lattices and the 7 crystal systems, space groups and asymmetric units), cryo-EM (single-particle analysis), NMR (chemical shifts, NOEs). Includes CRYST1 record parser, symmetry operation application, and Uppsala EDS density download. Adapted from ФББ Semester 9 physical-chemical methods and protein engineering lectures by Suplatov; crystallography sections ported from Kodomo archive (Lunin/IMPB RAS).
 
-`mass spectrometry` `proteomics` `MS/MS` `peptide identification` `FDR` `TMT` `protein engineering` `X-ray crystallography` `cryo-EM`
+`mass spectrometry` `proteomics` `MS/MS` `peptide identification` `FDR` `TMT` `protein engineering` `X-ray crystallography` `electron density` `crystal lattice` `space group` `cryo-EM`
 
 ---
 
