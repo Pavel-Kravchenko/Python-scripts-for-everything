@@ -15,6 +15,9 @@ GPU-optional modules covering contemporary AI methods applied to scientific rese
 | [02 Vision RAG](02_Vision_RAG/02_Vision_RAG.ipynb) | VLMs, ColPali, document retrieval, RAG pipeline | Optional (CPU feasible for inference) |
 | [03 Diffusion & Generative Models](03_Diffusion_Generative_Models/03_Diffusion_Generative_Models.ipynb) | Score matching, DDIM, inverse problems, noise schedules | Optional (CPU feasible for small examples) |
 | [04 AlphaFold & Protein Design](04_AlphaFold_Protein_Design/04_AlphaFold_Protein_Design.ipynb) 🚧 | AlphaFold2 architecture, pLDDT/PAE, ESMFold, RFdiffusion, ProteinMPNN | Optional (T4 for design) |
+| [05 Genomic Foundation Models](05_Genomic_Foundation_Models/01_genomic_llms.ipynb) 🚧 | Nucleotide Transformer, HyenaDNA, Evo, Enformer regulatory prediction | Yes (T4 for NT-500M) |
+| [06 Protein Language Models](06_Protein_Language_Models/01_esm2_embeddings.ipynb) 🚧 | ESM2 embeddings, ESMFold, zero-shot mutation scoring, inverse folding | Yes (T4) |
+| [07 Foundation Models for Single-Cell](07_Foundation_Models_Single_Cell/01_geneformer_scgpt.ipynb) 🚧 | Geneformer, scGPT, perturbation prediction, CellxGene Census | Yes (T4) |
 
 ## Running on Colab
 

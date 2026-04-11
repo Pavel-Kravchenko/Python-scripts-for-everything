@@ -55,7 +55,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 3: APPLIED BIOINFORMATICS                                28 notebooks  │
+│  TIER 3: APPLIED BIOINFORMATICS                          38 notebooks (+8🚧) │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ NGS │ Variant Calling │ RNA-seq │ Microbial Diversity       │
 │  Promoters │ Statistics │ Machine Learning │ Capstone Project               │
@@ -64,7 +64,11 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 │  Population Genetics │ Numerical Methods │ Genome Assembly                 │
 │  Proteomics & Structural Methods │ GWAS │ Spatial Transcriptomics          │
 │  Copy Number Analysis │ Bayesian Statistics │ TF Footprinting              │
-│  Cancer Transcriptomics: Subtype Classification                             │
+│  Cancer Transcriptomics │ ChIP-seq & Epigenomics 🚧 │ Long-Read Seq 🚧     │
+│  Metagenomics 🚧 │ Multi-Omics Integration 🚧 │ Network Biology 🚧         │
+│  Cheminformatics 🚧 │ Single-Cell RNA-seq 🚧 │ scMulti-Omics 🚧           │
+│  DNA Methylation 🚧 │ CRISPR Screens 🚧 │ Immunogenomics 🚧              │
+│  Small RNA & ncRNA 🚧 │ Metabolomics 🚧 │ Virology Bioinformatics 🚧      │
 │                                                                              │
 │  Entry: Have bioinformatics fundamentals, want real-world                    │
 │         pipeline experience and advanced methods.                            │
@@ -94,9 +98,11 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 5: MODERN AI FOR SCIENCE                                  3 notebooks  │
+│  TIER 5: MODERN AI FOR SCIENCE                     7 notebooks (4🚧)  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  LLM Fine-tuning │ Vision RAG │ Diffusion & Generative Models                │
+│  AlphaFold & Protein Design 🚧 │ Genomic Foundation Models 🚧              │
+│  Protein Language Models 🚧 │ Foundation Models for Single-Cell 🚧          │
 │                                                                              │
 │  Entry: Tiers 1–3 complete. GPU-optional; runs on free-tier Colab.          │
 │                                                                              │
