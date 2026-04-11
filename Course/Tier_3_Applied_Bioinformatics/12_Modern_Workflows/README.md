@@ -26,7 +26,7 @@ After completing this module, you will be able to:
 | # | Notebook | Topics | Cells |
 |---|----------|--------|-------|
 | 1 | [Single-Cell Analysis with Scanpy](01_single_cell_scanpy.ipynb) | AnnData structure, QC metrics, normalization, PCA, UMAP, Leiden clustering, marker genes | ~45 |
-| 2 | [Workflow Engines](02_workflow_engines.ipynb) | DAG model; Snakemake rules/wildcards/config/conda/containers/cluster; Nextflow DSL2 processes/channels; nf-core pipelines and modules | ~55 |
+| 2 | [Workflow Engines](02_workflow_engines.ipynb) | DAG model; Snakemake rules/wildcards/config/conda/containers/cluster; Nextflow DSL2 processes/channels; nf-core pipelines and modules | ~23 |
 | 3 | [Testing and CI/CD](03_testing_cicd.ipynb) | pytest basics, fixtures, parametrized tests, GitHub Actions, code coverage, linting | ~40 |
 
 ---

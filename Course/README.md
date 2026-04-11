@@ -742,7 +742,7 @@ Precision medicine and the journey from the Human Genome Project to routine clin
 #### 3.12 Modern Bioinformatics Workflows
 
 [01_single_cell_scanpy.ipynb](Tier_3_Applied_Bioinformatics/12_Modern_Workflows/01_single_cell_scanpy.ipynb) -- 45 cells
-[02_workflow_engines.ipynb](Tier_3_Applied_Bioinformatics/12_Modern_Workflows/02_workflow_engines.ipynb) -- 55 cells
+[02_workflow_engines.ipynb](Tier_3_Applied_Bioinformatics/12_Modern_Workflows/02_workflow_engines.ipynb) -- 23 cells
 [03_testing_cicd.ipynb](Tier_3_Applied_Bioinformatics/12_Modern_Workflows/03_testing_cicd.ipynb) -- 40 cells
 
 Contemporary tools for professional bioinformatics. Single-cell RNA-seq analysis with Scanpy: AnnData structure, quality control, normalization, dimensionality reduction (PCA/UMAP), Leiden clustering, marker gene detection. Workflow engines: Snakemake rules/wildcards/config/conda/containers, SLURM/cloud cluster execution; Nextflow DSL2 processes/channels; nf-core community pipelines (rnaseq, sarek, scrnaseq), samplesheet format, institutional configs, module installation. Testing and CI/CD: pytest fixtures and parametrized tests, GitHub Actions, code coverage, linting with ruff/black.
