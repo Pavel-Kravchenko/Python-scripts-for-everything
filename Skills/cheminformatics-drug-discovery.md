@@ -3,6 +3,8 @@ name: cheminformatics-drug-discovery
 description: Cheminformatics and drug discovery — RDKit molecular representations, fingerprints, Tanimoto similarity, QSAR modeling with ChEMBL data, AutoDock Vina docking, ADMET prediction, graph neural networks for molecules
 ---
 
+# Cheminformatics & Drug Discovery
+
 ## When to Use
 
 Use this skill when:
@@ -136,3 +138,117 @@ A compound is predicted orally bioavailable if it satisfies ≥4 of:
 - **pIC50 vs IC50** — convert IC50 (nM) to pIC50 = -log10(IC50 × 1e-9) for regression targets
 - **Docking scoring functions** — Vina score is an approximation; always validate top hits with MD or experimental assay
 - **ADMET early filtering** — apply Lipinski/Veber filters before docking to reduce computational cost
+
+## Code Templates
+
+### Lipinski Filter for a Compound Library
+```python
+from rdkit import Chem
+from rdkit.Chem import Descriptors, rdMolDescriptors
+import pandas as pd
+
+def lipinski_filter(smiles_list):
+    """Return DataFrame with Ro5 properties and pass/fail."""
+    results = []
+    for smi in smiles_list:
+        mol = Chem.MolFromSmiles(smi)
+        if mol is None:
+            results.append({'smiles': smi, 'valid': False})
+            continue
+        props = {
+            'smiles': smi,
+            'valid': True,
+            'MW':   Descriptors.MolWt(mol),
+            'LogP': Descriptors.MolLogP(mol),
+            'HBD':  rdMolDescriptors.CalcNumHBD(mol),
+            'HBA':  rdMolDescriptors.CalcNumHBA(mol),
+            'TPSA': Descriptors.TPSA(mol),
+        }
+        props['ro5_pass'] = (
+            props['MW'] <= 500 and props['LogP'] <= 5 and
+            props['HBD'] <= 5 and props['HBA'] <= 10
+        )
+        results.append(props)
+    return pd.DataFrame(results)
+
+df = lipinski_filter(smiles_list)
+print(f"Ro5 pass rate: {df['ro5_pass'].mean():.1%}")
+```
+
+### Scaffold-Based Train/Test Split
+```python
+from rdkit import Chem
+from rdkit.Chem.Scaffolds import MurckoScaffold
+from sklearn.model_selection import GroupShuffleSplit
+import numpy as np
+
+def get_scaffold(smi):
+    mol = Chem.MolFromSmiles(smi)
+    if mol is None:
+        return ''
+    return MurckoScaffold.MurckoScaffoldSmiles(mol=mol, includeChirality=False)
+
+scaffolds = [get_scaffold(smi) for smi in df['canonical_smiles']]
+# Encode unique scaffolds as group IDs
+unique_scaffolds = {s: i for i, s in enumerate(set(scaffolds))}
+groups = np.array([unique_scaffolds[s] for s in scaffolds])
+
+gss = GroupShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+train_idx, test_idx = next(gss.split(X, y, groups=groups))
+X_train, X_test = X[train_idx], X[test_idx]
+y_train, y_test = y[train_idx], y[test_idx]
+```
+
+### Parse SDF File with RDKit
+```python
+from rdkit import Chem
+from rdkit.Chem import Descriptors
+import pandas as pd
+
+def read_sdf_to_df(sdf_path):
+    """Load SDF and compute basic descriptors for each molecule."""
+    records = []
+    for mol in Chem.SDMolSupplier(sdf_path, removeHs=True):
+        if mol is None:
+            continue
+        rec = {'smiles': Chem.MolToSmiles(mol)}
+        # Copy SD properties
+        rec.update(mol.GetPropsAsDict())
+        rec['MW']   = Descriptors.MolWt(mol)
+        rec['LogP'] = Descriptors.MolLogP(mol)
+        records.append(rec)
+    return pd.DataFrame(records)
+
+compounds = read_sdf_to_df('compound_library.sdf')
+print(f"Loaded {len(compounds)} molecules")
+```
+
+### Virtual Screening Results Parser
+```python
+import re
+import pandas as pd
+
+def parse_vina_log(log_path):
+    """Parse AutoDock Vina log to get docking scores."""
+    results = []
+    with open(log_path) as f:
+        for line in f:
+            m = re.match(r'\s+(\d+)\s+([-\d.]+)\s+([\d.]+)\s+([\d.]+)', line)
+            if m:
+                results.append({
+                    'mode': int(m.group(1)),
+                    'affinity_kcal_mol': float(m.group(2)),
+                    'rmsd_lb': float(m.group(3)),
+                    'rmsd_ub': float(m.group(4)),
+                })
+    return pd.DataFrame(results)
+
+scores = parse_vina_log('docking.log')
+print(f"Best pose: {scores.iloc[0]['affinity_kcal_mol']} kcal/mol")
+```
+
+## Related Skills
+- `structural-bioinformatics` — protein structure, PDB parsing, binding sites
+- `ml-deep-learning-bio` — graph neural networks, molecular property prediction
+- `python-core-bio` — data structures, file I/O, sequence handling
+- `numerical-methods-bio` — optimization, differential equations for pharmacokinetics

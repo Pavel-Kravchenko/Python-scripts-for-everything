@@ -3,6 +3,8 @@ name: long-read-sequencing
 description: Oxford Nanopore and PacBio long-read sequencing — basecalling (Dorado), QC (NanoStat), alignment (Minimap2), assembly (Flye, Hifiasm), SV calling (Sniffles2), methylation, isoform analysis
 ---
 
+# Long-Read Sequencing
+
 ## When to Use
 
 Use this skill when:
@@ -105,3 +107,91 @@ writeBambuOutput(se, path='bambu_output/')
 - **Coverage for assembly** — aim for ≥50× for Flye; ≥30× for Hifiasm HiFi
 - **SV minimum support** — default `--minsupport 5` for Sniffles2; lower for low-coverage data
 - **Medaka model** — use the correct model matching your basecaller version and flow cell
+
+## Code Templates
+
+### NanoStat QC Summary Parser
+```python
+import subprocess
+import re
+
+def parse_nanostat(fastq_path):
+    """Run NanoStat and return key metrics as dict."""
+    out = subprocess.check_output(
+        ['NanoStat', '--fastq', fastq_path, '-t', '4'],
+        stderr=subprocess.DEVNULL).decode()
+    metrics = {}
+    for line in out.splitlines():
+        m = re.match(r'(.+?):\s+([\d.,]+)', line.strip())
+        if m:
+            key = m.group(1).strip().lower().replace(' ', '_')
+            metrics[key] = float(m.group(2).replace(',', ''))
+    return metrics
+
+stats = parse_nanostat('reads.fastq.gz')
+print(f"N50: {stats.get('read_length_n50', 'N/A')} bp")
+print(f"Mean Q: {stats.get('mean_read_quality', 'N/A')}")
+```
+
+### Parse Sniffles2 VCF for SVs
+```python
+import pandas as pd
+
+def parse_sv_vcf(vcf_path):
+    records = []
+    with open(vcf_path) as f:
+        for line in f:
+            if line.startswith('#'):
+                continue
+            fields = line.strip().split('\t')
+            chrom, pos, sv_id, ref, alt = fields[:5]
+            info = dict(
+                kv.split('=', 1) if '=' in kv else (kv, True)
+                for kv in fields[7].split(';')
+            )
+            records.append({
+                'chrom': chrom, 'pos': int(pos),
+                'svtype': info.get('SVTYPE', ''),
+                'svlen': abs(int(info.get('SVLEN', 0))),
+                'support': int(info.get('SUPPORT', 0)),
+                'af': float(info.get('AF', 0)),
+            })
+    return pd.DataFrame(records)
+
+svs = parse_sv_vcf('sniffles_svs.vcf')
+deletions = svs[svs['svtype'] == 'DEL']
+large_dels = deletions[deletions['svlen'] >= 1000]
+print(f"Large deletions (≥1 kb): {len(large_dels)}")
+```
+
+### Assembly N50 Calculator
+```python
+from Bio import SeqIO
+
+def assembly_stats(fasta_path):
+    lengths = sorted([len(r.seq) for r in SeqIO.parse(fasta_path, 'fasta')],
+                     reverse=True)
+    total = sum(lengths)
+    cumsum = 0
+    n50 = 0
+    for l in lengths:
+        cumsum += l
+        if cumsum >= total * 0.5:
+            n50 = l
+            break
+    return {
+        'num_contigs': len(lengths),
+        'total_length': total,
+        'largest': lengths[0],
+        'n50': n50,
+    }
+
+stats = assembly_stats('assembly.fasta')
+print(f"N50 = {stats['n50']:,} bp | Total = {stats['total_length']:,} bp")
+```
+
+## Related Skills
+- `ngs-variant-calling` — short-read alignment, GATK variant calling, VCF format
+- `genome-assembly-proteomics` — assembly algorithms, quality metrics, annotation
+- `sequence-alignment` — pairwise alignment, BLAST, Minimap2 PAF format
+- `structural-bioinformatics` — interpreting structural variants in protein context

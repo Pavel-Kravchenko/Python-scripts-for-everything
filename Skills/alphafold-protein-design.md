@@ -3,6 +3,8 @@ name: alphafold-protein-design
 description: AlphaFold2 structure prediction, pLDDT/PAE interpretation, ColabFold, ESMFold, RFdiffusion backbone design, ProteinMPNN inverse folding, structure quality evaluation
 ---
 
+# AlphaFold & Protein Design
+
 ## When to Use
 
 Use this skill when:
@@ -129,3 +131,99 @@ python ProteinMPNN/protein_mpnn_run.py \
 - **Disordered regions** — regions with pLDDT < 50 should not be used for docking or structural analysis
 - **ColabFold vs full AF2** — ColabFold uses faster MSA search (MMseqs2); slightly lower accuracy but adequate for most applications
 - **RFdiffusion GPU** — requires A100 for reasonable speed; smaller designs (<100 residues) feasible on T4
+
+## Code Templates
+
+### Batch AlphaFold DB Retrieval
+```python
+import requests
+import time
+from pathlib import Path
+
+def fetch_alphafold_pdbs(uniprot_ids, out_dir='af_structures', version=4):
+    """Download AlphaFold predicted structures for a list of UniProt IDs."""
+    out_dir = Path(out_dir)
+    out_dir.mkdir(exist_ok=True)
+    failed = []
+    for uid in uniprot_ids:
+        url = f'https://alphafold.ebi.ac.uk/files/AF-{uid}-F1-model_v{version}.pdb'
+        resp = requests.get(url)
+        if resp.status_code == 200:
+            (out_dir / f'{uid}.pdb').write_text(resp.text)
+        else:
+            failed.append(uid)
+        time.sleep(0.2)  # rate limit
+    if failed:
+        print(f"Failed: {failed}")
+    return out_dir
+
+fetch_alphafold_pdbs(['P00533', 'P04637', 'P01308'])
+```
+
+### Extract Disordered Regions (pLDDT < 50)
+```python
+from Bio.PDB import PDBParser
+import numpy as np
+
+def get_disordered_regions(pdb_path, plddt_threshold=50):
+    """Return residue ranges with pLDDT < threshold (stored in B-factor column)."""
+    parser = PDBParser(QUIET=True)
+    structure = parser.get_structure('model', pdb_path)
+    disordered = []
+    run_start = None
+    prev_res = None
+    for chain in structure.get_chains():
+        for residue in chain:
+            for atom in residue:
+                if atom.name == 'CA':
+                    plddt = atom.bfactor  # AF2 stores pLDDT in B-factor
+                    res_id = residue.get_id()[1]
+                    if plddt < plddt_threshold:
+                        if run_start is None:
+                            run_start = res_id
+                    else:
+                        if run_start is not None:
+                            disordered.append((run_start, prev_res))
+                            run_start = None
+                    prev_res = res_id
+    if run_start is not None:
+        disordered.append((run_start, prev_res))
+    return disordered
+
+regions = get_disordered_regions('AF-P00533-F1-model_v4.pdb')
+for start, end in regions:
+    print(f"Disordered: residues {start}–{end}")
+```
+
+### TM-score and RMSD Comparison
+```python
+from Bio.PDB import PDBParser, Superimposer
+import numpy as np
+
+def compare_structures(pred_pdb, ref_pdb):
+    """Compute Cα RMSD between predicted and reference structures."""
+    parser = PDBParser(QUIET=True)
+    pred = parser.get_structure('pred', pred_pdb)
+    ref  = parser.get_structure('ref', ref_pdb)
+
+    ca_pred = [a for a in pred.get_atoms() if a.name == 'CA']
+    ca_ref  = [a for a in ref.get_atoms()  if a.name == 'CA']
+    n = min(len(ca_pred), len(ca_ref))
+
+    sup = Superimposer()
+    sup.set_atoms(ca_ref[:n], ca_pred[:n])
+    rmsd = sup.rms
+
+    print(f"Aligned residues: {n}")
+    print(f"Cα RMSD: {rmsd:.2f} Å")
+    print(f"Interpretation: {'Excellent' if rmsd < 1 else 'Good' if rmsd < 2 else 'Moderate' if rmsd < 4 else 'Poor'}")
+    return rmsd, sup
+
+rmsd, superimposer = compare_structures('predicted.pdb', 'crystal.pdb')
+```
+
+## Related Skills
+- `structural-bioinformatics` — PDB format, secondary structure, molecular visualization
+- `biopython-databases` — BioPython PDB module, sequence retrieval from UniProt
+- `cheminformatics-drug-discovery` — docking predicted structures, binding site analysis
+- `ml-deep-learning-bio` — protein language models, ESM embeddings, GNN for proteins
