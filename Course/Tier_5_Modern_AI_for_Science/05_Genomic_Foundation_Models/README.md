@@ -57,6 +57,10 @@ DNA/RNA sequence language models: Nucleotide Transformer, HyenaDNA, Evo, Enforme
 - [Epiformer](https://github.com/yal054/epiformer)
 - [DNABERT-2](https://github.com/Zhihan1996/DNABERT_2)
 
+## Assignments and Solutions
+- [Assignment Set 2: Genomic Foundation Models](../../../Assignments/Tier_5_Modern_AI/02_genomic_foundation_models.ipynb)
+- [Solutions Set 2: Genomic Foundation Models](../../../Solutions/Tier_5_Modern_AI/02_genomic_foundation_models_solutions.ipynb)
+
 ---
 
 [← Module 04: AlphaFold & Protein Design](../04_AlphaFold_Protein_Design/) | [Course Overview](../../README.md) | [Next: 5.06 Protein Language Models →](../06_Protein_Language_Models/)
