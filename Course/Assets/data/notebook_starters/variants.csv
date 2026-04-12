@@ -1,0 +1,6 @@
+variant_id,gene,chrom,pos,ref,alt,consequence,clinical_significance,toy_score
+v1,BRCA1,17,43071077,A,G,missense,uncertain,0.21
+v2,CFTR,7,117559593,C,T,splice_region,likely_pathogenic,0.84
+v3,TP53,17,7674220,G,A,missense,pathogenic,0.92
+v4,SCN1A,2,166905238,T,C,synonymous,benign,0.08
+v5,LMNA,1,156108665,G,T,stop_gained,likely_pathogenic,0.88

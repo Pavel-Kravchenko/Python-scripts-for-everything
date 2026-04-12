@@ -1,0 +1,7 @@
+sample_id,sequence,label,species,length
+S1,ATGCGTACGTTAGC,promoter_like,E_coli,14
+S2,TTTACGCGGATCGA,background,E_coli,14
+S3,CGTATATAAAGGCC,promoter_like,Human,14
+S4,GCGCGCGTTTATAT,background,Human,14
+S5,ATATATCGCGCGTA,promoter_like,Yeast,14
+S6,GGGCCCAAATTTGC,background,Yeast,14

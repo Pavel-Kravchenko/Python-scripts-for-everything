@@ -1,0 +1,17 @@
+{
+  "dataset_name": "notebook_starters",
+  "version": "1.0",
+  "description": "Synthetic mini dataset for quickly running course notebooks.",
+  "column_notes": {
+    "dna_sequences.csv": {
+      "label_values": ["promoter_like", "background"]
+    },
+    "variants.csv": {
+      "toy_score_range": [0.0, 1.0]
+    },
+    "expression_matrix.csv": {
+      "values": "normalized toy counts"
+    }
+  },
+  "recommended_first_file": "dna_sequences.csv"
+}

@@ -1,0 +1,6 @@
+molecule_id,name,smiles,toy_activity_nM
+M1,Benzene,c1ccccc1,5000
+M2,Caffeine,CN1C=NC2=C1N(C)C(=O)N(C)C(=O)N2C,1200
+M3,Aspirin,CC(=O)OC1=CC=CC=C1C(=O)O,800
+M4,Acetaminophen,CC(=O)NC1=CC=C(O)C=C1,950
+M5,Ibuprofen,CC(C)CC1=CC=C(C=C1)C(C)C(=O)O,1100
