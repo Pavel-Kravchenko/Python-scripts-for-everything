@@ -4,13 +4,35 @@ DNA/RNA sequence foundation models: embeddings, fine-tuning, and regulatory pred
 
 ## Quick Reference
 
-| Model | Parameters | Context | Best For |
-|-------|-----------|---------|---------|
-| DNABERT-2 | 117M | 512 bp | Classification tasks |
-| Nucleotide Transformer | 2.5B | 6 kbp | General embeddings |
-| HyenaDNA | 6.6M–1.6B | 1M bp | Long-range genomics |
-| Evo | 7B | 131 kbp | Prokaryotic genomes, generation |
-| Enformer | — | 196 kbp | Regulatory track prediction |
+| Model | Context Length | Primary Output | Best For | Notes |
+|-------|----------------|----------------|---------|-------|
+| DNABERT-2 | ~512 bp (tokenized) | Sequence embeddings, classifiers | Short-window classification | Strong baseline for promoter/enhancer/splice tasks |
+| Nucleotide Transformer | up to kb-scale windows | Sequence embeddings | Transfer learning across species | Good general-purpose DNA encoder |
+| HyenaDNA | up to 1M bp | Long-context embeddings/predictions | Distal regulatory context | Useful when long-range interactions matter |
+| Evo | ~100 kb+ (prokaryotic focus) | Autoregressive likelihood/generation | Microbial functional sequence modeling | Better fit for prokaryotic genome design |
+| Enformer | 196,608 bp input | Multi-track regulatory signal prediction | Variant effect and regulatory scoring | Predicts thousands of genomic tracks |
+| Borzoi | 524 kb input | RNA-seq coverage at 32 bp bins | Sequence-to-expression modeling | Extends Basenji/Enformer-style regulatory modeling into RNA-seq depth |
+| SpliceAI | local window around variant | Splice donor/acceptor delta scores | Clinical splice variant prioritization | High utility in diagnostic variant interpretation |
+| AlphaGenome | up to 1M bp | Unified outputs (expression, splicing, chromatin, contacts) | Multi-modal variant effect prediction | New unified DNA model from DeepMind research stack |
+| Epiformer | ~100 kb region | Chromatin accessibility tracks | Epigenomic accessibility prediction | Enformer-inspired model with sequence + conservation inputs |
+
+## Where These Models Fit
+
+- **General DNA embeddings**: DNABERT-2, Nucleotide Transformer, HyenaDNA.
+- **Regulatory signal prediction**: Enformer, Borzoi, AlphaGenome.
+- **Splicing-specific scoring**: SpliceAI (specialized and still widely used in variant pipelines).
+- **Epigenomics-focused prediction**: Epiformer for chromatin accessibility.
+- **Generation / sequence design**: Evo (especially prokaryotic settings).
+
+## Protein Structure Models (Complementary, Not DNA LMs)
+
+These are not DNA language models, but they are often used downstream after genomic interpretation (e.g., when prioritizing coding variants for structural impact):
+
+| Model | Best For | Key Idea |
+|------|---------|----------|
+| AlphaFold 2 | Protein monomer structure prediction | MSA + structure module; transformed structural biology workflows |
+| AlphaFold 3 | Biomolecular complexes (proteins + nucleic acids + ligands) | Diffusion-style architecture for richer complex prediction |
+| RoseTTAFold | Protein structures and interactions | Three-track network; strong open academic alternative |
 
 ## Nucleotide Transformer Embeddings
 
@@ -127,6 +149,14 @@ def ism_score(model, one_hot_seq, target_track=4799, center_pos=196608//2):
 - **Enformer input**: requires exactly 196,608 bp; pad or extract from genome
 - **GPU memory**: NT-2.5B requires ~10GB VRAM; use half-precision (`model.half()`)
 - **Species**: NT-multi trained on 850 species; NT-human better for human genomics
+- **Model scope mismatch**: SpliceAI is splice-centric; Enformer/Borzoi/AlphaGenome are broader regulatory models
+- **Cross-domain confusion**: AlphaFold/RoseTTAFold operate on protein sequences and structures, not genomic track prediction
+
+## More Models Worth Tracking
+
+- **Basenji2**: strong precursor to Enformer/Borzoi for sequence-to-regulatory-track prediction.
+- **Caduceus / Mamba-style DNA models**: state-space alternatives for efficient long-context genomics.
+- **GENA-LM and related genomic LMs**: additional pretrained embedding backbones for transfer tasks.
 
 ## Module
 Tier 5 · Module 05 (Genomic Foundation Models)

@@ -1083,7 +1083,7 @@ Memoization vs. tabulation: top-down vs. bottom-up with complexity comparison. F
 
 ---
 
-### Tier 5: Modern AI for Science -- 4 notebooks
+### Tier 5: Modern AI for Science -- 12 notebooks
 
 GPU-optional modules covering contemporary AI methods for scientific research. Each notebook is designed to run on free-tier Google Colab. Theory cells run without GPU; hands-on training cells require a T4 or better. See the [Tier 5 README](Tier_5_Modern_AI_for_Science/README.md) for GPU setup and Colab instructions.
 
@@ -1126,6 +1126,41 @@ Score-based generative models and diffusion for scientific imaging applications.
 AlphaFold2 architecture, structure prediction confidence metrics, and computational protein design tools. AlphaFold2 architecture overview: MSA encoding, Evoformer (48 axial-attention blocks on MSA rows/columns and pairwise representation), and structure module (invariant point attention in 3D). Running ColabFold for fast structure prediction using MMseqs2-based MSA generation. Interpreting confidence metrics: pLDDT (per-residue Local Distance Difference Test, 0–100 scale) and PAE (Predicted Aligned Error in Å) for domain orientation confidence. ESMFold: protein language model-only prediction for orphan sequences. RFdiffusion for de novo backbone design. ProteinMPNN inverse folding for sequence design given a backbone. Visualization with nglview and PyMOL coloring by pLDDT. GPU optional — structure prediction cells require a T4 runtime.
 
 `AlphaFold2` `ColabFold` `pLDDT` `PAE` `ESMFold` `RFdiffusion` `ProteinMPNN` `protein design` `inverse folding` `structure prediction`
+
+---
+
+#### 5.05 Genomic Foundation Models
+
+[01_genomic_llms.ipynb](Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/01_genomic_llms.ipynb)  
+[02_enformer_regulatory.ipynb](Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/02_enformer_regulatory.ipynb)  
+[03_splicing_models.ipynb](Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/03_splicing_models.ipynb)  
+[04_epigenomic_sequence_models.ipynb](Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/04_epigenomic_sequence_models.ipynb)  
+[05_variant_to_structure_models.ipynb](Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/05_variant_to_structure_models.ipynb)
+
+DNA sequence foundation models for embedding, regulatory prediction, splicing interpretation, epigenomic signal modeling, and structural follow-up. Topics include Nucleotide Transformer, HyenaDNA, Evo, Enformer, Borzoi, SpliceAI, AlphaGenome, Epiformer, and links from coding variants to AlphaFold2/AlphaFold3/RoseTTAFold analysis.
+
+`Nucleotide Transformer` `HyenaDNA` `Evo` `Enformer` `Borzoi` `SpliceAI` `AlphaGenome` `Epiformer` `variant effect`
+
+---
+
+#### 5.06 Protein Language Models
+
+[01_esm2_embeddings.ipynb](Tier_5_Modern_AI_for_Science/06_Protein_Language_Models/01_esm2_embeddings.ipynb)  
+[02_zero_shot_mutation.ipynb](Tier_5_Modern_AI_for_Science/06_Protein_Language_Models/02_zero_shot_mutation.ipynb)
+
+Protein sequence transformers for embeddings, mutation scoring, and structure-aware design. Covers ESM2, ESMFold, zero-shot mutation effect prediction, and inverse folding concepts.
+
+`ESM2` `ESMFold` `zero-shot` `mutation effect` `inverse folding` `ProteinGym`
+
+---
+
+#### 5.07 Foundation Models for Single-Cell Biology
+
+[01_geneformer_scgpt.ipynb](Tier_5_Modern_AI_for_Science/07_Foundation_Models_Single_Cell/01_geneformer_scgpt.ipynb)
+
+Single-cell foundation modeling with Geneformer and scGPT for cell type annotation, perturbation prediction, and large-scale atlas integration.
+
+`Geneformer` `scGPT` `single-cell` `perturbation` `CellxGene Census`
 
 ---
 
