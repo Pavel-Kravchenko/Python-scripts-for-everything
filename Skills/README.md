@@ -61,15 +61,18 @@ Skills are modular — combine them for complex workflows:
 | [`phylogenetics-evolution`](phylogenetics-evolution.md) | Building trees (NJ, UPGMA, ML), bootstrap, comparative genomics, synteny |
 | [`structural-bioinformatics`](structural-bioinformatics.md) | PDB parsing, protein structure, chromatograms, motifs/PWM, GO enrichment |
 
-### Applied Bioinformatics (Skills 12–16)
+### Applied Bioinformatics (Skills 12–18)
 
 | Skill | Use When... |
 |-------|-------------|
 | [`ngs-variant-calling`](ngs-variant-calling.md) | FASTQ QC, read alignment, SAM/BAM, variant calling pipelines, VCF parsing |
-| [`rnaseq-metagenomics`](rnaseq-metagenomics.md) | Differential expression (DESeq2), 16S amplicon analysis, promoter scanning |
+| [`rnaseq`](rnaseq.md) | Differential expression (DESeq2/edgeR), TPM/RPKM normalization, volcano plots, STAR/Salmon |
+| [`metagenomics-shotgun`](metagenomics-shotgun.md) | Kraken2 profiling, Bracken, HUMAnN3 pathways, MEGAHIT, MetaBAT2 MAGs, QIIME2 16S, alpha/beta diversity |
+| [`promoter-regulatory-analysis`](promoter-regulatory-analysis.md) | TATA box detection, CpG island scanning, PWM/TFBS construction and scoring |
 | [`ml-deep-learning-bio`](ml-deep-learning-bio.md) | scikit-learn classifiers, CNNs for genomics, protein language models |
 | [`clinical-modeling-workflows`](clinical-modeling-workflows.md) | Molecular docking, ACMG classification, Scanpy, Snakemake, CI/CD |
-| [`genome-assembly-proteomics`](genome-assembly-proteomics.md) | De novo assembly metrics, mass spectrometry data, protein identification |
+| [`genome-assembly`](genome-assembly.md) | De novo assembly metrics (N50/BUSCO), de Bruijn graphs, SPAdes/Flye/Hifiasm, contamination screening |
+| [`proteomics`](proteomics.md) | Mass spectrometry, b/y ions, trypsin digestion, target-decoy FDR, LFQ/SILAC/TMT quantification |
 
 ### Algorithms & Data Structures (Skills 16–20)
 

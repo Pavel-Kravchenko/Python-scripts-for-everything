@@ -294,6 +294,6 @@ is_sig = (np.array(fdr) < 0.05) & (np.abs(np.array(log2fcs)) > 1)
 ---
 
 ## Related Skills
-- `rnaseq-metagenomics` — DESeq2/edgeR differential expression using NB model
+- `rnaseq` — DESeq2/edgeR differential expression using NB model
 - `ngs-variant-calling` — genome-wide association, variant filtering, Manhattan plots
 - `ml-deep-learning-bio` — when to use ML vs statistical tests for classification/prediction

@@ -235,6 +235,6 @@ df['tumor_stage'] = pd.Categorical(df['tumor_stage'], categories=stage_order, or
 ---
 
 ## Related Skills
-- `rnaseq-metagenomics` — downstream from the expression matrix built here
+- `rnaseq` — downstream from the expression matrix built here
 - `data-visualization-bio` — seaborn/matplotlib require long-format DataFrames
 - `biopython-databases` — BioPython complements NumPy for sequence-level work

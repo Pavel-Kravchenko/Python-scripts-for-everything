@@ -285,6 +285,6 @@ def hwe_test(genotypes):
 ---
 
 ## Related Skills
-- `rnaseq-metagenomics` — differential expression after alignment (DESeq2/edgeR)
+- `rnaseq` — differential expression after alignment (DESeq2/edgeR)
 - `biostatistics-r` — statistical tests, HWE, chi-squared, logistic regression
 - `sequence-alignment` — pairwise alignment, BLAST, motif finding

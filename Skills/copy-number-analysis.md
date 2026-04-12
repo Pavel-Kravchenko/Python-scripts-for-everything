@@ -219,5 +219,5 @@ print(seg["type"].value_counts())
 
 - `ngs-variant-calling` — upstream BAM file generation; read depth computed from aligned reads
 - `gwas-population-genetics` — germline CNVs use similar calling but with expected diploid baseline
-- `rnaseq-metagenomics` — copy number affects RNA expression (gene dosage)
+- `rnaseq` — copy number affects RNA expression (gene dosage)
 - `tf-footprinting-atac` — ATAC-seq workflow shares read depth QC patterns

@@ -180,6 +180,6 @@ bw.close()
 
 ## Related Skills
 - `ngs-variant-calling` — FASTQ QC, alignment with BWA, samtools operations
-- `rnaseq-metagenomics` — differential expression, DESeq2 normalization
+- `rnaseq` — differential expression, DESeq2 normalization
 - `tf-footprinting-atac` — ATAC-seq, open chromatin, TF footprinting
 - `data-visualization-bio` — heatmaps, genome browser tracks, volcano plots
