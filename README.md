@@ -116,7 +116,7 @@ FASTA sequences · PDB protein structures · Sanger chromatograms (.ab1) · VCF 
 
 ## Claude Code Skills
 
-The entire course is compressed into **38 modular skill files** for [Claude Code](https://claude.com/claude-code) — maximum knowledge density, minimum tokens. Each skill provides quick-reference tables, copy-paste code templates, and common pitfalls for a focused topic.
+The entire course is compressed into **67 modular skill files** for [Claude Code](https://claude.com/claude-code) — maximum knowledge density, minimum tokens. Each skill provides quick-reference tables, copy-paste code templates, and common pitfalls for a focused topic.
 
 | Category | Skills |
 |----------|--------|

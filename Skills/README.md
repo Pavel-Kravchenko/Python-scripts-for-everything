@@ -1,6 +1,6 @@
 # Bioinformatics Skills for Claude Code
 
-46 skill files compressing a 129-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
+67 skill files compressing a 129-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
 
 **Maximum content. Maximum yield. Minimum tokens.**
 
@@ -162,3 +162,30 @@ Full course: [Course/README.md](../Course/README.md) | Attribution: [Course/CRED
 ## License
 
 Educational use only. All intellectual property rights for original materials remain with their respective authors and institutions. See the main repository [disclaimer](../README.md#disclaimer).
+
+
+### Atomic Split Skills
+
+| Skill | Note |
+|---|---|
+| [`alphafold-structure-prediction`](alphafold-structure-prediction.md) | Split-out focused skill |
+| [`atac-seq-analysis`](atac-seq-analysis.md) | Split-out focused skill |
+| [`bioinformatics-workflows-cicd`](bioinformatics-workflows-cicd.md) | Split-out focused skill |
+| [`clinical-genomics`](clinical-genomics.md) | Split-out focused skill |
+| [`deep-learning-bio`](deep-learning-bio.md) | Split-out focused skill |
+| [`diffusion-models`](diffusion-models.md) | Split-out focused skill |
+| [`document-rag`](document-rag.md) | Split-out focused skill |
+| [`generative-imaging`](generative-imaging.md) | Split-out focused skill |
+| [`genome-assembly`](genome-assembly.md) | Split-out focused skill |
+| [`gwas-analysis`](gwas-analysis.md) | Split-out focused skill |
+| [`machine-learning-bio`](machine-learning-bio.md) | Split-out focused skill |
+| [`metagenomics-amplicon`](metagenomics-amplicon.md) | Split-out focused skill |
+| [`molecular-modeling-docking`](molecular-modeling-docking.md) | Split-out focused skill |
+| [`population-structure-qc`](population-structure-qc.md) | Split-out focused skill |
+| [`promoter-regulatory-analysis`](promoter-regulatory-analysis.md) | Split-out focused skill |
+| [`protein-design-workflows`](protein-design-workflows.md) | Split-out focused skill |
+| [`proteomics-analysis`](proteomics-analysis.md) | Split-out focused skill |
+| [`rnaseq-analysis`](rnaseq-analysis.md) | Split-out focused skill |
+| [`single-cell-scanpy`](single-cell-scanpy.md) | Split-out focused skill |
+| [`tf-footprinting`](tf-footprinting.md) | Split-out focused skill |
+| [`vision-language-models`](vision-language-models.md) | Split-out focused skill |
