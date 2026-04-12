@@ -1,6 +1,6 @@
 # Bioinformatics Skills for Claude Code
 
-67 skill files compressing a 129-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
+72 skill files compressing a 129-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
 
 **Maximum content. Maximum yield. Minimum tokens.**
 
@@ -113,7 +113,7 @@ Skills are modular — combine them for complex workflows:
 | [`tf-footprinting-atac`](tf-footprinting-atac.md) | ATAC-seq QC (NFR fraction, nucleosomal ladder), Tn5 offset correction, footprint scoring, pybedtools operations, meta-profile plots |
 | [`cancer-transcriptomics`](cancer-transcriptomics.md) | Tumor subtype classification, variance filtering, hierarchical clustering, Random Forest on labeled samples, Kaplan-Meier survival, NMI |
 
-### Modern AI for Science (Skills 36–38)
+### Modern AI for Science (Skills 36–44)
 
 | Skill | Use When... |
 |-------|-------------|
@@ -121,6 +121,11 @@ Skills are modular — combine them for complex workflows:
 | [`vision-rag`](vision-rag.md) | Vision-language models, ColPali document retrieval, RAG pipeline construction, Qwen2-VL inference patterns |
 | [`diffusion-generative`](diffusion-generative.md) | DDIM sampling, linear/cosine noise schedules, score matching intuition, inverse imaging problems, scientific image restoration |
 | [`alphafold-protein-design`](alphafold-protein-design.md) | AlphaFold2 confidence metrics, ColabFold, ESMFold API, RFdiffusion backbone design, ProteinMPNN inverse folding |
+| [`genomic-llm-embeddings`](genomic-llm-embeddings.md) | DNA tokenization strategy, k-mer embedding baselines, and genomic LM embedding workflows |
+| [`enformer-regulatory-prediction`](enformer-regulatory-prediction.md) | Enformer-style regulatory track prediction, in-silico mutagenesis, and variant effect ranking |
+| [`splicing-variant-models`](splicing-variant-models.md) | SpliceAI-style donor/acceptor delta scoring and splice variant prioritization |
+| [`epigenomic-sequence-models`](epigenomic-sequence-models.md) | Borzoi/Epiformer-style sequence modeling for expression and chromatin accessibility tasks |
+| [`genomics-to-structure-triage`](genomics-to-structure-triage.md) | Routing genomic variant findings into AF2/AF3/RoseTTAFold structural follow-up |
 
 ### New Topic Skills (Skills 39–45)
 
@@ -192,3 +197,8 @@ Educational use only. All intellectual property rights for original materials re
 | [`single-cell-scanpy`](single-cell-scanpy.md) | Split-out focused skill |
 | [`tf-footprinting`](tf-footprinting.md) | Split-out focused skill |
 | [`vision-language-models`](vision-language-models.md) | Split-out focused skill |
+| [`genomic-llm-embeddings`](genomic-llm-embeddings.md) | Split-out focused skill |
+| [`enformer-regulatory-prediction`](enformer-regulatory-prediction.md) | Split-out focused skill |
+| [`splicing-variant-models`](splicing-variant-models.md) | Split-out focused skill |
+| [`epigenomic-sequence-models`](epigenomic-sequence-models.md) | Split-out focused skill |
+| [`genomics-to-structure-triage`](genomics-to-structure-triage.md) | Split-out focused skill |
