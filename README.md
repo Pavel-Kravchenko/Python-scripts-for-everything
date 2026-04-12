@@ -2,29 +2,29 @@
 
 A self-paced bioinformatics course built from materials by the [Kodomo Program](https://kodomo.fbb.msu.ru/wiki/2017) at Moscow State University, the [IAB textbook](https://readiab.org/) by J. Gregory Caporaso, and the Summer School of Bioinformatics.
 
-**129 notebooks** · **6 tiers** · **30 interactive visualizations** · **108 glossary terms** · **[46 Claude Code skills](#claude-code-skills)**
+**233 notebooks** · **6 tiers** · **30 interactive visualizations** · **108 glossary terms** · **[79 Claude Code skills](#claude-code-skills)**
 
 ---
 
 ## Structure
 
 ```
-Tier 0  Computational Foundations      10 notebooks
+Tier 0  Computational Foundations      12 notebooks
         Linux · Git · Bash · Encodings · R · Biostatistics ·
         Probability & Statistics (Python) · Advanced R Statistics
 
-Tier 1  Python for Bioinformatics      20 notebooks
+Tier 1  Python for Bioinformatics      38 notebooks
         Variables → Strings → Control Flow → Functions → Files →
         Data Structures → Iterators → Regex → OOP → Decorators →
         NumPy/Pandas → Visualization → SQL
 
-Tier 2  Core Bioinformatics            17 notebooks
+Tier 2  Core Bioinformatics            21 notebooks
         Databases · BioPython · Alignment · BLAST · MSA ·
         Phylogenetics · Protein Structure · Nucleic Acids ·
         Chromatograms · Motifs · GO/Pathways · Comparative Genomics ·
         Computational Genetics · Hi-C Analysis · Motif Discovery
 
-Tier 3  Applied Bioinformatics         48 notebooks
+Tier 3  Applied Bioinformatics         83 notebooks
         NGS · Variant Calling · RNA-seq · Microbial Diversity ·
         Promoters · Statistics · Machine Learning · Deep Learning ·
         Molecular Modeling · Clinical Genomics · Capstone Project ·
@@ -42,7 +42,7 @@ Tier 4  Algorithms & Data Structures  30 notebooks + 30 interactive visualizatio
         BST · AVL · Red-Black Trees · Hash Tables · Bloom Filters ·
         KMP · Rabin-Karp · Tries · Suffix Trees · Graphs · DP
 
-Tier 5  Modern AI for Science          4 notebooks
+Tier 5  Modern AI for Science          13 notebooks
         LLM Fine-tuning · Vision RAG · Diffusion & Generative Models ·
         AlphaFold & Protein Design
 ```
@@ -116,7 +116,7 @@ FASTA sequences · PDB protein structures · Sanger chromatograms (.ab1) · VCF 
 
 ## Claude Code Skills
 
-The entire course is compressed into **67 modular skill files** for [Claude Code](https://claude.com/claude-code) — maximum knowledge density, minimum tokens. Each skill provides quick-reference tables, copy-paste code templates, and common pitfalls for a focused topic.
+The entire course is compressed into **79 modular skill files** for [Claude Code](https://claude.com/claude-code) — maximum knowledge density, minimum tokens. Each skill provides quick-reference tables, copy-paste code templates, and common pitfalls for a focused topic.
 
 | Category | Skills |
 |----------|--------|

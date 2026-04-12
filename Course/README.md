@@ -2,7 +2,7 @@
 
 A modular, five-tier curriculum that takes you from computational basics to applied bioinformatics research skills. Built on materials from the Kodomo Bioinformatics Program at Moscow State University and the IAB open-source textbook, every concept is taught through hands-on Jupyter notebooks with real biological data. Whether you are a biology student learning to code, a programmer entering the life sciences, or a researcher looking to sharpen your computational toolkit, this course meets you where you are.
 
-`129 notebooks` | `6 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
+`233 notebooks` | `6 tiers` | `108 glossary terms` | `12 sample data files` | `30 interactive visualizations`
 
 ---
 
@@ -11,7 +11,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 0: COMPUTATIONAL FOUNDATIONS                             10 notebooks  │
+│  TIER 0: COMPUTATIONAL FOUNDATIONS                             12 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ Linux │ Git │ Bash │ Encodings │ R Basics │ Biostatistics  │
 │  Probability & Statistics (Python) │ Advanced R Statistics                  │
@@ -24,7 +24,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 1: PYTHON FOR BIOINFORMATICS                             20 notebooks  │
+│  TIER 1: PYTHON FOR BIOINFORMATICS                             38 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ Intro │ Variables │ Operators │ Strings │ Control Flow      │
 │  Functions │ File I/O │ Lists │ Dicts │ Comprehensions │ Iterators          │
@@ -39,7 +39,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 2: CORE BIOINFORMATICS                                   17 notebooks  │
+│  TIER 2: CORE BIOINFORMATICS                                   21 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ Glossary │ Databases │ BioPython │ Pairwise Alignment       │
 │  BLAST │ Multiple Alignment │ Phylogenetics │ Protein Structure             │
@@ -55,7 +55,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
                                    ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 3: APPLIED BIOINFORMATICS                                48 notebooks  │
+│  TIER 3: APPLIED BIOINFORMATICS                                83 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  Skills Check │ NGS │ Variant Calling │ RNA-seq │ Microbial Diversity       │
 │  Promoters │ Statistics │ Machine Learning │ Capstone Project               │
@@ -96,7 +96,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                                                                              │
-│  TIER 5: MODERN AI FOR SCIENCE                                  4 notebooks  │
+│  TIER 5: MODERN AI FOR SCIENCE                                 13 notebooks  │
 │  ──────────────────────────────────────────────────────────────────────────  │
 │  LLM Fine-tuning │ Vision RAG │ Diffusion & Generative Models               │
 │  AlphaFold & Protein Design                                                  │
@@ -128,7 +128,7 @@ A modular, five-tier curriculum that takes you from computational basics to appl
 
 ## Complete Table of Contents
 
-### Tier 0: Computational Foundations -- 10 notebooks
+### Tier 0: Computational Foundations -- 12 notebooks
 
 These modules cover the computing skills that every bioinformatician needs before writing Python. If you can navigate a Linux file system, use Git confidently, and write basic Bash scripts, take the Skills Check and skip ahead.
 
@@ -225,7 +225,7 @@ Hands-on R statistical computing with real biological datasets. Notebook 1 cover
 
 ---
 
-### Tier 1: Python for Bioinformatics -- 20 notebooks
+### Tier 1: Python for Bioinformatics -- 38 notebooks
 
 Core Python programming taught entirely through biological examples. From your first program to publication-quality figures, every exercise works with sequences, gene data, or biological datasets.
 
@@ -431,7 +431,7 @@ Querying biological databases using SQL with Python's built-in `sqlite3` module 
 
 ---
 
-### Tier 2: Core Bioinformatics -- 17 notebooks
+### Tier 2: Core Bioinformatics -- 21 notebooks
 
 The heart of bioinformatics: databases, algorithms, structural biology, and analysis methods. You will learn how to search databases, align sequences, build phylogenetic trees, analyze protein structures, and interpret functional annotations.
 
@@ -607,7 +607,7 @@ Quantitative motif analysis from position frequency matrices to enrichment testi
 
 ---
 
-### Tier 3: Applied Bioinformatics -- 48 notebooks
+### Tier 3: Applied Bioinformatics -- 83 notebooks
 
 Advanced topics and real-world analysis pipelines. Each notebook covers a complete workflow from raw data to biological conclusions. Includes a capstone project integrating skills from every tier, plus specialized modules on molecular modeling, deep learning, clinical genomics, modern bioinformatics workflows, GWAS, spatial transcriptomics, copy number analysis, Bayesian statistics, and TF footprinting.
 
@@ -1083,7 +1083,7 @@ Memoization vs. tabulation: top-down vs. bottom-up with complexity comparison. F
 
 ---
 
-### Tier 5: Modern AI for Science -- 12 notebooks
+### Tier 5: Modern AI for Science -- 13 notebooks
 
 GPU-optional modules covering contemporary AI methods for scientific research. Each notebook is designed to run on free-tier Google Colab. Theory cells run without GPU; hands-on training cells require a T4 or better. See the [Tier 5 README](Tier_5_Modern_AI_for_Science/README.md) for GPU setup and Colab instructions.
 
@@ -1091,11 +1091,12 @@ GPU-optional modules covering contemporary AI methods for scientific research. E
 
 #### 5.01 LLM Fine-tuning
 
-[01_LLM_Finetuning.ipynb](Tier_5_Modern_AI_for_Science/01_LLM_Finetuning/01_LLM_Finetuning.ipynb)
+[01_LLM_Finetuning.ipynb](Tier_5_Modern_AI_for_Science/01_LLM_Finetuning/01_LLM_Finetuning.ipynb)  
+[02_llm_training_systems.ipynb](Tier_5_Modern_AI_for_Science/01_LLM_Finetuning/02_llm_training_systems.ipynb)
 
-Fine-tuning large language models for domain-specific instruction following. Base vs. instruction/chat models: what changes during fine-tuning and why. LoRA: low-rank adapter mathematics, rank selection, and target module identification. Quantization: 4-bit NF4 with bitsandbytes and trade-offs with output quality. Chat template formatting: system/user/assistant structure. SFTTrainer workflow: dataset preparation, training loop configuration, and evaluation. Synthetic data generation for instruction tuning. Practical tips: gradient checkpointing, batch size scheduling, learning rate warm-up. Inspired by Unsloth AI and Manuel Faysse fine-tuning patterns; uses public instruction datasets from HuggingFace Hub.
+Fine-tuning large language models for domain-specific instruction following. Base vs. instruction/chat models: what changes during fine-tuning and why. LoRA: low-rank adapter mathematics, rank selection, and target module identification. Quantization: 4-bit NF4 with bitsandbytes and trade-offs with output quality. Chat template formatting: system/user/assistant structure. SFTTrainer workflow: dataset preparation, training loop configuration, and evaluation. Experiment-system setup: metric tracking, epoch-level monitoring, checkpoint policy, and ablation design (W&B/MLflow/TensorBoard patterns). Practical tips: gradient checkpointing, batch size scheduling, learning rate warm-up. Inspired by Unsloth AI and Manuel Faysse fine-tuning patterns; uses public instruction datasets from HuggingFace Hub.
 
-`LoRA` `quantization` `NF4` `SFTTrainer` `trl` `peft` `bitsandbytes` `chat templates` `instruction tuning` `synthetic data`
+`LoRA` `quantization` `NF4` `SFTTrainer` `trl` `peft` `bitsandbytes` `chat templates` `instruction tuning` `experiment tracking` `ablations`
 
 ---
 
@@ -1477,7 +1478,7 @@ This course relies on the following open-source tools and libraries:
 
 ```
 Course/
-├── Tier_0_Computational_Foundations/        10 notebooks
+├── Tier_0_Computational_Foundations/        12 notebooks
 │   ├── 00_Skills_Check/
 │   ├── 01_Linux_Basics/
 │   ├── 02_Git_Version_Control/
@@ -1488,7 +1489,7 @@ Course/
 │   ├── 07_Probability_and_Statistics_Python/
 │   └── 08_Advanced_R_Statistics/
 │
-├── Tier_1_Python_for_Bioinformatics/       20 notebooks
+├── Tier_1_Python_for_Bioinformatics/       38 notebooks
 │   ├── 00_Skills_Check/
 │   ├── 01_Python_Introduction/
 │   ├── 02_Variables_and_Data_Types/
@@ -1510,7 +1511,7 @@ Course/
 │   ├── 18_Data_Visualization/
 │   └── 19_SQL_for_Bioinformatics/
 │
-├── Tier_2_Core_Bioinformatics/             17 notebooks
+├── Tier_2_Core_Bioinformatics/             21 notebooks
 │   ├── 00_Skills_Check/                    (includes Glossary)
 │   ├── 01_Biological_Databases/
 │   ├── 02_BioPython_Essentials/
@@ -1528,7 +1529,7 @@ Course/
 │   ├── 14_Hi-C_Analysis/
 │   └── 15_Motif_Discovery/
 │
-├── Tier_3_Applied_Bioinformatics/          26 notebooks
+├── Tier_3_Applied_Bioinformatics/          83 notebooks
 │   ├── 00_Skills_Check/
 │   ├── 01_NGS_Fundamentals/
 │   ├── 02_Variant_Calling_and_SNP_Analysis/

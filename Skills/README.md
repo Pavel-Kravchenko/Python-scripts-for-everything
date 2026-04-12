@@ -1,6 +1,6 @@
 # Bioinformatics Skills for Claude Code
 
-72 skill files compressing a 129-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
+79 skill files compressing a 233-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
 
 **Maximum content. Maximum yield. Minimum tokens.**
 
@@ -157,7 +157,7 @@ Each skill follows a consistent structure for fast scanning:
 
 ## Course Origin
 
-Based on the **Bioinformatics with Python** course — 129 notebooks across 6 tiers, built from materials by:
+Based on the **Bioinformatics with Python** course — 233 notebooks across 6 tiers, built from materials by:
 
 - **[Kodomo Bioinformatics Program](https://kodomo.fbb.msu.ru/wiki/2017)** — Moscow State University (10-semester curriculum)
 - **[An Introduction to Applied Bioinformatics](https://readiab.org/)** — J. Gregory Caporaso, Northern Arizona University

@@ -20,13 +20,11 @@ Practical protein structure prediction and computational protein design using Al
 - Tier 2 Module 06 (Protein Structure) — PDB format, structural concepts
 - Module T5-01 (LLM Fine-tuning) — transformer architectures
 
-## Planned Notebooks
+## Notebook
 
 | # | Notebook | Topics | GPU |
 |---|----------|--------|-----|
-| 1 | [Structure Prediction with AlphaFold & ESMFold](01_alphafold_esmfold.ipynb) | Colab AF2, ESMFold API, pLDDT/PAE interpretation | Optional |
-| 2 | [Protein Complex Modeling](02_complex_modeling.ipynb) | AlphaFold-Multimer, ColabFold, interface analysis | Optional |
-| 3 | [Generative Protein Design](03_protein_design.ipynb) | RFdiffusion backbone design, ProteinMPNN inverse folding | Yes (T4) |
+| 1 | [AlphaFold & Protein Design](04_AlphaFold_Protein_Design.ipynb) | AlphaFold2 architecture, confidence metrics (pLDDT/PAE), ESMFold and RoseTTAFold context, RFdiffusion and ProteinMPNN design workflow | Optional (T4 recommended) |
 
 ## Key Tools
 | Tool | Purpose |
