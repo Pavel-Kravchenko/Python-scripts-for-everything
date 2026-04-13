@@ -12,12 +12,18 @@ GPU-optional modules covering contemporary AI methods applied to scientific rese
 | Module | Topic | GPU Required |
 |--------|-------|-------------|
 | [01 LLM Fine-tuning](01_LLM_Finetuning/01_LLM_Finetuning.ipynb) | LoRA, quantization, SFTTrainer, instruction datasets, experiment tracking, ablations | Yes (T4 or better) |
+| [01b LLM Training Systems](01_LLM_Finetuning/02_llm_training_systems.ipynb) | Distributed training, FSDP, DeepSpeed, gradient checkpointing | Yes (multi-GPU) |
 | [02 Vision RAG](02_Vision_RAG/02_Vision_RAG.ipynb) | VLMs, ColPali, document retrieval, RAG pipeline | Optional (CPU feasible for inference) |
 | [03 Diffusion & Generative Models](03_Diffusion_Generative_Models/03_Diffusion_Generative_Models.ipynb) | Score matching, DDIM, inverse problems, noise schedules | Optional (CPU feasible for small examples) |
 | [04 AlphaFold & Protein Design](04_AlphaFold_Protein_Design/04_AlphaFold_Protein_Design.ipynb) | AlphaFold2 architecture, pLDDT/PAE, ESMFold, RFdiffusion, ProteinMPNN | Optional (T4 for design) |
-| [05 Genomic Foundation Models](05_Genomic_Foundation_Models/README.md) | Nucleotide Transformer, Enformer, Borzoi, SpliceAI, AlphaGenome, Epiformer | Optional (T4 recommended for long-context models) |
-| [06 Protein Language Models](06_Protein_Language_Models/README.md) | ESM2 embeddings, ESMFold, mutation effect prediction, inverse folding | Yes (T4 recommended) |
-| [07 Foundation Models for Single-Cell](07_Foundation_Models_Single_Cell/README.md) | Geneformer, scGPT, perturbation prediction, Census-scale analysis | Yes (T4 recommended) |
+| [05a Genomic LLMs](05_Genomic_Foundation_Models/01_genomic_llms.ipynb) | Nucleotide Transformer, DNABERT-2, HyenaDNA, k-mer tokenization | Optional (T4 recommended) |
+| [05b Enformer & Regulatory](05_Genomic_Foundation_Models/02_enformer_regulatory.ipynb) | Enformer architecture, regulatory element prediction | Optional (T4 recommended) |
+| [05c Splicing Models](05_Genomic_Foundation_Models/03_splicing_models.ipynb) | SpliceAI, Pangolin, splice variant effect prediction | Optional |
+| [05d Epigenomic Models](05_Genomic_Foundation_Models/04_epigenomic_sequence_models.ipynb) | Epiformer, chromatin accessibility prediction | Optional (T4 recommended) |
+| [05e Variant-to-Structure](05_Genomic_Foundation_Models/05_variant_to_structure_models.ipynb) | AlphaMissense, variant effect → structural impact | Optional |
+| [06a ESM2 Embeddings](06_Protein_Language_Models/01_esm2_embeddings.ipynb) | ESM2 architecture, protein embeddings, ESMFold | Yes (T4 recommended) |
+| [06b Zero-shot Mutation](06_Protein_Language_Models/02_zero_shot_mutation.ipynb) | ESM-1v scoring, masked log-likelihood, mutation effects | Yes (T4 recommended) |
+| [07 Geneformer & scGPT](07_Foundation_Models_Single_Cell/01_geneformer_scgpt.ipynb) | Rank-value tokenization, cell-type annotation, perturbation prediction | Yes (T4 recommended) |
 
 ## Running on Colab
 

@@ -22,6 +22,20 @@ The computer science foundation behind bioinformatics tools. 10 modules with 30 
 | 09 | [Graph Algorithms](09_Graph_Algorithms/) | 5 | BFS, DFS, Dijkstra, Bellman-Ford, MST, topological sort |
 | 10 | [Dynamic Programming](10_Dynamic_Programming/) | 4 | Memoization, tabulation, LCS, edit distance, knapsack |
 
+### All Notebooks
+
+- [00 Skills Check](00_Skills_Check/00_skills_check.ipynb)
+- [01a Complexity Analysis](01_Complexity_Analysis/01_complexity_analysis.ipynb) | [01b Basic Algorithms](01_Complexity_Analysis/02_basic_algorithms.ipynb)
+- [02a Comparison Sorts](02_Sorting_Algorithms/01_comparison_sorts.ipynb) | [02b Linear Sorts](02_Sorting_Algorithms/02_linear_sorts.ipynb)
+- [03 Linear & Binary Search](03_Searching_Algorithms/01_linear_binary_search.ipynb)
+- [04a Linked Lists](04_Linear_Data_Structures/01_linked_lists.ipynb) | [04b Stacks & Queues](04_Linear_Data_Structures/02_stacks_queues.ipynb) | [04c Dynamic Arrays](04_Linear_Data_Structures/03_dynamic_arrays.ipynb)
+- [05a Binary Search Trees](05_Tree_Structures/01_binary_search_trees.ipynb) | [05b AVL Trees](05_Tree_Structures/02_avl_trees.ipynb) | [05c Red-Black Trees](05_Tree_Structures/03_red_black_trees.ipynb)
+- [06 Hash Tables & Bloom Filters](06_Hash_Based_Structures/01_hash_tables_bloom.ipynb)
+- [07a Naive Matching](07_String_Algorithms/01_naive_pattern_matching.ipynb) | [07b KMP](07_String_Algorithms/02_kmp_algorithm.ipynb) | [07c Rabin-Karp](07_String_Algorithms/03_rabin_karp.ipynb) | [07d DFA Matching](07_String_Algorithms/04_dfa_matching.ipynb)
+- [08a Tries](08_Advanced_String_Structures/01_tries.ipynb) | [08b Aho-Corasick](08_Advanced_String_Structures/02_aho_corasick.ipynb) | [08c Suffix Arrays](08_Advanced_String_Structures/03_suffix_arrays.ipynb) | [08d Suffix Trees](08_Advanced_String_Structures/04_suffix_trees.ipynb)
+- [09a Graph Representations](09_Graph_Algorithms/01_graph_representations.ipynb) | [09b BFS & DFS](09_Graph_Algorithms/02_bfs_dfs.ipynb) | [09c Dijkstra](09_Graph_Algorithms/03_dijkstra.ipynb) | [09d MST](09_Graph_Algorithms/04_mst_kruskal_prim.ipynb) | [09e Topological Sort](09_Graph_Algorithms/05_topological_sort.ipynb)
+- [10a Memoization](10_Dynamic_Programming/01_intro_memoization.ipynb) | [10b Tabulation](10_Dynamic_Programming/02_tabulation.ipynb) | [10c Knapsack](10_Dynamic_Programming/03_knapsack.ipynb) | [10d Sequence Alignment](10_Dynamic_Programming/04_sequence_alignment.ipynb)
+
 ---
 
 ## Interactive Visualizations
