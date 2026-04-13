@@ -3,7 +3,19 @@ name: algo-dfa-matching
 description: "This notebook covers **Deterministic Finite Automaton (DFA)** based string pattern matching - a technique that preprocesses the pattern to build a state machine enabling O(n) search time with no backt"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/07_String_Algorithms/04_dfa_matching.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # DFA-Based Pattern Matching
 

@@ -3,7 +3,19 @@ name: bio-core-protein-structure
 description: "- Describe the four levels of protein structure (primary through quaternary) - Parse PDB files and understand ATOM record format - Use BioPython's Bio.PDB module to navigate the Structure/Model/Chain/"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/07_Protein_Structure/01_protein_structure.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: biopython 1.83+, matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Protein Structure Analysis
 

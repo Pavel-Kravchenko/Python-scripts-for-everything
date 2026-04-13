@@ -3,7 +3,19 @@ name: bio-core-phylogenetics
 description: "Phylogenetic trees are hypotheses about the evolutionary relationships among organisms, genes, or other biological entities. This notebook covers the theory, algorithms, and practical tools for buildi"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/06_Phylogenetics/01_phylogenetics.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: biopython 1.83+, matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Phylogenetics: Reconstructing Evolutionary History
 

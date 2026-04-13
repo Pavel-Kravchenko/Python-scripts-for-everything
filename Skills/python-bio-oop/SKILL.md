@@ -3,7 +3,19 @@ name: python-bio-oop
 description: "Split from `01_classes_and_oop.ipynb` for depth. Start with [Classes](./01_classes.ipynb) first."
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/13_Classes_and_OOP/02_oop.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 13: Advanced OOP Patterns
 

@@ -3,7 +3,19 @@ name: python-bio-functions
 description: "By the end of this module, you will be able to: - Define and call functions with various parameter types - Use default arguments, `*args`, and `**kwargs` - Write lambda functions and use `map`/`filter"
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/06_Functions/01_functions.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 6: Functions in Python
 

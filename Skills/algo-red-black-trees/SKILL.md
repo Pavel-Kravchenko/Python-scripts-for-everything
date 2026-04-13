@@ -3,7 +3,19 @@ name: algo-red-black-trees
 description: "A **Red-Black Tree** is a self-balancing binary search tree where each node has an extra bit for color (RED or BLACK). The tree uses these colors to ensure the tree remains approximately balanced duri"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/05_Tree_Structures/03_red_black_trees.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Red-Black Trees
 

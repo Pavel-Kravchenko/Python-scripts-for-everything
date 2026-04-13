@@ -3,7 +3,19 @@ name: algo-dynamic-arrays
 description: "A comprehensive guide to dynamic arrays: how they work, why we need them, and their performance characteristics."
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/04_Linear_Data_Structures/03_dynamic_arrays.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Dynamic Arrays
 

@@ -3,7 +3,19 @@ name: bio-core-blast-searching
 description: "1. Explain how BLAST works (the seed-and-extend heuristic) and why it is needed 2. Choose the correct BLAST variant for your data (blastn, blastp, blastx, tblastn, tblastx) 3. Run BLAST searches via t"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/04_BLAST_Searching/01_blast_searching.ipynb"
+primary_tool: BLAST+
 ---
+
+## Version Compatibility
+
+Reference examples tested with: biopython 1.83+, matplotlib 3.8+, numpy 1.26+, pandas 2.1+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # BLAST: Sequence Similarity Searching
 

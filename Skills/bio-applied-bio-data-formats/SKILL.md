@@ -3,7 +3,19 @@ name: bio-applied-bio-data-formats
 description: "Modern bioinformatics pipelines exchange data through a rich ecosystem of plain-text and binary file formats. This notebook surveys **every major format** you will encounter in NGS, structural biology"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/01_NGS_Fundamentals/02_bio_data_formats.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: biopython 1.83+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Bioinformatics Data Formats: A Comprehensive Guide
 

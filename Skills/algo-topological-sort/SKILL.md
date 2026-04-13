@@ -3,7 +3,19 @@ name: algo-topological-sort
 description: "1. Understand directed acyclic graphs (DAGs) 2. Implement topological sort using DFS and Kahn's algorithm 3. Apply to biological pathway analysis"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/05_topological_sort.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # 📐 Topological Sort
 

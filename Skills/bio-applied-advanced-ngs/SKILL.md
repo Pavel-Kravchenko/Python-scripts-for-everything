@@ -3,7 +3,19 @@ name: bio-applied-advanced-ngs
 description: "This notebook builds directly on **3.01 NGS Fundamentals** (sequencing platforms, FASTQ, basic QC, SAM/BAM, BWA/HISAT2 alignment). Here we go deeper: assembling genomes *de novo* when no reference exi"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/17_Genome_Assembly_and_Advanced_NGS/02_advanced_ngs.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Genome Assembly and Advanced NGS
 

@@ -3,7 +3,19 @@ name: bio-applied-variant-surveillance
 description: "**Tier 3 — Applied Bioinformatics | Module 37 · Notebook 3**"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/37_Virology_Bioinformatics/03_variant_surveillance.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Variant Surveillance and Wastewater Epidemiology
 

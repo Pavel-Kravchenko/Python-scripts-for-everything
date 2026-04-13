@@ -3,7 +3,19 @@ name: python-bio-sql-for-bioinformatics
 description: "Ensembl, UCSC Genome Browser, NCBI, and dbSNP are all backed by relational databases. Even locally, SQLite is a practical way to store and query gene annotations, variant tables, and expression result"
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/19_SQL_for_Bioinformatics/01_sql_for_bioinformatics.ipynb"
+primary_tool: Pandas
 ---
+
+## Version Compatibility
+
+Reference examples tested with: numpy 1.26+, pandas 2.1+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # SQL for Bioinformatics
 

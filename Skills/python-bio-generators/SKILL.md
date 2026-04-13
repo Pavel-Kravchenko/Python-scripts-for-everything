@@ -3,7 +3,19 @@ name: python-bio-generators
 description: "Split from `01_iterators_and_generators.ipynb` for depth. Start with [Iterators](./01_iterators.ipynb) first."
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/11_Iterators_and_Generators/02_generators.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 11: Generators
 

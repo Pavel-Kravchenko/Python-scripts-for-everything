@@ -3,7 +3,19 @@ name: bio-core-comparative-genomics
 description: "- Understand the goals and rationale of comparative genomics - Implement dot plots from scratch and interpret visual patterns (inversions, duplications, translocations) - Understand synteny analysis a"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/12_Comparative_Genomics/01_comparative_genomics.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Comparative Genomics
 

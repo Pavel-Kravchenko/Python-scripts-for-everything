@@ -3,7 +3,19 @@ name: algo-graph-representations
 description: "1. Understand what graphs are and why they matter in bioinformatics 2. Implement three core graph representations: adjacency matrix, adjacency list, edge list 3. Analyze space/time trade-offs for each"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/01_graph_representations.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # 🔗 Graph Representations
 

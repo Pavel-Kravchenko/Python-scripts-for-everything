@@ -3,7 +3,19 @@ name: bio-applied-regulatory-analysis
 description: "> **This is the main notebook** for Module 05. It covers the complete curriculum (Sections 1–10). See also [01_promoter.ipynb](./01_promoter.ipynb) for an additional CpG island code example."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/05_Promoter_and_Regulatory_Analysis/02_regulatory_analysis.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Promoter and Regulatory Sequence Analysis
 

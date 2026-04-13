@@ -3,7 +3,19 @@ name: ai-science-llm-training-systems
 description: "**Tier 5 — Modern AI for Science | Module 01 · Notebook 2**"
 tool_type: python
 source_notebook: "Tier_5_Modern_AI_for_Science/01_LLM_Finetuning/02_llm_training_systems.ipynb"
+primary_tool: Pandas
 ---
+
+## Version Compatibility
+
+Reference examples tested with: numpy 1.26+, pandas 2.1+, pytorch 2.2+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module T5-01B: LLM Training Systems (Tracking, Epochs, and Ablations)
 

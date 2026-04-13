@@ -3,7 +3,19 @@ name: bio-applied-genetic-engineering-in-silico
 description: "This notebook implements core molecular cloning and genome-editing workflows entirely in Python. All algorithms are built from first principles — no external bioinformatics libraries required."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/14_Genetic_Engineering_In_Silico/01_genetic_engineering_in_silico.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Genetic Engineering In Silico
 

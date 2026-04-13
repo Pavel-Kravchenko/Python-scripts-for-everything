@@ -3,7 +3,19 @@ name: bio-applied-dmr-analysis
 description: "**Tier 3 — Applied Bioinformatics | Module 32 · Notebook 2**"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/32_DNA_Methylation_Analysis/02_dmr_analysis.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Differentially Methylated Regions (DMRs)
 

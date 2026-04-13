@@ -3,7 +3,19 @@ name: algo-avl-trees
 description: "Named after inventors **A**delson-**V**elsky and **L**andis (1962) - the first self-balancing BST."
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/05_Tree_Structures/02_avl_trees.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # AVL Trees
 

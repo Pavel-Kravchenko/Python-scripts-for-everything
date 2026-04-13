@@ -3,7 +3,19 @@ name: bio-applied-lncrna-classification
 description: "**Tier 3 — Applied Bioinformatics | Module 35 · Notebook 2**"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/35_Small_RNA_and_ncRNA/02_lncrna_classification.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Long Non-Coding RNA: Discovery and Classification
 

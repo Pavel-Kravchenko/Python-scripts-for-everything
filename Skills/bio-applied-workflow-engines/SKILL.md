@@ -3,7 +3,19 @@ name: bio-applied-workflow-engines
 description: "1. Explain the DAG-based execution model shared by all modern workflow engines 2. Write **production-quality Snakefiles** with config files, wildcards, params, logs, benchmarks, conda environments, an"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/12_Modern_Workflows/02_workflow_engines.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Workflow Engines: Snakemake and nf-core / Nextflow
 

@@ -3,7 +3,19 @@ name: bio-applied-machine-learning-for-biology
 description: "Machine learning (ML) has become indispensable in modern bioinformatics: classifying protein functions, predicting drug responses, identifying regulatory elements, and analyzing single-cell data. This"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/07_Machine_Learning_for_Biology/01_machine_learning_for_biology.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scikit-learn 1.4+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Machine Learning for Biology
 

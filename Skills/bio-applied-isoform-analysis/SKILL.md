@@ -3,7 +3,19 @@ name: bio-applied-isoform-analysis
 description: "**Tier 3 — Applied Bioinformatics | Module 25 · Notebook 3**"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/03_isoform_analysis.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, statsmodels 0.14+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Isoform Analysis with Long Reads
 

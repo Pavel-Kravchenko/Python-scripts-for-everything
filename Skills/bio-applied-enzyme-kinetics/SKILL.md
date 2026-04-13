@@ -3,7 +3,19 @@ name: bio-applied-enzyme-kinetics
 description: "- Describe the enzyme-substrate reaction mechanism and extract initial velocities from progress curves - Derive and fit the Michaelis-Menten equation to obtain Km and Vmax with confidence intervals - "
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/13_Biochemistry_and_Enzyme_Kinetics/02_enzyme_kinetics.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, scipy 1.12+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Biochemistry and Enzyme Kinetics
 

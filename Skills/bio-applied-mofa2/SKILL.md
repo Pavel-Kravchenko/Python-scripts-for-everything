@@ -3,7 +3,19 @@ name: bio-applied-mofa2
 description: "**Tier 3 — Applied Bioinformatics | Module 27 · Notebook 2**"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/27_Multi_Omics_Integration/02_mofa2.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, muon 0.1+, numpy 1.26+, pandas 2.1+, scikit-learn 1.4+, scipy 1.12+, seaborn 0.13+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # MOFA2: Multi-Omics Factor Analysis
 

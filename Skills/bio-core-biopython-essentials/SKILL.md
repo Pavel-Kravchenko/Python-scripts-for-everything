@@ -3,7 +3,19 @@ name: bio-core-biopython-essentials
 description: "BioPython is the most widely used Python library for bioinformatics. This notebook covers its core modules through practical, hands-on examples -- from sequence manipulation to fetching data from NCBI"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/02_BioPython_Essentials/01_biopython_essentials.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: biopython 1.83+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # BioPython Essentials
 

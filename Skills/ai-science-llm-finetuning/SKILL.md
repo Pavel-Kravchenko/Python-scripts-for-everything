@@ -3,7 +3,19 @@ name: ai-science-llm-finetuning
 description: "*Prerequisites: Tier 3 Module 10 (Deep Learning for Biology), PyTorch basics.*"
 tool_type: python
 source_notebook: "Tier_5_Modern_AI_for_Science/01_LLM_Finetuning/01_LLM_Finetuning.ipynb"
+primary_tool: HuggingFace Transformers
 ---
+
+## Version Compatibility
+
+Reference examples tested with: pandas 2.1+, pytorch 2.2+, transformers 4.38+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module T5-01: LLM Fine-tuning
 

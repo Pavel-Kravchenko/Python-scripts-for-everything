@@ -3,7 +3,19 @@ name: bio-applied-metabolic-flux
 description: "**Tier 3 — Applied Bioinformatics | Module 36 · Notebook 3**"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/36_Metabolomics/03_metabolic_flux.ipynb"
+primary_tool: COBRApy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: cobrapy 0.29+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Metabolic Flux Analysis and Constraint-Based Modeling
 

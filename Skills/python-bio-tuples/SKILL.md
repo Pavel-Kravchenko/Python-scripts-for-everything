@@ -3,7 +3,19 @@ name: python-bio-tuples
 description: "Lists are the go-to container for ordered, variable-length collections in Python. In bioinformatics: a list of codons extracted from a CDS, a list of gene names from a FASTA file, a list of quality sc"
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/08_Lists_and_Tuples/02_tuples.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 8: Lists and Tuples
 

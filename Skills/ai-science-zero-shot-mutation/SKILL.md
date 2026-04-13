@@ -3,7 +3,19 @@ name: ai-science-zero-shot-mutation
 description: "**Tier 5 — Modern AI for Science | Module 06 · Notebook 2**"
 tool_type: python
 source_notebook: "Tier_5_Modern_AI_for_Science/06_Protein_Language_Models/02_zero_shot_mutation.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: numpy 1.26+, pandas 2.1+, pytorch 2.2+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Zero-Shot Mutation Effect Prediction
 

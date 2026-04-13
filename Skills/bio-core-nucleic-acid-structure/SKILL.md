@@ -3,7 +3,19 @@ name: bio-core-nucleic-acid-structure
 description: "- Describe the chemical components of nucleotides (base, sugar, phosphate) - Distinguish DNA helical forms (A, B, Z) and their biological significance - Explain major and minor groove geometry and its"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/08_Nucleic_Acid_Structure/01_nucleic_acid_structure.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: biopython 1.83+, matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Nucleic Acid Structure
 

@@ -3,7 +3,19 @@ name: bio-applied-screen-qc-normalization
 description: "**Tier 3 — Applied Bioinformatics | Module 33 · Notebook 2**"
 tool_type: reference
 source_notebook: "Tier_3_Applied_Bioinformatics/33_CRISPR_Screen_Analysis/02_screen_qc_normalization.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # CRISPR Screen QC, Normalization, and Advanced Methods
 

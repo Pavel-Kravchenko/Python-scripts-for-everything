@@ -3,7 +3,19 @@ name: bio-applied-testing-cicd
 description: "1. Explain **why** testing is critical for bioinformatics code reliability 2. Write **unit tests** with pytest for bioinformatics functions 3. Use **fixtures** and **parametrized tests** for efficient"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/12_Modern_Workflows/03_testing_cicd.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: biopython 1.83+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Testing and CI/CD for Bioinformatics
 

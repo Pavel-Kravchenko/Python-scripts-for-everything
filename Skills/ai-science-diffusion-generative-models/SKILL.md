@@ -3,7 +3,19 @@ name: ai-science-diffusion-generative-models
 description: "*Prerequisites: Module T5-01 (LLM Fine-tuning), Tier 3 Module 10 (Deep Learning), numpy.*"
 tool_type: python
 source_notebook: "Tier_5_Modern_AI_for_Science/03_Diffusion_Generative_Models/03_Diffusion_Generative_Models.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, scipy 1.12+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module T5-03: Diffusion & Generative Models
 

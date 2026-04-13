@@ -3,7 +3,19 @@ name: foundations-linux-fundamentals
 description: "By the end of this module, you will be able to: - Navigate the Linux file system with confidence - Create, move, copy, and delete files and directories - Use pipes and redirections to build data-proce"
 tool_type: python
 source_notebook: "Tier_0_Computational_Foundations/01_Linux_Basics/01_linux_fundamentals.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 0.1: Linux Fundamentals for Bioinformatics
 

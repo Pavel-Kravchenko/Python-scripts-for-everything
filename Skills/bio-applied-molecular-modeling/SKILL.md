@@ -3,7 +3,19 @@ name: bio-applied-molecular-modeling
 description: "**Tier 3 — Module 09** | [Next: Docking →](./02_docking.ipynb)"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/09_Molecular_Modeling_and_Docking/01_molecular_modeling.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Molecular Modeling
 

@@ -3,7 +3,19 @@ name: bio-core-biological-databases
 description: "Modern bioinformatics depends on large, well-curated public databases. This notebook covers the major databases you will use daily as a bioinformatician: where biological data lives, what each databas"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/01_Biological_Databases/01_biological_databases.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: biopython 1.83+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Biological Databases
 

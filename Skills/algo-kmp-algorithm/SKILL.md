@@ -3,7 +3,19 @@ name: algo-kmp-algorithm
 description: "The KMP algorithm is one of the most elegant string matching algorithms, achieving **O(n + m)** time complexity by avoiding redundant comparisons. This notebook covers:"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/07_String_Algorithms/02_kmp_algorithm.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Knuth-Morris-Pratt (KMP) Algorithm
 

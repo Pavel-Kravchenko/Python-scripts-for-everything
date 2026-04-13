@@ -3,7 +3,19 @@ name: algo-basic-algorithms
 description: "This notebook covers four fundamental algorithms that form the building blocks of computer science:"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/01_Complexity_Analysis/02_basic_algorithms.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Basic Algorithms: Foundations of Computer Science
 

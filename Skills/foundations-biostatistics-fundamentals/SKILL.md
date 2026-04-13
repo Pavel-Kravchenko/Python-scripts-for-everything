@@ -3,7 +3,19 @@ name: foundations-biostatistics-fundamentals
 description: "Every major question in modern biology is ultimately a statistical question:"
 tool_type: python
 source_notebook: "Tier_0_Computational_Foundations/06_Biostatistics/01_biostatistics_fundamentals.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, scipy 1.12+, statsmodels 0.14+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Biostatistics Fundamentals
 

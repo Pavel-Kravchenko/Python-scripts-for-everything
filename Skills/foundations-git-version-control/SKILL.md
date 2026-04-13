@@ -3,7 +3,19 @@ name: foundations-git-version-control
 description: "By the end of this module, you will be able to: - Explain why version control is essential for reproducible research - Initialize a Git repository and track changes - Navigate project history (log, di"
 tool_type: python
 source_notebook: "Tier_0_Computational_Foundations/02_Git_Version_Control/01_git_version_control.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 0.2: Git Version Control for Scientists
 

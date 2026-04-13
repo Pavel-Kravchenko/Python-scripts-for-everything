@@ -3,7 +3,19 @@ name: bio-applied-copy-number-analysis
 description: "**By the end you will be able to:** - Understand copy number variation (CNV) concepts - Compute read depth across genomic windows - Normalize read depth and detect segments - Implement Circular Binary"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/21_Copy_Number_Analysis/21_copy_number_analysis.ipynb"
+primary_tool: Pandas
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 21: DNA Copy Number Analysis
 

@@ -3,7 +3,19 @@ name: bio-applied-hla-typing
 description: "**Tier 3 — Applied Bioinformatics | Module 34 · Notebook 3**"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/34_Immunogenomics/03_hla_typing.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # HLA Typing and Antigen Presentation
 

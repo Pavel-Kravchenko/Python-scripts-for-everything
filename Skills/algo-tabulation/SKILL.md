@@ -3,7 +3,19 @@ name: algo-tabulation
 description: "1. Understand bottom-up DP (tabulation) vs top-down (memoization) 2. Build DP tables iteratively 3. Optimize space complexity 4. Apply to sequence comparison problems"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/02_tabulation.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # 📊 Tabulation: Bottom-Up Dynamic Programming
 

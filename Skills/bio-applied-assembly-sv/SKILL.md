@@ -3,7 +3,19 @@ name: bio-applied-assembly-sv
 description: "*Prerequisites: Notebook 1 (ONT Processing), Module 17 (Genome Assembly)*"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/02_assembly_sv.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Long-Read Assembly & Structural Variants
 

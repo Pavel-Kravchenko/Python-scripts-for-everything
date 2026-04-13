@@ -3,7 +3,19 @@ name: bio-applied-qiime2-16s
 description: "**Tier 3 — Applied Bioinformatics | Module 26 · Notebook 4**"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/04_qiime2_16s.ipynb"
+primary_tool: QIIME2
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # QIIME2 16S Amplicon Workflow
 

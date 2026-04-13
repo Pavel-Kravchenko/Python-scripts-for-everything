@@ -3,7 +3,19 @@ name: bio-applied-molecular-evolution
 description: "Population genetics explains how allele frequencies shift across generations under the competing forces of mutation, genetic drift, natural selection, and gene flow. Molecular evolution extends these "
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/15_Population_Genetics_and_Molecular_Evolution/02_molecular_evolution.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Population Genetics and Molecular Evolution
 

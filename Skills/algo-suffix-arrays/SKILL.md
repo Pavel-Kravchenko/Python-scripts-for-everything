@@ -3,7 +3,19 @@ name: algo-suffix-arrays
 description: "A comprehensive guide to suffix arrays - a space-efficient alternative to suffix trees for string processing."
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/08_Advanced_String_Structures/03_suffix_arrays.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Suffix Arrays
 

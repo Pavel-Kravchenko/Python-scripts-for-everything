@@ -3,7 +3,19 @@ name: python-bio-context-managers
 description: "Bioinformatics pipelines open many files — FASTAs, BAMs, VCFs, temporary alignments — and may crash mid-pipeline. Without a context manager, file handles leak, temporary files persist, and databases a"
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/14_Decorators_and_Context_Managers/02_context_managers.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 14: Decorators and Context Managers
 

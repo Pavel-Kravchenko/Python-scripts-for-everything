@@ -3,7 +3,19 @@ name: bio-applied-variant-calling-and-snp-analysis
 description: "This notebook covers the complete variant analysis pipeline: from aligned reads to annotated variants, including VCF format, variant filtering, annotation databases, population genetics, and GWAS conc"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/02_Variant_Calling_and_SNP_Analysis/01_variant_calling_and_snp_analysis.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Variant Calling and SNP Analysis
 

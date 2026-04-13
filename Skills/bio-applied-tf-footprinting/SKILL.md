@@ -3,7 +3,19 @@ name: bio-applied-tf-footprinting
 description: "*Prerequisites: Modules 01–22. Module 01 (NGS), Module 15 (Motif Discovery) strongly recommended.*"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/23_TF_Footprinting/23_tf_footprinting.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 23: TF Footprinting & Chromatin Accessibility
 

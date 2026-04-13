@@ -3,7 +3,19 @@ name: python-bio-error-handling
 description: "Bioinformatics data is notoriously messy: FASTA files with empty sequences, VCF lines with the wrong number of fields, gene IDs that don't match between databases, quality scores outside valid range. "
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/15_Error_Handling/01_error_handling.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 15: Error Handling and Debugging
 

@@ -3,7 +3,19 @@ name: algo-tries
 description: "A **Trie** (pronounced "try") is a tree-like data structure used for efficient storage and retrieval of strings. The name comes from "re**TRIE**val" - it was designed for fast information retrieval."
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/08_Advanced_String_Structures/01_tries.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Trie (Prefix Tree)
 

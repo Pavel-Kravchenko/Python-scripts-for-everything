@@ -3,7 +3,19 @@ name: algo-dijkstra
 description: "1. Understand weighted graphs and their biological applications 2. Implement Dijkstra's algorithm with a priority queue 3. Apply shortest path finding to confidence-weighted PPI networks"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/03_dijkstra.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # ⚡ Dijkstra's Algorithm: Shortest Paths in Weighted Graphs
 

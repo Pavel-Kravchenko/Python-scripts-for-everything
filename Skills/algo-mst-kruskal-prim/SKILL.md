@@ -3,7 +3,19 @@ name: algo-mst-kruskal-prim
 description: "1. Understand MST and its applications in biological networks 2. Implement Kruskal's algorithm with Union-Find 3. Implement Prim's algorithm with priority queue 4. Apply MST to phylogenetic tree const"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/04_mst_kruskal_prim.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # 🌳 Minimum Spanning Trees: Kruskal's and Prim's Algorithms
 

@@ -3,7 +3,19 @@ name: foundations-statistics-python
 description: "**Tier 0 -- Computational Foundations | Module 7b**"
 tool_type: python
 source_notebook: "Tier_0_Computational_Foundations/07_Probability_and_Statistics_Python/02_statistics_python.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: statsmodels 0.14+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 0.7b: Statistics with Python
 

@@ -3,7 +3,19 @@ name: bio-applied-dimensionality-reduction
 description: "**Tier 3 — Applied Bioinformatics | Module 30 · Notebook 2**"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/30_Single_Cell_RNA_seq/02_dimensionality_reduction.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: anndata 0.10+, matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scikit-learn 1.4+, scipy 1.12+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # scRNA-seq: Dimensionality Reduction and Clustering
 

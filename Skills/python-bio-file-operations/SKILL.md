@@ -3,7 +3,19 @@ name: python-bio-file-operations
 description: "By the end of this module, you will be able to: - Read and write text files using context managers - Understand text vs. binary file modes - Parse FASTA files from scratch (both reader and writer) - W"
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/07_File_Operations/01_file_operations.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 7: File Operations for Bioinformatics
 

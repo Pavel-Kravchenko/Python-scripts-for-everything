@@ -3,7 +3,19 @@ name: ai-science-alphafold-protein-design
 description: "*Prerequisites: Tier 2 Module 07 (Protein Structure), Module T5-01 (LLM Fine-tuning)*"
 tool_type: python
 source_notebook: "Tier_5_Modern_AI_for_Science/04_AlphaFold_Protein_Design/04_AlphaFold_Protein_Design.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: biopython 1.83+, matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module T5-04: AlphaFold & Protein Design
 

@@ -1,3 +1,21 @@
+---
+name: metabolomics
+description: "LC-MS metabolomics preprocessing, metabolite identification, and pathway enrichment analysis."
+tool_type: python
+primary_tool: COBRApy
+---
+
+## Version Compatibility
+
+Reference examples tested with: cobrapy 0.29+, matplotlib 3.8+, numpy 1.26+, pandas 2.1+, rdkit 2024.03+, scikit-learn 1.4+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
+
 # metabolomics
 
 LC-MS metabolomics preprocessing, metabolite identification, and pathway enrichment analysis.

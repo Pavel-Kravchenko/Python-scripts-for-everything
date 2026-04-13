@@ -3,7 +3,19 @@ name: bio-applied-numerical-methods-for-bioinformatics
 description: "- Implement Lagrange and Newton interpolation polynomials and explain the Runge phenomenon - Apply cubic spline interpolation to reconstruct missing time points in biological time series - Compute num"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/16_Numerical_Methods_for_Bioinformatics/01_numerical_methods_for_bioinformatics.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, scipy 1.12+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Numerical Methods for Bioinformatics
 

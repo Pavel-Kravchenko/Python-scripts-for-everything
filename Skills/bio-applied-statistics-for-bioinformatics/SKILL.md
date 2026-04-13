@@ -3,7 +3,19 @@ name: bio-applied-statistics-for-bioinformatics
 description: "Bioinformatics analyses generate thousands to millions of measurements. Proper statistical methods are essential to distinguish genuine biological signals from noise. This notebook covers the statisti"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/06_Statistics_for_Bioinformatics/01_statistics_for_bioinformatics.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+, statsmodels 0.14+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Statistics for Bioinformatics
 

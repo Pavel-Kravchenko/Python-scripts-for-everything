@@ -3,7 +3,19 @@ name: bio-applied-mirna-seq-pipeline
 description: "**Tier 3 — Applied Bioinformatics | Module 35 · Notebook 1**"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/35_Small_RNA_and_ncRNA/01_mirna_seq_pipeline.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: scipy 1.12+, statsmodels 0.14+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # miRNA-seq Processing and Analysis
 

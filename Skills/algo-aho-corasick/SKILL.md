@@ -3,7 +3,19 @@ name: algo-aho-corasick
 description: "The Aho-Corasick algorithm solves the **multi-pattern matching problem**: given a text of length `n` and `k` patterns with total length `m`, find all occurrences of all patterns in the text."
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/08_Advanced_String_Structures/02_aho_corasick.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Aho-Corasick Algorithm
 

@@ -3,7 +3,19 @@ name: bio-core-hic-analysis
 description: "*Prerequisites: Tier 2 Modules 1–13. Familiarity with numpy arrays and matplotlib.*"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/14_Hi-C_Analysis/14_hic_analysis.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Hi-C Analysis: 3D Genome Organization
 

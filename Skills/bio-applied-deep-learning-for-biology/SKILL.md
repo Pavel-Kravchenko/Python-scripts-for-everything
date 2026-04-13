@@ -3,7 +3,19 @@ name: bio-applied-deep-learning-for-biology
 description: "Deep learning has driven breakthroughs across biology: AlphaFold solved the protein structure prediction problem, transformer-based protein language models capture evolutionary information from raw se"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/10_Deep_Learning_for_Biology/01_deep_learning_for_biology.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, pytorch 2.2+, scikit-learn 1.4+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Deep Learning for Biology
 

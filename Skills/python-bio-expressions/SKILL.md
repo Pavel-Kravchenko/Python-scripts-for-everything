@@ -3,7 +3,19 @@ name: python-bio-expressions
 description: "1. Run cells in order. Sections 1–7 each cover an operator category, followed by full worked examples in Section 8. 2. The exercises in Section 9 range from straightforward (GC content formula) to cha"
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/03_Operators_and_Expressions/02_expressions.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Untitled
 

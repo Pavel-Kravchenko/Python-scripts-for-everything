@@ -3,7 +3,19 @@ name: bio-core-pathways
 description: "- Understand the Gene Ontology (GO) system: three ontologies, DAG structure, GO terms - Perform GO enrichment analysis using the hypergeometric and Fisher's exact tests - Use GOATOOLS and the g:Profil"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/11_Gene_Ontology_and_Pathways/02_pathways.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, scipy 1.12+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Gene Ontology and Pathway Analysis
 

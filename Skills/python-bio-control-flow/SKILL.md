@@ -3,7 +3,19 @@ name: python-bio-control-flow
 description: "By the end of this module, you will be able to: - Use `if/elif/else` to classify biological data - Apply `for` and `while` loops to iterate over sequences - Control loop execution with `break`, `conti"
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/05_Control_Flow/01_control_flow.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 5: Control Flow for Bioinformatics
 

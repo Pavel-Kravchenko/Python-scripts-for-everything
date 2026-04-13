@@ -3,7 +3,19 @@ name: python-bio-data-wrangling
 description: "- Handle missing values and duplicates in biological datasets - Convert data types and clean messy annotation tables - Reshape data between wide and long formats (melt, pivot, stack/unstack) - Use str"
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/17_Data_Wrangling/01_data_wrangling.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, seaborn 0.13+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 17: Data Wrangling with Pandas
 

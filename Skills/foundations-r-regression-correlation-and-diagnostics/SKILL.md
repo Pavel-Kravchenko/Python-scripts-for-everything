@@ -3,7 +3,19 @@ name: foundations-r-regression-correlation-and-diagnostics
 description: "**Tier 0 -- Computational Foundations | Module 8, Notebook 2**"
 tool_type: python
 source_notebook: "Tier_0_Computational_Foundations/08_Advanced_R_Statistics/02_r_regression_correlation_and_diagnostics.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # R Regression, Correlation, and Diagnostics
 

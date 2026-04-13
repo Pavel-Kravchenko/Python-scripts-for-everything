@@ -3,7 +3,19 @@ name: bio-core-computational-genetics
 description: "- Build the standard genetic code programmatically and translate DNA to protein - Understand codon degeneracy and compute codon usage statistics (RSCU, CAI) - Perform virtual restriction enzyme digest"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/13_Computational_Genetics/01_computational_genetics.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Computational Genetics
 

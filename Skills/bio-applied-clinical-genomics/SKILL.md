@@ -3,7 +3,19 @@ name: bio-applied-clinical-genomics
 description: "This notebook covers the principles and practice of clinical genomics: how genetic variants are classified, interpreted, and used to guide patient care. Inspired by the Medical Genomics course (V.E. R"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/11_Clinical_Genomics/01_clinical_genomics.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Clinical Genomics: From Variants to Patient Care
 

@@ -3,7 +3,19 @@ name: bio-core-multiple-sequence-alignment
 description: "Multiple Sequence Alignment (MSA) is one of the most fundamental techniques in bioinformatics. While pairwise alignment compares two sequences, MSA simultaneously aligns three or more sequences to rev"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/05_Multiple_Sequence_Alignment/01_multiple_sequence_alignment.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: biopython 1.83+, matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Multiple Sequence Alignment: From Theory to Practice
 

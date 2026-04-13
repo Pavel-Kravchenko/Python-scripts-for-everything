@@ -3,7 +3,19 @@ name: foundations-character-encodings
 description: "Every bioinformatics pipeline starts with reading data from files. FASTA sequences, GenBank records, PDB coordinates, GFF annotations -- they all live as bytes on disk. When your Python script reads g"
 tool_type: python
 source_notebook: "Tier_0_Computational_Foundations/04_File_Encodings/01_character_encodings.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Character Encodings and Binary Data in Bioinformatics
 

@@ -3,7 +3,19 @@ name: algo-complexity-analysis
 description: "This notebook provides a comprehensive introduction to analyzing algorithm efficiency using Big O notation and related concepts."
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/01_Complexity_Analysis/01_complexity_analysis.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # 📊 Algorithmic Complexity Analysis & Big O Notation
 

@@ -3,7 +3,19 @@ name: bio-applied-single-cell-scanpy
 description: "1. Explain **why** single-cell RNA-seq reveals biology that bulk RNA-seq cannot 2. Navigate the **AnnData** data structure and understand its components 3. Apply standard **quality control** metrics t"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/12_Modern_Workflows/01_single_cell_scanpy.ipynb"
+primary_tool: scanpy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scanpy 1.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Single-Cell RNA-seq Analysis with Scanpy
 

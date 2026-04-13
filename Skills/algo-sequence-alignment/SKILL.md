@@ -3,7 +3,19 @@ name: algo-sequence-alignment
 description: "1. Implement Needleman-Wunsch global alignment 2. Implement Smith-Waterman local alignment 3. Understand scoring matrices and gap penalties"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/04_sequence_alignment.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # 🧬 Sequence Alignment with Dynamic Programming
 

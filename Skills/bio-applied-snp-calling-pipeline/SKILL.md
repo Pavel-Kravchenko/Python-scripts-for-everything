@@ -3,7 +3,19 @@ name: bio-applied-snp-calling-pipeline
 description: "This notebook walks through a complete, real-world SNP calling pipeline: from raw FASTQ reads to a final annotated variant report. We cover each tool, why it is used, what it produces, and how to inte"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/02_Variant_Calling_and_SNP_Analysis/02_snp_calling_pipeline.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # SNP Calling Pipeline: A Practical Hands-On Workflow
 

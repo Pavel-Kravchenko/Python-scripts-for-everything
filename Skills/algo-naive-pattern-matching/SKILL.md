@@ -3,7 +3,19 @@ name: algo-naive-pattern-matching
 description: "**Problem Definition:** Given a text `T[0..n-1]` and a pattern `P[0..m-1]`, find all occurrences of pattern `P` in text `T`."
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/07_String_Algorithms/01_naive_pattern_matching.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Naive Pattern Matching Algorithm
 

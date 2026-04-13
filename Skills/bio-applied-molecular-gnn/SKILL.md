@@ -3,7 +3,19 @@ name: bio-applied-molecular-gnn
 description: "**Tier 3 — Applied Bioinformatics | Module 29 · Notebook 4**"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/04_molecular_gnn.ipynb"
+primary_tool: RDKit
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pytorch 2.2+, rdkit 2024.03+, scikit-learn 1.4+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Graph Neural Networks for Molecular Property Prediction
 

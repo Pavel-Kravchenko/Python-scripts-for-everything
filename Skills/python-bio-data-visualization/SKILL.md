@@ -3,7 +3,19 @@ name: python-bio-data-visualization
 description: "**A comprehensive guide to creating publication-quality biological figures**"
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/18_Data_Visualization/01_data_visualization.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+, seaborn 0.13+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Data Visualization for Bioinformatics
 

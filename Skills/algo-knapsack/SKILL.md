@@ -3,7 +3,19 @@ name: algo-knapsack
 description: "1. Understand 0/1 and unbounded knapsack problems 2. Apply knapsack DP to resource optimization 3. Solve subset sum problems"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/03_knapsack.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # 🎒 Knapsack Problems
 

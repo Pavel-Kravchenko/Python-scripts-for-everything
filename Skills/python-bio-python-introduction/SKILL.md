@@ -3,7 +3,19 @@ name: python-bio-python-introduction
 description: "1. Explain why Python is the dominant language in bioinformatics 2. Navigate a Jupyter notebook: edit cells, run code, interpret output 3. Write and run your first bioinformatics program 4. Understand"
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/01_Python_Introduction/01_python_introduction.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: biopython 1.83+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Module 1: Python Introduction for Bioinformatics
 

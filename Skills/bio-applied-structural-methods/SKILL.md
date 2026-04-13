@@ -3,7 +3,19 @@ name: bio-applied-structural-methods
 description: "This notebook covers mass spectrometry-based proteomics, from raw data to protein identification and quantification, together with computational protein engineering and the structural determination me"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/18_Proteomics_and_Structural_Methods/02_structural_methods.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Proteomics and Structural Methods
 

@@ -3,7 +3,19 @@ name: algo-intro-memoization
 description: "1. Recognize problems that can be solved with dynamic programming 2. Understand the difference between recursion and memoization 3. Implement memoization using Python decorators and dictionaries 4. Ap"
 tool_type: python
 source_notebook: "Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/01_intro_memoization.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # 🔄 Introduction to Dynamic Programming: Memoization
 

@@ -3,7 +3,19 @@ name: bio-core-domains
 description: "- Explain what sequence motifs are and why they matter biologically - Construct and use Position Weight Matrices (PWMs) to score sequences - Understand information content and sequence logos - Work wi"
 tool_type: python
 source_notebook: "Tier_2_Core_Bioinformatics/10_Sequence_Motifs_and_Domains/02_domains.ipynb"
+primary_tool: NumPy
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Sequence Motifs and Protein Domains
 

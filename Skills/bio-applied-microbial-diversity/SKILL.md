@@ -3,7 +3,19 @@ name: bio-applied-microbial-diversity
 description: "Microorganisms represent the vast majority of biological diversity on Earth. Studying microbial communities -- who is there, how many, and how they differ across environments -- is central to fields f"
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/04_Microbial_Diversity/01_microbial_diversity.ipynb"
+primary_tool: Matplotlib
 ---
+
+## Version Compatibility
+
+Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scikit-learn 1.4+, scipy 1.12+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Microbial Diversity Analysis
 

@@ -3,7 +3,19 @@ name: ai-science-geneformer-scgpt
 description: "**Tier 5 — Modern AI for Science | Module 07 · Notebook 1**"
 tool_type: python
 source_notebook: "Tier_5_Modern_AI_for_Science/07_Foundation_Models_Single_Cell/01_geneformer_scgpt.ipynb"
+primary_tool: Python
 ---
+
+## Version Compatibility
+
+Reference examples tested with: Python 3.10+
+
+Before using code patterns, verify installed versions match. If versions differ:
+- Python: `pip show <package>` then `help(module.function)` to check signatures
+
+If code throws ImportError, AttributeError, or TypeError, introspect the installed
+package and adapt the example to match the actual API rather than retrying.
+
 
 # Geneformer and scGPT for Single-Cell Modeling
 
