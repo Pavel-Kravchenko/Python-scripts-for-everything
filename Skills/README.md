@@ -1,204 +1,184 @@
 # Bioinformatics Skills for Claude Code
 
-79 skill files compressing a 233-notebook, 6-tier bioinformatics course into actionable Claude Code references. Each skill provides key patterns, code templates, complexity tables, and common pitfalls for a focused topic area.
+208 curated skills extracted from a 197-notebook, 6-tier bioinformatics course. Each skill provides code patterns, explanations, version compatibility notes, and common pitfalls for a focused topic.
 
-**Maximum content. Maximum yield. Minimum tokens.**
+**All skills scored 70+/100** on a 5-dimension quality rubric (metadata, structure, code quality, content depth, uniqueness). Zero duplicates. Run `python3 scripts/score_skills.py` to re-evaluate.
 
 ---
 
 ## How to Use
 
 ### In Claude Code
-Reference any skill by name in your prompt — Claude will activate the relevant skill automatically:
-- *"Help me write a BLAST search"* → `sequence-alignment` skill activates
-- *"Parse this VCF file"* → `ngs-variant-calling` skill activates
-- *"Build a phylogenetic tree"* → `phylogenetics-evolution` skill activates
+Reference any skill by name — Claude activates it automatically:
+- *"Help me preprocess scRNA-seq data"* → `bio-applied-scrna-preprocessing` activates
+- *"Implement KMP string matching"* → `algo-kmp-algorithm` activates
+- *"Build a GWAS Manhattan plot"* → `bio-applied-gwas` activates
 
 ### Installation
-Copy the `Skills/` directory into your project, or install as a Claude Code plugin:
 ```bash
-# Option 1: Copy skills into your project
-cp -r Skills/ /path/to/your/project/.claude/skills/
+# Copy all skills to Claude Code
+cp -r Skills/*/SKILL.md ~/.claude/skills/
 
-# Option 2: Reference from Claude Code settings
-# Add the skills directory path to your Claude Code configuration
+# Or sync with the provided script
+python3 scripts/curate_skills.py
 ```
 
-### Combining Skills
-Skills are modular — combine them for complex workflows:
-- `sequence-alignment` + `string-algorithms` = biological tool usage + underlying algorithmic understanding
-- `ngs-variant-calling` + `linux-git-bash` = variant pipeline + shell automation
-- `ml-deep-learning-bio` + `numpy-pandas-wrangling` = ML models + data preparation
+---
+
+## Skill Index (208 skills)
+
+### Foundations (10 skills)
+Linux, Git, Bash, R, statistics, and probability.
+
+| Skill | Use When... |
+|-------|-------------|
+| `foundations-linux-fundamentals` | Shell commands, file permissions, SSH, piping |
+| `foundations-git-version-control` | Branching, merging, conflict resolution |
+| `foundations-bash-scripting` | Writing automation scripts, loops, conditionals |
+| `foundations-character-encodings` | UTF-8/ASCII issues in FASTA/VCF files |
+| `foundations-r-fundamentals` | R data types, vectors, data frames, ggplot2 |
+| `foundations-biostatistics-fundamentals` | Descriptive stats, distributions, hypothesis testing |
+| `foundations-probability` | Probability distributions, Bayes' theorem |
+| `foundations-statistics-python` | scipy.stats, statsmodels, Python statistics |
+| `foundations-r-hypothesis-testing-and-nonparametrics` | Sign test, Wilcoxon, Kruskal-Wallis in R |
+| `foundations-r-regression-correlation-and-diagnostics` | Linear regression, correlation, residual analysis in R |
+
+### Python for Bioinformatics (28 skills)
+Complete Python from basics to advanced, with bioinformatics examples throughout.
+
+| Skill | Use When... |
+|-------|-------------|
+| `python-bio-python-introduction` | Setting up Python, first scripts |
+| `python-bio-variables` | Variable naming, assignment, scope |
+| `python-bio-data-types` | int, float, str, bool, None, type conversions |
+| `python-bio-operators` | Arithmetic, comparison, logical operators |
+| `python-bio-expressions` | Complex expressions, operator precedence |
+| `python-bio-strings` | DNA/RNA string manipulation, complement, GC content |
+| `python-bio-sequences` | Sequence slicing, indexing, immutability |
+| `python-bio-control-flow` | if/elif/else, for/while loops, break/continue |
+| `python-bio-functions` | Function design, arguments, return values |
+| `python-bio-file-operations` | Reading/writing FASTA, CSV, JSON files |
+| `python-bio-lists` | List operations for sequence collections |
+| `python-bio-tuples` | Immutable sequences, named tuples |
+| `python-bio-dictionaries` | Gene→function mappings, codon tables |
+| `python-bio-sets` | Unique gene sets, set operations for Venn diagrams |
+| `python-bio-comprehensions` | List/dict/set comprehensions for data processing |
+| `python-bio-iterators` | Custom iterators for FASTA parsing, lazy processing |
+| `python-bio-generators` | Yield-based generators for large datasets |
+| `python-bio-regular-expressions` | Regex for motif finding, sequence patterns |
+| `python-bio-classes` | OOP for Sequence, Gene, ProteinRecord classes |
+| `python-bio-oop` | Inheritance, polymorphism, abstract classes |
+| `python-bio-decorators` | Function decorators for timing, caching |
+| `python-bio-context-managers` | File handling with `with` statements |
+| `python-bio-error-handling` | Try/except for robust bioinformatics scripts |
+| `python-bio-numpy` | Arrays, vectorized operations for biological data |
+| `python-bio-pandas` | DataFrames for gene expression, annotation tables |
+| `python-bio-data-wrangling` | Merging, pivoting, cleaning biological datasets |
+| `python-bio-data-visualization` | Matplotlib/seaborn for volcano plots, heatmaps |
+| `python-bio-sql-for-bioinformatics` | SQL queries for biological databases |
+
+### Core Bioinformatics (17 skills)
+Fundamental bioinformatics: databases, alignment, phylogenetics, structure.
+
+| Skill | Use When... |
+|-------|-------------|
+| `bio-core-biological-databases` | Searching NCBI, UniProt, Ensembl |
+| `bio-core-biopython-essentials` | SeqIO, Seq objects, GenBank parsing |
+| `bio-core-pairwise-sequence-alignment` | Needleman-Wunsch, Smith-Waterman, gap penalties |
+| `bio-core-blast-searching` | BLAST setup, e-value interpretation, result parsing |
+| `bio-core-multiple-sequence-alignment` | ClustalW, MUSCLE, alignment quality |
+| `bio-core-phylogenetics` | Tree construction (NJ, UPGMA, ML), bootstrap |
+| `bio-core-protein-structure` | PDB parsing, Ramachandran, DSSP |
+| `bio-core-nucleic-acid-structure` | A/B/Z-DNA, RNA structure |
+| `bio-core-chromatogram-analysis` | Sanger .ab1 files, base calling |
+| `bio-core-sequence-motifs` | PWM construction, motif scanning |
+| `bio-core-domains` | Pfam, InterPro, domain architecture |
+| `bio-core-gene-ontology` | GO enrichment, term hierarchy |
+| `bio-core-pathways` | KEGG, Reactome pathway analysis |
+| `bio-core-comparative-genomics` | Synteny, ortholog detection |
+| `bio-core-computational-genetics` | HWE, linkage, codon usage |
+| `bio-core-hic-analysis` | Hi-C contact maps, TADs, compartments |
+| `bio-core-motif-discovery` | De novo motif finding, MEME |
+
+### Applied Bioinformatics (76 skills)
+NGS pipelines, omics analysis, clinical genomics, and specialized methods.
+
+| Category | Skills |
+|----------|--------|
+| **NGS & Variants** | `bio-applied-ngs-fundamentals` · `bio-applied-bio-data-formats` · `bio-applied-variant-calling-and-snp-analysis` · `bio-applied-snp-calling-pipeline` |
+| **RNA-seq** | `bio-applied-rna-seq-analysis` |
+| **Single Cell** | `bio-applied-scrna-preprocessing` · `bio-applied-dimensionality-reduction` · `bio-applied-cell-type-annotation` · `bio-applied-trajectory-analysis` · `bio-applied-single-cell-scanpy` · `bio-applied-scatac-chromatin` · `bio-applied-cite-seq-integration` · `bio-applied-sc-integration` |
+| **Epigenomics** | `bio-applied-chipseq-pipeline` · `bio-applied-differential-binding` · `bio-applied-tf-footprinting` · `bio-applied-wgbs-bismark` · `bio-applied-dmr-analysis` · `bio-applied-epigenetic-clocks` |
+| **Metagenomics** | `bio-applied-microbial-diversity` · `bio-applied-taxonomic-profiling` · `bio-applied-functional-annotation` · `bio-applied-assembly-binning` · `bio-applied-qiime2-16s` |
+| **Genomics** | `bio-applied-genome-assembly` · `bio-applied-advanced-ngs` · `bio-applied-gwas` · `bio-applied-copy-number-analysis` · `bio-applied-spatial-transcriptomics` · `bio-applied-ont-processing` · `bio-applied-assembly-sv` · `bio-applied-isoform-analysis` |
+| **Immunogenomics** | `bio-applied-vdj-biology` · `bio-applied-immune-repertoire` · `bio-applied-hla-typing` |
+| **Cancer** | `bio-applied-cancer-transcriptomics` |
+| **CRISPR** | `bio-applied-mageck-gene-essentiality` · `bio-applied-screen-qc-normalization` |
+| **Small RNA** | `bio-applied-mirna-seq-pipeline` · `bio-applied-lncrna-classification` |
+| **Metabolomics** | `bio-applied-lc-ms-preprocessing` · `bio-applied-metabolite-identification` · `bio-applied-metabolic-flux` |
+| **Proteomics** | `bio-applied-proteomics` · `bio-applied-structural-methods` |
+| **Multi-Omics** | `bio-applied-data-harmonization` · `bio-applied-mofa2` · `bio-applied-mixomics` |
+| **Networks** | `bio-applied-ppi-networks` · `bio-applied-network-modules` · `bio-applied-gene-regulatory-networks` |
+| **Cheminformatics** | `bio-applied-rdkit-basics` · `bio-applied-qsar-modeling` · `bio-applied-virtual-screening` · `bio-applied-molecular-gnn` |
+| **Virology** | `bio-applied-viral-genome-assembly` · `bio-applied-phylodynamics` · `bio-applied-variant-surveillance` |
+| **Other** | `bio-applied-statistics-for-bioinformatics` · `bio-applied-machine-learning-for-biology` · `bio-applied-deep-learning-for-biology` · `bio-applied-clinical-genomics` · `bio-applied-bayesian-statistics-python` · `bio-applied-molecular-modeling` · `bio-applied-docking` · `bio-applied-biochemistry` · `bio-applied-enzyme-kinetics` · `bio-applied-genetic-engineering-in-silico` · `bio-applied-population-genetics` · `bio-applied-molecular-evolution` · `bio-applied-numerical-methods-for-bioinformatics` · `bio-applied-promoter` · `bio-applied-regulatory-analysis` · `bio-applied-workflow-engines` · `bio-applied-testing-cicd` · `bio-applied-capstone-project` |
+
+### Algorithms & Data Structures (29 skills)
+CS fundamentals with bioinformatics applications (DP = alignment, suffix trees = genome indexing).
+
+| Category | Skills |
+|----------|--------|
+| **Complexity** | `algo-complexity-analysis` · `algo-basic-algorithms` |
+| **Sorting** | `algo-comparison-sorts` · `algo-linear-sorts` |
+| **Searching** | `algo-linear-binary-search` |
+| **Linear Structures** | `algo-linked-lists` · `algo-stacks-queues` · `algo-dynamic-arrays` |
+| **Trees** | `algo-binary-search-trees` · `algo-avl-trees` · `algo-red-black-trees` |
+| **Hashing** | `algo-hash-tables-bloom` |
+| **String Matching** | `algo-naive-pattern-matching` · `algo-kmp-algorithm` · `algo-rabin-karp` · `algo-dfa-matching` |
+| **String Structures** | `algo-tries` · `algo-aho-corasick` · `algo-suffix-arrays` · `algo-suffix-trees` |
+| **Graphs** | `algo-graph-representations` · `algo-bfs-dfs` · `algo-dijkstra` · `algo-mst-kruskal-prim` · `algo-topological-sort` |
+| **Dynamic Programming** | `algo-intro-memoization` · `algo-tabulation` · `algo-knapsack` · `algo-sequence-alignment` |
+
+### Modern AI for Science (13 skills)
+LLMs, diffusion models, AlphaFold, protein language models, genomic foundation models.
+
+| Skill | Use When... |
+|-------|-------------|
+| `ai-science-llm-finetuning` | LoRA, quantization, SFTTrainer |
+| `ai-science-llm-training-systems` | Distributed training, FSDP, DeepSpeed |
+| `ai-science-vision-rag` | Vision-language models, ColPali, RAG pipelines |
+| `ai-science-diffusion-generative-models` | DDIM, noise schedules, score matching |
+| `ai-science-alphafold-protein-design` | AF2 architecture, pLDDT/PAE, RFdiffusion |
+| `ai-science-genomic-llms` | Nucleotide Transformer, DNABERT-2, HyenaDNA |
+| `ai-science-enformer-regulatory` | Enformer, regulatory element prediction |
+| `ai-science-splicing-models` | SpliceAI, splice variant scoring |
+| `ai-science-epigenomic-sequence-models` | Epiformer, chromatin accessibility |
+| `ai-science-variant-to-structure-models` | AlphaMissense, variant → structure impact |
+| `ai-science-esm2-embeddings` | ESM2 protein embeddings, ESMFold |
+| `ai-science-zero-shot-mutation` | ESM-1v mutation effect prediction |
+| `ai-science-geneformer-scgpt` | Geneformer, scGPT for single-cell |
+
+### Legacy Skills (35 skills)
+Consolidated skills from earlier course versions, migrated to directory format.
 
 ---
 
-## Skill Index
+## Quality Metrics
 
-### Foundations (Skills 1–3)
+All skills are scored by `scripts/score_skills.py` across 5 dimensions:
 
-| Skill | Use When... |
-|-------|-------------|
-| [`linux-git-bash`](linux-git-bash.md) | Writing shell pipelines, git workflows, processing FASTA/BAM/VCF on CLI |
-| [`biostatistics-r`](biostatistics-r.md) | Choosing statistical tests, multiple testing correction, R code for bio data |
-| [`advanced-r-statistics`](advanced-r-statistics.md) | Nonparametric tests in R, regression diagnostics, Hodges-Lehman, power analysis |
+| Dimension | Weight | What it checks |
+|-----------|--------|---------------|
+| Metadata | 20pts | Frontmatter, description quality, tool_type, primary_tool |
+| Structure | 20pts | Version compat, learning objectives, pitfalls section |
+| Code Quality | 25pts | Code blocks, language tags, docstrings, functions |
+| Content Depth | 20pts | Line count, tables, section depth, no stubs |
+| Uniqueness | 15pts | No duplicates across formats |
 
-### Python for Bioinformatics (Skills 3–7)
-
-| Skill | Use When... |
-|-------|-------------|
-| [`python-core-bio`](python-core-bio.md) | String manipulation for DNA/RNA, file I/O for FASTA/GenBank, function design |
-| [`python-collections-regex`](python-collections-regex.md) | k-mer counting, gene set operations, generators for large files, regex for motifs |
-| [`python-advanced-sql`](python-advanced-sql.md) | OOP for bio classes, decorators, error handling, SQL for biological databases |
-| [`numpy-pandas-wrangling`](numpy-pandas-wrangling.md) | Expression matrices, annotation merges, tidy data, vectorized operations |
-| [`data-visualization-bio`](data-visualization-bio.md) | Volcano plots, heatmaps, genome tracks, publication-quality figures |
-
-### Core Bioinformatics (Skills 8–11)
-
-| Skill | Use When... |
-|-------|-------------|
-| [`biopython-databases`](biopython-databases.md) | Fetching sequences from NCBI, parsing FASTA/GenBank, BioPython Seq/SeqIO |
-| [`sequence-alignment`](sequence-alignment.md) | Pairwise/multiple alignment, BLAST searching, substitution matrices |
-| [`phylogenetics-evolution`](phylogenetics-evolution.md) | Building trees (NJ, UPGMA, ML), bootstrap, comparative genomics, synteny |
-| [`structural-bioinformatics`](structural-bioinformatics.md) | PDB parsing, protein structure, chromatograms, motifs/PWM, GO enrichment |
-
-### Applied Bioinformatics (Skills 12–18)
-
-| Skill | Use When... |
-|-------|-------------|
-| [`ngs-variant-calling`](ngs-variant-calling.md) | FASTQ QC, read alignment, SAM/BAM, variant calling pipelines, VCF parsing |
-| [`rnaseq`](rnaseq.md) | Differential expression (DESeq2/edgeR), TPM/RPKM normalization, volcano plots, STAR/Salmon |
-| [`metagenomics-shotgun`](metagenomics-shotgun.md) | Kraken2 profiling, Bracken, HUMAnN3 pathways, MEGAHIT, MetaBAT2 MAGs, QIIME2 16S, alpha/beta diversity |
-| [`promoter-regulatory-analysis`](promoter-regulatory-analysis.md) | TATA box detection, CpG island scanning, PWM/TFBS construction and scoring |
-| [`ml-deep-learning-bio`](ml-deep-learning-bio.md) | scikit-learn classifiers, CNNs for genomics, protein language models |
-| [`clinical-modeling-workflows`](clinical-modeling-workflows.md) | Molecular docking, ACMG classification, Scanpy, Snakemake, CI/CD |
-| [`genome-assembly`](genome-assembly.md) | De novo assembly metrics (N50/BUSCO), de Bruijn graphs, SPAdes/Flye/Hifiasm, contamination screening |
-| [`proteomics`](proteomics.md) | Mass spectrometry, b/y ions, trypsin digestion, target-decoy FDR, LFQ/SILAC/TMT quantification |
-
-### Algorithms & Data Structures (Skills 16–20)
-
-| Skill | Use When... |
-|-------|-------------|
-| [`complexity-sorting-searching`](complexity-sorting-searching.md) | Big-O analysis, implementing sorts, binary search variants |
-| [`linear-tree-hash-structures`](linear-tree-hash-structures.md) | Linked lists, BST/AVL/RB trees, hash tables, Bloom filters |
-| [`string-algorithms`](string-algorithms.md) | KMP, Rabin-Karp, DFA matching for sequence pattern search |
-| [`advanced-string-structures`](advanced-string-structures.md) | Tries, Aho-Corasick, suffix arrays/trees for genome indexing |
-| [`graphs-dynamic-programming`](graphs-dynamic-programming.md) | Graph traversal, shortest paths, MST, DP for sequence alignment |
-
-### Biology & Computation (Skills 22–28)
-
-| Skill | Use When... |
-|-------|-------------|
-| [`probability-statistics-python`](probability-statistics-python.md) | Statistical tests in Python (scipy/statsmodels), regression, power analysis, distributions |
-| [`genetics-computational`](genetics-computational.md) | Codon tables, restriction mapping, genetic crosses, codon usage bias, HWE |
-| [`biochemistry-enzymology`](biochemistry-enzymology.md) | Enzyme kinetics fitting, inhibition analysis, EC classification, metabolic pathways |
-| [`genetic-engineering-insilico`](genetic-engineering-insilico.md) | Primer design, CRISPR guides, cloning workflows, codon optimization |
-| [`population-genetics-evolution`](population-genetics-evolution.md) | Drift simulation, selection, dN/dS, molecular clock, Fst, neutrality tests |
-| [`numerical-methods-bio`](numerical-methods-bio.md) | Interpolation, curve fitting, optimization, FFT for bioinformatics data |
-
-### Tier 2 Depth (Skills 29–30)
-
-| Skill | Use When... |
-|-------|-------------|
-| [`hic-analysis`](hic-analysis.md) | Analyzing 3D genome organization: loading cooler/mcool files, computing A/B compartments, TAD boundaries, pileup plots with cooltools |
-| [`motif-discovery`](motif-discovery.md) | Building PWMs from aligned binding sites, IC/KDIC scoring, Fisher enrichment testing, TomTom database matching |
-
-### Applied Bioinformatics Depth (Skills 31–35)
-
-| Skill | Use When... |
-|-------|-------------|
-| [`gwas-population-genetics`](gwas-population-genetics.md) | GWAS study design, QC pipelines, PCA for stratification, Manhattan/QQ plots, LD clumping, fine-mapping |
-| [`spatial-transcriptomics`](spatial-transcriptomics.md) | AnnData with spatial coordinates, spatially variable gene detection, Squidpy neighborhood graphs, cell-type deconvolution, NMF programs |
-| [`bayesian-python`](bayesian-python.md) | Bayesian linear and generalized linear models with pymc/bambi, model comparison via arviz LOO-CV/WAIC, prior specification |
-| [`copy-number-analysis`](copy-number-analysis.md) | Log2 ratio computation, CBS segmentation, CN state calling, read depth normalization, gene annotation with pyranges, tumor purity |
-| [`tf-footprinting-atac`](tf-footprinting-atac.md) | ATAC-seq QC (NFR fraction, nucleosomal ladder), Tn5 offset correction, footprint scoring, pybedtools operations, meta-profile plots |
-| [`cancer-transcriptomics`](cancer-transcriptomics.md) | Tumor subtype classification, variance filtering, hierarchical clustering, Random Forest on labeled samples, Kaplan-Meier survival, NMI |
-
-### Modern AI for Science (Skills 36–44)
-
-| Skill | Use When... |
-|-------|-------------|
-| [`llm-finetuning`](llm-finetuning.md) | Fine-tuning LLMs with LoRA and quantization, configuring SFTTrainer, designing chat templates, building instruction datasets |
-| [`vision-rag`](vision-rag.md) | Vision-language models, ColPali document retrieval, RAG pipeline construction, Qwen2-VL inference patterns |
-| [`diffusion-generative`](diffusion-generative.md) | DDIM sampling, linear/cosine noise schedules, score matching intuition, inverse imaging problems, scientific image restoration |
-| [`alphafold-protein-design`](alphafold-protein-design.md) | AlphaFold2 confidence metrics, ColabFold, ESMFold API, RFdiffusion backbone design, ProteinMPNN inverse folding |
-| [`genomic-llm-embeddings`](genomic-llm-embeddings.md) | DNA tokenization strategy, k-mer embedding baselines, and genomic LM embedding workflows |
-| [`enformer-regulatory-prediction`](enformer-regulatory-prediction.md) | Enformer-style regulatory track prediction, in-silico mutagenesis, and variant effect ranking |
-| [`splicing-variant-models`](splicing-variant-models.md) | SpliceAI-style donor/acceptor delta scoring and splice variant prioritization |
-| [`epigenomic-sequence-models`](epigenomic-sequence-models.md) | Borzoi/Epiformer-style sequence modeling for expression and chromatin accessibility tasks |
-| [`genomics-to-structure-triage`](genomics-to-structure-triage.md) | Routing genomic variant findings into AF2/AF3/RoseTTAFold structural follow-up |
-
-### New Topic Skills (Skills 39–45)
-
-| Skill | Use When... |
-|-------|-------------|
-| [`chipseq-epigenomics`](chipseq-epigenomics.md) | ChIP-seq processing, MACS3 peak calling, deepTools visualization, DiffBind differential binding, ChIPseeker annotation |
-| [`long-read-sequencing`](long-read-sequencing.md) | ONT/PacBio processing, Dorado basecalling, Minimap2, Flye/Hifiasm assembly, Sniffles2 SVs, methylation, isoform analysis |
-| [`metagenomics-shotgun`](metagenomics-shotgun.md) | Kraken2 profiling, Bracken, HUMAnN3 pathways, MEGAHIT assembly, MetaBAT2 binning, CheckM MAGs, QIIME2 16S |
-| [`multi-omics-integration`](multi-omics-integration.md) | MOFA2 latent factor analysis, mixOmics PLS-DA/DIABLO, multi-omics data harmonization |
-| [`network-biology`](network-biology.md) | STRING PPI networks, NetworkX metrics, Louvain community detection, GO enrichment per module, GENIE3 GRN inference |
-| [`cheminformatics-drug-discovery`](cheminformatics-drug-discovery.md) | RDKit molecular fingerprints, Tanimoto similarity, QSAR modeling, AutoDock Vina docking, ADMET prediction, molecular GNNs |
-
----
-
-## Skill File Format
-
-Each skill follows a consistent structure for fast scanning:
-
-| Section | Purpose |
-|---------|---------|
-| **When to Use** | Activation scenarios (2–3 lines) |
-| **Quick Reference** | Tables of facts, formulas, complexity — maximum density |
-| **Key Patterns** | Numbered patterns with minimal code (≤10 lines each) |
-| **Code Templates** | Copy-paste-ready functions with biological examples |
-| **Common Pitfalls** | Bulleted mistakes and fixes |
-| **Related Skills** | Cross-references to complementary skills |
+Current scores: **avg 79.8/100**, all grade B or A, zero C/D/F.
 
 ---
 
 ## Course Origin
 
-Based on the **Bioinformatics with Python** course — 233 notebooks across 6 tiers, built from materials by:
-
-- **[Kodomo Bioinformatics Program](https://kodomo.fbb.msu.ru/wiki/2017)** — Moscow State University (10-semester curriculum)
-- **[An Introduction to Applied Bioinformatics](https://readiab.org/)** — J. Gregory Caporaso, Northern Arizona University
-- **Summer School of Bioinformatics** — Statistical methods, NGS analysis, promoter research
-
-Full course: [Course/README.md](../Course/README.md) | Attribution: [Course/CREDITS.md](../Course/CREDITS.md)
-
----
-
-## License
-
-Educational use only. All intellectual property rights for original materials remain with their respective authors and institutions. See the main repository [disclaimer](../README.md#disclaimer).
-
-
-### Atomic Split Skills
-
-| Skill | Note |
-|---|---|
-| [`alphafold-structure-prediction`](alphafold-structure-prediction.md) | Split-out focused skill |
-| [`atac-seq-analysis`](atac-seq-analysis.md) | Split-out focused skill |
-| [`bioinformatics-workflows-cicd`](bioinformatics-workflows-cicd.md) | Split-out focused skill |
-| [`clinical-genomics`](clinical-genomics.md) | Split-out focused skill |
-| [`deep-learning-bio`](deep-learning-bio.md) | Split-out focused skill |
-| [`diffusion-models`](diffusion-models.md) | Split-out focused skill |
-| [`document-rag`](document-rag.md) | Split-out focused skill |
-| [`generative-imaging`](generative-imaging.md) | Split-out focused skill |
-| [`genome-assembly`](genome-assembly.md) | Split-out focused skill |
-| [`gwas-analysis`](gwas-analysis.md) | Split-out focused skill |
-| [`machine-learning-bio`](machine-learning-bio.md) | Split-out focused skill |
-| [`metagenomics-amplicon`](metagenomics-amplicon.md) | Split-out focused skill |
-| [`molecular-modeling-docking`](molecular-modeling-docking.md) | Split-out focused skill |
-| [`population-structure-qc`](population-structure-qc.md) | Split-out focused skill |
-| [`promoter-regulatory-analysis`](promoter-regulatory-analysis.md) | Split-out focused skill |
-| [`protein-design-workflows`](protein-design-workflows.md) | Split-out focused skill |
-| [`proteomics-analysis`](proteomics-analysis.md) | Split-out focused skill |
-| [`rnaseq-analysis`](rnaseq-analysis.md) | Split-out focused skill |
-| [`single-cell-scanpy`](single-cell-scanpy.md) | Split-out focused skill |
-| [`tf-footprinting`](tf-footprinting.md) | Split-out focused skill |
-| [`vision-language-models`](vision-language-models.md) | Split-out focused skill |
-| [`genomic-llm-embeddings`](genomic-llm-embeddings.md) | Split-out focused skill |
-| [`enformer-regulatory-prediction`](enformer-regulatory-prediction.md) | Split-out focused skill |
-| [`splicing-variant-models`](splicing-variant-models.md) | Split-out focused skill |
-| [`epigenomic-sequence-models`](epigenomic-sequence-models.md) | Split-out focused skill |
-| [`genomics-to-structure-triage`](genomics-to-structure-triage.md) | Split-out focused skill |
+Extracted from the **Bioinformatics with Python** course — 197 notebooks across 6 tiers. Full course: [Course/README.md](../Course/README.md)

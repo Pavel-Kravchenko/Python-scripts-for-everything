@@ -2,7 +2,7 @@
 
 A self-paced bioinformatics course built from materials by the [Kodomo Program](https://kodomo.fbb.msu.ru/wiki/2017) at Moscow State University, the [IAB textbook](https://readiab.org/) by J. Gregory Caporaso, and the Summer School of Bioinformatics.
 
-**233 notebooks** · **6 tiers** · **30 interactive visualizations** · **108 glossary terms** · **[79 Claude Code skills](#claude-code-skills)**
+**197 notebooks** · **6 tiers** · **30 interactive visualizations** · **108 glossary terms** · **[208 Claude Code skills](#claude-code-skills)**
 
 ---
 
@@ -44,7 +44,8 @@ Tier 4  Algorithms & Data Structures  30 notebooks + 30 interactive visualizatio
 
 Tier 5  Modern AI for Science          13 notebooks
         LLM Fine-tuning · Vision RAG · Diffusion & Generative Models ·
-        AlphaFold & Protein Design
+        AlphaFold & Protein Design · Genomic Foundation Models ·
+        Protein Language Models · Foundation Models for Single Cell
 ```
 
 Each tier starts with a **Skills Check** — score above 80% and skip ahead.
@@ -116,22 +117,21 @@ FASTA sequences · PDB protein structures · Sanger chromatograms (.ab1) · VCF 
 
 ## Claude Code Skills
 
-The entire course is compressed into **79 modular skill files** for [Claude Code](https://claude.com/claude-code) — maximum knowledge density, minimum tokens. Each skill provides quick-reference tables, copy-paste code templates, and common pitfalls for a focused topic.
+The course is extracted into **208 curated skills** for [Claude Code](https://claude.com/claude-code) — each with version compatibility, code patterns, and common pitfalls. All scored 70+/100 on a 5-dimension quality rubric.
 
-| Category | Skills |
-|----------|--------|
-| **Foundations** | `linux-git-bash` · `biostatistics-r` · `advanced-r-statistics` |
-| **Python** | `python-core-bio` · `python-collections-regex` · `python-advanced-sql` · `numpy-pandas-wrangling` · `data-visualization-bio` |
-| **Core Bio** | `biopython-databases` · `sequence-alignment` · `phylogenetics-evolution` · `structural-bioinformatics` |
-| **Applied Bio** | `ngs-variant-calling` · `rnaseq-metagenomics` · `ml-deep-learning-bio` · `clinical-modeling-workflows` · `genome-assembly-proteomics` |
-| **Algorithms** | `complexity-sorting-searching` · `linear-tree-hash-structures` · `string-algorithms` · `advanced-string-structures` · `graphs-dynamic-programming` |
-| **Biology & Computation** | `probability-statistics-python` · `genetics-computational` · `biochemistry-enzymology` · `genetic-engineering-insilico` · `population-genetics-evolution` · `numerical-methods-bio` |
-| **Tier 2 Depth** | `hic-analysis` · `motif-discovery` |
-| **Applied Bio Depth** | `gwas-population-genetics` · `spatial-transcriptomics` · `bayesian-python` · `copy-number-analysis` · `tf-footprinting-atac` · `cancer-transcriptomics` |
-| **Modern AI** | `llm-finetuning` · `vision-rag` · `diffusion-generative` · `alphafold-protein-design` |
-| **New Topics** | `chipseq-epigenomics` · `long-read-sequencing` · `metagenomics-shotgun` · `multi-omics-integration` · `network-biology` · `cheminformatics-drug-discovery` |
+| Category | Count | Topics |
+|----------|-------|--------|
+| **Foundations** | 10 | Linux, Git, Bash, R, biostatistics, probability & statistics |
+| **Python for Bio** | 28 | Variables → OOP → NumPy/Pandas → SQL, all with bioinformatics examples |
+| **Core Bioinformatics** | 17 | Databases, BioPython, alignment, BLAST, phylogenetics, protein structure, GO, Hi-C |
+| **Applied Bioinformatics** | 76 | NGS, variant calling, RNA-seq, scRNA-seq, ChIP-seq, GWAS, metagenomics, methylation, CRISPR screens, immunogenomics, metabolomics, virology, network biology, cheminformatics |
+| **Algorithms & DS** | 29 | Sorting, searching, trees, hash tables, string matching (KMP, Aho-Corasick, suffix trees), graphs, dynamic programming |
+| **Modern AI** | 13 | LLM finetuning, diffusion models, AlphaFold, ESM2, Enformer, Geneformer/scGPT |
+| **Legacy** | 35 | Consolidated skills from earlier course versions |
 
-**Usage:** Reference any skill by name in your prompt — Claude activates it automatically. See the full guide in [Skills/README.md](Skills/README.md).
+**Usage:** Reference any skill by name — Claude activates it automatically. See the full index in [Skills/README.md](Skills/README.md).
+
+**Quality tools:** `python3 scripts/score_skills.py` scores all skills. `python3 scripts/curate_skills.py` runs the full curation pipeline.
 
 ---
 
