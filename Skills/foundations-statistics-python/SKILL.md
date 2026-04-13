@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_0_Computational_Foundations/07_Probability_and_Statistics_Python/02_statistics_python.ipynb`*
 
-# Module 0.7b: Statistics with Python
 
 **Tier 0 -- Computational Foundations | Module 7b**
 
@@ -96,7 +95,7 @@ print(f"Mean expression:         {mu_expr}")
 print(f"P(expression > 10):      {prob_above_10:.4f}")
 print(f"95th percentile:         {percentile_95:.3f}")
 print(f"P(expression <= 7):      {cdf_at_7:.4f}")
-```
+```python
 
 ```python
 # Plot PDF and CDF side by side
@@ -124,7 +123,7 @@ ax2.legend()
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### Binomial Distribution: Variant Allele Counts
 
@@ -157,7 +156,7 @@ plt.show()
 print(f"P(alt=6 | germline model): {germ_dist.pmf(6):.5f}")
 print(f"P(alt=6 | somatic model):  {somatic_dist.pmf(6):.5f}")
 print(f"Likelihood ratio:          {somatic_dist.pmf(6)/germ_dist.pmf(6):.1f}x more likely under somatic model")
-```
+```python
 
 ### Poisson Distribution: Mutations per Gene
 
@@ -189,7 +188,7 @@ plt.show()
 pval_5_plus = bg_dist.sf(4)   # P(X > 4) = P(X >= 5)
 print(f"P(mutations >= 5 | background): {pval_5_plus:.6f}")
 print(f"This gene would be flagged as significantly mutated (p = {pval_5_plus:.2e})")
-```
+```python
 
 ### Negative Binomial: RNA-seq Overdispersion
 
@@ -226,7 +225,7 @@ ax.set_title('Poisson vs Negative Binomial: RNA-seq count overdispersion')
 ax.legend()
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### Visualising Multiple Distributions Together
 
@@ -266,7 +265,7 @@ for ax in axes.flat:
 plt.suptitle('Probability distributions in bioinformatics', fontsize=13, y=1.01)
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ---
 
@@ -301,4 +300,10 @@ gene_brain  = expr_data['brain'][:, 0]
 summary_df = pd.DataFrame({'liver': gene_liver, 'kidney': gene_kidney, 'brain': gene_brain})
 print("Summary statistics for gene_0 across tissues:")
 print(summary_df.describe().round(3))
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

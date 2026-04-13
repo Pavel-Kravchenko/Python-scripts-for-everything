@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/33_CRISPR_Screen_Analysis/01_mageck_gene_essentiality.ipynb`*
 
-# CRISPR Screen Analysis with MAGeCK
 
 **Tier 3 — Applied Bioinformatics | Module 33 · Notebook 1**
 
@@ -97,16 +96,16 @@ mageck count \
     --fastq plasmid.fastq.gz d14_rep1.fastq.gz d14_rep2.fastq.gz d14_rep3.fastq.gz \
     --sgrna-len 20 \                      # sgRNA length to extract from read
     --norm-method median                  # normalization: median, total, or none
-```
+```python
 
 **Library file format** (CSV or space-delimited):
-```
+```python
 sgRNA_ID,Sequence,Gene
 sgRNA001,ATCGATCGATCGATCGATCG,GENE_A
 sgRNA002,GCTAGCTAGCTAGCTAGCTA,GENE_A
 ...
 NTC001,AAACTAGTCGATCGATCGAT,NonTargetingControl
-```
+```python
 
 ### Output: count table
 
@@ -209,7 +208,7 @@ count_df = pd.DataFrame({
 
 print(f"\nCount table shape: {count_df.shape}")
 print(count_df.head(8).to_string(index=False))
-```
+```python
 
 ## 3. MAGeCK test: Robust Rank Aggregation
 
@@ -219,7 +218,7 @@ print(count_df.head(8).to_string(index=False))
 # Example: MAGeCK test
 # !mageck test -k sample.count.txt -t day14_rep1,day14_rep2 -c plasmid \
 #   -n mageck_output --gene-lfc-method median
-```
+```python
 
 ## 4. Hit Calling and Interpretation
 
@@ -228,3 +227,9 @@ print(count_df.head(8).to_string(index=False))
 ## 5. Visualization
 
 > Volcano plot (LFC vs -log10 FDR). Rank plot highlighting known essential genes. sgRNA-level scatter plot for top hits. Gini index for library uniformity.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

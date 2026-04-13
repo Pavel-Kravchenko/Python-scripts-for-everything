@@ -1,6 +1,6 @@
 ---
 name: python-bio-classes
-description: "Split from `01_classes_and_oop.ipynb` to keep this topic self-contained."
+description: "Python classes for bioinformatics: designing Sequence, Gene, and ProteinRecord classes with encapsulation and methods. Use when building object-oriented bioinformatics tools."
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/13_Classes_and_OOP/01_classes.ipynb"
 primary_tool: Python
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/13_Classes_and_OOP/01_classes.ipynb`*
 
-# Classes
 
 Split from `01_classes_and_oop.ipynb` to keep this topic self-contained.
 
@@ -87,7 +86,7 @@ print(f"Gene: {brca1.name}")
 print(f"Length: {brca1.length()} bp")
 print(f"GC Content: {brca1.gc_content():.1f}%")
 print(f"Chromosome: {brca1.chromosome}")
-```
+```python
 
 ### How `__init__` Works
 
@@ -131,7 +130,7 @@ print(seq)
 
 # __repr__ is called by repr() and shown in interactive prompts
 print(repr(seq))
-```
+```python
 
 **Rule of thumb:**
 - `__str__` -- for the user (readable output)
@@ -187,7 +186,7 @@ print(f"s1 < s3:  {s1 < s3}")    # True -- shorter
 sequences = [s3, s1, DNASequence("AT", "tiny")]
 for s in sorted(sequences):
     print(f"  {s.name}: {len(s)} bp")
-```
+```python
 
 ## 5. Inheritance: Building a Sequence Hierarchy
 
@@ -195,14 +194,14 @@ Inheritance lets you create specialized classes from a general base class.
 DNA, RNA, and protein sequences share common features (they all have a sequence
 string, a name, a length) but differ in their specific operations.
 
-```
+```python
                BioSequence (Parent)
               /        |         \
          DNA          RNA       Protein
       gc_content()  to_dna()   mol_weight()
       complement()             
       transcribe()
-```
+```python
 
 ```python
 class BioSequence:
@@ -274,7 +273,7 @@ class Protein(BioSequence):
         weight = sum(self.AA_WEIGHTS.get(aa, 110) for aa in self.sequence)
         weight -= (len(self.sequence) - 1) * 18  # water loss
         return weight
-```
+```python
 
 ```python
 # Test the hierarchy
@@ -296,7 +295,7 @@ print(f"RNA: {rna.sequence}")
 print(f"\ndna is DNA: {isinstance(dna, DNA)}")
 print(f"dna is BioSequence: {isinstance(dna, BioSequence)}")
 print(f"rna is DNA: {isinstance(rna, DNA)}")
-```
+```python
 
 ## 6. Abstract Base Classes
 
@@ -352,7 +351,7 @@ class DNAAnalyzer(SequenceAnalyzer):
 analyzer = DNAAnalyzer("ATGCGATCGATCG")
 analyzer.validate()
 print(analyzer.summary())
-```
+```python
 
 ## 7. Properties: Controlled Attribute Access
 
@@ -412,4 +411,10 @@ try:
     gene.sequence = "ATGXYZ"
 except ValueError as e:
     print(f"Caught: {e}")
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

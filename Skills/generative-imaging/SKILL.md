@@ -66,7 +66,7 @@ def linear_schedule(T=1000, beta_start=1e-4, beta_end=0.02):
     alphas = 1 - betas
     alpha_bars = np.cumprod(alphas)
     return betas, alphas, alpha_bars
-```
+```python
 
 **Pattern 2: Cosine schedule (improved)**
 ```python
@@ -76,7 +76,7 @@ def cosine_schedule(T=1000, s=0.008):
     alpha_bars = f / f[0]
     betas = 1 - alpha_bars[1:] / alpha_bars[:-1]
     return np.clip(betas, 0, 0.999), 1 - betas, alpha_bars[1:]
-```
+```python
 
 **Pattern 3: Forward diffusion (add noise)**
 ```python
@@ -86,7 +86,7 @@ def forward_diffuse(x0, t, alpha_bars):
     eps = np.random.randn(*x0.shape)
     xt = np.sqrt(ab) * x0 + np.sqrt(1 - ab) * eps
     return xt, eps
-```
+```python
 
 **Pattern 4: DDIM reverse step**
 ```python
@@ -100,7 +100,7 @@ def ddim_step(xt, eps_pred, t, t_prev, alpha_bars, eta=0.0):
     noise   = sigma * np.random.randn(*xt.shape) if eta > 0 else 0
     xt_prev = np.sqrt(ab_prev) * x0_pred + np.sqrt(1 - ab_prev - sigma**2) * eps_pred + noise
     return xt_prev, x0_pred
-```
+```python
 
 **Pattern 5: SVD degradation (DDRM)**
 ```python
@@ -119,7 +119,7 @@ def pseudoinverse_step(y_obs, x0_pred, H, sigma_obs=0.05):
     scale = s**2 / (s**2 + sigma_obs**2)
     x0_consistent = Vt.T @ (Vt @ x0_pred.flatten() + scale * (Hy - Hx0) / s)
     return x0_consistent.reshape(x0_pred.shape)
-```
+```python
 
 ## Code Templates
 
@@ -140,7 +140,7 @@ def ddim_sample(oracle_denoiser, shape, T=100, T_sample=20, schedule="cosine"):
         xt, x0_pred = ddim_step(xt, eps_pred, t, t_prev, alpha_bars)
 
     return xt
-```
+```python
 
 ## Common Pitfalls
 

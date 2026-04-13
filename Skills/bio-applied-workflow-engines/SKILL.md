@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/12_Modern_Workflows/02_workflow_engines.ipynb`*
 
-# Workflow Engines: Snakemake and nf-core / Nextflow
 
 **Tier 3 – Applied Bioinformatics**
 
@@ -66,7 +65,7 @@ fastqc raw/*.fastq.gz -o qc/
 trimmomatic PE raw/s1_R1.fastq.gz raw/s1_R2.fastq.gz     trimmed/s1_R1.fq.gz trimmed/s1_R1_unpaired.fq.gz     trimmed/s1_R2.fq.gz trimmed/s1_R2_unpaired.fq.gz     ILLUMINACLIP:adapters.fa:2:30:10 MINLEN:36
 bwa mem -t 8 ref/genome.fa trimmed/s1_R1.fq.gz trimmed/s1_R2.fq.gz |     samtools sort -o aligned/s1.bam
 ...
-```
+```python
 
 Problems:
 - **No resume**: reruns everything even if step 2 failed halfway through step 5
@@ -126,7 +125,7 @@ order = topo_sort(pipeline_dag)
 print("Execution order (topological sort):")
 for i, step in enumerate(order, 1):
     print(f"  {i:>2}. {step}")
-```
+```python
 
 ---
 
@@ -141,7 +140,7 @@ conda activate snake
 
 # pip (no conda dependencies)
 pip install snakemake
-```
+```python
 
 ### 2.2 Core concepts
 
@@ -190,7 +189,7 @@ rule bwa_mem:
     shell:
         "bwa mem -t {threads} {input.ref} {input.r1} {input.r2} "
         "| samtools sort -o {output}"
-```
+```python
 
 ```python
 # ── Simulate Snakemake's rule-matching logic ─────────────────────────────
@@ -239,7 +238,7 @@ for target in targets:
         print(f"{target:<40}  {matched[0]:<12}  {matched[1]}")
     else:
         print(f"{target:<40}  (no match)")
-```
+```python
 
 ---
 
@@ -266,7 +265,7 @@ trimming:
 calling:
   min_base_quality: 20
   min_mapping_quality: 30
-```
+```python
 
 Load in Snakefile:
 
@@ -275,7 +274,7 @@ configfile: "config/config.yaml"
 
 SAMPLES = config["samples"]
 REF     = config["reference"]
-```
+```python
 
 ### 3.2 params, log, benchmark
 
@@ -300,7 +299,7 @@ rule bwa_mem:
         "(bwa mem -t {threads} -R '{params.rg}' {input.ref} "
         "{input.r1} {input.r2} | samtools sort -o {output.bam}) "
         "2> {log}"
-```
+```python
 
 **log** files capture stderr/stdout for debugging without breaking Snakemake's
 output-tracking.  
@@ -315,7 +314,7 @@ rule fastqc:
     output: "results/qc/{sample}_fastqc.html"
     conda:  "envs/qc.yaml"     # ← per-rule conda env
     shell:  "fastqc {input} --outdir results/qc/"
-```
+```python
 
 ```yaml
 # envs/qc.yaml
@@ -326,12 +325,12 @@ channels:
 dependencies:
   - fastqc=0.12.1
   - multiqc=1.19
-```
+```python
 
 Run with `--use-conda` to activate:
 ```bash
 snakemake --use-conda --cores 8
-```
+```python
 
 ### 3.4 Singularity / Apptainer containers
 
@@ -344,12 +343,12 @@ rule gatk_haplotypecaller:
     shell:
         "gatk HaplotypeCaller -R {input.ref} -I {input.bam} "
         "-O {output.gvcf} -ERC GVCF"
-```
+```python
 
 Run with:
 ```bash
 snakemake --use-singularity --cores 8
-```
+```python
 
 ### 3.5 Checkpoints (dynamic output)
 
@@ -369,7 +368,7 @@ def aggregate_chromosomes(wildcards):
 
 rule all:
     input: aggregate_chromosomes
-```
+```python
 
 ```python
 # ── Build a Snakemake-style workflow graph from rules ────────────────────
@@ -437,4 +436,10 @@ print(f"{'Rule':<15}  {'Threads':>7}  {'RAM':>6}  {'Conda':>5}  {'Container':>9}
 print('-' * 70)
 for r in variant_pipeline:
     print(f"{r.name:<15}  {r.threads:>7}  {r.mem_mb:>5}M  "          f"{'✓' if r.conda_env else '':>5}  "          f"{'✓' if r.container else '':>9}  "          f"{'✓' if r.has_log else '':>4}  "          f"{'✓' if r.has_benchmark else '':>5}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

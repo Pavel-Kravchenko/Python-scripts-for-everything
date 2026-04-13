@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/12_Modern_Workflows/03_testing_cicd.ipynb`*
 
-# Testing and CI/CD for Bioinformatics
 
 **Tier 3 -- Applied Bioinformatics**
 
@@ -132,7 +131,7 @@ def find_motif(sequence: str, motif: str) -> list:
 print(f"GC content of 'ATGC': {gc_content('ATGC')}%")
 print(f"Reverse complement of 'ATGC': {reverse_complement('ATGC')}")
 print(f"'AT' positions in 'ATATGAT': {find_motif('ATATGAT', 'AT')}")
-```
+```python
 
 ```python
 # test_bio_utils.py - Our test file
@@ -229,7 +228,7 @@ def test_gc_content_parametrized(seq, expected):
 '''
 
 print(test_code)
-```
+```python
 
 ```python
 # pytest command examples
@@ -262,7 +261,7 @@ pytest --cov=bio_utils --cov-report=html
 pytest -k "gc or reverse"
 '''
 print(commands)
-```
+```python
 
 ---
 
@@ -312,7 +311,7 @@ def human_gene_sequences():
 '''
 
 print(fixtures_code)
-```
+```python
 
 ```python
 # Using fixtures in tests
@@ -343,7 +342,7 @@ def test_gene_gc_content(human_gene_sequences):
 '''
 
 print(fixture_usage)
-```
+```python
 
 ---
 
@@ -398,7 +397,7 @@ jobs:
 '''
 
 print(github_actions_yaml)
-```
+```python
 
 ```python
 # .github/workflows/lint.yml - Code quality checks
@@ -435,7 +434,7 @@ jobs:
 '''
 
 print(lint_yaml)
-```
+```python
 
 ---
 
@@ -471,7 +470,7 @@ my_bioinformatics_tool/
 '''
 
 print(project_structure)
-```
+```python
 
 ### Testing Checklist for Bioinformatics
 
@@ -492,3 +491,9 @@ print(project_structure)
 ### Exercise 1: Write Tests for Translation
 
 Write pytest tests for a `translate()` function that converts DNA to protein.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

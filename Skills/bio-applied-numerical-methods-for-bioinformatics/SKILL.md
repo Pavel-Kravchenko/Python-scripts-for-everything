@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/16_Numerical_Methods_for_Bioinformatics/01_numerical_methods_for_bioinformatics.ipynb`*
 
-# Numerical Methods for Bioinformatics
 
 ## Learning Objectives
 
@@ -46,7 +45,7 @@ from scipy.stats import chi2
 
 rng = np.random.default_rng(42)
 plt.rcParams.update({'figure.dpi': 110, 'axes.grid': True, 'grid.alpha': 0.3})
-```
+```python
 
 ---
 ## Part 1: Interpolation
@@ -101,7 +100,7 @@ ax.legend()
 plt.tight_layout()
 plt.show()
 print(f'Interpolated solubility at 40 C: {lagrange_interpolate(T_data, S_data, [40])[0]:.1f} g')
-```
+```python
 
 ### 1.2 The Runge Phenomenon and Chebyshev Nodes
 
@@ -146,7 +145,7 @@ for ax, y_interp, nodes, title in zip(
     ax.legend()
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### 1.3 Newton's Divided Differences
 
@@ -206,7 +205,7 @@ ax.legend()
 plt.tight_layout()
 plt.show()
 print(f'Predicted at t=6h: {expr_pred[0]:.2f},  t=18h: {expr_pred[1]:.2f}')
-```
+```python
 
 ### 1.4 Cubic Spline Interpolation
 
@@ -252,7 +251,7 @@ plt.show()
 
 peak_t = t_fine[np.argmax(cs(t_fine))]
 print(f'Estimated peak expression at ZT {peak_t:.1f}h')
-```
+```python
 
 ---
 ## Part 2: Numerical Differentiation and Integration
@@ -307,7 +306,7 @@ C_pk = np.array([100, 72, 52, 27, 14, 7.4, 2.0, 0.1])      # ng/mL
 for i in range(1, len(t_pk)-1):
     dCdt = (C_pk[i+1] - C_pk[i-1]) / (t_pk[i+1] - t_pk[i-1])
     print(f'  t={t_pk[i]:4.0f}h: dC/dt = {dCdt:6.2f} ng/mL/h')
-```
+```python
 
 ### 2.2 Numerical Integration: Trapezoidal Rule and Simpson's Rule
 
@@ -330,3 +329,9 @@ where M_4 = max|f''''(x)| on [a,b].
 Simpson's rule converges as O(h^4) vs the trapezoidal O(h^2) — two orders faster.
 The factor of 180 (not 12) comes from the derivation: for a single panel of width 2h,
 the error is -(h^5/90)*f''''(ξ), which over N panels on [a,b] gives -(b-a)^5/(180*N^4)*f''''(ξ).
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

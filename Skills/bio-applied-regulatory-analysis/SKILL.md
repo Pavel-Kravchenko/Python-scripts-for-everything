@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/05_Promoter_and_Regulatory_Analysis/02_regulatory_analysis.ipynb`*
 
-# Promoter and Regulatory Sequence Analysis
 
 > **This is the main notebook** for Module 05. It covers the complete curriculum (Sections 1–10). See also [01_promoter.ipynb](./01_promoter.ipynb) for an additional CpG island code example.
 
@@ -42,7 +41,7 @@ from collections import Counter
 %matplotlib inline
 plt.rcParams['figure.figsize'] = (12, 5)
 plt.rcParams['font.size'] = 12
-```
+```python
 
 ---
 ## 1. Gene Regulation: The Big Picture
@@ -102,7 +101,7 @@ print(f"TATA box hits in 2000 bp region (TSS at position 1000):")
 for pos, motif in hits:
     relative = pos - 1000
     print(f"  Position {pos} (TSS{relative:+d}): {motif}")
-```
+```python
 
 ### 2.2 CpG islands
 
@@ -148,7 +147,7 @@ def cpg_island_scanner(sequence, window=200, step=1, gc_thresh=0.5, oe_thresh=0.
     return islands
 
 print("CpG island scanner defined. We will use it in the practical section below.")
-```
+```python
 
 ### 2.3 Transcription factor binding sites (TFBS)
 
@@ -216,7 +215,7 @@ print(pfm_df)
 print("\nPosition Weight Matrix (PWM, log2 odds):")
 pwm_df = pd.DataFrame(pwm, index=[f"pos {i+1}" for i in range(len(pwm['A']))])
 print(pwm_df.round(3))
-```
+```python
 
 ```python
 def score_sequence(sequence, pwm):
@@ -244,7 +243,7 @@ print(f"PWM hits (score >= 5.0) in synthetic promoter:")
 for pos, seq, sc in sorted(hits, key=lambda x: -x[2])[:10]:
     relative = pos - 1000
     print(f"  Position {pos} (TSS{relative:+d}): {seq}  score={sc:.2f}")
-```
+```python
 
 ---
 ## 3. TSS Prediction Concepts
@@ -295,7 +294,7 @@ axes[2].legend()
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ---
 ## 4. CpG Island Detection
@@ -332,4 +331,10 @@ def generate_promoter_with_cpg_island(length=3000, island_start=1200, island_len
 synth_promoter = generate_promoter_with_cpg_island()
 print(f"Synthetic promoter length: {len(synth_promoter)} bp")
 print(f"Expected CpG island: positions 1200-1600")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

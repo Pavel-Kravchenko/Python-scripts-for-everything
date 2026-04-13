@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/35_Small_RNA_and_ncRNA/02_lncrna_classification.ipynb`*
 
-# Long Non-Coding RNA: Discovery and Classification
 
 **Tier 3 — Applied Bioinformatics | Module 35 · Notebook 2**
 
@@ -62,7 +61,7 @@ Non-coding RNAs make up >98% of the human transcriptome by sequence count. They 
 
 ### lncRNA Subtypes
 
-```
+```python
 Gene A  ████████████████████
                  ↕ (opposite strand)
 lncRNA  ←←←←←←←←←←←←←←   antisense lncRNA
@@ -73,7 +72,7 @@ Exon1   Intron  Exon2
 
 Gene A  ████    Gene B  ████
         ████████████████    lincRNA (long intergenic ncRNA)
-```
+```python
 
 - **lincRNA**: between protein-coding genes (intergenic); most common type
 - **Antisense lncRNA**: transcribed from opposite strand, overlapping a coding gene
@@ -116,7 +115,7 @@ stringtie --merge \
 gffcompare -r gencode.v44.annotation.gtf \
            -G merged.gtf \
            -o comparison
-```
+```python
 
 ### gffcompare Class Codes for Novel Transcripts
 
@@ -214,7 +213,7 @@ plt.suptitle('lncRNA Discovery: Assembly Statistics', fontsize=12, fontweight='b
 plt.tight_layout()
 plt.savefig('lncrna_discovery.png', dpi=120, bbox_inches='tight')
 plt.show()
-```
+```python
 
 ## 3. Coding Potential Assessment
 
@@ -258,10 +257,10 @@ lncRNAs show much lower sequence conservation than protein-coding genes:
 **Circular RNAs** are formed by **back-splicing**: the 5' end of a downstream exon joins to the 3' end of an upstream exon, creating a covalently closed loop.
 
 Detection signature: reads spanning the **back-splice junction (BSJ)**:
-```
+```python
 Linear:  ...Exon2–Exon3–Exon4...
 Circular: ...Exon4–Exon2... (back-splice)
-```
+```python
 
 CIRI2 algorithm:
 ```bash
@@ -275,7 +274,7 @@ perl CIRI2.pl \
   -F hg38.fa \
   -A gencode.v44.gtf \
   -T 8
-```
+```python
 
 circRNA quantification: reads per circRNA / total mapped reads × 10⁶ (= CPM)
 
@@ -292,7 +291,7 @@ circRNA quantification: reads per circRNA / total mapped reads × 10⁶ (= CPM)
 # !stringtie --merge -G gencode.v44.gtf sample1.gtf sample2.gtf -o merged.gtf
 # # Filter for lncRNAs
 # !gffcompare -r gencode.v44.gtf merged.gtf
-```
+```python
 
 ## 3. Coding Potential Assessment
 
@@ -305,3 +304,9 @@ circRNA quantification: reads per circRNA / total mapped reads × 10⁶ (= CPM)
 ## 5. lncRNA Co-expression Networks
 
 > WGCNA co-expression modules including lncRNAs. Guilt-by-association: assign lncRNA function from co-expressed protein-coding genes. Identify lncRNA-disease associations (LncDisease, Lnc2Cancer).
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

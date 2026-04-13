@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/08_Advanced_String_Structures/01_tries.ipynb`*
 
-# Trie (Prefix Tree)
 
 ## What is a Trie?
 
@@ -44,7 +43,7 @@ A **Trie** (pronounced "try") is a tree-like data structure used for efficient s
 
 **Trie containing words: "cat", "car", "card", "dog", "do"**
 
-```
+```python
            (root)
           /      \
          c        d
@@ -62,7 +61,7 @@ Path "c-a-r" = "car"
 Path "c-a-r-d" = "card"
 Path "d-o" = "do"
 Path "d-o-g" = "dog"
-```
+```python
 
 Notice how:
 - "cat" and "car" share the prefix "ca"
@@ -77,7 +76,7 @@ Notice how:
 
 **Insert "cats" into the trie:**
 
-```
+```python
 Before:              After:
     (root)              (root)
        |                   |
@@ -88,7 +87,7 @@ Before:              After:
      t*  r*              t*  r*
                          |
                          s*
-```
+```python
 
 **Algorithm:**
 1. Start at root
@@ -103,7 +102,7 @@ Before:              After:
 
 **Search for "car":**
 
-```
+```python
     (root)
        ↓ 'c'
        c
@@ -111,7 +110,7 @@ Before:              After:
        a
       / ↓ 'r'
      t   r* ← is_end=True → FOUND!
-```
+```python
 
 **Algorithm:**
 1. Start at root
@@ -126,7 +125,7 @@ Before:              After:
 
 **Find all words with prefix "ca":**
 
-```
+```python
     (root)
        ↓
        c
@@ -138,7 +137,7 @@ Before:              After:
          d*
 
 Result: ["cat", "car", "card"]
-```
+```python
 
 **Algorithm:**
 1. Navigate to prefix end node
@@ -150,14 +149,14 @@ Result: ["cat", "car", "card"]
 
 **Delete "car" (but keep "card"):**
 
-```
+```python
 Before:              After:
        a                   a
       / \                 / \
      t*  r*              t*  r   ← is_end=False now
          |                   |
          d*                  d*
-```
+```python
 
 Just unmark `is_end` - don't remove nodes that have children!
 
@@ -209,7 +208,7 @@ class TrieNode:
     
     def __repr__(self):
         return f"TrieNode(children={list(self.children.keys())}, is_end={self.is_end})"
-```
+```python
 
 ```python
 class Trie:
@@ -404,7 +403,7 @@ class Trie:
             List of all words in alphabetical order
         """
         return self.get_all_with_prefix("")
-```
+```python
 
 ---
 
@@ -441,7 +440,7 @@ def visualize_trie(trie: Trie) -> None:
     
     _visualize(trie.root, "", True, "")
     print("\n* = end of word")
-```
+```python
 
 ### Example 1: Basic Operations
 
@@ -456,7 +455,7 @@ for word in words:
 
 print("\nTrie structure:")
 visualize_trie(trie)
-```
+```python
 
 ```python
 # Search operations
@@ -468,7 +467,7 @@ print(f"  search('dogs') = {trie.search('dogs')}  # word doesn't exist")
 print("\nPrefix operations:")
 print(f"  starts_with('ca')  = {trie.starts_with('ca')}   # prefix exists")
 print(f"  starts_with('xyz') = {trie.starts_with('xyz')}  # prefix doesn't exist")
-```
+```python
 
 ### Example 2: Autocomplete
 
@@ -488,7 +487,7 @@ for word in dictionary:
 print("Dictionary loaded with", len(dictionary), "words")
 print("\nTrie structure:")
 visualize_trie(autocomplete_trie)
-```
+```python
 
 ```python
 def autocomplete(trie: Trie, prefix: str, max_results: int = 5) -> list:
@@ -514,4 +513,10 @@ print("=" * 40)
 for prefix in test_prefixes:
     suggestions = autocomplete(autocomplete_trie, prefix)
     print(f"  '{prefix}' → {suggestions}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/04_epigenomic_sequence_models.ipynb`*
 
-# Epigenomic Sequence Models: Borzoi and Epiformer
 
 **Tier 5 — Modern AI for Science | Module 05 · Notebook 4**
 
@@ -62,7 +61,7 @@ def random_dna(n: int) -> str:
 
 def motif_count(seq: str, motif: str) -> int:
     return sum(1 for i in range(len(seq) - len(motif) + 1) if seq[i:i + len(motif)] == motif)
-```
+```python
 
 ## 1. Output Modalities
 
@@ -85,7 +84,7 @@ def toy_epiformer_accessibility(seq: str, conservation: float) -> float:
 s = random_dna(400)
 print("Expression-like:", toy_borzoi_expression(s))
 print("Accessibility-like:", toy_epiformer_accessibility(s, conservation=0.62))
-```
+```python
 
 ## 2. Generate Synthetic Benchmark Dataset
 
@@ -107,7 +106,7 @@ def corr(a, b):
 
 print("Expression correlation:", round(corr(pred_expr, true_expr), 3))
 print("Accessibility correlation:", round(corr(pred_acc, true_acc), 3))
-```
+```python
 
 ## 3. Cross-Task Mismatch Demonstration
 
@@ -116,7 +115,7 @@ A model optimized for one modality can perform poorly on another. We illustrate 
 ```python
 bad_acc_proxy = (pred_expr - pred_expr.min()) / (pred_expr.max() - pred_expr.min() + 1e-9)
 print("Accessibility correlation using wrong modality proxy:", round(corr(bad_acc_proxy, true_acc), 3))
-```
+```python
 
 ## 4. Practical Model Choice Matrix
 
@@ -147,3 +146,9 @@ Checked online during content expansion.
 - [Borzoi repository and preprint link](https://github.com/calico/borzoi)
 - [Epiformer repository](https://github.com/yal054/epiformer)
 - [Epiformer-linked Science paper context](https://github.com/yal054/epiformer)
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

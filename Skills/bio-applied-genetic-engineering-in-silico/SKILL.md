@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/14_Genetic_Engineering_In_Silico/01_genetic_engineering_in_silico.ipynb`*
 
-# Genetic Engineering In Silico
 
 ## Tier 3 - Applied Bioinformatics
 
@@ -111,7 +110,7 @@ for name, (site, ct, cb) in list(RESTRICTION_ENZYMES.items())[:5]:
     overhang_type = '5-prime' if ct < cb else ('3-prime' if ct > cb else 'blunt')
     print(f'  {name:10s}  site={site}  cut_top={ct}  cut_bot={cb}  '
           f'overhang={overhang_len}bp {overhang_type}')
-```
+```python
 
 ### 1.2 Single-Enzyme Digest: Finding Cut Sites and Computing Fragments
 
@@ -160,7 +159,7 @@ for enzyme in ['EcoRI', 'BamHI', 'HindIII']:
     frags = digest(plasmid_seq, enzyme)
     print(f'{enzyme}: {len(cuts)} cut(s) at positions {cuts}')
     print(f'  Fragments: {[len(f) for f in frags]} bp')
-```
+```python
 
 ### 1.3 Multi-Enzyme Double Digest
 
@@ -191,7 +190,7 @@ print('Single digest (EcoRI):')
 print(f'  {sorted([len(f) for f in frags_single], reverse=True)} bp')
 print('Double digest (EcoRI + BamHI):')
 print(f'  {sorted([len(f) for f in frags_double], reverse=True)} bp')
-```
+```python
 
 ### 1.4 Simulating Gel Electrophoresis
 
@@ -241,7 +240,7 @@ lanes = {
     'EcoRI+BamHI':  double_digest(plasmid_seq, 'EcoRI', 'BamHI'),
 }
 plot_gel(lanes)
-```
+```python
 
 ### 1.5 Compatible Ends: Which Enzymes Can Ligate Together?
 
@@ -288,7 +287,7 @@ for e1, e2 in itertools.combinations(enzymes, 2):
     if are_compatible(e1, e2) and e1 != e2:
         oh, _ = compute_overhang(e1)
         print(f'  {e1} + {e2}  (shared overhang: {oh})')
-```
+```python
 
 ## 2. Primer Design
 
@@ -377,4 +376,10 @@ print(f'{"Name":<12} {"Seq":<26} {"Tm_basic":>8} {"Tm_salt":>8} {"Tm_NN":>8}')
 for name, seq in test_primers:
     print(f'{name:<12} {seq:<26} {tm_basic(seq):>8.1f} '
           f'{tm_salt_adjusted(seq):>8.1f} {tm_nearest_neighbor(seq):>8.1f}')
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

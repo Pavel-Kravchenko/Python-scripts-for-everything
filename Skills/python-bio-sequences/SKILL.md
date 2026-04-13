@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/04_Strings_and_Sequences/02_sequences.ipynb`*
 
-# Module 4: Strings and Biological Sequences
 
 ---
 
@@ -62,17 +61,17 @@ Strings are **immutable** in Python -- once created, individual characters canno
 dna = "ATGC"
 dna[0] = "C"   # TypeError! Strings cannot be modified in place.
 dna = "C" + dna[1:]  # This works -- creates a new string.
-```
+```python
 
 ## 2. Indexing: Accessing Individual Nucleotides
 
 Every character in a string has a **position** (index). Python uses **0-based indexing**.
 
-```
+```python
 Sequence:   A   T   G   C   G   A   T   C
 Index:      0   1   2   3   4   5   6   7
 Negative:  -8  -7  -6  -5  -4  -3  -2  -1
-```
+```python
 
 Negative indices count from the end of the string, which is very convenient for accessing the last few characters.
 
@@ -85,7 +84,7 @@ print(f"First nucleotide: {gene[0]}")
 print(f"Third nucleotide: {gene[2]}")
 print(f"Last nucleotide:  {gene[-1]}")
 print(f"Second to last:   {gene[-2]}")
-```
+```python
 
 ## 3. Slicing: Extracting Subsequences
 
@@ -97,12 +96,12 @@ print(f"Second to last:   {gene[-2]}")
 
 Think of the indices as pointing *between* characters:
 
-```
+```python
  +---+---+---+---+---+---+
  | A | T | G | C | G | A |
  +---+---+---+---+---+---+
  0   1   2   3   4   5   6
-```
+```python
 
 ```python
 seq = "ATGCGATCGATCGTAGC"
@@ -116,7 +115,7 @@ print(f"Positions 3-8:                     {seq[3:9]}")
 print(f"Last 6 nucleotides:                {seq[-6:]}")
 print(f"Everything except first 3:         {seq[3:]}")
 print(f"Everything except last 3:          {seq[:-3]}")
-```
+```python
 
 ```python
 # Using step parameter
@@ -129,7 +128,7 @@ print(f"Every 2nd nucleotide:     {seq[::2]}")
 print(f"1st codon positions:      {seq[0::3]}")
 print(f"2nd codon positions:      {seq[1::3]}")
 print(f"3rd codon positions:      {seq[2::3]}")
-```
+```python
 
 ### Extracting Codons with Slicing
 
@@ -151,7 +150,7 @@ print(f"Codon 3:         {codon3}")
 # Extract ALL codons using a list comprehension
 codons = [mrna[i:i+3] for i in range(0, len(mrna), 3)]
 print(f"\nAll codons: {codons}")
-```
+```python
 
 ### Reversing a Sequence
 
@@ -168,7 +167,7 @@ print(f"Reversed: 3'-{reversed_seq}-5'")
 test = "GAATTC"  # EcoRI recognition site
 print(f"\n'{test}' reversed: '{test[::-1]}'")
 print(f"Is it a string palindrome? {test == test[::-1]}")
-```
+```python
 
 ## 4. Essential String Methods
 
@@ -190,7 +189,7 @@ print(f"Lower:     {messy_seq.lower()}")
 clean_seq = messy_seq.upper()
 print(f"\nCleaned:   {clean_seq}")
 print(f"G count:   {clean_seq.count('G')}")
-```
+```python
 
 ### 4.2 Counting: `count()`
 
@@ -219,7 +218,7 @@ print(f"\nGC Content: {gc_content:.1f}%")
 # Count a longer motif
 print(f"\nOccurrences of 'ATG': {dna.count('ATG')}")
 print(f"Occurrences of 'CG' (CpG): {dna.count('CG')}")
-```
+```python
 
 ### 4.3 Finding Subsequences: `find()`, `rfind()`
 
@@ -243,7 +242,7 @@ print(f"Last 'ATG' at position:  {last_pos}")
 
 # Motif not found
 print(f"'TATA' found at: {dna.find('TATA')}  (not found)")
-```
+```python
 
 ```python
 # Find ALL positions of a motif using a while loop
@@ -265,7 +264,7 @@ for p in positions:
     for i in range(len(motif)):
         marker[p + i] = '^'
 print(''.join(marker))
-```
+```python
 
 ### 4.4 Replacing: `replace()`
 
@@ -287,7 +286,7 @@ print(f"Mutated:  {mutated}")
 # Limit the number of replacements
 single_mutation = dna.replace('CGA', 'CTA', 1)  # only first occurrence
 print(f"Single:   {single_mutation}")
-```
+```python
 
 ### 4.5 Splitting and Joining: `split()`, `join()`
 
@@ -308,7 +307,7 @@ print(f"Description: {parts[2]}")
 # Split by whitespace (default)
 words = header.split()
 print(f"\nWords: {words}")
-```
+```python
 
 ```python
 # Joining: assemble a sequence from codons
@@ -327,7 +326,7 @@ print(f"Formatted: {formatted}")
 header = ">seq1 Example sequence"
 fasta = '\n'.join([header, sequence])
 print(f"\nFASTA format:\n{fasta}")
-```
+```python
 
 ### 4.6 Stripping Whitespace: `strip()`, `lstrip()`, `rstrip()`
 
@@ -350,7 +349,7 @@ print(f"Stripped:   '{line2.strip()}'")
 raw_lines = ["ATGCGA\n", "TCGATC\n", "GTAGCA\n"]
 full_seq = ''.join(line.strip() for line in raw_lines)
 print(f"\nAssembled sequence: {full_seq}")
-```
+```python
 
 ### 4.7 Testing String Properties: `startswith()`, `endswith()`, `in`
 
@@ -380,7 +379,7 @@ print(f"\nAll characters valid DNA: {valid_dna}")
 bad_seq = "ATGCXGATC"
 valid_bad = all(nuc in 'ATGC' for nuc in bad_seq)
 print(f"'{bad_seq}' valid DNA: {valid_bad}")
-```
+```python
 
 ## 5. The `translate()` Method and Complement
 
@@ -398,7 +397,7 @@ print(f"Wrong approach: {dna} -> {wrong}  (both A and T became A!)")
 complement_table = str.maketrans('ATGC', 'TACG')
 correct = dna.translate(complement_table)
 print(f"Correct:        {dna} -> {correct}")
-```
+```python
 
 ```python
 # The complete reverse complement operation
@@ -419,4 +418,10 @@ print(f"Reverse complement: 5'-{reverse_complement}-3'")
 # In one line:
 rev_comp = dna.translate(complement_table)[::-1]
 print(f"\nOne-liner result:   5'-{rev_comp}-3'")
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/37_Virology_Bioinformatics/02_phylodynamics.ipynb`*
 
-# Viral Phylodynamics and Molecular Epidemiology
 
 **Tier 3 — Applied Bioinformatics | Module 37 · Notebook 2**
 
@@ -121,7 +120,7 @@ plt.show()
 print(f"Clock rate estimate: {slope:.2e} subs/site/year")
 print(f"R2 = {r**2:.3f} (>0.70 indicates good clock signal)")
 print(f"Expected SNPs per 2 weeks: {slope * (14/365) * genome_len:.1f}")
-```
+```python
 
 ## 2. Time-Scaled Phylogenies
 
@@ -156,7 +155,7 @@ augur refine --tree tree_raw.nwk --alignment aligned.fasta \
 
 # 4. Export for Auspice visualization
 augur export v2 --tree timetree.nwk --output auspice.json
-```
+```python
 
 ```python
 import numpy as np
@@ -211,7 +210,7 @@ plt.show()
 print("TMRCA estimate:", mrca_date)
 print("Clade distribution:")
 print(pd.Series(clades).value_counts().to_string())
-```
+```python
 
 ## 3. Bayesian Skyline Plot — Effective Population Size
 
@@ -276,7 +275,7 @@ axes[1].set_title('Epidemiological Case Data (for comparison)')
 plt.tight_layout()
 plt.show()
 print("Rising Ne = epidemic growth; declining Ne = transmission reduction")
-```
+```python
 
 ## 4. Phylogeography — Geographic Spread
 
@@ -367,4 +366,10 @@ axes[1].set_xlim(0, 20)
 
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

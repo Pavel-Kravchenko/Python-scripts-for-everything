@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_0_Computational_Foundations/04_File_Encodings/01_character_encodings.ipynb`*
 
-# Character Encodings and Binary Data in Bioinformatics
 
 **Tier 0 -- Computational Foundations | Module 4**
 
@@ -81,7 +80,7 @@ for value in [0, 10, 32, 48, 65, 90, 97, 122, 127, 200, 255]:
     # Only show printable ASCII characters
     char = chr(value) if 32 <= value < 127 else '--'
     print(f"{value:7d}  {binary:>10}  0x{hexadecimal}  '{char}'")
-```
+```python
 
 ```python
 # Python's built-in functions for conversions
@@ -90,7 +89,7 @@ print("chr(65)  =", chr(65))         # Integer code point -> character
 print("hex(65)  =", hex(65))         # Integer -> hex string
 print("bin(65)  =", bin(65))         # Integer -> binary string
 print("int('41', 16) =", int('41', 16))  # Hex string -> integer
-```
+```python
 
 ---
 
@@ -123,7 +122,7 @@ for base in nucleotides:
 print("\nAll amino acid codes are ASCII:")
 all_ascii = all(ord(aa) < 128 for aa in amino_acids)
 print(f"  {amino_acids} -> all < 128? {all_ascii}")
-```
+```python
 
 ```python
 # FASTQ quality scores: also ASCII
@@ -135,7 +134,7 @@ for char in quality_string[:10]:  # Show first 10
     phred = ord(char) - 33
     error_prob = 10 ** (-phred / 10)
     print(f"  '{char}' -> ASCII {ord(char)} -> Phred {phred} -> error rate {error_prob:.6f}")
-```
+```python
 
 ---
 
@@ -186,7 +185,7 @@ print(f"\n'{plain}' is identical in UTF-8 and Latin-1:")
 print(f"  UTF-8:   {plain.encode('utf-8')}")
 print(f"  Latin-1: {plain.encode('latin-1')}")
 print(f"  Equal?   {plain.encode('utf-8') == plain.encode('latin-1')}")
-```
+```python
 
 ```python
 # Demonstration: same byte, different interpretation
@@ -201,7 +200,7 @@ try:
     byte_value.decode('utf-8')
 except UnicodeDecodeError:
     print(f"  UTF-8:   ERROR -- 0xC0 alone is not valid UTF-8")
-```
+```python
 
 ```python
 # UTF-8 variable-length encoding in action
@@ -220,7 +219,7 @@ for char, context in examples:
     encoded = char.encode('utf-8')
     hex_repr = ' '.join(f'{b:02X}' for b in encoded)
     print(f"{char:<5} {hex_repr:<20} {len(encoded):<8} {context}")
-```
+```python
 
 ---
 
@@ -246,7 +245,7 @@ print("FASTA content:")
 print(fasta)
 print("\nHexdump:")
 hexdump(fasta.encode('utf-8'))
-```
+```python
 
 ```python
 # What a BOM (Byte Order Mark) looks like
@@ -263,7 +262,7 @@ decoded_without_bom = bom_content.decode('utf-8-sig')
 print(f"\nWith 'utf-8':     starts with '{decoded_with_bom[0]}' (BOM character, invisible)")
 print(f"With 'utf-8-sig': starts with '{decoded_without_bom[0]}' (BOM stripped)")
 print(f"\nThe BOM character has code point: U+{ord(decoded_with_bom[0]):04X} (FEFF = ZERO WIDTH NO-BREAK SPACE)")
-```
+```python
 
 ---
 
@@ -297,7 +296,7 @@ for i, line in enumerate(lines):
     if not line.startswith('>') and line.strip():
         # The \r at the end will be included in the sequence!
         print(f"  WARNING: sequence has trailing carriage return!")
-```
+```python
 
 ```python
 # Fix: always strip lines, or use universal newline mode
@@ -332,4 +331,10 @@ for header, seq in result.items():
     print(f">{header}")
     print(f"{seq}")
     print(f"Length: {len(seq)} (no extra characters)")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

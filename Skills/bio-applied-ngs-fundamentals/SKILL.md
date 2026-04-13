@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/01_NGS_Fundamentals/01_ngs_fundamentals.ipynb`*
 
-# NGS Fundamentals: From Sequencing to Alignment
 
 ## Tier 3 - Applied Bioinformatics
 
@@ -56,7 +55,7 @@ Illumina is the dominant short-read sequencing platform, used in the vast majori
 - Throughput: Up to 6 Tb per run (NovaSeq 6000)
 - Cost: Lowest per-base cost
 
-```
+```python
 Illumina Sequencing by Synthesis:
 
 Flow cell surface
@@ -68,7 +67,7 @@ Cycle 1:   A-fluor  ->  Image  ->  Cleave terminator
 Cycle 2:   T-fluor  ->  Image  ->  Cleave terminator
 Cycle 3:   G-fluor  ->  Image  ->  Cleave terminator
   ...       ...          ...          ...
-```
+```python
 
 ### 1.2 PacBio (Single Molecule Real Time - SMRT)
 
@@ -85,7 +84,7 @@ PacBio produces long reads by observing a single polymerase incorporating nucleo
 - Throughput: ~30 Gb per SMRT cell (Revio)
 - Errors: Insertions dominate (random, not systematic)
 
-```
+```python
 PacBio SMRT Sequencing:
 
   SMRTbell template (circular):
@@ -102,7 +101,7 @@ PacBio SMRT Sequencing:
   Pass 3: ------>  (subread 3)
   
   Consensus of passes = HiFi read (Q30+)
-```
+```python
 
 ### 1.3 Oxford Nanopore (Nanopore Sequencing)
 
@@ -120,7 +119,7 @@ Oxford Nanopore passes DNA through a protein nanopore and measures changes in io
 - Real-time: Data available as sequencing runs
 - Portable: MinION is a USB-powered device
 
-```
+```python
 Oxford Nanopore Sequencing:
 
   Membrane
@@ -135,7 +134,7 @@ Oxford Nanopore Sequencing:
     A   T   G  C  A  T
   
   Neural network -> base calls
-```
+```python
 
 ### 1.4 Platform Comparison
 
@@ -165,12 +164,12 @@ FASTQ is the standard format for storing sequencing reads with per-base quality 
 
 Each read occupies exactly 4 lines:
 
-```
+```python
 @SEQ_ID                           <- Line 1: Header (starts with @), read identifier
 GATCGATCGATCGATCGATC              <- Line 2: DNA sequence
 +                                 <- Line 3: Separator (+ optionally followed by ID)
 IIIIIIIIIHHHHHGGGFF               <- Line 4: Quality scores (ASCII encoded, same length as seq)
-```
+```python
 
 ### 2.2 Quality Scores (Phred+33)
 
@@ -227,13 +226,13 @@ print(f"\nDecoding quality string: {qual_string}")
 scores = [ascii_to_phred(c) for c in qual_string]
 print(f"Phred scores: {scores}")
 print(f"Mean quality: Q{np.mean(scores):.1f}")
-```
+```python
 
 ### 2.3 Paired-End Reads
 
 Most Illumina experiments generate **paired-end** reads: two reads from opposite ends of the same DNA fragment.
 
-```
+```python
 DNA fragment:
 5'----[====Read 1====>........<====Read 2====]----3'
       |<------------- insert size ------------->|
@@ -246,7 +245,7 @@ Reads are in the same order in both files:
   R1 read 1  <-->  R2 read 1  (same fragment)
   R1 read 2  <-->  R2 read 2  (same fragment)
   ...
-```
+```python
 
 **Insert size**: Distance between the start of Read 1 and the end of Read 2. Typical: 300-500 bp for standard libraries.
 
@@ -308,7 +307,7 @@ for header, seq, qual in sim_reads[:3]:
     print("+")
     print(f"{qual[:60]}...")
     print(f"  Mean Q: {np.mean(scores):.1f}\n")
-```
+```python
 
 ---
 
@@ -329,7 +328,7 @@ fastqc sample_R1.fastq.gz sample_R2.fastq.gz -o qc_output/ -t 4
 
 # Output: sample_R1_fastqc.html (visual report)
 #         sample_R1_fastqc.zip  (raw data)
-```
+```python
 
 ### 3.2 Key FastQC Metrics
 
@@ -392,4 +391,10 @@ ax.set_ylim(0, 42)
 ax.legend(loc='lower left')
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

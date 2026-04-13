@@ -52,7 +52,7 @@ samtools mpileup -A -d 0 -Q 0 sample_trimmed.sorted.bam \
 # 4. Quality check
 samtools flagstat sample_trimmed.sorted.bam
 samtools depth sample_trimmed.sorted.bam | awk '{sum+=$3; count++} END {print sum/count}' # mean coverage
-```
+```python
 
 ## Intra-Host Variant Calling with LoFreq
 
@@ -70,7 +70,7 @@ lofreq call-parallel --pp-threads 8 \
 # Filter: min AF 1%, min depth 100x
 lofreq filter -i sample_lofreq.vcf -o sample_filtered.vcf \
     --af-min 0.01 --cov-min 100
-```
+```python
 
 ## Nextclade Assignment (Python API)
 
@@ -89,7 +89,7 @@ result = subprocess.run([
 import pandas as pd
 nextclade_results = pd.read_csv('nextclade.tsv', sep='\t')
 print(nextclade_results[['seqName', 'clade', 'Nextclade_pango', 'qc.overallStatus']])
-```
+```python
 
 ## Nextstrain Augur Pipeline
 
@@ -123,7 +123,7 @@ augur refine \
     --timetree --coalescent skyline \
     --output-tree tree.nwk \
     --output-node-data branch_lengths.json
-```
+```python
 
 ## Freyja Wastewater Deconvolution
 
@@ -142,7 +142,7 @@ freyja aggregate output_dir/ --output aggregated.tsv
 
 # Plot time series
 freyja plot aggregated.tsv --output wastewater_variants.pdf --lineages
-```
+```python
 
 ## Common Pitfalls
 - **Amplicon dropout**: some ARTIC amplicons fail; expect gaps at pool boundaries

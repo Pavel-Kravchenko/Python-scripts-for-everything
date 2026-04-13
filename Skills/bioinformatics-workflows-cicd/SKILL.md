@@ -99,7 +99,7 @@ prepare_ligand4.py -l ligand.mol2 -o ligand.pdbqt
 vina --receptor receptor.pdbqt --ligand ligand.pdbqt \
      --config config.txt --out output.pdbqt
 # Scores in kcal/mol; more negative = stronger predicted binding
-```
+```python
 Scoring functions: force-field (AutoDock), empirical (Vina/ChemPLP), knowledge-based (DrugScore).
 
 ### Force Field Terms
@@ -114,7 +114,7 @@ gmx pdb2gmx -f protein.pdb -o protein.gro -water tip3p -ff amber99sb-ildn
 gmx editconf -f protein.gro -o box.gro -c -d 1.0 -bt dodecahedron
 gmx solvate -cp box.gro -cs spc216.gro -o solvated.gro -p topol.top
 # Add ions → energy minimization (steepest descent) → NVT equil → NPT equil → production MD
-```
+```python
 Analysis: RMSD (`gmx rms`), RMSF (`gmx rmsf`), Rg (`gmx gyrate`), H-bonds (`gmx hbond`)
 
 ### Homology Modeling Quality Thresholds
@@ -125,9 +125,9 @@ Analysis: RMSD (`gmx rms`), RMSF (`gmx rmsf`), Rg (`gmx gyrate`), H-bonds (`gmx 
 ## Key Patterns
 
 ### Scanpy Single-Cell Workflow
-```
+```python
 AnnData (cells × genes) → QC → Normalize → HVG → Scale → PCA → Neighbors → UMAP → Leiden → Markers
-```
+```python
 
 ### Snakemake Core Structure
 ```python
@@ -143,7 +143,7 @@ rule process:
     threads: 8
     resources: mem_mb=16000
     shell: "mytool --threads {threads} {input} > {output}"
-```
+```python
 
 ### GitHub Actions CI Template
 ```yaml
@@ -157,7 +157,7 @@ jobs:
       with: { python-version: "3.11" }
     - run: pip install pytest pytest-cov && pip install -r requirements.txt
     - run: pytest --cov=src --cov-report=xml
-```
+```python
 
 ## Code Templates
 
@@ -196,7 +196,7 @@ def classify_variant(criteria: list[str]) -> str:
     if pm >= 3 or (pm >= 2 and pp >= 2): return 'Likely Pathogenic'
     if pvs >= 1: return 'Likely Pathogenic'
     return 'VUS'
-```
+```python
 
 ### ClinVar API Query
 ```python
@@ -219,7 +219,7 @@ def query_clinvar(term: str, retmax: int = 5) -> list[dict]:
              'title': result[uid].get('title'),
              'sig': result[uid].get('clinical_significance', {}).get('description')}
             for uid in id_list if uid in result]
-```
+```python
 
 ### Scanpy Standard Pipeline
 ```python
@@ -255,7 +255,7 @@ sc.pl.rank_genes_groups(adata, n_genes=5)
 # Cell-type annotation
 cluster_annotations = {'0': 'CD4+ T cells', '1': 'CD14+ Monocytes', ...}
 adata.obs['cell_type'] = adata.obs['leiden'].map(cluster_annotations)
-```
+```python
 
 ### Snakemake RNA-seq Pipeline (key rules)
 ```python
@@ -279,14 +279,14 @@ rule align:
         "--outSAMtype BAM SortedByCoordinate "
         "--outFileNamePrefix aligned/{wildcards.sample}_ && "
         "mv aligned/{wildcards.sample}_Aligned.sortedByCoord.out.bam {output.bam}"
-```
+```python
 ```bash
 snakemake -n                          # dry run
 snakemake --cores 8 --use-conda
 snakemake --dag | dot -Tpng > dag.png
 snakemake --cluster "sbatch -c {threads} --mem {resources.mem_mb}" --jobs 100
 snakemake --forcerun align --cores 8  # force re-run one rule
-```
+```python
 
 ### Nextflow Process (DSL2)
 ```groovy
@@ -307,13 +307,13 @@ process FASTQC {
 workflow {
     Channel.fromFilePairs(params.reads, checkIfExists: true) | FASTQC
 }
-```
+```python
 ```bash
 nextflow run main.nf -with-docker
 nextflow run main.nf -resume             # checkpoint restart
 nextflow run nf-core/rnaseq -r 3.12.0 \
     --input samplesheet.csv --genome GRCh38 -profile docker
-```
+```python
 
 ### pytest for Bioinformatics
 ```python
@@ -348,7 +348,7 @@ def test_reverse_complement_palindrome():
 
 def test_motif_overlapping():
     assert find_motif("AAAA", "AA") == [1, 2, 3]      # 1-based, overlapping
-```
+```python
 
 ### Capstone End-to-End Analysis Template
 ```python
@@ -375,7 +375,7 @@ calc = DistanceCalculator('identity')
 dm = calc.get_distance(aln)
 tree = DistanceTreeConstructor().nj(dm)
 Phylo.draw(tree)
-```
+```python
 
 ## Common Pitfalls
 

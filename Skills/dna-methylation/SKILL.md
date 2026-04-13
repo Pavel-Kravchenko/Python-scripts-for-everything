@@ -55,7 +55,7 @@ bismark_methylation_extractor --paired-end --CpG --comprehensive \
 
 # 6. Coverage statistics
 bismark2report
-```
+```python
 
 ## Load and Visualize in Python
 
@@ -77,7 +77,7 @@ plt.hist(cpg_filtered['methylation'], bins=50, edgecolor='black')
 plt.xlabel('Methylation level'); plt.ylabel('Count')
 plt.title('CpG methylation distribution')
 plt.show()
-```
+```python
 
 ## methylKit DMR Analysis (R)
 
@@ -102,7 +102,7 @@ dm_results <- calculateDiffMeth(united)
 
 # Filter significant DMPs
 dmps <- getMethylDiff(dm_results, difference=25, qvalue=0.05)
-```
+```python
 
 ## Horvath Epigenetic Clock (Python)
 
@@ -126,7 +126,7 @@ def anti_trafo(x, adult_age=20):
 dnam_age = beta_clock.T.dot(clock.set_index('CpGmarker')['CoefficientTraining'])
 # Apply transformation per sample
 predicted_age = dnam_age.apply(anti_trafo)
-```
+```python
 
 ## Common Pitfalls
 - **Non-conversion rate > 1%**: poor bisulfite conversion; check lambda spike-in

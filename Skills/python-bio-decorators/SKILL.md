@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/14_Decorators_and_Context_Managers/01_decorators.ipynb`*
 
-# Decorators
 
 Split from `01_decorators_and_context_managers.ipynb` to keep this topic self-contained.
 
@@ -51,7 +50,7 @@ def validate_sequence(valid_chars):   # factory — takes the argument
             ...
         return wrapper
     return decorator
-```
+```python
 
 **4. Stacking decorators applies bottom-up**
 `@A @B def f():` is `f = A(B(f))`. The decorator closest to the function (`B`) is applied first.
@@ -76,7 +75,7 @@ analyzers = [gc_content, at_content]
 test_seq = "ATGCGATCGATCGTAGC"
 for func in analyzers:
     print(f"{func.__name__}: {func(test_seq):.1f}%")
-```
+```python
 
 ```python
 # Higher-order function: takes a function as argument
@@ -93,7 +92,7 @@ seqs = {
 gc_results = apply_to_sequences(seqs, gc_content)
 for gene, gc in gc_results.items():
     print(f"{gene}: {gc:.1f}% GC")
-```
+```python
 
 ## 2. Closures: Functions That Remember
 
@@ -120,19 +119,19 @@ print(f"TATA boxes: {count_tata(promoter)}")
 
 # The inner function 'remembers' the motif even after make_motif_counter returns
 print(f"\nClosure variables: {count_cpg.__closure__[0].cell_contents}")
-```
+```python
 
 ## 3. Decorators: The Basics
 
 A decorator is a function that takes a function and returns a modified version of it.
 
-```
+```python
 DECORATOR PATTERN
 +-------------------------------------------+
 |  @decorator        is equivalent to        |
 |  def func():  -->  func = decorator(func)  |
 +-------------------------------------------+
-```
+```python
 
 ```python
 import functools
@@ -162,7 +161,7 @@ print(f"\nResult: {result}")
 # functools.wraps preserves the original function's identity
 print(f"Function name: {count_nucleotides.__name__}")
 print(f"Docstring: {count_nucleotides.__doc__}")
-```
+```python
 
 ### Why `functools.wraps` Matters
 
@@ -188,7 +187,7 @@ def timer(func):
         print(f"[timer] {func.__name__}: {elapsed:.4f} seconds")
         return result
     return wrapper
-```
+```python
 
 ```python
 import random
@@ -219,7 +218,7 @@ print("Comparing GC content methods on 1M bp:")
 r1 = gc_content_loop(big_seq)
 r2 = gc_content_count(big_seq)
 print(f"Both give: {r1:.2f}% vs {r2:.2f}%")
-```
+```python
 
 ## 5. Sequence Validation Decorator
 
@@ -268,7 +267,7 @@ try:
     protein_mass("MVLS123")
 except ValueError as e:
     print(f"Caught: {e}")
-```
+```python
 
 ## 6. Decorators with Arguments
 
@@ -298,7 +297,7 @@ def random_gc_sample(seq, sample_size=100):
 gc_samples = random_gc_sample(big_seq, sample_size=500)
 print(f"GC content from 5 random 500-bp windows: {gc_samples}")
 print(f"Mean: {sum(gc_samples) / len(gc_samples):.1f}%")
-```
+```python
 
 ## 7. Memoization: Caching Expensive Results
 
@@ -340,7 +339,7 @@ s1 = "ACGTACGT"
 s2 = "ACGTAGCT"
 print(f"Alignment score for '{s1}' vs '{s2}': {align_score(s1, s2)}")
 print(f"Cache entries: {len(align_score.cache)}")
-```
+```python
 
 ```python
 # Python's built-in lru_cache is more efficient and has a size limit
@@ -388,7 +387,7 @@ long_dna = "ATGGCTGCTTAG" * 1000
 protein = translate_sequence(long_dna)
 print(f"Protein (first 30 aa): {protein[:30]}...")
 print(f"Cache info: {translate_codon.cache_info()}")
-```
+```python
 
 ## 8. Stacking Multiple Decorators
 
@@ -420,7 +419,7 @@ try:
     analyze_sequence("ATGXYZ")
 except ValueError as e:
     print(f"\nCaught: {e}")
-```
+```python
 
 ---
 
@@ -429,7 +428,7 @@ except ValueError as e:
 Context managers ensure resources (files, connections, locks) are properly
 acquired and released, even when exceptions occur.
 
-```
+```python
 CONTEXT MANAGER LIFECYCLE
 +-----------------------------------+
 |  with ctx as resource:            |
@@ -443,4 +442,10 @@ CONTEXT MANAGER LIFECYCLE
 |      v                            |
 |  __exit__() -> release resource   |
 +-----------------------------------+
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

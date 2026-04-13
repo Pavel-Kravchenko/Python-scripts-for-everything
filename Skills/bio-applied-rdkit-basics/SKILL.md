@@ -1,6 +1,6 @@
 ---
 name: bio-applied-rdkit-basics
-description: "**Tier 3 — Applied Bioinformatics | Module 29 · Notebook 1**"
+description: "RDKit fundamentals: SMILES parsing, molecular properties, substructure search, fingerprints, and chemical similarity. Use when performing cheminformatics operations in Python."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/01_rdkit_basics.ipynb"
 primary_tool: RDKit
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/01_rdkit_basics.ipynb`*
 
-# Molecular Representations & RDKit
 
 **Tier 3 — Applied Bioinformatics | Module 29 · Notebook 1**
 
@@ -68,7 +67,7 @@ import numpy as np
 # Example: Validate (None = invalid SMILES)
 # for name, mol in mols.items():
 #     print(f'{name}: {"valid" if mol else "INVALID"}')
-```
+```python
 
 ## 2. Structure Visualization
 
@@ -81,7 +80,7 @@ from IPython.display import display
 # img = Draw.MolsToGridImage(list(mols.values()), legends=list(mols.keys()),
 #                            molsPerRow=3, subImgSize=(300, 250))
 # display(img)
-```
+```python
 
 ## 3. Molecular Descriptors & Lipinski's Rule of Five
 
@@ -103,7 +102,7 @@ from IPython.display import display
 # desc_df['Ro5_pass'] = (desc_df['MW'] <= 500) & (desc_df['LogP'] <= 5) & \
 #                       (desc_df['HBD'] <= 5) & (desc_df['HBA'] <= 10)
 # print(desc_df)
-```
+```python
 
 ## 4. Molecular Fingerprints
 
@@ -120,7 +119,7 @@ from rdkit import DataStructs
 # Example: MACCS keys
 # from rdkit.Chem.MACCSkeys import GenMACCSKeys
 # maccs_fps = {name: GenMACCSKeys(mol) for name, mol in mols.items()}
-```
+```python
 
 ## 5. Tanimoto Similarity Search
 
@@ -140,8 +139,14 @@ import matplotlib.pyplot as plt
 # sns.heatmap(sim_matrix.astype(float), annot=True, cmap='Blues', vmin=0, vmax=1)
 # plt.title('Tanimoto Similarity (ECFP4)')
 # plt.show()
-```
+```python
 
 ## Summary
 
 > Recap molecular representations, descriptors, and fingerprints. Discuss use cases: virtual screening, chemical diversity analysis, lead optimization. Link to QSAR modeling notebook.
+
+## Common Pitfalls
+
+- **SMILES canonicalization**: Different SMILES can represent the same molecule; always canonicalize before comparison
+- **Stereochemistry**: Ignoring chirality in fingerprints can merge enantiomers with different bioactivity
+- **Descriptor scaling**: Molecular descriptors span different ranges; always standardize before ML

@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/02_Variant_Calling_and_SNP_Analysis/01_variant_calling_and_snp_analysis.ipynb`*
 
-# Variant Calling and SNP Analysis
 
 ## Tier 3 - Applied Bioinformatics
 
@@ -62,7 +61,7 @@ This notebook covers the complete variant analysis pipeline: from aligned reads 
 
 ### 1.3 Copy Number Variants (CNVs)
 
-```
+```python
 Normal:       [====A====][====B====][====C====]
 Deletion:     [====A====]           [====C====]   (loss of B)
 Duplication:  [====A====][====B====][====B====][====C====]  (gain of B)
@@ -72,7 +71,7 @@ CNV detection: read depth analysis
   Normal region:  |||||||||||||||  (expected depth)
   Deletion:       ||| ||| ||       (reduced depth)
   Duplication:    |||||||||||||||||||||||  (increased depth)
-```
+```python
 
 ```python
 import numpy as np
@@ -112,7 +111,7 @@ print("-" * 42)
 for ref, alt, vid in variants:
     vtype = classify_variant(ref, alt)
     print(f"{ref:>6} {alt:>6} {vtype:>12} {vid:>12}")
-```
+```python
 
 ---
 
@@ -120,7 +119,7 @@ for ref, alt, vid in variants:
 
 ### 2.1 Pipeline Overview
 
-```
+```python
 Aligned BAM file
        |
        v
@@ -146,7 +145,7 @@ Aligned BAM file
        |
        v
   Annotated variants for interpretation
-```
+```python
 
 ### 2.2 Variant Calling Tools
 
@@ -193,7 +192,7 @@ gatk VariantFiltration -R ref.fa -V genotyped.vcf \
   --filter-expression "FS > 60.0" --filter-name "StrandBias" \
   --filter-expression "MQ < 40.0" --filter-name "LowMQ" \
   -O filtered.vcf
-```
+```python
 
 ---
 
@@ -201,7 +200,7 @@ gatk VariantFiltration -R ref.fa -V genotyped.vcf \
 
 ### 3.1 VCF Structure
 
-```
+```python
 ## Meta-information lines (start with ##)
 ##fileformat=VCFv4.2
 ##INFO=<ID=DP,Number=1,Type=Integer,Description="Total Read Depth">
@@ -219,7 +218,7 @@ gatk VariantFiltration -R ref.fa -V genotyped.vcf \
 
 ## Data lines
 chr1  10000  rs123  A  G  5000  PASS  DP=200;AF=0.50;AC=1;AN=2  GT:DP:GQ:AD  0/1:100:99:50,50
-```
+```python
 
 ### 3.2 Column Details
 
@@ -340,7 +339,7 @@ for v in variants:
     print(f"{v['chrom']}:{v['pos']} {v['id']:>12}  {v['ref']}>{alt_str}  "
           f"QUAL={v['qual']}  {v['filter']}  Type={v['type']}  "
           f"AF={v['info'].get('AF', 'N/A')}  DP={v['info'].get('DP', 'N/A')}")
-```
+```python
 
 ```python
 def decode_genotype(gt_string, ref, alts):
@@ -382,4 +381,10 @@ for v in variants:
             ad = sample_data.get('AD', '.')
             alleles, zygosity, phased = decode_genotype(gt, v['ref'], v['alt'])
             print(f"  {sample_name}: GT={gt} ({alleles}, {zygosity})  DP={dp}  GQ={gq}  AD={ad}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

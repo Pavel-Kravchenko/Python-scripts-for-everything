@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/12_Comparative_Genomics/01_comparative_genomics.ipynb`*
 
-# Comparative Genomics
 
 ---
 
@@ -71,7 +70,7 @@ for tool in tools:
     
 print("\nNote: Most demonstrations in this notebook use only Python (numpy/matplotlib)")
 print("and do not require external tools.")
-```
+```python
 
 ```python
 def filtered_dotplot(seq1, seq2, window=5, stringency=0.6):
@@ -123,7 +122,7 @@ plt.tight_layout()
 plt.show()
 
 print("Larger windows remove noise but may also lose short regions of similarity.")
-```
+```python
 
 ### 2.3 Detecting Genomic Rearrangements
 
@@ -158,7 +157,7 @@ print(f"Reference genome:  A -- B -- C -- D  ({len(reference)} bp)")
 print(f"Rearranged genome: A -- C'-- B -- D  ({len(rearranged)} bp)")
 print(f"  (C' = reverse complement of C)")
 print(f"\nThis represents an inversion of segment C and a translocation of B and C.")
-```
+```python
 
 ```python
 def dna_dotplot(seq1, seq2, window=11, stringency=0.7, check_revcomp=True):
@@ -230,7 +229,7 @@ print("  - Segment A maps to A (diagonal in top-left)")
 print("  - Segment C' (inverted C) shows as an anti-diagonal (red)")
 print("  - Segment B has shifted position (off-diagonal forward match)")
 print("  - Segment D maps to D (diagonal in bottom-right)")
-```
+```python
 
 ### 2.4 Self-Comparison Dot Plots
 
@@ -278,7 +277,7 @@ plt.show()
 print(f"Protein length: {len(protein_with_repeats)} aa")
 print(f"Domain length: {len(domain)} aa")
 print(f"The parallel off-diagonal lines show 3 copies of the repeated domain.")
-```
+```python
 
 ---
 
@@ -286,7 +285,7 @@ print(f"The parallel off-diagonal lines show 3 copies of the repeated domain.")
 
 **Synteny** refers to the conservation of gene order and orientation between chromosomes of different species. Micro-synteny looks at a few neighboring genes; macro-synteny considers entire chromosomes.
 
-```
+```python
 Human chr 17:       --[TP53]--[WRAP53]--[EFNB3]--[DLGAP1]--[ATP1B2]--
                         |        |         |         |          |
 Mouse chr 11:       --[Trp53]--[Wrap53]--[Efnb3]--[Dlgap1]--[Atp1b2]--
@@ -299,7 +298,7 @@ Human chr 2:        --[HOXD13]--[HOXD12]--[HOXD11]--[HOXD10]--
 Mouse chr 2:        --[Hoxd13]--[Hoxd12]--[Hoxd11]--[Hoxd10]--
 
 => Perfect synteny in the HOX cluster -- strong evolutionary constraint.
-```
+```python
 
 Synteny breaks indicate **rearrangements** (inversions, translocations, fusions, fissions) that occurred after species diverged.
 
@@ -389,4 +388,10 @@ for i, block in enumerate(blocks, 1):
     print(f"Block {i} ({status}):")
     print(f"  Species A: {' -> '.join(gene_names)}")
     print(f"  Species B: {' -> '.join(gene_names_b)}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

@@ -1,6 +1,6 @@
 ---
 name: foundations-r-regression-correlation-and-diagnostics
-description: "**Tier 0 -- Computational Foundations | Module 8, Notebook 2**"
+description: "R regression, correlation, and diagnostics: Pearson/Spearman correlation, linear regression, residual analysis, and model diagnostics. Use when modeling relationships in biological data."
 tool_type: python
 source_notebook: "Tier_0_Computational_Foundations/08_Advanced_R_Statistics/02_r_regression_correlation_and_diagnostics.ipynb"
 primary_tool: Python
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_0_Computational_Foundations/08_Advanced_R_Statistics/02_r_regression_correlation_and_diagnostics.ipynb`*
 
-# R Regression, Correlation, and Diagnostics
 
 **Tier 0 -- Computational Foundations | Module 8, Notebook 2**
 
@@ -79,7 +78,7 @@ iq_s     <- sd(iq_data)             # corrected sample standard deviation
 alpha    <- 0.10
 
 cat("n =", n, "  mean =", round(iq_mean, 2), "  s =", round(iq_s, 2), "\n")
-```
+```python
 
 ```python
 # Student-t confidence interval for the mean (sigma unknown)
@@ -93,7 +92,7 @@ cat(sprintf("90%% two-sided CI for mean: [%.2f, %.2f]\n", ci_left, ci_right))
 ci_right_one <- iq_mean + qt(1 - alpha, df = n - 1) * iq_s / sqrt(n)
 cat(sprintf("90%% right-sided CI:  mean > %.2f\n",
             iq_mean - qt(1 - alpha, df = n - 1) * iq_s / sqrt(n)))
-```
+```python
 
 ```python
 # t-test also returns a CI:
@@ -104,7 +103,7 @@ t_stat   <- (iq_mean - 110) * sqrt(n) / iq_s
 iq_crit  <- qt(1 - alpha, df = n - 1)
 cat(sprintf("t = %.3f  critical value = %.3f  reject H0: %s\n",
             t_stat, iq_crit, t_stat > iq_crit))
-```
+```python
 
 ```python
 # Chi-squared confidence interval for variance
@@ -123,7 +122,7 @@ cat(sprintf("chi^2 statistic = %.2f  critical value = %.2f  reject H0: %s\n",
 ci_var_left  <- (n - 1) * var_obs / qchisq(1 - alpha/2, df = n - 1)
 ci_var_right <- (n - 1) * var_obs / qchisq(alpha/2,     df = n - 1)
 cat(sprintf("95%% CI for sigma^2: [%.4f, %.4f]\n", ci_var_left, ci_var_right))
-```
+```python
 
 ```python
 # Normal asymptotic CI for a count parameter (Poisson mean)
@@ -136,7 +135,7 @@ norm_q    <- qnorm(1 - alpha/2)
 ci_left   <- mean_shop - norm_q * sqrt(mean_shop) / sqrt(n)
 ci_right  <- mean_shop + norm_q * sqrt(mean_shop) / sqrt(n)
 cat(sprintf("99%% CI for Poisson mean: [%.2f, %.2f]\n", ci_left, ci_right))
-```
+```python
 
 ```python
 # Normal asymptotic CI for proportion (binomial parameter)
@@ -150,7 +149,7 @@ norm_q <- qnorm(1 - alpha/2)
 ci_left  <- p_hat - norm_q * sqrt(p_hat * (1 - p_hat) / n)
 ci_right <- p_hat + norm_q * sqrt(p_hat * (1 - p_hat) / n)
 cat(sprintf("95%% CI for proportion: [%.4f, %.4f]\n", ci_left, ci_right))
-```
+```python
 
 ---
 
@@ -168,7 +167,7 @@ after  <- weight_data[[2]]
 
 # H1: weight decreases after diet (after < before)
 t.test(after, before, alternative = "less", mu = 0, paired = TRUE)
-```
+```python
 
 ```python
 # Independent two-sample t-test: compare two towns
@@ -179,20 +178,20 @@ kastrul <- towns_data[[2]]
 
 # Step 1: Test equality of variances (F-test)
 var.test(skov, kastrul, ratio = 1, alternative = "two.sided")
-```
+```python
 
 ```python
 # Step 2: If variances are unequal, use var.equal = FALSE (Welch's t-test)
 t.test(skov, kastrul,
        alternative = "greater", mu = 0,
        paired = FALSE, var.equal = FALSE)
-```
+```python
 
 ```python
 # Comparison: nonparametric Wilcoxon rank-sum on the same data
 library(exactRankTests)
 wilcox.exact(skov, kastrul, paired = FALSE, alternative = "greater", exact = TRUE)
-```
+```python
 
 ---
 
@@ -221,7 +220,7 @@ temp_summer <- as.numeric(weather_data$Temp[
 
 cat("Summer temperature observations: n =", length(temp_summer), "\n")
 cat("Mean:", round(mean(temp_summer), 1), " SD:", round(sd(temp_summer), 1), "\n")
-```
+```python
 
 ```python
 # Visual normality checks
@@ -235,12 +234,12 @@ qqnorm(temp_summer, main = "Q-Q Plot: Summer Temperatures")
 qqline(temp_summer, col = "red", lwd = 2)
 
 par(mfrow = c(1, 1))
-```
+```python
 
 ```python
 # Shapiro-Wilk test
 shapiro.test(temp_summer)
-```
+```python
 
 ```python
 # Pearson chi-squared goodness-of-fit test for normality
@@ -252,7 +251,7 @@ library(nortest)
 # True p-value lies between the two
 pearson.test(temp_summer, adjust = FALSE)
 pearson.test(temp_summer, adjust = TRUE)
-```
+```python
 
 ```python
 # Second dataset: lake depth measurements
@@ -269,7 +268,7 @@ par(mfrow = c(1, 1))
 
 shapiro.test(lake_column)
 pearson.test(lake_column, adjust = TRUE)
-```
+```python
 
 ---
 
@@ -296,18 +295,18 @@ plot(x1, y1,
      xlab = colnames(corr_data)[2],
      ylab = colnames(corr_data)[3],
      main = "Scatter Plot", pch = 20)
-```
+```python
 
 ```python
 # Check normality before choosing correlation method
 shapiro.test(x1)
 shapiro.test(y1)
-```
+```python
 
 ```python
 # Pearson correlation with 95% CI
 cor.test(x1, y1, alternative = "two.sided", method = "pearson", conf.level = 0.95)
-```
+```python
 
 ```python
 # Spearman rank correlation
@@ -315,7 +314,7 @@ cor.test(x1, y1, alternative = "two.sided", method = "spearman")
 
 # Kendall tau
 cor.test(x1, y1, alternative = "two.sided", method = "kendall")
-```
+```python
 
 ### 4.1 Fisher z-Transform CI for Pearson Correlation
 
@@ -342,7 +341,7 @@ r_left   <- (exp(2 * z1_left)  - 1) / (exp(2 * z1_left)  + 1)
 r_right  <- (exp(2 * z1_right) - 1) / (exp(2 * z1_right) + 1)
 
 cat(sprintf("95%% CI for rho: [%.4f, %.4f]\n", r_left, r_right))
-```
+```python
 
 ```python
 # Demonstration: different relationship shapes affect Pearson vs Spearman
@@ -362,4 +361,10 @@ cat("Pearson r (quadratic):",
     round(cor.test(x3, y3, method="pearson")$estimate, 3), "\n")
 cat("Spearman rho (quadratic):",
     round(cor.test(x3, y3, method="spearman")$estimate, 3), "\n")
-```
+```python
+
+## Common Pitfalls
+
+- **Assumption violations**: Check normality and homoscedasticity before parametric tests; use nonparametric alternatives when assumptions fail
+- **Multiple comparisons**: Bonferroni is conservative; use Benjamini-Hochberg FDR for large-scale testing
+- **Correlation ≠ causation**: Statistical association does not imply biological mechanism

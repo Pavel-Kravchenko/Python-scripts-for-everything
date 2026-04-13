@@ -1,6 +1,6 @@
 ---
 name: bio-applied-metabolic-flux
-description: "**Tier 3 — Applied Bioinformatics | Module 36 · Notebook 3**"
+description: "Flux balance analysis and metabolic modeling with COBRApy. Use when predicting metabolic fluxes, simulating gene knockouts, or analyzing stoichiometric models."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/36_Metabolomics/03_metabolic_flux.ipynb"
 primary_tool: COBRApy
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/36_Metabolomics/03_metabolic_flux.ipynb`*
 
-# Metabolic Flux Analysis and Constraint-Based Modeling
 
 **Tier 3 — Applied Bioinformatics | Module 36 · Notebook 3**
 
@@ -59,7 +58,7 @@ package and adapt the example to match the actual API rather than retrying.
 # solution = model.optimize()
 # print(f'Objective value: {solution.objective_value:.4f}')
 # print(solution.fluxes[solution.fluxes.abs() > 0.01])
-```
+```python
 
 ## 3. Gene Knockout and Drug Target Prediction
 
@@ -72,3 +71,9 @@ package and adapt the example to match the actual API rather than retrying.
 ## 5. 13C Metabolic Flux Analysis (13C-MFA)
 
 > Isotope labeling experiments (U-13C glucose). Measure mass isotopologue distributions. Fit fluxes to isotope data with INCA or OpenMebius. Resolve parallel pathways (glycolysis vs PPP).
+
+## Common Pitfalls
+
+- **Unbounded fluxes**: Always set upper bounds on exchange reactions; unbounded models give infinite growth
+- **Infeasible models**: Missing biomass components or incorrect GPR rules cause infeasible solutions — check model.optimize().status
+- **Gene knockout artifacts**: Single-gene knockouts may show no effect due to isozymes; check GPR rules before interpreting

@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/06_Statistics_for_Bioinformatics/01_statistics_for_bioinformatics.ipynb`*
 
-# Statistics for Bioinformatics
 
 **Tier 3 -- Applied Bioinformatics**
 
@@ -40,7 +39,7 @@ from scipy import stats
 plt.rcParams['figure.figsize'] = (12, 5)
 plt.rcParams['font.size'] = 12
 np.random.seed(42)
-```
+```python
 
 ---
 ## 1. Distributions in Biology
@@ -95,7 +94,7 @@ for ax in axes.flat:
 plt.suptitle('Common Distributions in Bioinformatics', fontsize=14, fontweight='bold', y=1.01)
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ---
 ## 2. Hypothesis Testing Review
@@ -137,7 +136,7 @@ plt.show()
 print(f"Control: mean={control.mean():.2f}, std={control.std():.2f}")
 print(f"Treated: mean={treated.mean():.2f}, std={treated.std():.2f}")
 print(f"Welch's t-test: t={t_stat:.3f}, p={p_val:.4e}")
-```
+```python
 
 ---
 ## 3. The Multiple Testing Problem
@@ -180,7 +179,7 @@ print(f"  Significant calls: {sig_uncorrected.sum()}")
 print(f"  True positives: {tp_uncorrected.sum()}")
 print(f"  FALSE POSITIVES: {fp_uncorrected.sum()}")
 print(f"  False discovery rate: {fp_uncorrected.sum() / max(sig_uncorrected.sum(), 1):.3f}")
-```
+```python
 
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
@@ -204,7 +203,7 @@ axes[1].legend()
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ---
 ## 4. Multiple Testing Corrections
@@ -254,7 +253,7 @@ for name, rejected in methods.items():
     fdr = fp / max(total_sig, 1)
     sensitivity = tp / n_true_de
     print(f"{name:<28} {total_sig:>11} {tp:>6} {fp:>6} {fn:>6} {fdr:>8.3f} {sensitivity:>12.3f}")
-```
+```python
 
 ```python
 # Visualize the BH procedure
@@ -276,7 +275,7 @@ ax.set_title('Benjamini-Hochberg Procedure\n(red = true DE genes, gray = null ge
 ax.legend()
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ---
 ## 5. Parametric vs Non-parametric Tests
@@ -333,7 +332,7 @@ plt.show()
 
 print("With normal data, both tests give similar p-values.")
 print("With skewed/outlier data, the t-test may be misleading while Mann-Whitney is robust.")
-```
+```python
 
 ---
 ## 6. Common Statistical Tests in Detail
@@ -362,4 +361,10 @@ print(f"Tumor:  n={len(tumor_expr)}, mean={tumor_expr.mean():.2f}, std={tumor_ex
 print(f"\nStudent's t-test: t={t_stat:.3f}, p={t_p:.4e}")
 print(f"Welch's t-test:   t={tw_stat:.3f}, p={tw_p:.4e}")
 print(f"Mann-Whitney U:   U={u_stat:.0f}, p={u_p:.4e}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

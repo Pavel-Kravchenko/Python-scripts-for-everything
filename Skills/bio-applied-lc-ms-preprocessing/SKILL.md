@@ -1,6 +1,6 @@
 ---
 name: bio-applied-lc-ms-preprocessing
-description: "**Tier 3 — Applied Bioinformatics | Module 36 · Notebook 1**"
+description: "LC-MS metabolomics data preprocessing: peak picking, retention time alignment, gap filling, and adduct detection. Use when processing raw mass spectrometry data for metabolomics studies."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/36_Metabolomics/01_lc_ms_preprocessing.ipynb"
 primary_tool: Python
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/36_Metabolomics/01_lc_ms_preprocessing.ipynb`*
 
-# LC-MS Metabolomics Data Preprocessing
 
 **Tier 3 — Applied Bioinformatics | Module 36 · Notebook 1**
 
@@ -62,7 +61,7 @@ package and adapt the example to match the actual API rather than retrying.
 # from pyopenms import *
 # exp = MSExperiment()
 # MzMLFile().load('sample.mzML', exp)
-```
+```python
 
 ## 4. Normalization and Quality Control
 
@@ -71,3 +70,9 @@ package and adapt the example to match the actual API rather than retrying.
 ## 5. Exploratory Analysis
 
 > PCA score plot (colored by condition, batch). OPLS-DA for supervised class separation. Coefficient of variation distribution. Missing value pattern (MCAR vs MNAR) and imputation strategies (kNN, min/2).
+
+## Common Pitfalls
+
+- **Mass accuracy drift**: Calibrate m/z values before peak picking; uncalibrated data produces false metabolite IDs
+- **Adduct confusion**: The same metabolite produces [M+H]+, [M+Na]+, [M+K]+ ions — group adducts before statistical analysis
+- **Missing value handling**: Zeros in LC-MS data may mean below detection limit, not absent — use min/2 or KNN imputation, not zero-fill

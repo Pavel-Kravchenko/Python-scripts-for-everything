@@ -1,6 +1,6 @@
 ---
 name: foundations-r-hypothesis-testing-and-nonparametrics
-description: "**Tier 0 -- Computational Foundations | Module 8, Notebook 1**"
+description: "R hypothesis testing and nonparametric methods: binomial test, sign test, Wilcoxon, Kruskal-Wallis, and power analysis. Use when choosing and applying statistical tests in R."
 tool_type: python
 source_notebook: "Tier_0_Computational_Foundations/08_Advanced_R_Statistics/01_r_hypothesis_testing_and_nonparametrics.ipynb"
 primary_tool: Python
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_0_Computational_Foundations/08_Advanced_R_Statistics/01_r_hypothesis_testing_and_nonparametrics.ipynb`*
 
-# R Hypothesis Testing and Nonparametric Methods
 
 **Tier 0 -- Computational Foundations | Module 8, Notebook 1**
 
@@ -83,7 +82,7 @@ pbinom(54, size = 100, prob = 0.25, lower.tail = FALSE)
 
 # P(X > 69) for Binomial(100, 0.85)
 pbinom(69, size = 100, prob = 0.85, lower.tail = FALSE)
-```
+```python
 
 ```python
 # Exponential distribution: P(X <= 12) where mean = 80 min
@@ -94,7 +93,7 @@ pexp(12, rate = 1/80)
 sigma <- 12
 mu    <- 262.5
 pnorm(252, mu, sigma, lower.tail = FALSE)
-```
+```python
 
 ```python
 # Sample size estimation with normal quantile
@@ -103,7 +102,7 @@ pnorm(252, mu, sigma, lower.tail = FALSE)
 sigma <- 12
 n_2 <- (sigma / 0.5 * qnorm(0.995, mean = 0, sd = 1))^2
 ceiling(n_2)   # ceiling() rounds up to the nearest integer
-```
+```python
 
 ---
 
@@ -132,13 +131,13 @@ my_test
 
 # Access just the p-value:
 my_test$p.value
-```
+```python
 
 ```python
 # Manual p-value using pbinom (equivalent to binom.test for right-sided alternative)
 # P(B >= b) = P(B > b-1) with lower.tail = FALSE
 pbinom(b - 1, n, p_0, lower.tail = FALSE)
-```
+```python
 
 ```python
 # Asymptotic (normal approximation) binomial test
@@ -150,7 +149,7 @@ qnorm(0.95, mean = 0, sd = 1)
 
 # p-value from the asymptotic test
 pnorm(B_star, mean = 0, sd = 1, lower.tail = FALSE)
-```
+```python
 
 ### 2.1 Finding the Critical Region
 
@@ -169,13 +168,13 @@ qb
 # Verify: P(B <= qb-1) < 0.05 and P(B <= qb) > 0.05
 pbinom(qb - 1, n, p_0, lower.tail = TRUE)
 pbinom(qb,     n, p_0, lower.tail = TRUE)
-```
+```python
 
 ```python
 # Asymptotic critical region using normal quantile
 C_krit <- qnorm(0.05) * sqrt(n * p_0 * (1 - p_0)) + n * p_0
 floor(C_krit)   # floor() rounds down
-```
+```python
 
 ---
 
@@ -203,7 +202,7 @@ power(0.25)
 
 # Type II error probability (beta): probability of failing to reject H0 when H1 is true
 cat("Type II error at p=0.25:", 1 - power(0.25), "\n")
-```
+```python
 
 ### 3.1 Sample Size Determination
 
@@ -228,7 +227,7 @@ cat("Required n for p1=0.25:", m(0.25), "\n")
 
 # Required n when the true p is 0.20
 cat("Required n for p1=0.20:", m(0.20), "\n")
-```
+```python
 
 ---
 
@@ -250,7 +249,7 @@ weight_before <- data[[1]]
 weight_after  <- data[[2]]
 
 head(data)
-```
+```python
 
 ```python
 # H0: median difference = 0, H1: median difference < 0 (weight decreases after diet)
@@ -261,7 +260,7 @@ cat("Positive differences (weight increased):", b, "of", n, "\n")
 
 # Exact sign test = exact binomial test with p0 = 0.5
 binom.test(b, n, p = 0.5, alternative = "less")
-```
+```python
 
 ```python
 # Equivalent manual calculation using pbinom
@@ -276,7 +275,7 @@ qnorm(0.05, mean = 0, sd = 1, lower.tail = TRUE)
 
 # Asymptotic p-value
 pnorm(B_star, mean = 0, sd = 1, lower.tail = TRUE)
-```
+```python
 
 ---
 
@@ -302,13 +301,13 @@ library(exactRankTests)
 # Wilcoxon signed-rank test on weight data (paired = TRUE)
 wilcox.test(weight_after, weight_before,
             paired = TRUE, alternative = "less", exact = TRUE)
-```
+```python
 
 ```python
 # wilcox.exact from exactRankTests — preferred for exact p-values with potential ties
 wilcox.exact(weight_after, weight_before,
              paired = TRUE, alternative = "less", exact = TRUE)
-```
+```python
 
 ### 5.1 Manual Step-by-Step Wilcoxon Sign-Rank Calculation
 
@@ -321,7 +320,7 @@ y <- c(127.3, 120.2, 126.2, 125.4, 115.1, 118.5, 135.5, 118.2, 122.9, 120.1, 120
 
 # Built-in test for comparison
 wilcox.test(x, y, paired = TRUE)
-```
+```python
 
 ```python
 # Manual calculation
@@ -346,7 +345,7 @@ n_eff <- nrow(df)
 V <- min(W_plus, W_minus)
 z <- (V - 0) / sqrt(n_eff * (n_eff + 1) * (2 * n_eff + 1) / 6)
 cat("Two-sided asymptotic p-value:", 2 * pnorm(-abs(z)), "\n")
-```
+```python
 
 ---
 
@@ -370,4 +369,10 @@ male   <- male_data[[1]]
 
 cat("Female n =", length(female), "  Male n =", length(male), "\n")
 cat("Female median:", median(female), "  Male median:", median(male), "\n")
-```
+```python
+
+## Common Pitfalls
+
+- **Assumption violations**: Check normality and homoscedasticity before parametric tests; use nonparametric alternatives when assumptions fail
+- **Multiple comparisons**: Bonferroni is conservative; use Benjamini-Hochberg FDR for large-scale testing
+- **Correlation ≠ causation**: Statistical association does not imply biological mechanism

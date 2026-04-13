@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/11_Gene_Ontology_and_Pathways/02_pathways.ipynb`*
 
-# Gene Ontology and Pathway Analysis
 
 ---
 
@@ -81,7 +80,7 @@ print("  KEGG      - curated biochemical/signaling pathways, organism-specific")
 print("  Reactome  - mechanistic reactions and complexes, human-focused")
 print("  WikiPathways - community-curated, CC0 license")
 print("  MSigDB    - gene set collections for GSEA (Hallmarks, GO, KEGG, etc.)")
-```
+```python
 
 ```python
 # Gene-to-GO annotations with evidence codes (simplified real-world data)
@@ -136,7 +135,7 @@ print(f"\nGenes with high-quality annotations: {len(high_quality)}")
 for gene in sorted(high_quality):
     terms = [go_id for go_id, _ in high_quality[gene]]
     print(f"  {gene}: {len(terms)} annotations")
-```
+```python
 
 ---
 
@@ -148,7 +147,7 @@ Given a list of interesting genes (e.g., differentially expressed genes from an 
 
 The statistical model is the **hypergeometric distribution** (equivalent to Fisher's exact test for a 2x2 contingency table).
 
-```
+```python
 +--------------------+--------------+--------------+--------+
 |                    | In GO term   | Not in term  | Total  |
 +--------------------+--------------+--------------+--------+
@@ -164,7 +163,7 @@ The statistical model is the **hypergeometric distribution** (equivalent to Fish
   k = genes in your list AND annotated to this GO term
 
   P(X >= k) = sum_{i=k}^{min(n,K)} C(K,i)*C(N-K,n-i) / C(N,n)
-```
+```python
 
 A small p-value means the overlap `k` is larger than expected by chance -- the term is **enriched**.
 
@@ -257,7 +256,7 @@ def go_enrichment(gene_list, gene_annotations, go_terms, background_size=20000):
         r['fdr'] = min(r['p_value'] * m / (i + 1), 1.0)
 
     return results
-```
+```python
 
 ```python
 # Run GO enrichment on an example gene list
@@ -274,7 +273,7 @@ print("-" * 85)
 for r in enrichment_results[:12]:
     print(f"{r['go_id']:<14} {r['domain']:<4} {r['name'][:40]:<42} {r['k']:>3} {r['p_value']:>10.2e} {r['fdr']:>10.2e}")
     print(f"{'':>14} Genes: {', '.join(r['genes'])}")
-```
+```python
 
 ---
 
@@ -342,4 +341,10 @@ for p, b, f in zip(raw_p, bonf, bh):
     sig_bh = '*' if f < 0.05 else ' '
     print(f"{p:>10.4f}{sig_raw} {b:>10.4f}   {f:>10.4f}{sig_bh}")
 print("\n* = significant at alpha=0.05")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

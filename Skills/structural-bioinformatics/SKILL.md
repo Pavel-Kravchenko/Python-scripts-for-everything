@@ -108,7 +108,7 @@ Example: N-glycosylation = `N-{P}-[ST]-{P}`
 ## Key Patterns
 
 ### Bio.PDB SMCRA Hierarchy
-```
+```python
 Structure[0]         # first Model (X-ray: 1; NMR: ~20)
   ['A']              # Chain by ID
     [10]             # Residue by seq number (shorthand for (' ', 10, ' '))
@@ -116,17 +116,17 @@ Structure[0]         # first Model (X-ray: 1; NMR: ~20)
         .get_vector().get_array()   # numpy array [x, y, z]
         .get_bfactor()
         .element
-```
+```python
 
 Residue ID tuple: `(hetflag, resseq, icode)` — standard AA has hetflag `' '`; skip with `if residue.id[0] != ' '`.
 
 ### PDB ATOM record columns (1-indexed, fixed-width)
-```
+```python
 1-6   record type ("ATOM  " / "HETATM")
 7-11  serial;  13-16 atom name;  17 alt loc;  18-20 res name
 22    chain ID;  23-26 res seq;  31-38 X;  39-46 Y;  47-54 Z
 55-60 occupancy;  61-66 B-factor;  77-78 element
-```
+```python
 
 ### PWM Construction (PFM → PPM → log-odds)
 ```python
@@ -135,22 +135,22 @@ ppm = (pfm + pseudocount) / (N + 4 * pseudocount)   # add pseudocount α=0.1
 pwm = np.log2(ppm / background)                      # log-odds vs 0.25
 score = sum(pwm[BASES.index(b), i] for i, b in enumerate(seq))
 ic_per_pos = 2.0 - (-sum(p * np.log2(p) for p in ppm[:, pos]))  # bits
-```
+```python
 
 ### GO Hypergeometric Enrichment
-```
+```python
 N = background genes; K = genes annotated to term; n = study list; k = overlap
 p = hypergeom.sf(k-1, N, K, n)   # P(X >= k)
-```
+```python
 Apply **true path rule** first: propagate each annotation to all ancestor terms.
 Correct for multiple testing with BH FDR (standard: FDR < 0.05).
 
 ### KEGG REST API
-```
+```python
 GET https://rest.kegg.jp/find/pathway/apoptosis
 GET https://rest.kegg.jp/get/hsa04210
 GET https://rest.kegg.jp/link/hsa/pathway:hsa04110
-```
+```python
 Organism codes: `hsa`=human, `mmu`=mouse, `sce`=yeast, `eco`=E.coli.
 
 ---
@@ -171,7 +171,7 @@ ca_atoms = []
 for residue in structure[0]['A']:
     if residue.id[0] == ' ' and 'CA' in residue:
         ca_atoms.append(residue['CA'].get_vector().get_array())
-```
+```python
 
 ### Distances, angles, dihedral, RMSD
 ```python
@@ -191,7 +191,7 @@ def dihedral(p1, p2, p3, p4):
 def rmsd(c1, c2):
     diff = np.array(c1) - np.array(c2)
     return np.sqrt(np.mean(np.sum(diff**2, axis=1)))
-```
+```python
 
 ### DSSP secondary structure assignment
 ```python
@@ -204,7 +204,7 @@ for key in dssp.keys():
     acc  = dssp[key][3]   # solvent accessibility (Å²)
     phi  = dssp[key][4]
     psi  = dssp[key][5]
-```
+```python
 
 ### Ramachandran phi/psi
 ```python
@@ -214,7 +214,7 @@ for pp in ppb.build_peptides(structure[0]['A']):
     for res, (phi, psi) in zip(pp, pp.get_phi_psi_list()):
         if phi and psi:
             print(res.get_resname(), np.degrees(phi), np.degrees(psi))
-```
+```python
 
 ### Kabsch superposition
 ```python
@@ -231,7 +231,7 @@ sup = Superimposer()
 sup.set_atoms(fixed_atoms, moving_atoms)   # Atom objects
 sup.apply(moving_structure.get_atoms())
 print(sup.rms)
-```
+```python
 
 ### TM-score
 ```python
@@ -241,7 +241,7 @@ def tm_score(c1, c2):
     d = np.sqrt(np.sum((c1-c2)**2, axis=1))
     return np.sum(1/(1+(d/d0)**2)) / L
 # > 0.5 = same fold; > 0.3 = possibly same; < 0.3 = different
-```
+```python
 
 ### Read .ab1 chromatogram
 ```python
@@ -256,7 +256,7 @@ raw = record.annotations['abif_raw']
 base_order = raw.get('FWO_1', b'GATC').decode()   # e.g. "GATC"
 channels   = {base: np.array(raw[f'DATA{9+i}']) for i, base in enumerate(base_order)}
 peak_locs  = list(raw['PLOC1'])                   # scan position per called base
-```
+```python
 
 ### Quality trimming (sliding-window)
 ```python
@@ -265,7 +265,7 @@ def trim_by_quality(quals, min_q=20, window=10):
     start = next((i for i in range(n-window) if np.mean(quals[i:i+window]) >= min_q), 0)
     end   = next((i for i in range(n-1, window, -1) if np.mean(quals[i-window:i]) >= min_q), n)
     return start, end
-```
+```python
 
 ### Build and scan with PWM
 ```python
@@ -289,7 +289,7 @@ def scan_pwm(pwm, sequence, threshold=None):
         if s >= thresh:
             hits.append((i, sequence[i:i+L], s))
     return sorted(hits, key=lambda x: -x[2])
-```
+```python
 
 ### PROSITE pattern → regex
 ```python
@@ -311,7 +311,7 @@ def prosite_to_regex(pattern):
 regex = prosite_to_regex('N-{P}-[ST]-{P}')
 for m in re.finditer(regex, protein_seq):
     print(m.start()+1, m.group())
-```
+```python
 
 ### Parse hmmscan domtblout
 ```python
@@ -324,7 +324,7 @@ def parse_domtblout(text):
             hits.append({'domain': f[0], 'acc': f[1], 'e_value': float(f[6]),
                          'ali_from': int(f[17]), 'ali_to': int(f[18])})
     return sorted(hits, key=lambda h: h['ali_from'])
-```
+```python
 
 ### GO enrichment
 ```python
@@ -344,7 +344,7 @@ def go_enrichment(gene_list, term_to_genes, N=20000):
     for i, r in enumerate(results):
         r['fdr'] = min(r['p'] * m / (i+1), 1.0)
     return results
-```
+```python
 
 ### KEGG pathway enrichment
 ```python
@@ -357,7 +357,7 @@ def kegg_get(operation, *args):
 
 # Pathway enrichment reuses the same hypergeometric logic as GO enrichment
 # Replace term_to_genes with {pathway_id: set_of_gene_symbols}
-```
+```python
 
 ### g:Profiler (recommended for production)
 ```python
@@ -365,7 +365,7 @@ from gprofiler import GProfiler
 gp = GProfiler(return_dataframe=True)
 result = gp.profile(organism='hsapiens', query=['TP53','BAX','CASP3'])
 # Returns DataFrame with: source, term_id, term_name, p_value, intersection
-```
+```python
 
 ### GOATOOLS (local, offline)
 ```python
@@ -374,7 +374,7 @@ from goatools.go_enrichment import GOEnrichmentStudy
 obodag = GODag('go-basic.obo')
 goe = GOEnrichmentStudy(background_genes, associations, obodag, methods=['fdr_bh'])
 results = goe.run_study(study_genes)
-```
+```python
 
 ---
 

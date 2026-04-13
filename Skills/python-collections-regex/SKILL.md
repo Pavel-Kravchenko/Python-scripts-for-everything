@@ -42,7 +42,7 @@ by_chrom = defaultdict(list)          # grouping
 kmer_counts = Counter(kmers)          # counting; .most_common(n)
 kmers_a & kmers_b                     # Counter intersection (min counts)
 kmers_a + kmers_b                     # Counter union (sum counts)
-```
+```python
 
 ### Set operations on gene lists
 ```python
@@ -53,7 +53,7 @@ cancer & repair          # intersection -> {"BRCA1", "TP53"}
 cancer - repair          # difference (cancer-only)
 cancer ^ repair          # symmetric difference
 cancer.issubset(repair)  # subset test
-```
+```python
 
 ### re module
 ```python
@@ -67,7 +67,7 @@ re.compile(pat, flags)   # pre-compile for repeated use
 
 m.group()   m.group(1)  m.group('name')   # text
 m.start()   m.end()     m.span()           # positions
-```
+```python
 
 ## Key Patterns
 
@@ -97,7 +97,7 @@ from collections import defaultdict
 reverse_code = defaultdict(set)
 for codon, aa in GENETIC_CODE.items():
     reverse_code[aa].add(codon)
-```
+```python
 
 ### Pathway / gene set analysis
 ```python
@@ -108,7 +108,7 @@ pathways = {
 }
 tp53_pathways = [name for name, genes in pathways.items() if 'TP53' in genes]
 all_genes = set().union(*pathways.values())
-```
+```python
 
 ### Restriction enzyme map (dict + regex)
 ```python
@@ -123,7 +123,7 @@ def restriction_map(seq, enzymes):
 
 def predict_fragments(seq, site):
     return [len(f) for f in re.split(site, seq) if f]
-```
+```python
 
 ## Code Templates
 
@@ -139,7 +139,7 @@ profile_a = Counter(seq_a[i:i+3] for i in range(len(seq_a) - 2))
 profile_b = Counter(seq_b[i:i+3] for i in range(len(seq_b) - 2))
 shared = profile_a & profile_b          # min counts
 jaccard = len(profile_a & profile_b) / len(profile_a | profile_b)
-```
+```python
 
 ### Comprehension idioms
 ```python
@@ -177,7 +177,7 @@ all_kmers = [''.join(c) for c in product('ATGC', repeat=k)]
 
 # Unique k-mer spectrum
 spectrum = sorted({seq[i:i+k] for i in range(len(seq) - k + 1)})
-```
+```python
 
 ### Streaming FASTA generator
 ```python
@@ -200,7 +200,7 @@ def read_fasta(filename):
 
 # Usage: process without loading all sequences
 gc_stats = {hdr.split()[0]: gc_content(seq) for hdr, seq in read_fasta('genome.fa')}
-```
+```python
 
 ### Streaming FASTQ generator + quality filter pipeline
 ```python
@@ -229,7 +229,7 @@ def trim_ns(records):
 # Chain generators — nothing computed until consumed
 pipeline = trim_ns(quality_filter(read_fastq('reads.fastq')))
 passing = sum(1 for _ in pipeline)
-```
+```python
 
 ### Regex: biological sequence patterns
 ```python
@@ -261,7 +261,7 @@ positions = re.findall(r'(?=(ATG))', dna)
 # Greedy vs lazy ORF matching
 re.findall(r'ATG.*TAG', dna)     # greedy: longest span
 re.findall(r'ATG.*?TAG', dna)    # lazy: shortest span
-```
+```python
 
 ### Regex: FASTA/GenBank header parsing
 ```python
@@ -280,7 +280,7 @@ pat = re.compile(r'>(?P<acc>[A-Z]{2}_\d+\.?\d*)\s+(?P<desc>.+?)\s*\[(?P<org>[^\]
 genes    = re.findall(r'/gene="([^"]+)"', gb_text)
 prot_ids = re.findall(r'/protein_id="([^"]+)"', gb_text)
 coords   = re.findall(r'(\d+)\.\.(\d+)', gb_text)       # list of (start, end) strings
-```
+```python
 
 ### PROSITE pattern -> Python regex converter
 ```python
@@ -316,7 +316,7 @@ PROSITE = {
 for name, pat in PROSITE.items():
     for m in re.finditer(prosite_to_regex(pat), protein):
         print(f"{name} at {m.start()+1}: {m.group()}")
-```
+```python
 
 ## Common Pitfalls
 

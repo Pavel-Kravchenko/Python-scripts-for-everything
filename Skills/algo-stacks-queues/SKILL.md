@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/04_Linear_Data_Structures/02_stacks_queues.ipynb`*
 
-# Stacks and Queues
 
 **Fundamental Linear Data Structures for Managing Collections**
 
@@ -75,7 +74,7 @@ A **stack** is a linear data structure that follows the **Last-In-First-Out (LIF
 
 ### ASCII Art Visualization
 
-```
+```python
          push(5)     push(3)     pop()       push(7)
            ↓           ↓          ↑            ↓
          ┌───┐       ┌───┐      ┌───┐       ┌───┐
@@ -85,15 +84,15 @@ A **stack** is a linear data structure that follows the **Last-In-First-Out (LIF
          └───┘       └───┘      └───┘       └───┘
         top=0       top=1      top=0       top=1
                               returns 3
-```
+```python
 
 **Internal array representation:**
-```
+```python
 Array: [5, 3, _, _, _]     After pop(): [5, _, _, _, _]
         ↑  ↑                             ↑
       [0][1]                           [0]
         top=1                          top=0
-```
+```python
 
 ### 1.1 Array-Based Stack Implementation
 
@@ -188,7 +187,7 @@ class ArrayStack:
     def __repr__(self) -> str:
         """Return detailed string representation."""
         return f"ArrayStack({self._items})"
-```
+```python
 
 ```python
 # Demonstration: Array-based Stack
@@ -213,7 +212,7 @@ print("\nPopping elements:")
 while not stack.is_empty():
     value = stack.pop()
     print(f"pop() → {value}, {stack}")
-```
+```python
 
 ### 1.2 Linked-List-Based Stack Implementation
 
@@ -339,7 +338,7 @@ class LinkedStack:
         
         # Reverse to show bottom-to-top order
         return f"Stack: [{' '.join(reversed(elements))}] ← top"
-```
+```python
 
 ```python
 # Demonstration: Linked-list-based Stack
@@ -363,7 +362,7 @@ print("\nPopping elements:")
 while stack:
     value = stack.pop()
     print(f"pop() → '{value}', {stack}")
-```
+```python
 
 ---
 
@@ -400,7 +399,7 @@ A **queue** is a linear data structure that follows the **First-In-First-Out (FI
 
 ### ASCII Art Visualization
 
-```
+```python
 enqueue(5)  enqueue(3)  enqueue(8)   dequeue()    enqueue(2)
     ↓           ↓           ↓           ↑            ↓
   ┌───┐      ┌───┬───┐   ┌───┬───┬───┐  ┌───┬───┐   ┌───┬───┬───┐
@@ -409,10 +408,10 @@ enqueue(5)  enqueue(3)  enqueue(8)   dequeue()    enqueue(2)
   front       front       front         front        front
   rear        rear        rear          rear         rear
                                        returns 5
-```
+```python
 
 **Linked-list representation:**
-```
+```python
 front                                  rear
   ↓                                     ↓
 ┌───┐    ┌───┐    ┌───┐    ┌───┐
@@ -421,7 +420,7 @@ front                                  rear
 
 dequeue(): remove from front (5)
 enqueue(): add at rear
-```
+```python
 
 ```python
 class QueueNode:
@@ -547,4 +546,10 @@ class LinkedQueue:
             current = current.next
         
         return f"Queue: front → [{' '.join(elements)}] ← rear"
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

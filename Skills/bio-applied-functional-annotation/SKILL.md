@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/02_functional_annotation.ipynb`*
 
-# Functional Annotation of Metagenomes
 
 **Tier 3 — Applied Bioinformatics | Module 26 · Notebook 2**
 
@@ -76,18 +75,18 @@ humann_renorm_table \
     --input humann3_out/sample_pathabundance.tsv \
     --output humann3_out/sample_pathabundance_cpm.tsv \
     --units cpm
-```
+```python
 
 ## 2. Output Interpretation and Normalization
 
 **Gene family units (RPK):** reads per kilobase of gene length. This accounts for the fact that longer genes attract more reads by chance. After normalization with `humann_renorm_table --units cpm`, values are copies per million (CPM) — proportional to the fraction of reads mapping to that gene family.
 
 **Stratified vs unstratified output:** HUMAnN3 reports each pathway/gene family both as a total (unstratified) and broken down by contributing species (stratified). Example:
-```
+```python
 PYRUVATE-FERMENTATION-PWY: PWY|unclassified     152.3
 PYRUVATE-FERMENTATION-PWY: Bacteroides vulgatus  89.1
 PYRUVATE-FERMENTATION-PWY: Faecalibacterium      43.7
-```
+```python
 
 **Pathway coverage vs abundance:** A pathway can have high coverage (most reactions present) but low abundance (few reads). Coverage > 1 is not possible — it is capped at 1 (all reactions represented).
 
@@ -105,7 +104,7 @@ humann_split_stratified_table \
     --input all_samples_pathabundance.tsv \
     --output humann3_stratified/
 # Creates: ..._unstratified.tsv (pathways × samples) and ..._stratified.tsv
-```
+```python
 
 ```python
 import numpy as np
@@ -179,7 +178,7 @@ axes[1].legend()
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 3. Differential Pathway Analysis with MaAsLin2
 
@@ -209,7 +208,7 @@ fit <- Maaslin2(
   min_prevalence = 0.1,                # exclude pathways absent in > 90% of samples
   min_abundance  = 0.0001
 )
-```
+```python
 
 **Output:** `significant_results.tsv` with columns:
 - `feature`: pathway name
@@ -291,7 +290,7 @@ axes[1].set_title('Significant differential pathways')
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 4. Gene Family Analysis and AMR Detection
 
@@ -309,7 +308,7 @@ amrfinder \
     --output amr_report.txt \
     --threads 8 \
     --plus                    # include virulence, stress resistance genes
-```
+```python
 
 **Resistance gene categories in CARD (Comprehensive Antibiotic Resistance Database):**
 - **Intrinsic**: naturally present in organisms (e.g., AmpC in E. coli)
@@ -317,3 +316,9 @@ amrfinder \
 - **Mutational**: point mutations conferring resistance (e.g., gyrA quinolone resistance)
 
 AMR prevalence from shotgun data is expressed as **RPKM** (reads per kilobase per million mapped reads) or as presence/absence per sample.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

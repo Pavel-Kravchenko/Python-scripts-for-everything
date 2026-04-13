@@ -1,6 +1,6 @@
 ---
 name: python-bio-data-visualization
-description: "**A comprehensive guide to creating publication-quality biological figures**"
+description: "Data visualization for bioinformatics: matplotlib, seaborn, volcano plots, heatmaps, and genome browser tracks. Use when creating publication-quality scientific figures."
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/18_Data_Visualization/01_data_visualization.ipynb"
 primary_tool: NumPy
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/18_Data_Visualization/01_data_visualization.ipynb`*
 
-# Data Visualization for Bioinformatics
 
 **A comprehensive guide to creating publication-quality biological figures**
 
@@ -89,17 +88,17 @@ import scipy.stats as stats
 
 np.random.seed(42)
 plt.rcParams['figure.dpi'] = 100
-```
+```python
 
 ### 1.1 The Figure and Axes Model
 
-```
+```python
 Figure (the canvas)
  +-- Axes (a single plot area)
       +-- Title, xlabel, ylabel
       +-- x-axis, y-axis (ticks, limits)
       +-- plotted data (lines, bars, points)
-```
+```python
 
 ```python
 # Create a figure with one axes
@@ -124,7 +123,7 @@ ax.legend(loc='upper left', fontsize=10)
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### 1.2 Core Plot Types
 
@@ -200,7 +199,7 @@ axes[1, 2].set_yticklabels(['Deleterious', 'Neutral', 'Beneficial'])
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### 1.3 Subplots and Layout
 
@@ -249,7 +248,7 @@ ax_br.axhline(0, color='black', linewidth=0.8)
 ax_br.legend(fontsize=8)
 
 plt.show()
-```
+```python
 
 ---
 ## 2. Plot Customization
@@ -296,7 +295,7 @@ ax.set_ylim(0, 7)
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### 2.1 Colors, Colormaps, and Colorblind-Friendly Palettes
 
@@ -345,9 +344,15 @@ plt.tight_layout()
 plt.show()
 
 print('Tip: viridis, cividis, and the colorblind palette are safe for color vision deficiency.')
-```
+```python
 
 ---
 ## 3. Seaborn Statistical Plots
 
 Seaborn is built on Matplotlib and provides a higher-level interface for statistical graphics. It integrates closely with Pandas DataFrames.
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

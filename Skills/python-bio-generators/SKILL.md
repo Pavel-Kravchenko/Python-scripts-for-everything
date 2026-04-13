@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/11_Iterators_and_Generators/02_generators.ipynb`*
 
-# Module 11: Generators
 
 Split from `01_iterators_and_generators.ipynb` for depth. Start with [Iterators](./01_iterators.ipynb) first.
 
@@ -49,7 +48,7 @@ codons  = codon_generator(dna)                 # lazy
 aas     = (CODON_TABLE[c] for c in codons)     # lazy
 charged = (aa for aa in aas if aa in 'RKHDE')  # lazy
 list(charged)  # computation happens only here
-```
+```python
 
 **4. Generators are single-pass**
 Once exhausted, a generator is empty. If you need to iterate the result more than once, convert to a list first.
@@ -63,7 +62,7 @@ Advanced generators can receive values via `gen.send(value)`, enabling coroutine
 
 A generator function uses `yield` instead of `return`. Each call to `next()` resumes execution right after the last `yield`.
 
-```
+```python
 GENERATOR EXECUTION FLOW
 +----------------------------------------------------------+
 |  def gen_func():      # calling gen_func() returns obj   |
@@ -72,7 +71,7 @@ GENERATOR EXECUTION FLOW
 |      yield 3          # resumes here on next next()      |
 |                       # StopIteration raised after 3     |
 +----------------------------------------------------------+
-```
+```python
 
 ```python
 # The simplest possible generator
@@ -109,7 +108,7 @@ dna = "ATGATGCCCATGATGATG"
 print(f"\nATG positions in {dna}:")
 for pos in find_motif_positions(dna, "ATG"):
     print(f"  position {pos}")
-```
+```python
 
 ---
 
@@ -162,7 +161,7 @@ charged_residues = list(pipeline)
 print(f"DNA: {dna[:40]}...")
 print(f"Charged residues: {''.join(charged_residues)}")
 print(f"Count: {len(charged_residues)}")
-```
+```python
 
 ---
 
@@ -185,7 +184,7 @@ for pos, window in sliding_window(dna, window_size=8, step=4):
     gc = gc_content(window)
     bar = '#' * int(gc * 20)
     print(f"  pos {pos:3d}: {window}  GC={gc:.0%}  {bar}")
-```
+```python
 
 ---
 
@@ -218,7 +217,7 @@ print(f"\nGenome: {len(genome):,} bp")
 print(f"Windows scanned:  {total_windows:,}")
 print(f"GC>55% windows:   {high_gc_count:,} ({high_gc_count/total_windows:.1%})")
 print("(No intermediate list of windows was ever created)")
-```
+```python
 
 ---
 
@@ -288,7 +287,7 @@ for rec in n_filt:
     print(f"  {rec['id']}: {len(rec['sequence'])} bp, avg_qual={rec['avg_qual']:.1f}")
 
 os.remove(fastq_path)
-```
+```python
 
 ---
 
@@ -327,7 +326,7 @@ print("FASTA records:")
 for header, seq in read_fasta(fasta_text):
     gene = header.split()[0]
     print(f"  {gene}: {len(seq)} bp, GC={gc_content(seq):.1%}")
-```
+```python
 
 ---
 
@@ -350,7 +349,7 @@ dna = "ATGCGATCG"
 print(f"All 2-mers and 3-mers of '{dna}':")
 for k, kmer in all_kmers_multiK(dna, [2, 3]):
     print(f"  {k}-mer: {kmer}")
-```
+```python
 
 ---
 
@@ -375,7 +374,7 @@ exon1_seq = "ATGAAAGCC"
 exon2_seq  = "TTTGGGTGA"
 mrna = ''.join(itertools.chain(exon1_seq, exon2_seq))
 print(f"\nSpliced mRNA (exon1+exon2): {mrna}")
-```
+```python
 
 ---
 
@@ -398,4 +397,10 @@ def codon_counter(fasta_text):
 # test_fasta = ">gene1\nATGGCCGATCGAGCC\n>gene2\nATGAAACCCGGGTTTTGA\n"
 # for gene_id, counts in codon_counter(test_fasta):
 #     print(f"{gene_id}: {dict(counts)}")
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

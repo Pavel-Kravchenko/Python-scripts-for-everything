@@ -1,6 +1,6 @@
 ---
 name: python-bio-data-types
-description: "Split from `01_variables_and_data_types.ipynb` to keep this topic self-contained."
+description: "Python data types for bioinformatics: int, float, str, bool, None, and type conversions with biological examples. Use when learning how Python represents biological data."
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/02_Variables_and_Data_Types/02_data_types.ipynb"
 primary_tool: Python
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/02_Variables_and_Data_Types/02_data_types.ipynb`*
 
-# Data Types
 
 Split from `01_variables_and_data_types.ipynb` to keep this topic self-contained.
 
@@ -65,16 +64,16 @@ By the end of this notebook you will be able to:
 
 A **variable** is a name that refers to a value stored in memory. In Python you create a variable simply by assigning a value to a name.
 
-```
+```python
 variable_name = value
-```
+```python
 
 Think of it as labeling a container:
 
-```
+```python
 gene_name -----> "BRCA1"     (the label points to the value)
 seq_length ----> 5590        (another label, another value)
-```
+```python
 
 ```python
 # Assigning values to variables
@@ -87,7 +86,7 @@ print(gene_name)
 print(chromosome)
 print(gc_content)
 print(is_tumor_suppressor)
-```
+```python
 
 ### Naming rules and conventions
 
@@ -115,7 +114,7 @@ three = 1             # misleading!
 
 # This will cause a SyntaxError:
 # 2nd_gene = "EGFR"  # cannot start with a digit
-```
+```python
 
 ### Multiple assignment
 
@@ -132,7 +131,7 @@ antisense_strand = "TACGCT"
 
 sense_strand, antisense_strand = antisense_strand, sense_strand
 print(f"After swap -- sense: {sense_strand}, antisense: {antisense_strand}")
-```
+```python
 
 ### Variables are references, not boxes
 
@@ -146,7 +145,7 @@ print(f"id of sequence: {id(sequence)}")
 sequence = sequence + "AAA"
 print(f"id after concatenation: {id(sequence)}")
 print(f"New value: {sequence}")
-```
+```python
 
 ---
 
@@ -154,7 +153,7 @@ print(f"New value: {sequence}")
 
 Every value in Python has a **type** that determines what operations are allowed.
 
-```
+```python
 Type        Example                    Bioinformatics use
 --------    -----------------------    -----------------------------------
 int         42                         Sequence length, read count
@@ -162,7 +161,7 @@ float       0.487                      GC content, E-value, p-value
 str         "ATGCGA"                   DNA/RNA/protein sequences, gene names
 bool        True / False               Is the sequence valid? Has a stop codon?
 NoneType    None                       Missing data, function with no return
-```
+```python
 
 Use `type()` to check a value's type.
 
@@ -177,7 +176,7 @@ annotation = None
 values = [read_count, gc_fraction, organism, is_model_organism, annotation]
 for v in values:
     print(f"{str(v):25s} -> {type(v).__name__}")
-```
+```python
 
 ---
 
@@ -197,7 +196,7 @@ chromosome_number = 23                # human haploid chromosome count
 print(f"Human genome:  {sequence_length:,} bp")   # comma-separated formatting
 print(f"Protein-coding genes: ~{num_genes:,}")
 print(f"Target coverage: {read_depth}x")
-```
+```python
 
 ```python
 # Integers have unlimited precision in Python
@@ -205,7 +204,7 @@ huge_number = 2 ** 100
 print(f"2^100 = {huge_number}")
 print(f"Number of digits: {len(str(huge_number))}")
 print(f"Type: {type(huge_number)}")
-```
+```python
 
 ---
 
@@ -226,7 +225,7 @@ print(f"Melting temp: {melting_temp} C")
 print(f"E-value: {e_value}")
 print(f"E-value formatted: {e_value:.2e}")
 print(f"p-value: {p_value}")
-```
+```python
 
 ### Floating-point precision warning
 
@@ -243,7 +242,7 @@ expected = 0.3
 tolerance = 1e-9
 
 print(f"Close enough? {abs(result - expected) < tolerance}")  # True
-```
+```python
 
 ---
 
@@ -265,17 +264,17 @@ MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGP
 DEAPRMPEAAPPVAPAPAAPTPAAPAPAPSWPLSSSVPSQKTYPQGLNGTVNLPGRNSFEV"""
 
 print(fasta_entry[:80] + "...")
-```
+```python
 
 ### String indexing
 
 Each character in a string has an **index** (position number). Python uses zero-based indexing.
 
-```
+```python
 Index:    0   1   2   3   4   5   6   7
 Seq:      A   T   G   C   G   A   T   C
 Neg idx: -8  -7  -6  -5  -4  -3  -2  -1
-```
+```python
 
 ```python
 dna = "ATGCGATC"
@@ -287,7 +286,7 @@ print(f"Third nucleotide:  dna[2]  = {dna[2]}")
 # Negative indexing (from the right)
 print(f"Last nucleotide:   dna[-1] = {dna[-1]}")
 print(f"Second to last:    dna[-2] = {dna[-2]}")
-```
+```python
 
 ### String slicing
 
@@ -319,7 +318,7 @@ print(f"First codon positions: {first_positions}")  # AACGT
 # Reverse the sequence
 reversed_dna = dna[::-1]
 print(f"Reversed: {reversed_dna}")         # AATGGGCCCAAAGTA
-```
+```python
 
 ### String immutability
 
@@ -335,7 +334,7 @@ dna = "ATGCGA"
 mutated = "G" + dna[1:]   # point mutation: A -> G at position 0
 print(f"Original: {dna}")
 print(f"Mutated:  {mutated}")
-```
+```python
 
 ### Essential string methods for bioinformatics
 
@@ -347,7 +346,7 @@ dna = "atgcGATCgatc"
 # Case conversion -- important when sequences come in mixed case
 print(f"Upper: {dna.upper()}")       # ATGCGATCGATC
 print(f"Lower: {dna.lower()}")       # atgcgatcgatc
-```
+```python
 
 ```python
 dna = "ATGCGATCGATCGTAGC"
@@ -355,14 +354,14 @@ dna = "ATGCGATCGATCGTAGC"
 # count() -- count occurrences of a substring
 print(f"Number of G's: {dna.count('G')}")
 print(f"Number of 'ATC' motifs: {dna.count('ATC')}")
-```
+```python
 
 ```python
 # find() -- find the position of a substring (-1 if not found)
 dna = "ATGAAACCCGGGTAA"
 print(f"Position of 'GGG': {dna.find('GGG')}")   # 9
 print(f"Position of 'TTT': {dna.find('TTT')}")   # -1 (not found)
-```
+```python
 
 ```python
 # replace() -- replace all occurrences of a substring
@@ -370,7 +369,7 @@ dna = "ATGCGATCG"
 rna = dna.replace("T", "U")    # DNA to RNA transcription
 print(f"DNA: {dna}")
 print(f"RNA: {rna}")
-```
+```python
 
 ```python
 # startswith() and endswith() -- check sequence boundaries
@@ -381,7 +380,7 @@ print(f"Ends with TAA (stop codon)?    {cds.endswith('TAA')}")
 # Check for any stop codon
 has_stop = cds.endswith(("TAA", "TAG", "TGA"))
 print(f"Ends with any stop codon?      {has_stop}")
-```
+```python
 
 ```python
 # split() and join() -- essential for parsing biological file formats
@@ -397,4 +396,10 @@ print(f"Entry name: {parts[2].split()[0]}")
 codons = ["ATG", "AAA", "CCC", "GGG", "TAA"]
 formatted = " - ".join(codons)
 print(f"\nCodons: {formatted}")
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

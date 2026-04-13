@@ -1,6 +1,6 @@
 ---
 name: bio-applied-bayesian-statistics-python
-description: "*Prerequisites: Modules 06 (Statistics), 07 (ML). Familiarity with linear regression.*"
+description: "Bayesian statistics with PyMC: prior specification, MCMC sampling, posterior analysis, and hierarchical models for biological data. Use when applying Bayesian inference to experiments."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/22_Bayesian_Statistics_Python/22_bayesian_statistics_python.ipynb"
 primary_tool: NumPy
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/22_Bayesian_Statistics_Python/22_bayesian_statistics_python.ipynb`*
 
-# Module 22: Bayesian Statistics in Python
 
 **Tier 3 — Applied Bioinformatics | Module 22**
 
@@ -79,7 +78,7 @@ except ImportError:
 
 print(f"Dataset: {penguins.shape}, species: {penguins['species'].unique()}")
 penguins.head()
-```
+```python
 
 ## 1. Frequentist vs Bayesian Framing
 
@@ -129,7 +128,7 @@ try:
 except Exception as e:
     print(f"PyMC sampling: {e}")
     print("(PyMC requires correct installation; showing structure only)")
-```
+```python
 
 ## 2. Prior Specification
 
@@ -179,7 +178,7 @@ try:
     print("Weakly informative priors keep predicted values near the data range.")
 except Exception as e:
     print(f"Prior predictive check skipped: {e}")
-```
+```python
 
 ## 3. Multiple Regression and Collinearity
 
@@ -209,7 +208,7 @@ vif = pd.DataFrame({
 print("\nVariance Inflation Factors:")
 print(vif.to_string(index=False))
 print("\nVIF > 5 suggests collinearity; > 10 is problematic")
-```
+```python
 
 ## 4. Model Comparison: LOO-CV and WAIC
 
@@ -252,7 +251,7 @@ try:
 except Exception as e:
     print(f"Model comparison skipped: {e}")
     print("Pattern: az.compare({'m1': idata_m1, 'm2': idata_m2}, ic='loo')")
-```
+```python
 
 ## 5. Linear Mixed-Effects Models
 
@@ -289,7 +288,7 @@ try:
 except Exception as e:
     print(f"Mixed-effects skipped: {e}")
     print("Pattern: bmb.Model('y ~ x + (1|group)', data=df).fit(draws=1000)")
-```
+```python
 
 ## 6. Generalized Linear Models (GLMs)
 
@@ -304,3 +303,9 @@ Not all outcomes are normally distributed. GLMs extend linear models with:
 | Poisson | log | Count data (no overdispersion) | `pm.Poisson` |
 | Negative Binomial | log | Count data with overdispersion | `pm.NegativeBinomial` |
 | Zero-Inflated Poisson | log | Excess zeros | `pm.ZeroInflatedPoisson` |
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

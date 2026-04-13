@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/24_Cancer_Transcriptomics/01_cancer_transcriptomics.ipynb`*
 
-# Module 24: Cancer Transcriptomics: Subtype Classification
 
 **Tier 3 — Applied Bioinformatics | Module 24**
 
@@ -52,7 +51,7 @@ from sklearn.metrics import classification_report, normalized_mutual_info_score
 %matplotlib inline
 plt.rcParams['figure.dpi'] = 100
 sns.set_style('whitegrid')
-```
+```python
 
 ## 1. Introduction: Cancer Transcriptomics & Melanoma Subtypes
 
@@ -132,7 +131,7 @@ sample_names = [f'SAMPLE_{i:03d}' for i in range(N_SAMPLES)]
 expr_df = pd.DataFrame(expr, index=gene_names, columns=sample_names)
 print(f'Expression matrix: {expr_df.shape[0]} genes × {expr_df.shape[1]} samples')
 expr_df.iloc[:5, :5]
-```
+```python
 
 ```python
 # log1p transform
@@ -146,7 +145,7 @@ expr_z = expr_log.subtract(expr_log.mean(axis=1), axis=0).divide(
 print('After log1p+zscore:')
 print(f'  Mean per gene (first 3): {expr_z.iloc[:3].mean(axis=1).values.round(3)}')
 print(f'  Std  per gene (first 3): {expr_z.iloc[:3].std(axis=1).values.round(3)}')
-```
+```python
 
 ## 3. Exploratory Analysis
 
@@ -177,7 +176,7 @@ cg = sns.clustermap(
 )
 cg.fig.suptitle('Clustermap: Top 50 high-variance genes (TCGA-SKCM synthetic)', y=1.02)
 plt.show()
-```
+```python
 
 ```python
 # ── PCA ─────────────────────────────────────────────
@@ -212,7 +211,7 @@ axes[1].legend()
 plt.tight_layout()
 plt.show()
 print(f'PCA cumulative variance (2 PCs): {pca.explained_variance_ratio_.sum():.1%}')
-```
+```python
 
 ## 4. Semi-supervised Classification (Tirosh 3-class)
 
@@ -240,7 +239,7 @@ print(classification_report(y_test, y_pred))
 # Store predictions for all samples (train uses ground truth, test uses RF)
 tirosh_labels = y.copy()
 tirosh_labels[idx_test] = y_pred  # replace test labels with predictions
-```
+```python
 
 ## 5. Hierarchical Clustering Subtypes (Harbst 4-class)
 
@@ -305,7 +304,7 @@ plt.show()
 
 print('Harbst subtype counts:')
 print(pd.Series(harbst_labels).value_counts())
-```
+```python
 
 ## 6. Survival Analysis: Kaplan–Meier Curves
 
@@ -358,4 +357,10 @@ ax.legend()
 ax.set_ylim(0, 1.05)
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

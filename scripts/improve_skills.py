@@ -125,19 +125,21 @@ def fix_primary_tool(content: str, name: str) -> str:
 
 
 def fix_duplicate_h1(content: str) -> str:
-    """Remove duplicate consecutive H1 headers."""
+    """Remove duplicate H1 headers (keep the first occurrence)."""
     lines = content.split("\n")
+    seen_h1 = None
     result = []
-    prev_h1 = None
     for line in lines:
         if line.startswith("# ") and not line.startswith("## "):
-            if line == prev_h1:
+            if seen_h1 is None:
+                seen_h1 = line
+                result.append(line)
+            elif line == seen_h1:
                 continue  # Skip duplicate
-            prev_h1 = line
+            else:
+                result.append(line)  # Different H1, keep it
         else:
-            if line.strip():
-                prev_h1 = None
-        result.append(line)
+            result.append(line)
     return "\n".join(result)
 
 

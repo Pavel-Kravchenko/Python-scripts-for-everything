@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/07_String_Algorithms/01_naive_pattern_matching.ipynb`*
 
-# Naive Pattern Matching Algorithm
 
 ## The Pattern Matching Problem
 
@@ -46,7 +45,7 @@ The naive algorithm uses a **sliding window** approach:
 
 ### Successful Match Example
 
-```
+```python
 Text:    A B C A B C A B D
 Pattern: A B C A B D
 
@@ -73,13 +72,13 @@ Text:    A B C A B C A B D
                ↓ ↓ ↓ ↓ ↓ ↓
 Pattern:       A B C A B D
 ✓ MATCH FOUND at position 3!
-```
+```python
 
 ### Why Naive is Inefficient
 
 Consider the worst-case scenario:
 
-```
+```python
 Text:    A A A A A A A A A B
 Pattern: A A A A B
 
@@ -92,7 +91,7 @@ Attempt 6:           A A A A ↓ (finally matches!)
 
 We keep re-comparing characters we already know match!
 Total: O(n × m) comparisons
-```
+```python
 
 The key insight: **We throw away useful information after each failed match.**
 
@@ -154,7 +153,7 @@ def naive_search(text: str, pattern: str) -> list[int]:
             positions.append(i)
     
     return positions
-```
+```python
 
 ### Alternative Implementation (Pythonic using slicing)
 
@@ -176,7 +175,7 @@ def naive_search_simple(text: str, pattern: str) -> list[int]:
             positions.append(i)
     
     return positions
-```
+```python
 
 ```python
 # Basic examples
@@ -187,7 +186,7 @@ result = naive_search(text, pattern)
 print(f"Text:    '{text}'")
 print(f"Pattern: '{pattern}'")
 print(f"Found at positions: {result}")
-```
+```python
 
 ```python
 # Multiple occurrences
@@ -199,7 +198,7 @@ print(f"Text:    '{text}'")
 print(f"Pattern: '{pattern}'")
 print(f"Found at positions: {result}")
 print("\nNote: Overlapping matches are found!")
-```
+```python
 
 ### Step-by-Step Execution with Comparison Counting
 
@@ -250,12 +249,12 @@ def naive_search_verbose(text: str, pattern: str) -> tuple[list[int], int]:
     print(f"Matches found at: {positions}")
     
     return positions, total_comparisons
-```
+```python
 
 ```python
 # Run verbose example
 positions, comparisons = naive_search_verbose("ABCABCABD", "ABCABD")
-```
+```python
 
 ### Best Case Example: Pattern Not Found Quickly
 
@@ -289,7 +288,7 @@ print(f"Positions to check: {n - m + 1}")
 print(f"Total comparisons: {comparisons}")
 print(f"Maximum possible (n × m): {n * m}")
 print(f"\nOnly ~1 comparison per position because 'B' ≠ 'A' immediately!")
-```
+```python
 
 ### Worst Case Example: Many Partial Matches
 
@@ -310,12 +309,12 @@ print(f"Positions to check: {n - m + 1}")
 print(f"Total comparisons: {comparisons}")
 print(f"Maximum possible (n × m): {(n - m + 1) * m}")
 print(f"\nAlmost all comparisons match until the last character!")
-```
+```python
 
 ```python
 # Detailed worst case walkthrough
 positions, comparisons = naive_search_verbose("AAAAAAAAAB", "AAAAB")
-```
+```python
 
 ---
 
@@ -347,7 +346,7 @@ def benchmark_naive_search(sizes: list[int], pattern_ratio: float = 0.1) -> tupl
         times.append(end - start)
     
     return sizes, times
-```
+```python
 
 ```python
 # Run benchmark
@@ -363,7 +362,7 @@ plt.grid(True, alpha=0.3)
 plt.show()
 
 print(f"\nNote: With pattern length = n/2, we see O(n²/2) ≈ O(n²) behavior")
-```
+```python
 
 ---
 
@@ -388,7 +387,7 @@ print(f"Pattern length: {len(small_pattern)}")
 print(f"Matches found: {len(result)}")
 print(f"Time: {(end-start)*1000:.2f} ms")
 print("\n→ Small patterns make naive search very fast!")
-```
+```python
 
 ### 2. **Large Alphabet**
 With more characters, mismatches are found quickly.
@@ -419,7 +418,7 @@ time_ascii = time.perf_counter() - start
 print(f"Binary alphabet (2 chars):  {time_binary*1000:.2f} ms")
 print(f"Full alphabet (52 chars):   {time_ascii*1000:.2f} ms")
 print(f"\nSpeedup: {time_binary/time_ascii:.1f}x faster with larger alphabet")
-```
+```python
 
 ### 3. **Few Expected Occurrences**
 If the pattern rarely matches, comparisons are short.
@@ -436,7 +435,7 @@ print(f"Total comparisons: {comparisons:,}")
 print(f"Positions checked: {len(text) - len(unique_pattern) + 1:,}")
 print(f"Average comparisons per position: {comparisons / (len(text) - len(unique_pattern) + 1):.2f}")
 print("\n→ Only 1 comparison per position (first char mismatch)!")
-```
+```python
 
 ---
 
@@ -446,7 +445,7 @@ print("\n→ Only 1 comparison per position (first char mismatch)!")
 
 The naive algorithm **forgets** what it learned during partial matches:
 
-```
+```python
 Text:    A B C A B C A B D
          ↓ ↓ ↓ ↓ ↓ ✗
 Pattern: A B C A B D
@@ -457,7 +456,7 @@ After this failure, we know:
 
 Smart insight: We could skip ahead knowing T[3:5] = "AB" = P[0:2]!
 But naive search starts fresh at position 1...
-```
+```python
 
 ### Better Algorithms
 
@@ -468,3 +467,9 @@ But naive search starts fresh at position 1...
 | **Boyer-Moore** | O(n/m) best | Skip large portions of text using bad character rule |
 
 **Coming up next:** The KMP algorithm uses the **prefix function** to remember partial match information!
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

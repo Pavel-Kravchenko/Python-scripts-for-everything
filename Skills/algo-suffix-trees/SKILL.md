@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/08_Advanced_String_Structures/04_suffix_trees.ipynb`*
 
-# Suffix Trees
 
 A **Suffix Tree** is one of the most powerful data structures for string processing. It's essentially a compressed trie of all suffixes of a given string, enabling extremely efficient pattern matching and many other string operations.
 
@@ -52,7 +51,7 @@ A **Suffix Tree** for a string `S` of length `n` is a compressed trie containing
 ### Suffix Tree for "banana$"
 
 First, let's list all suffixes:
-```
+```python
 Position 0: banana$
 Position 1: anana$
 Position 2: nana$
@@ -60,10 +59,10 @@ Position 3: ana$
 Position 4: na$
 Position 5: a$
 Position 6: $
-```
+```python
 
 The suffix tree structure:
-```
+```python
                         (root)
                     /    |     \
                    $    a       banana$
@@ -89,10 +88,10 @@ The suffix tree structure:
                     [4]    [2]
 
 Numbers in brackets [i] = starting position of that suffix
-```
+```python
 
 **Full tree structure:**
-```
+```python
                             (root)
                     /     /    \      \
                    $    a      banana$  na
@@ -105,11 +104,11 @@ Numbers in brackets [i] = starting position of that suffix
                          /    \
                         $     na$
                        [3]    [1]
-```
+```python
 
 ### Pattern Search Example: Finding "ana"
 
-```
+```python
 Step 1: Start at root, find edge starting with 'a'
         
             (root)
@@ -141,11 +140,11 @@ Verification: "banana"
               0123456
               - Position 1: "anana" contains "ana" ✓
               - Position 3: "ana" matches exactly ✓
-```
+```python
 
 ### Longest Common Substring (LCS) Visualization
 
-```
+```python
 S1 = "ABAB"
 S2 = "BABA"
 
@@ -172,7 +171,7 @@ Find deepest internal node that has descendants from BOTH strings:
 Deepest blue node depth = 3
 
 LCS = "ABA" or "BAB" (both length 3)
-```
+```python
 
 ## 3. Construction Methods
 
@@ -235,7 +234,7 @@ class SuffixTreeNode:
         if self.is_leaf():
             return f"Leaf[{self.suffix_index}]"
         return f"Internal(children={list(self.children.keys())})"
-```
+```python
 
 ```python
 class SuffixTree:
@@ -388,7 +387,7 @@ class SuffixTree:
         
         dfs(self.root)
         return suffix_array
-```
+```python
 
 ### Basic Usage Examples
 
@@ -400,7 +399,7 @@ st = SuffixTree(text)
 print(f"Suffix Tree for '{text}$':")
 print()
 st.visualize()
-```
+```python
 
 ```python
 # Pattern search examples
@@ -414,4 +413,10 @@ for p in patterns:
         print(f"  '{p}' found at positions: {positions}")
     else:
         print(f"  '{p}' not found")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

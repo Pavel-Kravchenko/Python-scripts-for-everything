@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/20_Spatial_Transcriptomics/20_spatial_transcriptomics.ipynb`*
 
-# Module 20: Spatial Transcriptomics
 **Tier 3 — Applied Bioinformatics | Module 20**
 Prerequisites: Module 03 (RNA-seq), Module 07 (ML/Clustering), Module 12 (Single-cell Scanpy).
 
@@ -87,7 +86,7 @@ except ImportError:
 
 plt.rcParams.update({"figure.dpi":110})
 sc.settings.verbosity = 0
-```
+```python
 
 ```python
 # Load public mouse brain H&E Visium dataset (shipped with Squidpy)
@@ -101,7 +100,7 @@ print(f"\nobs columns: {adata.obs.columns.tolist()}")
 fig, ax = plt.subplots(figsize=(5,5))
 sq.pl.spatial_scatter(adata, ax=ax, size=0.8, title="Raw spots on tissue")
 plt.tight_layout(); plt.show()
-```
+```python
 
 ```python
 # QC metrics
@@ -122,7 +121,7 @@ plt.tight_layout(); plt.show()
 sc.pp.filter_cells(adata, min_counts=200)
 sc.pp.filter_genes(adata, min_cells=5)
 print(f"After QC: {adata.n_obs} spots, {adata.n_vars} genes")
-```
+```python
 
 ```python
 sc.pp.normalize_total(adata, target_sum=1e4)
@@ -139,14 +138,14 @@ fig, axes = plt.subplots(1, 2, figsize=(12,5))
 sc.pl.umap(adata, color="leiden_0.5", ax=axes[0], show=False, title="UMAP clusters")
 sq.pl.spatial_scatter(adata, color="leiden_0.5", ax=axes[1], size=1.4, title="Spatial clusters")
 plt.tight_layout(); plt.show()
-```
+```python
 
 ```python
 sq.gr.spatial_neighbors(adata, coord_type="visium", n_rings=1)
 print("Spatial graph built.")
 print(f"Connectivity matrix shape: {adata.obsp['spatial_connectivities'].shape}")
 print(f"Mean neighbors per spot: {adata.obsp['spatial_connectivities'].sum(1).mean():.1f}")
-```
+```python
 
 ```python
 sq.gr.spatial_autocorr(adata, mode="moran", genes=adata.var_names[:500], n_perms=100)
@@ -159,7 +158,7 @@ ax.scatter(range(len(moran)), moran["I"], s=5, alpha=0.5, color="steelblue")
 ax.set_xlabel("Gene rank"); ax.set_ylabel("Moran's I")
 ax.set_title("Spatial autocorrelation (Moran's I) — all genes")
 plt.tight_layout(); plt.show()
-```
+```python
 
 ```python
 top_svgs = moran.head(6).index.tolist()
@@ -168,7 +167,7 @@ fig = sq.pl.spatial_scatter(adata, color=top_svgs, ncols=3, size=1.4,
                             img_alpha=0.4, return_fig=True)
 if fig: fig.suptitle("Top spatially variable genes", y=1.01)
 plt.tight_layout(); plt.show()
-```
+```python
 
 ## Cell-type Deconvolution
 
@@ -190,7 +189,7 @@ Each Visium spot captures RNA from ~10–20 cells. To infer cell-type compositio
 # 2. Run deconvolution on spatial adata
 # 3. adata.obsm["cell_type_proportions"] shape: (n_spots, n_types)
 # 4. sq.pl.spatial_scatter(adata, color=adata.obsm["cell_type_proportions"].columns)
-```
+```python
 
 ## Summary
 
@@ -220,4 +219,10 @@ Each Visium spot captures RNA from ~10–20 cells. To infer cell-type compositio
 # 4. Challenge: implement a simple NNLS deconvolution using two "pure" reference
 #    gene signatures (you can define them manually). Visualize the deconvolution
 #    result spatially.
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

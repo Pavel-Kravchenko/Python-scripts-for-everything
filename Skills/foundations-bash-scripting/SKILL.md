@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_0_Computational_Foundations/03_Bash_Scripting/01_bash_scripting.ipynb`*
 
-# Module 0.3: Bash Scripting for Bioinformatics
 
 ---
 
@@ -83,7 +82,7 @@ chmod +x /tmp/hello_bioinfo.sh
 
 # Run it
 /tmp/hello_bioinfo.sh
-```
+```python
 
 ### Script structure conventions
 
@@ -110,7 +109,7 @@ log() { echo "[$(date '+%H:%M:%S')] $1"; }
 log "Starting analysis..."
 # ... your commands ...
 log "Done!"
-```
+```python
 
 Two ways to run a script:
 ```bash
@@ -118,7 +117,7 @@ chmod +x script.sh    # Make executable (once)
 ./script.sh           # Run directly
 
 bash script.sh        # Run with bash (does not need chmod)
-```
+```python
 
 ---
 
@@ -149,7 +148,7 @@ current_date=$(date +%Y-%m-%d)
 num_cpus=$(nproc)
 echo "Date: $current_date"
 echo "Available CPUs: $num_cpus"
-```
+```python
 
 ```python
 %%bash
@@ -169,7 +168,7 @@ EOF
 chmod +x /tmp/show_args.sh
 
 /tmp/show_args.sh sample_001.fastq.gz /data/output
-```
+```python
 
 ### Quoting rules (this trips up everyone)
 
@@ -179,7 +178,7 @@ name="World"
 echo "Hello $name"     # Double quotes: variables ARE expanded  -> Hello World
 echo 'Hello $name'     # Single quotes: variables NOT expanded  -> Hello $name
 echo Hello $name       # No quotes: works, but breaks on spaces in values!
-```
+```python
 
 **Golden rule: Always double-quote your variables.** `"$variable"` not `$variable`.
 
@@ -224,7 +223,7 @@ echo "  Min length:  ${MIN_READ_LENGTH}"
 echo "  Min quality: ${QUALITY_THRESHOLD}"
 EOF
 bash /tmp/pipeline_config.sh
-```
+```python
 
 ---
 
@@ -245,11 +244,11 @@ elif [[ $number -gt 10 ]]; then
 else
     echo "10 or less"
 fi
-```
+```python
 
 ### Comparison operators
 
-```
+```python
 NUMERIC                       STRING
   -eq   equals                  ==    equals
   -ne   not equals              !=    not equals
@@ -266,7 +265,7 @@ FILE TESTS                    LOGICAL
   -r file    is readable
   -w file    is writable
   -x file    is executable
-```
+```python
 
 **Important:** Use `[[ ]]` (double brackets) in Bash, not `[ ]`. Double brackets
 are safer with spaces and special characters.
@@ -296,7 +295,7 @@ if command -v python3 &> /dev/null; then
 else
     echo "Python3 is NOT installed"
 fi
-```
+```python
 
 ### Bioinformatics example: Input validation script
 
@@ -345,7 +344,7 @@ echo "@read1" > /tmp/test.fastq
 
 # Test with no arguments
 /tmp/validate_input.sh
-```
+```python
 
 ---
 
@@ -384,7 +383,7 @@ echo "=== C-style loop ==="
 for ((i=0; i<3; i++)); do
     echo "  Index: $i"
 done
-```
+```python
 
 ### Bioinformatics example: Batch processing FASTQ files
 
@@ -431,7 +430,7 @@ for i in 1 2 3 4 5; do
 done
 
 bash /tmp/batch_qc.sh /tmp/test_fastq /tmp/qc_output
-```
+```python
 
 ### while loop -- condition-based iteration
 
@@ -458,7 +457,7 @@ echo "=== Reading sample list ==="
 while IFS=$'\t' read -r sample_id condition; do
     echo "Sample: $sample_id  |  Condition: $condition"
 done < /tmp/sample_list.txt
-```
+```python
 
 ### Loop control: break and continue
 
@@ -483,7 +482,7 @@ for f in /tmp/good_file.txt /tmp/empty_file.txt /tmp/another_good.txt; do
 
     echo "  Processing: $(basename $f)"
 done
-```
+```python
 
 ---
 
@@ -539,4 +538,10 @@ chmod +x /tmp/process_file.sh
 /tmp/process_file.sh aligned.bam
 /tmp/process_file.sh variants.vcf
 /tmp/process_file.sh genome.fa
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/05_topological_sort.ipynb`*
 
-# 📐 Topological Sort
 
 ## Learning Objectives
 
@@ -49,7 +48,7 @@ class DirectedGraph:
         self.adj[u].append(v)
         self.vertices.add(u)
         self.vertices.add(v)
-```
+```python
 
 ```python
 def topological_sort_dfs(graph):
@@ -98,7 +97,7 @@ order = topological_sort_dfs(grn)
 print("Signal transduction order:")
 for i, gene in enumerate(order, 1):
     print(f"  {i}. {gene}")
-```
+```python
 
 ## Multiple Valid Orderings
 
@@ -146,7 +145,7 @@ orderings = all_topological_sorts(small)
 print(f"Found {len(orderings)} valid topological orderings:")
 for o in orderings:
     print(" -> ".join(o))
-```
+```python
 
 ```python
 def topological_sort_kahn(graph):
@@ -180,7 +179,7 @@ def topological_sort_kahn(graph):
 print("\nKahn's algorithm order:")
 for i, gene in enumerate(topological_sort_kahn(grn), 1):
     print(f"  {i}. {gene}")
-```
+```python
 
 ## Critical Path Analysis
 
@@ -253,7 +252,7 @@ runtimes = {
 makespan, critical = critical_path(pipeline_dag, runtimes)
 print(f"Minimum pipeline runtime: {makespan} minutes")
 print(f"Critical path: {' -> '.join(critical)}")
-```
+```python
 
 ## 🧬 Exercise: Pipeline Scheduling
 
@@ -279,7 +278,7 @@ execution_order = topological_sort_kahn(pipeline)
 print("Pipeline execution order:")
 for i, step in enumerate(execution_order, 1):
     print(f"  {i}. {step}")
-```
+```python
 
 ## Exercise 2 (2 stars): Parallel Scheduling
 
@@ -303,4 +302,10 @@ def parallel_schedule(graph, durations):
 
 # Test with the pipeline above
 parallel_schedule(pipeline_dag, runtimes)
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

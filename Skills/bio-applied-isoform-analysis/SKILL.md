@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/03_isoform_analysis.ipynb`*
 
-# Isoform Analysis with Long Reads
 
 **Tier 3 — Applied Bioinformatics | Module 25 · Notebook 3**
 
@@ -91,7 +90,7 @@ minimap2 -ax splice:hq --secondary=no -C5 \
     hg38.fa isoseq_reads.fastq.gz \
     | samtools sort -o isoseq_aligned.bam -@ 8
 samtools index isoseq_aligned.bam
-```
+```python
 
 The cell below simulates alignment QC statistics and CIGAR `N`-operation analysis for a realistic ONT cDNA run.
 
@@ -148,7 +147,7 @@ axes[2].legend(fontsize=8)
 plt.tight_layout()
 plt.suptitle('Minimap2 splice alignment QC (simulated ONT cDNA)', y=1.02)
 plt.show()
-```
+```python
 
 ## 3. Isoform Discovery and Quantification with bambu
 
@@ -173,7 +172,7 @@ writeBambuOutput(se, path = 'bambu_output/')
 # counts_transcript.txt:       transcript-level counts (rows=transcripts, cols=samples)
 # counts_gene.txt:             gene-level counts
 # extended_annotations.gtf:   all transcripts including novel ones
-```
+```python
 
 **Isoform categories:**
 - `annotated`: exact match to a GENCODE transcript
@@ -244,7 +243,7 @@ axes[2].set_ylabel('log2(Treat mean + 1)')
 axes[2].set_title('Transcript-level expression')
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 4. Differential Isoform Usage Analysis
 
@@ -280,7 +279,7 @@ d <- dmTest(d, coef = 'conditionTreatment')
 res_gene <- results(d, level = 'gene')    # gene-level omnibus test
 res_tx   <- results(d, level = 'feature') # per-transcript test
 sig      <- res_gene[res_gene$adj_pvalue < 0.05, ]
-```
+```python
 
 **Sashimi plots** visualize splice-junction read coverage as arcs between exons, with arc thickness proportional to junction read count. A changing arc thickness between conditions reveals isoform switching. Use `ggsashimi` (R) or IGV's built-in sashimi view.
 
@@ -348,4 +347,10 @@ axes[1].legend(); axes[1].set_ylim(0, 1)
 
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

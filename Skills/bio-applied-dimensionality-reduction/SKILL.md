@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/30_Single_Cell_RNA_seq/02_dimensionality_reduction.ipynb`*
 
-# scRNA-seq: Dimensionality Reduction and Clustering
 
 **Tier 3 — Applied Bioinformatics | Module 30 · Notebook 2**
 
@@ -85,7 +84,7 @@ except FileNotFoundError:
         var=pd.DataFrame({'hvg': True}, index=[f'GENE{i:04d}' for i in range(n_genes)])
     )
     print(f"Created synthetic dataset: {adata.shape}")
-```
+```python
 
 ## 1. Principal Component Analysis
 
@@ -162,7 +161,7 @@ plt.tight_layout()
 plt.savefig('pca_scatter.png', dpi=100, bbox_inches='tight')
 plt.show()
 print(f"\nUsing top {n_pcs_use} PCs for downstream neighbor graph")
-```
+```python
 
 ## 2. Neighborhood Graph and UMAP
 
@@ -238,7 +237,7 @@ except ImportError:
     print("umap-learn not installed. Install with: pip install umap-learn")
     print("Falling back to PCA visualization for clustering steps")
     adata.obsm['X_umap'] = adata.obsm['X_pca'][:, :2]
-```
+```python
 
 ## 3. Leiden / Louvain Clustering
 
@@ -328,4 +327,10 @@ for ax in axes:
 plt.tight_layout()
 plt.savefig('clustering.png', dpi=100, bbox_inches='tight')
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

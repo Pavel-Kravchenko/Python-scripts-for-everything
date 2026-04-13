@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/07_Machine_Learning_for_Biology/01_machine_learning_for_biology.ipynb`*
 
-# Machine Learning for Biology
 
 **Tier 3 -- Applied Bioinformatics**
 
@@ -40,7 +39,7 @@ from matplotlib.colors import ListedColormap
 plt.rcParams['figure.figsize'] = (12, 5)
 plt.rcParams['font.size'] = 12
 np.random.seed(42)
-```
+```python
 
 ---
 ## 1. Machine Learning in Bioinformatics: Use Cases
@@ -115,7 +114,7 @@ for km, f in sorted(freqs.items()):
     if f > 0:
         print(f"  {km}: {f:.3f}", end='  ')
 print()
-```
+```python
 
 ### 3.2 Physicochemical properties
 
@@ -180,7 +179,7 @@ print(f"Number of features: {len(feats)}")
 print("\nSample features:")
 for k, v in list(feats.items())[:10]:
     print(f"  {k}: {v:.4f}")
-```
+```python
 
 ---
 ## 4. Building a Biological Dataset: Promoter Classification
@@ -246,7 +245,7 @@ labels = np.array(labels)
 print(f"Dataset: {len(sequences)} sequences")
 print(f"  Promoters: {(labels == 1).sum()}")
 print(f"  Non-promoters: {(labels == 0).sum()}")
-```
+```python
 
 ```python
 # Extract features for all sequences
@@ -260,7 +259,7 @@ features_df['label'] = labels
 print(f"Feature matrix shape: {features_df.shape}")
 print(f"\nFeature means by class:")
 print(features_df.groupby('label')[['gc_content', 'cpg_oe', 'has_tata', 'di_CG']].mean().round(4))
-```
+```python
 
 ```python
 # Visualize feature distributions by class
@@ -281,7 +280,7 @@ for ax, feat, title in zip(axes.flat, plot_features, plot_titles):
 plt.suptitle('Feature Distributions: Promoter vs Non-Promoter', fontsize=14, fontweight='bold')
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ---
 ## 5. Train/Test Split and Cross-Validation
@@ -310,7 +309,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 print(f"Training set: {X_train.shape[0]} samples ({(y_train == 1).sum()} promoters, {(y_train == 0).sum()} non-promoters)")
 print(f"Test set:     {X_test.shape[0]} samples ({(y_test == 1).sum()} promoters, {(y_test == 0).sum()} non-promoters)")
 print(f"Features:     {X_train.shape[1]}")
-```
+```python
 
 ---
 ## 6. Key Algorithms
@@ -343,7 +342,7 @@ print("=== Logistic Regression ===")
 print(f"Accuracy: {accuracy_score(y_test, y_pred_lr):.3f}")
 print()
 print(classification_report(y_test, y_pred_lr, target_names=['Non-promoter', 'Promoter']))
-```
+```python
 
 ```python
 # Feature importance from logistic regression coefficients
@@ -364,7 +363,7 @@ ax.set_title('Top 15 Features -- Logistic Regression')
 ax.invert_yaxis()
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### 6.2 Random Forest
 
@@ -374,3 +373,9 @@ An **ensemble** of decision trees, each trained on a random subset of data and f
 **Weaknesses:** Less interpretable than logistic regression, can overfit on very small datasets.
 
 The source material for this course used Random Forest to classify wine varieties using chemical properties, achieving ~97% accuracy -- demonstrating the power of this approach.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

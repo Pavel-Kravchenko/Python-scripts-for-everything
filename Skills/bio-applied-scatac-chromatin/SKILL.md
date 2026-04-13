@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/31_Single_Cell_Multi_Omics/01_scatac_chromatin.ipynb`*
 
-# Single-Cell ATAC-seq: Chromatin Accessibility
 
 **Tier 3 — Applied Bioinformatics | Module 31 · Notebook 1**
 
@@ -56,10 +55,10 @@ For single-cell ATAC-seq (10x Genomics Chromium), nuclei are isolated first (cri
 
 ### Fragment file format
 The primary output is a fragments file (TSV.gz, Tabix-indexed):
-```
+```python
 chr1    10000    10200    ACGTCAGTACGT-1    1
 chr1    10050    10300    TGCAGTACGACC-1    2
-```
+```python
 Columns: chromosome, start, end, cell barcode, read count for this fragment.
 
 **Why fragments, not BAM?** Fragment files are compact and cell-indexed, enabling fast per-cell operations without loading entire BAM files.
@@ -137,7 +136,7 @@ snap.tl.spectral(data, n_comps=30)  # LSI via spectral embedding
 snap.tl.umap(data)
 snap.tl.leiden(data)
 snap.pl.umap(data, color='leiden')
-```
+```python
 
 ### Signac R implementation
 ```r
@@ -159,7 +158,7 @@ seurat_obj <- FindTopFeatures(seurat_obj, min.cutoff = 'q75')
 seurat_obj <- RunSVD(seurat_obj)
 # Plot: check that LSI1 is not correlated with depth
 DepthCor(seurat_obj)  # should show high correlation for LSI1, low for others
-```
+```python
 
 ```python
 # Demonstrate TF-IDF normalization and LSI for scATAC-seq
@@ -278,7 +277,7 @@ axes[2].legend(fontsize=7)
 plt.tight_layout()
 plt.savefig('scatac_lsi.png', dpi=100, bbox_inches='tight')
 plt.show()
-```
+```python
 
 ## 4. Co-accessibility and Peak-Gene Links
 
@@ -297,7 +296,7 @@ seurat_obj <- LinkPeaks(
   distance = 5e5  # 500 kb window
 )
 # Result: each peak gets a list of correlated genes
-```
+```python
 
 ### Validation approaches
 - **Hi-C / HiChIP**: 3D genome contact maps confirm spatial proximity
@@ -309,3 +308,9 @@ seurat_obj <- LinkPeaks(
 - Co-accessibility requires sufficient cells (> 500) to reliably estimate correlations
 - Correlation ≠ causation: co-accessible peaks may both respond to a third regulatory factor
 - Cell type mixing can create spurious co-accessibility if not properly controlled
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

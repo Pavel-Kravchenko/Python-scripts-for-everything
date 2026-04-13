@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/03_Diffusion_Generative_Models/03_Diffusion_Generative_Models.ipynb`*
 
-# Module T5-03: Diffusion & Generative Models
 
 **Tier 5 — Modern AI for Science | Module 03**
 
@@ -85,7 +84,7 @@ plt.rcParams.update({
     "axes.spines.right": False,
 })
 print("Libraries loaded. All computations run on CPU.")
-```
+```python
 
 ## 2. Noise Schedules
 
@@ -148,7 +147,7 @@ plt.tight_layout(); plt.show()
 # When does signal become < 1%?
 t_threshold = np.argmax(ab_cosine < 0.01)
 print(f"ᾱₜ < 0.01 at t = {t_threshold} (linear: {np.argmax(ab_linear < 0.01)})")
-```
+```python
 
 ```python
 # Forward diffusion: add noise to a simple 1D signal
@@ -175,7 +174,7 @@ for ax, t in zip(axes, timesteps):
 axes[0].legend(fontsize=8)
 plt.suptitle("Forward diffusion: adding noise over time", y=1.05)
 plt.tight_layout(); plt.show()
-```
+```python
 
 ## 3. DDIM: Deterministic Sampling
 
@@ -252,7 +251,7 @@ plt.tight_layout(); plt.show()
 
 mse = ((trajectories[-1] - x0_true)**2).mean()
 print(f"Final MSE (oracle denoiser): {mse:.6f}")
-```
+```python
 
 ## 4. Inverse Problems (DDRM)
 
@@ -319,4 +318,10 @@ mse_ddrm  = ((traj_ddrm[-1] - x0_true)**2).mean()
 print(f"MSE (noisy observation): {mse_naive:.4f}")
 print(f"MSE (DDRM):              {mse_ddrm:.4f}")
 print(f"DDRM improvement: {(mse_naive - mse_ddrm)/mse_naive:.1%}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

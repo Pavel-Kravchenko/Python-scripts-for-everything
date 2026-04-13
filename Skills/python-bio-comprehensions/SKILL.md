@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/10_Comprehensions/01_comprehensions.ipynb`*
 
-# Module 10: Comprehensions
 
 ---
 
@@ -48,7 +47,7 @@ The loop order in a flat nested comprehension matches nested `for` loops — out
 # is the same as:
 # for outer in outer_list:
 #     for inner in inner_list: result.append(expr)
-```
+```python
 `[[expr for inner in ...] for outer in ...]` gives a list-of-lists instead.
 
 **2. `if` filter vs `if`/`else` transform**
@@ -57,7 +56,7 @@ The loop order in a flat nested comprehension matches nested `for` loops — out
 ```python
 [nt for nt in dna if nt in 'GC']              # filter: keeps only G and C
 ["purine" if nt in "AG" else "pyrimidine" for nt in dna]  # transform: relabels every base
-```
+```python
 
 **3. Generator expressions are single-pass**
 Once consumed (`sum(...)`, `list(...)`, etc.), the generator is exhausted. If you need to iterate the result more than once, use a list comprehension.
@@ -79,7 +78,7 @@ gc_values = [
 
 for seq, gc in zip(sequences, gc_values):
     print(f"  {seq:12s}  GC = {gc:.1f}%")
-```
+```python
 
 ```python
 # Extract codons from a coding sequence
@@ -89,7 +88,7 @@ codons = [cds[i:i+3] for i in range(0, len(cds) - len(cds) % 3, 3)]
 
 print(f"CDS:    {cds}")
 print(f"Codons: {codons}")
-```
+```python
 
 ### 1.2 List Comprehensions with Conditions
 
@@ -105,7 +104,7 @@ gc_rich = [seq for seq in sequences if gc_content(seq) > 50]
 print("GC-rich sequences (>50%):")
 for seq in gc_rich:
     print(f"  {seq}: {gc_content(seq):.1f}%")
-```
+```python
 
 ```python
 # Find all positions of a motif
@@ -116,7 +115,7 @@ positions = [i for i in range(len(dna) - len(motif) + 1) if dna[i:i+len(motif)] 
 
 print(f"Sequence: {dna}")
 print(f"'{motif}' found at positions: {positions}")
-```
+```python
 
 ```python
 # if-else in the expression -- conditional transformation
@@ -130,7 +129,7 @@ classification = [
 
 for nt, cls in zip(dna, classification):
     print(f"  {nt} -> {cls}")
-```
+```python
 
 ```python
 # Filter AND transform: keep only long sequences, return (name, gc%)
@@ -151,13 +150,13 @@ results = [
 print("Long sequences and their GC%:")
 for name, gc in results:
     print(f"  {name}: {gc:.1f}%")
-```
+```python
 
 ---
 
 ## 2. Dictionary Comprehensions
 
-```
+```python
 +----------------------------------------------------------------+
 |              DICT COMPREHENSION ANATOMY                         |
 +----------------------------------------------------------------+
@@ -169,7 +168,7 @@ for name, gc in results:
 |   -> {'ATGC': 4, 'GGCAT': 5, ...}                              |
 |                                                                 |
 +----------------------------------------------------------------+
-```
+```python
 
 ```python
 # Count nucleotides in a sequence
@@ -183,7 +182,7 @@ complement = {b: c for b, c in [('A','T'), ('T','A'), ('G','C'), ('C','G')]}
 reverse_map = {v: k for k, v in complement.items()}
 print(f"Complement: {complement}")
 print(f"Reverse:    {reverse_map}")
-```
+```python
 
 ```python
 # Map sequence IDs to GC content
@@ -199,7 +198,7 @@ gc_map = {name: gc_content(seq) for name, seq in fasta.items()}
 print("GC content per sequence:")
 for name, gc in gc_map.items():
     print(f"  {name}: {gc:.1f}%")
-```
+```python
 
 ```python
 # K-mer counting with dict comprehension
@@ -213,7 +212,7 @@ print(f"Sequence: {dna}")
 print(f"{k}-mer counts:")
 for kmer, count in sorted(kmer_counts.items(), key=lambda x: x[1], reverse=True):
     print(f"  {kmer}: {count}")
-```
+```python
 
 ```python
 # Filter a dictionary -- keep only long genes
@@ -223,13 +222,13 @@ gene_lengths = {
 
 long_genes = {gene: bp for gene, bp in gene_lengths.items() if bp > 50000}
 print(f"Genes longer than 50 kb: {long_genes}")
-```
+```python
 
 ---
 
 ## 3. Set Comprehensions
 
-```
+```python
 +----------------------------------------------------------------+
 |               SET COMPREHENSION ANATOMY                         |
 +----------------------------------------------------------------+
@@ -240,7 +239,7 @@ print(f"Genes longer than 50 kb: {long_genes}")
 |   Result: unique values only, unordered                         |
 |                                                                 |
 +----------------------------------------------------------------+
-```
+```python
 
 ```python
 # Unique k-mers in a sequence
@@ -251,7 +250,7 @@ unique_kmers = {dna[i:i+k] for i in range(len(dna) - k + 1)}
 
 print(f"Sequence: {dna}")
 print(f"Unique {k}-mers ({len(unique_kmers)}): {sorted(unique_kmers)}")
-```
+```python
 
 ```python
 # Unique amino acids in a protein
@@ -283,13 +282,13 @@ leu_codons = {codon for codon, aa in GENETIC_CODE.items() if aa == 'L'}
 ser_codons = {codon for codon, aa in GENETIC_CODE.items() if aa == 'S'}
 print(f"\nLeucine codons: {sorted(leu_codons)}")
 print(f"Serine codons:  {sorted(ser_codons)}")
-```
+```python
 
 ---
 
 ## 4. Nested Comprehensions
 
-```
+```python
 +----------------------------------------------------------------+
 |                NESTED COMPREHENSION                              |
 +----------------------------------------------------------------+
@@ -303,7 +302,7 @@ print(f"Serine codons:  {sorted(ser_codons)}")
 |   Note: the outer loop comes FIRST in flattened form             |
 |                                                                  |
 +----------------------------------------------------------------+
-```
+```python
 
 ```python
 # Generate all 16 dinucleotides and all 64 codons
@@ -316,7 +315,7 @@ all_codons = [b1 + b2 + b3 for b1 in bases for b2 in bases for b3 in bases]
 print(f"\nTotal codons: {len(all_codons)}")
 print(f"First 8: {all_codons[:8]}")
 print(f"Last 8:  {all_codons[-8:]}")
-```
+```python
 
 ```python
 # Three reading frames of a DNA sequence (nested -- list of lists)
@@ -334,7 +333,7 @@ for idx, codons in enumerate(reading_frames):
 # Flatten: all codons from all frames
 all_frame_codons = [codon for frame in reading_frames for codon in frame]
 print(f"\nAll codons combined: {all_frame_codons}")
-```
+```python
 
 ---
 
@@ -342,7 +341,7 @@ print(f"\nAll codons combined: {all_frame_codons}")
 
 A generator expression looks like a list comprehension but uses `()` instead of `[]`. It produces items **lazily** (one at a time), saving memory when working with large datasets.
 
-```
+```python
 +----------------------------------------------------------------+
 |           GENERATOR vs LIST COMPREHENSION                       |
 +----------------------------------------------------------------+
@@ -354,7 +353,7 @@ A generator expression looks like a list comprehension but uses `()` instead of 
 |              -> Creates items ONE AT A TIME when needed         |
 |                                                                 |
 +----------------------------------------------------------------+
-```
+```python
 
 ```python
 import sys
@@ -367,7 +366,7 @@ gen_expr  = (x ** 2 for x in range(n))
 print(f"List size:      {sys.getsizeof(list_comp):>10,} bytes")
 print(f"Generator size: {sys.getsizeof(gen_expr):>10,} bytes")
 print(f"Memory ratio:   {sys.getsizeof(list_comp) / sys.getsizeof(gen_expr):.0f}x")
-```
+```python
 
 ```python
 # Generators work seamlessly with built-in functions
@@ -382,7 +381,7 @@ print(f"Average GC: {avg_gc:.1f}%")
 print(f"Max length: {max_len} bp")
 print(f"Any pure GC: {any_pure_gc}")
 print(f"All valid DNA: {all_valid}")
-```
+```python
 
 ```python
 # Memory-efficient processing of a large dataset
@@ -400,4 +399,10 @@ high_gc_count = sum(1 for seq in large_dataset if gc_content(seq) > 55)
 print(f"Total sequences: {len(large_dataset):,}")
 print(f"Sequences with GC > 55%: {high_gc_count:,}")
 print(f"Fraction: {high_gc_count / len(large_dataset):.1%}")
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

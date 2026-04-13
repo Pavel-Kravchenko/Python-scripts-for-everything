@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/07_String_Algorithms/02_kmp_algorithm.ipynb`*
 
-# Knuth-Morris-Pratt (KMP) Algorithm
 
 The KMP algorithm is one of the most elegant string matching algorithms, achieving **O(n + m)** time complexity by avoiding redundant comparisons. This notebook covers:
 
@@ -36,7 +35,7 @@ The KMP algorithm is one of the most elegant string matching algorithms, achievi
 
 In naive string matching, after a mismatch, we shift the pattern by 1 and restart comparison from the beginning. But this throws away valuable information!
 
-```
+```python
 Text:    A B A B A B A C A B A
 Pattern: A B A B A C A
          ✓ ✓ ✓ ✓ ✓ ✗     <- mismatch at position 5
@@ -48,7 +47,7 @@ Pattern:   A B A B A C A
 
 We already knew that text[2..4] = "ABA" because we just matched it!
 Why compare again?
-```
+```python
 
 ### The Smart Observation
 
@@ -58,14 +57,14 @@ When we have a mismatch after matching some characters, we know:
 
 **Key Question:** After matching `P[0..j-1]`, can we find a shorter prefix of the pattern that would still match the end of what we just saw?
 
-```
+```python
 Pattern matched so far: A B A B A
                         ↑───↑       This prefix "ABA"...
                             ↑───↑   ...equals this suffix!
 
 So after mismatch, we can continue from position 3 in the pattern!
 We don't need to re-match "ABA" - we know it's already there.
-```
+```python
 
 ## 2. The Prefix Function (Failure Function)
 
@@ -79,17 +78,17 @@ $$\pi[i] = \text{length of the longest proper prefix of } P[0..i] \text{ that is
 
 ### Example: Pattern "ABABACA"
 
-```
+```python
 Pattern: A B A B A C A
 
 Index:   0   1   2   3   4   5   6
 Char:    A   B   A   B   A   C   A
 π[i]:    0   0   1   2   3   0   1
-```
+```python
 
 Let's verify each value:
 
-```
+```python
 i=0: P[0..0] = "A"
      No proper prefix exists → π[0] = 0
 
@@ -118,11 +117,11 @@ i=5: P[0..5] = "ABABAC"
 
 i=6: P[0..6] = "ABABACA"
      Match: "A" (length 1) → π[6] = 1
-```
+```python
 
 ### Visual Explanation for π[4] = 3
 
-```
+```python
 P[0..4] = "ABABA"
 Longest proper prefix that is also suffix = "ABA" (length 3)
 
@@ -131,7 +130,7 @@ A B A B A
     ↑─────↑  suffix  P[2..4]
     
 Both are "ABA" → π[4] = 3
-```
+```python
 
 ## 3. Building the Prefix Table
 
@@ -176,7 +175,7 @@ def build_prefix_naive(pattern: str) -> list[int]:
 pattern = "ABABACA"
 print(f"Pattern: {pattern}")
 print(f"Prefix table (naive): {build_prefix_naive(pattern)}")
-```
+```python
 
 ### 3.2 Optimized Approach - O(n)
 
@@ -190,7 +189,7 @@ If we know π[i-1] = k, then for position i:
 
 ### Step-by-Step Example
 
-```
+```python
 Pattern: A B A B A C A
          0 1 2 3 4 5 6
 
@@ -225,7 +224,7 @@ i=6: Compare P[6]='A' with P[0]='A'
      → π[6] = 1
 
 Final: [0, 0, 1, 2, 3, 0, 1]
-```
+```python
 
 ```python
 def build_prefix(pattern: str) -> list[int]:
@@ -273,7 +272,7 @@ print(f"Pattern: {pattern}")
 print(f"Prefix table (optimized): {build_prefix(pattern)}")
 print(f"Prefix table (naive):     {build_prefix_naive(pattern)}")
 assert build_prefix(pattern) == build_prefix_naive(pattern), "Results should match!"
-```
+```python
 
 ### Why is the Optimized Version O(n)?
 
@@ -332,7 +331,7 @@ def build_prefix_verbose(pattern: str) -> list[int]:
 
 # Demonstrate with verbose output
 _ = build_prefix_verbose("ABABACA")
-```
+```python
 
 ## 4. The KMP Algorithm
 
@@ -346,7 +345,7 @@ When searching for pattern `P` in text `T`:
 
 ### Visual Example
 
-```
+```python
 Text:    A B A B A B A C A B A
 Pattern: A B A B A C A
 π:       [0,0,1,2,3,0,1]
@@ -371,7 +370,7 @@ Pattern:       A B A B A C A
                      ^ continue from j=3, i stays at 5
 
 Text index never goes backward! Always O(n) for text traversal.
-```
+```python
 
 ```python
 def kmp_search(text: str, pattern: str) -> list[int]:
@@ -444,7 +443,7 @@ result3 = kmp_search(text3, pattern3)
 print(f"Text:    '{text3}'")
 print(f"Pattern: '{pattern3}'")
 print(f"Found at positions: {result3}")
-```
+```python
 
 ```python
 def kmp_search_verbose(text: str, pattern: str) -> list[int]:
@@ -498,4 +497,10 @@ def kmp_search_verbose(text: str, pattern: str) -> list[int]:
 print("KMP Search Step-by-Step:")
 print()
 _ = kmp_search_verbose("ABABABABACA", "ABABACA")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

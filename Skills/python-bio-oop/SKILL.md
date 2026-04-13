@@ -1,6 +1,6 @@
 ---
 name: python-bio-oop
-description: "Split from `01_classes_and_oop.ipynb` for depth. Start with [Classes](./01_classes.ipynb) first."
+description: "Object-oriented programming for bioinformatics: inheritance, polymorphism, abstract classes, and design patterns for biological data models. Use when designing reusable bioinformatics libraries."
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/13_Classes_and_OOP/02_oop.ipynb"
 primary_tool: Python
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/13_Classes_and_OOP/02_oop.ipynb`*
 
-# Module 13: Advanced OOP Patterns
 
 Split from `01_classes_and_oop.ipynb` for depth. Start with [Classes](./01_classes.ipynb) first.
 
@@ -119,7 +118,7 @@ for name in db:
 # Filter
 high_gc = db.gc_filter(min_gc=0.55)
 print(f"\nHigh-GC sequences (>=55%): {list(high_gc)}")
-```
+```python
 
 ---
 
@@ -189,7 +188,7 @@ seq2 = BioSeq("GCTAGCTAGC", name="exon2")
 joined = seq + seq2
 print(f"\nJoined: {repr(joined)}")
 print(f"Codons: {list(joined.codons())}")
-```
+```python
 
 ---
 
@@ -254,7 +253,7 @@ sequences = ['TATAAAGCG', 'GCATCGATCG', 'ATATAAAATG', 'CGCGATCG']
 scored = [(seq, tata_scorer(seq)) for seq in sequences]
 best = max(scored, key=lambda x: x[1])
 print(f"\nBest TATA match: {best[0]} (score={best[1]})")
-```
+```python
 
 ---
 
@@ -308,7 +307,7 @@ try:
     v.annotation = "pathogenic"
 except AttributeError as e:
     print(f"Cannot add new attributes: {e}")
-```
+```python
 
 ---
 
@@ -381,7 +380,7 @@ print(f"GC content: {gene.gc_content():.1%}")
 print(f"Valid DNA:  {gene.is_valid('ATGCN')}")
 print(f"Rev comp:   {gene.reverse_complement()[:20]}...")
 print(f"\nFASTA format:\n{gene.to_fasta(line_width=20)}")
-```
+```python
 
 ---
 
@@ -390,3 +389,9 @@ print(f"\nFASTA format:\n{gene.to_fasta(line_width=20)}")
 Python does not require formal interface declarations. Any object that provides the right methods is accepted — this is **duck typing**: "if it walks like a duck and quacks like a duck, it's a duck."
 
 For more formal type checking without ABCs, Python 3.8+ provides `typing.Protocol`.
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

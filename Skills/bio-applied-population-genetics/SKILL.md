@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/15_Population_Genetics_and_Molecular_Evolution/01_population_genetics.ipynb`*
 
-# Population Genetics
 
 Split from `01_population_genetics_and_molecular_evolution.ipynb` to keep this topic self-contained.
 
@@ -56,7 +55,7 @@ from itertools import combinations
 plt.rcParams['figure.figsize'] = (12, 5)
 plt.rcParams['font.size'] = 12
 np.random.seed(42)
-```
+```python
 
 ---
 
@@ -90,7 +89,7 @@ print(f"Sample size (n): {n_individuals} individuals")
 print(f"Allele counts  -- M: {n_M_alleles}, N: {n_N_alleles}")
 print(f"Allele frequencies -- p(M) = {p_M:.4f}, q(N) = {q_N:.4f}")
 print(f"p + q = {p_M + q_N:.4f}  (must equal 1)")
-```
+```python
 
 ```python
 # HWE expected genotype frequencies and bar chart comparison
@@ -118,7 +117,7 @@ plt.show()
 print(f"  MM: observed={observed_MM}, expected={expected_MM:.1f}")
 print(f"  MN: observed={observed_MN}, expected={expected_MN:.1f}")
 print(f"  NN: observed={observed_NN}, expected={expected_NN:.1f}")
-```
+```python
 
 ```python
 # Chi-squared test for HWE departure
@@ -139,7 +138,7 @@ if p_value > 0.05:
     print("Conclusion: No significant departure from HWE (p > 0.05).")
 else:
     print("Conclusion: Significant departure from HWE (p <= 0.05).")
-```
+```python
 
 ### Causes of HWE Departure
 
@@ -179,7 +178,7 @@ for i, a1 in enumerate(alleles):
         total += freq
         print(f"  {a1}{a2}: {freq:.4f}")
 print(f"  Sum: {total:.4f}")
-```
+```python
 
 ---
 
@@ -247,7 +246,7 @@ axes[0].set_ylabel('Allele frequency (p)')
 fig.suptitle('Wright-Fisher Drift: Single Trajectory per Population Size')
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ```python
 # Many replicates: visualise spread, fixation, and loss
@@ -282,7 +281,7 @@ plt.tight_layout()
 plt.show()
 print(f"Theoretical P(fixation) = p0 = {p0:.2f}")
 print(f"Observed fixation fraction   = {n_fixed/n_replicates:.2f}")
-```
+```python
 
 ```python
 # Time to fixation or loss as a function of N
@@ -313,7 +312,7 @@ ax.set_title('Time to Fixation or Loss vs Population Size (p₀ = 0.5)')
 ax.legend()
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ```python
 # Bottleneck: simulating a transient reduction in Ne
@@ -356,4 +355,10 @@ for ax in (ax1, ax2):
 plt.suptitle('Bottleneck Effects on Drift', y=1.01)
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

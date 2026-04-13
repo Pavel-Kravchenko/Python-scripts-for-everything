@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/04_AlphaFold_Protein_Design/04_AlphaFold_Protein_Design.ipynb`*
 
-# Module T5-04: AlphaFold & Protein Design
 
 **Tier 5 — Modern AI for Science | Module 04**
 
@@ -127,7 +126,7 @@ import json
 from Bio.PDB import PDBParser, Superimposer
 
 np.random.seed(5)
-```
+```python
 
 ## 2. Confidence Metrics: pLDDT and PAE
 
@@ -154,7 +153,7 @@ im = ax[1].imshow(pae, cmap='viridis', vmin=0, vmax=30)
 ax[1].set_title('PAE heatmap')
 plt.colorbar(im, ax=ax[1], fraction=0.046)
 plt.tight_layout()
-```
+```python
 
 ## 3. Fetching Structures from AlphaFold DB
 
@@ -178,7 +177,7 @@ def fetch_alphafold_pdb(uniprot_id: str, out_dir: str = 'pdb_files'):
 # Example (uncomment to run online)
 # pdb_path = fetch_alphafold_pdb('P04637')  # TP53
 # print(pdb_path)
-```
+```python
 
 ## 4. Structure Comparison (RMSD)
 
@@ -200,7 +199,7 @@ def ca_rmsd(pdb_a: str, pdb_b: str) -> float:
 
 # Example usage:
 # print(ca_rmsd('predicted.pdb', 'reference.pdb'))
-```
+```python
 
 ## 5. Protein Design Workflow (Conceptual)
 
@@ -224,7 +223,7 @@ candidates = [
 for c in candidates:
     c['priority'] = design_priority(c['plddt'], c['pae'], c['novelty'])
 print(sorted(candidates, key=lambda x: x['priority'], reverse=True))
-```
+```python
 
 ## Summary
 
@@ -247,3 +246,9 @@ Checked online during content expansion.
 - [AlphaFold official repository](https://github.com/google-deepmind/alphafold)
 - [AlphaFold3 official repository](https://github.com/google-deepmind/alphafold3)
 - [RoseTTAFold official repository](https://github.com/RosettaCommons/RoseTTAFold)
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

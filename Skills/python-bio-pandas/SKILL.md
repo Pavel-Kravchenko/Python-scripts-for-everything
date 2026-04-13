@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/16_NumPy_and_Pandas/02_pandas.ipynb`*
 
-# Module 16: NumPy and Pandas for Bioinformatics
 
 **Estimated time: 90-120 minutes**
 
@@ -67,7 +66,7 @@ import numpy as np
 import pandas as pd
 
 np.random.seed(42)
-```
+```python
 
 ### 1.1 Creating Arrays
 
@@ -77,7 +76,7 @@ gc_values = np.array([0.42, 0.51, 0.48, 0.55, 0.44])
 print("GC content per gene:", gc_values)
 print("Type:", type(gc_values))
 print("Dtype:", gc_values.dtype)
-```
+```python
 
 ```python
 # Convenience constructors
@@ -92,7 +91,7 @@ print("ones shape:", ones.shape)
 print("positions:", positions)
 print("fractions:", fractions)
 print("empty_matrix:\n", empty_matrix)
-```
+```python
 
 ```python
 # 2D array -- a gene expression matrix (rows=genes, columns=samples)
@@ -106,7 +105,7 @@ print("Shape:", expression.shape)    # (rows, cols)
 print("Dimensions:", expression.ndim)
 print("Total elements:", expression.size)
 print("Matrix:\n", expression)
-```
+```python
 
 ### 1.2 Indexing and Slicing
 
@@ -120,7 +119,7 @@ print("First element:", reads[0])
 print("Last element:", reads[-1])
 print("Slice [2:5]:", reads[2:5])
 print("Every other:", reads[::2])
-```
+```python
 
 ```python
 # 2D indexing on the expression matrix
@@ -128,7 +127,7 @@ print("Row 0 (Gene A):", expression[0])        # entire row
 print("Column 1 (Sample 2):", expression[:, 1])  # entire column
 print("Gene C, Sample 3:", expression[2, 2])    # single element
 print("Genes A-B, Samples 1-2:\n", expression[:2, :2])  # submatrix
-```
+```python
 
 ```python
 # Boolean indexing -- filter without loops
@@ -139,7 +138,7 @@ print("Non-zero reads:", reads[reads != 0])
 high_expr_mask = reads > 100
 print("Mask:", high_expr_mask)
 print("High-count reads:", reads[high_expr_mask])
-```
+```python
 
 ### 1.3 Vectorized Operations
 
@@ -158,7 +157,7 @@ print("Gene lengths:", lengths)
 counts = np.array([63, 119, 17, 250, 89, 42, 130], dtype=float)
 log_counts = np.log2(counts + 1)  # +1 to avoid log(0)
 print("Log2 counts:", np.round(log_counts, 2))
-```
+```python
 
 ```python
 # RPKM normalization (Reads Per Kilobase per Million mapped reads)
@@ -170,7 +169,7 @@ def compute_rpkm(counts, lengths):
 
 rpkm = compute_rpkm(counts, lengths)
 print("RPKM values:", np.round(rpkm, 2))
-```
+```python
 
 ### 1.4 Broadcasting
 
@@ -192,7 +191,7 @@ cpm = expr / sample_totals * 1_000_000
 
 print("Sample totals:", sample_totals.flatten())
 print("CPM (counts per million):\n", np.round(cpm, 1))
-```
+```python
 
 ```python
 # Z-score each gene (row) across samples
@@ -201,7 +200,7 @@ gene_stds  = expr.std(axis=1, keepdims=True)
 
 z_scores = (expr - gene_means) / gene_stds
 print("Z-scores:\n", np.round(z_scores, 2))
-```
+```python
 
 ### 1.5 Statistical Functions
 
@@ -217,14 +216,14 @@ print(f"Min:    {np.min(data):.2f}")
 print(f"Max:    {np.max(data):.2f}")
 print(f"25th percentile: {np.percentile(data, 25):.2f}")
 print(f"75th percentile: {np.percentile(data, 75):.2f}")
-```
+```python
 
 ```python
 # axis parameter: compute along rows or columns
 print("Per-gene mean (across samples):", np.round(expr.mean(axis=1), 1))
 print("Per-sample mean (across genes):", np.round(expr.mean(axis=0), 1))
 print("Grand mean:", np.round(expr.mean(), 1))
-```
+```python
 
 ### 1.6 Reshape and Flatten
 
@@ -234,7 +233,7 @@ matrix = np.arange(12).reshape(2, 6)
 print("Original (2x6):\n", matrix)
 print("Reshaped (3x4):\n", matrix.reshape(3, 4))
 print("Flattened:", matrix.flatten())
-```
+```python
 
 ### 1.7 Linear Algebra Basics
 
@@ -249,7 +248,7 @@ print(f"Dot product: {dot:.2f}")
 # Correlation coefficient
 corr = np.corrcoef(gene_a, gene_b)
 print(f"Pearson r: {corr[0, 1]:.4f}")
-```
+```python
 
 ```python
 # Matrix multiplication: transform a count matrix
@@ -262,7 +261,7 @@ transform = np.array([[0.5, 0.5], [0.5, -0.5]])
 result = count_matrix @ transform  # or np.matmul(count_matrix, transform)
 print("Original (3x2):\n", count_matrix)
 print("After transform (3x2):\n", result)
-```
+```python
 
 ### 1.8 Biological Application: Position Weight Matrix
 
@@ -308,7 +307,7 @@ for i, nuc in enumerate("ATGC"):
 # Score a candidate sequence
 print(f"\nScore 'TATAAAA': {score_sequence(pwm, 'TATAAAA'):.2f}")
 print(f"Score 'GCGCGCG': {score_sequence(pwm, 'GCGCGCG'):.2f}")
-```
+```python
 
 ### 1.9 Biological Application: Sliding Window GC Content
 
@@ -332,7 +331,7 @@ print(f"Sequence length: {len(seq)}")
 print(f"GC values computed: {len(gc)}")
 print(f"Mean GC in first half:  {gc[:90].mean():.1f}%")
 print(f"Mean GC in second half: {gc[90:].mean():.1f}%")
-```
+```python
 
 ---
 
@@ -351,7 +350,7 @@ gc_series = pd.Series([0.42, 0.51, 0.48, 0.55, 0.44],
                       name='gc_content')
 print(gc_series)
 print("\nType:", type(gc_series))
-```
+```python
 
 ```python
 # From a dictionary -- keys become the index
@@ -359,14 +358,14 @@ complement = pd.Series({'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G'})
 print(complement)
 print("\nComplement of G:", complement['G'])
 print("Values:", complement.values)
-```
+```python
 
 ```python
 # Vectorized operations on Series
 gene_lengths = pd.Series({'BRCA1': 7088, 'TP53': 2512, 'EGFR': 5616, 'MYC': 2357})
 print("Lengths in kilobases:")
 print(gene_lengths / 1000)
-```
+```python
 
 ### 2.2 Creating DataFrames
 
@@ -383,7 +382,7 @@ genes_df = pd.DataFrame({
 print(genes_df)
 print(f"\nShape: {genes_df.shape}")
 print(f"Columns: {genes_df.columns.tolist()}")
-```
+```python
 
 ```python
 # Quick overview methods
@@ -393,7 +392,7 @@ print("\n--- describe ---")
 print(genes_df.describe())
 print("\n--- info ---")
 genes_df.info()
-```
+```python
 
 ### 2.3 Indexing with loc and iloc
 
@@ -409,7 +408,7 @@ print(genes_df['gene'])
 
 print("\nMultiple columns (DataFrame):")
 print(genes_df[['gene', 'gc_content']])
-```
+```python
 
 ```python
 # loc -- label-based
@@ -420,4 +419,10 @@ print(f"\ngenes_df.loc[0, 'gene'] = {genes_df.loc[0, 'gene']}")
 
 print("\nRows 1-3, columns gene and length_bp:")
 print(genes_df.loc[1:3, ['gene', 'length_bp']])
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

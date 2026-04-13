@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/21_Copy_Number_Analysis/21_copy_number_analysis.ipynb`*
 
-# Module 21: DNA Copy Number Analysis
 **Tier 3 — Applied Bioinformatics | Module 21**
 Prerequisites: Module 01 (NGS Fundamentals), Module 02 (Variant Calling and SNP Analysis).
 
@@ -74,7 +73,7 @@ import warnings
 warnings.filterwarnings("ignore")
 plt.rcParams.update({"figure.dpi":120,"axes.spines.top":False,"axes.spines.right":False})
 print("Libraries loaded.")
-```
+```python
 
 ```python
 rng = np.random.default_rng(42)
@@ -100,7 +99,7 @@ chr3 = simulate_read_depth(300)
 print(f"chr1: {len(chr1)} bins, chr2: {len(chr2)} bins, chr3: {len(chr3)} bins")
 print(f"Chr1 mean depth (amplified region 100-150): {chr1[100:150].mean():.1f}")
 print(f"Chr1 mean depth (normal region 0-100): {chr1[:100].mean():.1f}")
-```
+```python
 
 ```python
 def normalize_depth(depth, window=50):
@@ -138,7 +137,7 @@ for i, (name, lr) in enumerate(zip(["chr1","chr2","chr3"],
     axes[i].set_ylabel("log2 ratio"); axes[i].set_title(name)
     if i == 0: axes[i].legend(frameon=False, ncol=3, fontsize=8)
 plt.tight_layout(); plt.show()
-```
+```python
 
 ```python
 def cbs_segment(log2_ratios, min_segment=10, alpha=0.01):
@@ -175,7 +174,7 @@ print(f"Segments detected in chr1: {len(segs)}")
 for s, e, m in segs:
     cn_est = 2 * 2**m
     print(f"  bins {s:3d}–{e:3d}: log2={m:+.3f}, est. CN={cn_est:.1f}")
-```
+```python
 
 ```python
 # Combine chromosomes for genome-wide view
@@ -205,7 +204,7 @@ ax.set_ylabel("log2(depth/expected)")
 ax.set_title("Genome-wide copy number profile (red = CBS segments)")
 ax.legend(frameon=False)
 plt.tight_layout(); plt.show()
-```
+```python
 
 ```python
 def call_cn_state(mean_log2, ploidy=2, thresholds=None):
@@ -274,7 +273,7 @@ for cn in range(6):
         print(f"  CN={cn}: log2(0/2) = -inf  (homozygous deletion)")
     else:
         print(f"  CN={cn}: log2({cn}/2) = {math.log2(cn/2):+.3f}")
-```
+```python
 
 ## Gene-level Annotation
 
@@ -295,7 +294,7 @@ cnvs = pr.from_dict(cnv_df)
 # Overlap
 overlap = cnvs.join(genes)
 print(overlap.df[["CN","Name"]].head())
-```
+```python
 
 **Downstream analysis:**
 - Amplified oncogenes: look up in COSMIC Cancer Gene Census
@@ -315,6 +314,12 @@ import pandas as pd
 brca_cnv = pd.read_csv("TCGA-BRCA.cnv.tsv", sep="\t")
 # Columns: Sample, Chromosome, Start, End, Num_Probes, Segment_Mean
 print(brca_cnv.head())
-```
+```python
 
 Copy number analysis extends the variant calling concepts in Module 02. For somatic SV detection, see Module 17 (Genome Assembly and Advanced NGS).
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

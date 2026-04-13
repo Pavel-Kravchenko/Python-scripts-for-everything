@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/07_String_Algorithms/03_rabin_karp.ipynb`*
 
-# Rabin-Karp Algorithm
 
 A hash-based string matching algorithm that uses rolling hash for efficient pattern searching.
 
@@ -46,10 +45,10 @@ This allows us to skip expensive character-by-character comparisons for most pos
 
 Instead of comparing strings character by character, we compare their hash values:
 
-```
+```python
 Naive approach:     Compare m characters → O(m) per position
 Hash-based:         Compare 2 integers  → O(1) per position
-```
+```python
 
 ### Why It Works
 
@@ -63,7 +62,7 @@ Hash-based:         Compare 2 integers  → O(1) per position
 
 The magic of Rabin-Karp is the **rolling hash** - updating the hash in O(1) as we slide the window.
 
-```
+```python
 Text: A B C D E F G
       └───┴───┘
       window = "ABCD"
@@ -78,28 +77,28 @@ Instead of recomputing h("BCDE") from scratch:
   new_hash = roll(old_hash, remove='A', add='E')
 
 Rolling: O(1) instead of O(m)!
-```
+```python
 
 ### Rolling Hash Formula
 
 We treat a string as a number in base `d` (typically 256 for ASCII):
 
-```
+```python
 h(s[i..i+m-1]) = s[i]*d^(m-1) + s[i+1]*d^(m-2) + ... + s[i+m-1]*d^0
-```
+```python
 
 To roll from position `i` to `i+1`:
 
-```
+```python
 h(s[i+1..i+m]) = d * (h(s[i..i+m-1]) - s[i]*d^(m-1)) + s[i+m]
-```
+```python
 
 **In plain English:**
 1. Subtract contribution of outgoing character (scaled by d^(m-1))
 2. Multiply by d (shift all positions left)
 3. Add incoming character
 
-```
+```python
 Base d = 256 (ASCII), prime q = 101
 
 Pattern: "ABC"  →  h = (65*256² + 66*256 + 67) mod 101
@@ -114,16 +113,16 @@ Roll to "YZA":
   4. Mod: result mod 101
 
 Formula: h_new = (d * (h_old - char_out * d^(m-1)) + char_in) mod q
-```
+```python
 
 ### Why Use Modular Arithmetic?
 
 Without modulo, hash values would grow exponentially:
 
-```
+```python
 Pattern length m = 10, base d = 256
 Hash could be as large as: 256^10 = 1,208,925,819,614,629,174,706,176
-```
+```python
 
 **Problems without modulo:**
 - Integer overflow
@@ -146,7 +145,7 @@ Hash could be as large as: 256^10 = 1,208,925,819,614,629,174,706,176
 
 A **hash collision** occurs when different strings have the same hash.
 
-```
+```python
 Text:    "AABAACAADAAB"
 Pattern: "AAB"
 Pattern hash = 65*256² + 65*256 + 66 = 4276546 mod 101 = 80
@@ -161,7 +160,7 @@ Position 4: "ACA" → hash = 72 → no match
 Hash collision example:
 Position 5: "CAA" → hash = 80 → HASH MATCH! Verify: "CAA" ≠ "AAB" ✗
                                  (spurious hit - false positive)
-```
+```python
 
 ### The Rule
 
@@ -171,7 +170,7 @@ Position 5: "CAA" → hash = 80 → HASH MATCH! Verify: "CAA" ≠ "AAB" ✗
 if hash_window == hash_pattern:
     if text[i:i+m] == pattern:  # Actual comparison
         found_match(i)
-```
+```python
 
 This verification costs O(m) but happens rarely with a good hash function.
 
@@ -179,7 +178,7 @@ This verification costs O(m) but happens rarely with a good hash function.
 
 ## 4. Search Process Visualization
 
-```
+```python
 Text:    [A][B][R][A][C][A][D][A][B][R][A]
 Pattern: [A][B][R][A]
 
@@ -208,7 +207,7 @@ Step 3: Compare and slide
   pos=7:  A  B  R  A  C  A  D [A][B][R][A]
                               └────────┘
          hash = h_p → MATCH! Verify ✓ → Found at 7
-```
+```python
 
 ---
 
@@ -222,12 +221,12 @@ Step 3: Compare and slide
 
 ### When Does Worst Case Occur?
 
-```
+```python
 Text:    "AAAAAAAAAA"
 Pattern: "AAA"
 
 Every window has the same hash → verify at every position!
-```
+```python
 
 **With a good hash function and prime modulus, worst case is rare in practice.**
 
@@ -316,7 +315,7 @@ def rabin_karp_search(text: str, pattern: str, d: int = 256, q: int = 101) -> li
                 window_hash += q
     
     return matches
-```
+```python
 
 ```python
 # Test the basic implementation
@@ -324,7 +323,7 @@ print("Basic tests:")
 print(f"  'AABAACAADAABAABA' contains 'AABA' at: {rabin_karp_search('AABAACAADAABAABA', 'AABA')}")
 print(f"  'abcdef' contains 'xyz' at: {rabin_karp_search('abcdef', 'xyz')}")
 print(f"  'ABRACADABRA' contains 'ABRA' at: {rabin_karp_search('ABRACADABRA', 'ABRA')}")
-```
+```python
 
 ---
 
@@ -386,7 +385,7 @@ def demonstrate_hash_computation(text: str, pattern: str, d: int = 256, q: int =
 
 # Demonstrate with a simple example
 demonstrate_hash_computation("ABRACADABRA", "ABR")
-```
+```python
 
 ---
 
@@ -442,13 +441,13 @@ def find_spurious_hits(text: str, pattern: str, d: int = 256, q: int = 11):
 
 # Use small prime to force collisions
 find_spurious_hits("ABCDEFGHIJKLMNOPQRSTUVWXYZABC", "ABC", q=11)
-```
+```python
 
 ```python
 # Another collision example
 print("\nWith very small prime q=7:")
 find_spurious_hits("AABAACAADAABAABCAAB", "AAB", q=7)
-```
+```python
 
 ---
 
@@ -461,3 +460,9 @@ For searching k patterns of the same length:
 - Rabin-Karp: O(n + k × m) average
 
 We compute one rolling hash over the text, and check against all pattern hashes.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/31_Single_Cell_Multi_Omics/03_sc_integration.ipynb`*
 
-# Single-Cell Batch Correction and Dataset Integration
 
 **Tier 3 — Applied Bioinformatics | Module 31 · Notebook 3**
 
@@ -213,7 +212,7 @@ print(f"\nBefore Harmony: LISI-batch={lisi_batch.mean():.3f}, LISI-celltype={lis
 print(f"After  Harmony: LISI-batch={lisi_batch_post.mean():.3f}, LISI-celltype={lisi_ct_post.mean():.3f}")
 print(f"  -> LISI-batch increase = better batch mixing")
 print(f"  -> LISI-celltype should remain similar = cell types preserved")
-```
+```python
 
 ## 3. scVI: Deep Generative Integration
 
@@ -236,7 +235,7 @@ The batch label is fed as a covariate to the encoder and decoder. During trainin
 ### scVI installation and usage
 ```bash
 pip install scvi-tools
-```
+```python
 
 ```python
 import scvi
@@ -258,7 +257,7 @@ de_df = model.differential_expression(
     group1='T_cell', group2='B_cell',
     delta=0.25  # minimum effect size (log2FC)
 )
-```
+```python
 
 ### scANVI: labeled integration
 scANVI (scVI + semi-supervision) extends scVI by using available cell type labels as training signal. Labeled cells help anchor the latent space, making integration more biologically meaningful. Used for label transfer between datasets.
@@ -270,3 +269,9 @@ BBKNN (Batch Balanced k-NN, Polański et al. 2020) works differently:
 3. Run UMAP on this graph
 
 This ensures each cell has neighbors from all batches, forcing cross-batch connections. Very fast (faster than Harmony), works directly in PCA space.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

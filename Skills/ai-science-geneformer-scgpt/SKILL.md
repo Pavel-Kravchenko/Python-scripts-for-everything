@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/07_Foundation_Models_Single_Cell/01_geneformer_scgpt.ipynb`*
 
-# Geneformer and scGPT for Single-Cell Modeling
 
 **Tier 5 — Modern AI for Science | Module 07 · Notebook 1**
 
@@ -128,7 +127,7 @@ for i, t in enumerate(types):
 
 expr = pd.DataFrame(X, columns=genes)
 expr.head(3)
-```
+```python
 
 ## 3. Rank-token style embedding
 
@@ -149,7 +148,7 @@ def toy_cell_embedding(token_tuple, n_genes=30):
 
 E = np.vstack([toy_cell_embedding(t, n_genes=len(genes)) for t in tokens])
 print('Embedding matrix:', E.shape)
-```
+```python
 
 ## 4. Cell-type annotation via nearest centroid
 
@@ -171,7 +170,7 @@ def predict_one(vec):
 pred = np.array([predict_one(E[i]) for i in test])
 acc = float((pred == y[test]).mean())
 print('Annotation accuracy:', round(acc, 3))
-```
+```python
 
 ## 5. Perturbation prediction prototype
 
@@ -192,7 +191,7 @@ cell0 = expr.iloc[0].values
 for p in ['KO_G02', 'KO_G09', 'CYTOKINE_X']:
     pred_expr = perturb_predict(cell0, p)
     print(p, 'delta_mean=', round(float((pred_expr - cell0).mean()), 4))
-```
+```python
 
 ## 6. Scaling to atlas data
 
@@ -216,3 +215,9 @@ Checked online during content expansion.
 - [Geneformer paper (Nature 2023)](https://www.nature.com/articles/s41586-023-06139-9)
 - [scGPT paper (Nature Methods 2024)](https://www.nature.com/articles/s41592-024-02201-0)
 - [CellxGene Census documentation](https://chanzuckerberg.github.io/cellxgene-census/)
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

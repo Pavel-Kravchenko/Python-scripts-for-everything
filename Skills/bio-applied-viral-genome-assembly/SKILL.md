@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/37_Virology_Bioinformatics/01_viral_genome_assembly.ipynb`*
 
-# Viral Genome Assembly and Variant Analysis
 
 **Tier 3 — Applied Bioinformatics | Module 37 · Notebook 1**
 
@@ -128,13 +127,13 @@ plt.savefig('viral_coverage.png', dpi=100, bbox_inches='tight')
 plt.show()
 print(f"Genome completeness at 20×: {completeness_20x:.1f}%")
 print(f"Genome completeness at 200×: {completeness_200x:.1f}%")
-```
+```python
 
 ## 2. Reference-Guided Assembly Pipeline
 
 ### Step-by-step workflow for ARTIC amplicon data
 
-```
+```python
 Raw FASTQ
     │
     ▼
@@ -157,7 +156,7 @@ Raw FASTQ
     │
     ▼
 [7] Annotation & QC (VADR, Nextclade, coverage stats)
-```
+```python
 
 ### Key tools
 
@@ -239,7 +238,7 @@ plt.tight_layout()
 plt.show()
 print(f"\nQC pass rate: {df['QC_pass'].sum()}/{n_samples} samples ({df['QC_pass'].mean()*100:.0f}%)")
 print(df[['Sample','Mapped_pct','Median_depth','Completeness_pct','QC_pass']].to_string(index=False))
-```
+```python
 
 ## 3. Intra-Host Variant Calling (Quasispecies)
 
@@ -370,4 +369,10 @@ plt.show()
 print(f"Total variants: {len(df_var)}")
 print(f"PASS variants: {df_var['PASS'].sum()}")
 print(f"Minority variants (AF<5%, PASS): {((df_var['Alt_freq']<0.05) & df_var['PASS']).sum()}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/01_LLM_Finetuning/01_LLM_Finetuning.ipynb`*
 
-# Module T5-01: LLM Fine-tuning
 
 **Tier 5 — Modern AI for Science | Module 01**
 
@@ -108,7 +107,7 @@ for rank in [8, 16, 32, 64]:
                                ["q_proj","v_proj","k_proj","o_proj"])
     pct = lora_p / total_params * 100
     print(f"r={rank:3d}: {lora_p:>12,} trainable params ({pct:.3f}% of 7B)")
-```
+```python
 
 ## 2. Quantization: 4-bit NF4
 
@@ -160,23 +159,23 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map="auto",
 )
 """)
-```
+```python
 
 ## 3. Chat Templates
 
 Instruction-tuned models expect inputs in a specific format. The format varies by model family:
 
 **Mistral / Llama-2 Instruct:**
-```
+```python
 [INST] <<SYS>>
 {system}
 <</SYS>>
 
 {user} [/INST] {assistant}</s>
-```
+```python
 
 **Alpaca:**
-```
+```python
 ### Instruction:
 {instruction}
 
@@ -185,17 +184,17 @@ Instruction-tuned models expect inputs in a specific format. The format varies b
 
 ### Response:
 {output}
-```
+```python
 
 **ChatML (OpenAI-compatible):**
-```
+```python
 <|im_start|>system
 {system}<|im_end|>
 <|im_start|>user
 {user}<|im_end|>
 <|im_start|>assistant
 {assistant}<|im_end|>
-```
+```python
 
 ```python
 def format_mistral(system, user, assistant=None):
@@ -228,7 +227,7 @@ print("=== Mistral format ===")
 print(format_mistral(sys, usr, asst))
 print("\n=== Alpaca format ===")
 print(format_alpaca(usr, output=asst))
-```
+```python
 
 ## 4. Dataset Preparation
 
@@ -285,7 +284,7 @@ print(f"\nSample formatted text:\n{'='*60}")
 print(df["text"].iloc[0])
 print(f"{'='*60}")
 print(f"\nAverage tokens (approx): {df['text'].str.len().mean() / 4:.0f}")
-```
+```python
 
 ## 5. SFTTrainer Workflow
 
@@ -337,4 +336,10 @@ trainer.model.save_pretrained("./bio_assistant")
 
 print("SFTTrainer pattern:")
 print(SFTTRAINER_PATTERN)
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

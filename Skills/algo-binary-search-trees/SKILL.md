@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/05_Tree_Structures/01_binary_search_trees.ipynb`*
 
-# Binary Search Trees (BST)
 
 A comprehensive guide to Binary Search Trees: definition, properties, operations, and implementation.
 
@@ -54,7 +53,7 @@ A **Binary Search Tree (BST)** is a binary tree data structure where each node s
 
 ### Visual Representation
 
-```
+```python
         8
        / \
       3   10
@@ -70,7 +69,7 @@ BST Property Verification:
 ├── Node 6:  left subtree {4} < 6 < {7} right subtree                 ✓
 ├── Node 14: left subtree {13} < 14 < {} right subtree                ✓
 └── Leaf nodes (1, 4, 7, 13): No children to verify                   ✓
-```
+```python
 
 ### Why Use a BST?
 
@@ -142,7 +141,7 @@ class Node:
     def has_two_children(self) -> bool:
         """Check if node has two children."""
         return self.left is not None and self.right is not None
-```
+```python
 
 ```python
 class BinarySearchTree:
@@ -482,4 +481,10 @@ class BinarySearchTree:
     def __len__(self) -> int:
         """Support len() function."""
         return self.size()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

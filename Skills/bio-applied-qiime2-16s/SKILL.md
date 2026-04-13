@@ -1,6 +1,6 @@
 ---
 name: bio-applied-qiime2-16s
-description: "**Tier 3 — Applied Bioinformatics | Module 26 · Notebook 4**"
+description: "16S rRNA amplicon analysis with QIIME2: DADA2 denoising, taxonomy assignment, alpha/beta diversity, and differential abundance. Use when analyzing 16S microbiome data."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/04_qiime2_16s.ipynb"
 primary_tool: QIIME2
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/04_qiime2_16s.ipynb`*
 
-# QIIME2 16S Amplicon Workflow
 
 **Tier 3 — Applied Bioinformatics | Module 26 · Notebook 4**
 
@@ -57,7 +56,7 @@ Sample1,/data/Sample1_R1.fastq.gz,forward
 Sample1,/data/Sample1_R2.fastq.gz,reverse
 Sample2,/data/Sample2_R1.fastq.gz,forward
 Sample2,/data/Sample2_R2.fastq.gz,reverse
-```
+```python
 
 ```bash
 # Import using manifest file
@@ -72,7 +71,7 @@ qiime demux summarize \
     --i-data reads.qza \
     --o-visualization reads_summary.qzv
 # Open reads_summary.qzv at view.qiime2.org to see per-position quality boxplots
-```
+```python
 
 **Key decision from quality visualization:** Identify position where median quality drops below Q20 — use this as the truncation length for DADA2.
 
@@ -123,7 +122,7 @@ for ax, (mean_q, q25, q75, label) in zip(axes, [
 plt.tight_layout()
 plt.show()
 print('Recommended DADA2 truncation: --p-trunc-len-f 220 --p-trunc-len-r 200')
-```
+```python
 
 ## 2. Denoising with DADA2
 
@@ -145,7 +144,7 @@ qiime dada2 denoise-paired \
     --o-table feature_table.qza \ # ASV feature table (samples × ASVs)
     --o-representative-sequences rep_seqs.qza \  # ASV sequences
     --o-denoising-stats stats.qza
-```
+```python
 
 **Choosing truncation lengths:** Forward and reverse reads must overlap by ≥20 bp after truncation for merging. For V3-V4 (expected amplicon ~460 bp): using 220 + 200 gives 420 bp combined, which overlaps sufficiently on a 460 bp amplicon.
 
@@ -212,7 +211,7 @@ axes[1].legend()
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 3. Taxonomic Classification with SILVA
 
@@ -242,7 +241,7 @@ qiime taxa filter-table \
     --i-taxonomy taxonomy.qza \
     --p-exclude Mitochondria,Chloroplast,Eukaryota \
     --o-filtered-table feature_table_filtered.qza
-```
+```python
 
 **Confidence threshold:** The `--p-confidence 0.7` default means assignments below 70% bootstrap confidence are reported as unclassified at that taxonomic level. For species-level classification, accuracy drops substantially; genus-level is more reliable.
 
@@ -322,4 +321,10 @@ axes[1].legend(handles=[Patch(color='#55A868', label='Healthy'),
 
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

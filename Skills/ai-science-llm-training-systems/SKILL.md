@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/01_LLM_Finetuning/02_llm_training_systems.ipynb`*
 
-# Module T5-01B: LLM Training Systems (Tracking, Epochs, and Ablations)
 
 **Tier 5 — Modern AI for Science | Module 01 · Notebook 2**
 
@@ -99,7 +98,7 @@ cfg = TrainConfig(
 )
 
 pd.Series(asdict(cfg))
-```
+```python
 
 ## 2. Tracking setup templates
 
@@ -111,7 +110,7 @@ Use one tracker consistently across all runs in a project.
 # wandb.init(project='llm-finetuning', name=cfg.run_name, config=asdict(cfg))
 # wandb.log({'train/loss': loss, 'eval/loss': eval_loss, 'eval/accuracy': acc}, step=global_step)
 # wandb.finish()
-```
+```python
 
 ### MLflow template
 ```python
@@ -121,7 +120,7 @@ Use one tracker consistently across all runs in a project.
 #     mlflow.log_params(asdict(cfg))
 #     mlflow.log_metric('train_loss', float(loss), step=global_step)
 #     mlflow.log_metric('eval_loss', float(eval_loss), step=global_step)
-```
+```python
 
 ### TensorBoard template
 ```python
@@ -130,7 +129,7 @@ Use one tracker consistently across all runs in a project.
 # writer.add_scalar('train/loss', loss, global_step)
 # writer.add_scalar('eval/loss', eval_loss, global_step)
 # writer.close()
-```
+```python
 
 ## 3. Epoch-level tracking and early stopping logic
 
@@ -148,7 +147,7 @@ def simulate_training(epochs=5, base_train=2.2, base_eval=2.4, noise=0.03):
 
 history = simulate_training(epochs=8)
 history
-```
+```python
 
 ```python
 def best_epoch(df: pd.DataFrame):
@@ -157,7 +156,7 @@ def best_epoch(df: pd.DataFrame):
 
 ep, loss, acc = best_epoch(history)
 print(f'Best epoch = {ep}, eval_loss = {loss:.4f}, eval_acc = {acc:.4f}')
-```
+```python
 
 ## 4. Ablation study design
 
@@ -189,12 +188,12 @@ for r in [8, 16, 32]:
 
 ablation_df = pd.DataFrame(rows).sort_values('eval_score', ascending=False)
 ablation_df.head(10)
-```
+```python
 
 ```python
 summary = ablation_df.groupby('lora_rank', as_index=False)['eval_score'].mean().sort_values('eval_score', ascending=False)
 summary
-```
+```python
 
 ## 5. Run registry and experiment memory
 
@@ -211,7 +210,7 @@ registry = pd.DataFrame([
     {'run_id': 'r003', 'commit': 'ghi789', 'change': 'lr 5e-4',     'best_eval_loss': 0.741, 'best_eval_acc': 0.689},
 ])
 registry.sort_values('best_eval_loss')
-```
+```python
 
 ## 6. Practical checklist for real training
 
@@ -247,3 +246,9 @@ Start with one-node reproducible runs, then scale out.
 - [Weights & Biases docs](https://docs.wandb.ai/)
 - [MLflow docs](https://mlflow.org/docs/latest/index.html)
 - [TensorBoard docs](https://www.tensorflow.org/tensorboard)
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

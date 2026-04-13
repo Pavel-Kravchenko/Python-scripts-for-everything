@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/34_Immunogenomics/02_immune_repertoire.ipynb`*
 
-# Immune Repertoire Sequencing and Clonal Evolution
 
 **Tier 3 — Applied Bioinformatics | Module 34 · Notebook 2**
 
@@ -49,7 +48,7 @@ TRUST4 (T-cell Receptor and immunoglobulin reconstruction from bulk tumor RNA-se
 
 ### TRUST4 Workflow
 
-```
+```python
 Tumor RNA-seq BAM
        ↓
    TRUST4 extracts reads mapping to BCR/TCR loci
@@ -59,14 +58,14 @@ Tumor RNA-seq BAM
    V(D)J gene assignment via IMGT alignment
        ↓
    Output: CDR3 amino acid sequence + V/J calls + abundance
-```
+```python
 
 ### TRUST4 Output Format (barcode_report.tsv)
-```
+```python
 #barcode  count_TRA  count_TRB  ...  CDR3_TRA           CDR3_TRB
 CELL001   2          3          ...  CAVSAVGGKLTF       CASSGLAGNTGELFF
 CELL002   1          2          ...  CILREGQKLIF        CASSYSLAGELF
-```
+```python
 
 ### MiXCR (amplicon-based repertoire)
 For targeted amplicon libraries, MiXCR is the gold standard:
@@ -77,7 +76,7 @@ mixcr analyze amplicon \
   --5-end v-primers \
   --3-end j-primers \
   sample_R1.fastq.gz sample_R2.fastq.gz result
-```
+```python
 
 ### Key quality metrics
 - **Total productive reads**: reads with valid CDR3 + in-frame
@@ -140,7 +139,7 @@ for name, df in samples.items():
     total = df['count'].sum()
     df['freq'] = df['count'] / total
     print(f"{name}: {len(df)} clones, {total:,} reads, top clone: {df['freq'].max():.1%}")
-```
+```python
 
 ## 2. Clonal Tracking Across Time Points
 
@@ -192,10 +191,10 @@ Equivalent to Morisita-Horn when both vectors are length-normalized.
 - **IEDB**: all immune epitopes including TCR data
 
 ### VDJdb Entry Format
-```
+```python
 CDR3aa       V-gene      J-gene   Species  Epitope     MHC    Source
 CASSLAPGATNEKLFF  TRBV6-5  TRBJ1-4  HomoSapiens  GILGFVFTL  HLA-A*02:01  PMID:12345
-```
+```python
 
 ### GLIPH2 / TCRdist for Clustering
 Groups TCRs likely to recognize the same antigen:
@@ -273,7 +272,7 @@ plt.colorbar(im, ax=ax, label='Hamming distance')
 plt.tight_layout()
 plt.savefig('cdr3_hamming.png', dpi=120, bbox_inches='tight')
 plt.show()
-```
+```python
 
 ## 3. B-Cell Lineage Tree Inference
 
@@ -343,4 +342,10 @@ plt.suptitle('Repertoire Diversity Metrics Across Samples', fontsize=13, fontwei
 plt.tight_layout()
 plt.savefig('diversity_summary.png', dpi=120, bbox_inches='tight')
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

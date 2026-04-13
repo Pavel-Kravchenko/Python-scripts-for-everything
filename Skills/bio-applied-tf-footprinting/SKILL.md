@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/23_TF_Footprinting/23_tf_footprinting.ipynb`*
 
-# Module 23: TF Footprinting & Chromatin Accessibility
 
 **Tier 3 — Applied Bioinformatics | Module 23**
 
@@ -89,7 +88,7 @@ try:
 except ImportError:
     print("pybedtools not installed — interval operations shown as patterns")
     PYBEDTOOLS_AVAILABLE = False
-```
+```python
 
 ## 1. Fragment Size Distribution
 
@@ -137,7 +136,7 @@ ax.text(200, ax.get_ylim()[1]*0.85, "Mono", ha="center", fontsize=9)
 ax.text(400, ax.get_ylim()[1]*0.7, "Di", ha="center", fontsize=9)
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 2. Tn5 Insertion Profiles Around Motif Sites
 
@@ -196,7 +195,7 @@ for ax, profile, title, color in [
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 3. Footprint Score
 
@@ -245,7 +244,7 @@ plt.show()
 
 stat, p = mannwhitneyu(scores_bound_dist, scores_unbound_dist, alternative="greater")
 print(f"\nMann-Whitney U test: p = {p:.2e}  (bound > unbound)")
-```
+```python
 
 ## 4. Genomic Interval Operations with pybedtools
 
@@ -313,7 +312,7 @@ clean = motifs_extended.subtract(blacklist)
 tss = pybedtools.BedTool("hg38_tss.bed")
 nearest = motifs_in_peaks.closest(tss, d=True)
 """)
-```
+```python
 
 ## 5. Accumulation Plots (Signal Around Genomic Features)
 
@@ -329,3 +328,9 @@ An **accumulation plot** (also called a meta-profile or aggregate plot) shows th
 2. Extract signal in a window around each anchor
 3. Average signal across all anchors
 4. Plot mean ± SE
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

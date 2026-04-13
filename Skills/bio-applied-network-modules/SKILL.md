@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/28_Network_Biology/02_network_modules.ipynb`*
 
-# Network Modules, Enrichment & Visualization
 
 **Tier 3 — Applied Bioinformatics | Module 28 · Notebook 2**
 
@@ -132,7 +131,7 @@ print(f"Network: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
 print(f"Modules: {module_names}")
 print(f"Density: {nx.density(G):.3f}")
 print(f"Connected: {nx.is_connected(G)}")
-```
+```python
 
 ## 2. Louvain Community Detection
 
@@ -158,7 +157,7 @@ import leidenalg
 import igraph as ig
 ig_G = ig.Graph.from_networkx(G)
 partition = leidenalg.find_partition(ig_G, leidenalg.ModularityVertexPartition, seed=42)
-```
+```python
 
 ```python
 # ----- Community detection: Louvain algorithm -----
@@ -192,7 +191,7 @@ df_comp = pd.DataFrame({'Gene': list(G.nodes()),
                          'Detected': [partition_louvain[n] for n in G.nodes()],
                          'True': [G.nodes[n]['module_true'] for n in G.nodes()]})
 print(pd.crosstab(df_comp['True'], df_comp['Detected']))
-```
+```python
 
 ## 3. Visualizing Network Modules
 
@@ -211,7 +210,7 @@ The **Normalized Mutual Information (NMI)** and **Adjusted Rand Index (ARI)** me
 from sklearn.metrics import normalized_mutual_info_score, adjusted_rand_score
 nmi = normalized_mutual_info_score(true_labels, detected_labels)
 ari = adjusted_rand_score(true_labels, detected_labels)
-```
+```python
 
 ```python
 # ----- Visualize communities -----
@@ -256,7 +255,7 @@ print(f"\nCommunity sizes: {dict(comm_sizes)}")
 print(f"Modularity Q={modularity:.4f}")
 print("Q > 0.3: meaningful community structure")
 print("Q > 0.5: strong modularity")
-```
+```python
 
 ## 4. WGCNA: Weighted Co-expression Network Analysis
 
@@ -372,4 +371,10 @@ for i in range(len(module_names)):
 
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

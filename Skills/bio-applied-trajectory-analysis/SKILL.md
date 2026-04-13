@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/30_Single_Cell_RNA_seq/04_trajectory_analysis.ipynb`*
 
-# scRNA-seq: Trajectory Analysis and RNA Velocity
 
 **Tier 3 — Applied Bioinformatics | Module 30 · Notebook 4**
 
@@ -134,7 +133,7 @@ for ax in axes:
 plt.tight_layout()
 plt.savefig('trajectory_data.png', dpi=100, bbox_inches='tight')
 plt.show()
-```
+```python
 
 ## 1. Pseudotime Concepts
 
@@ -178,7 +177,7 @@ adata.uns['iroot'] = int(np.argmax(stem_scores))
 
 # Option 2: Use the cell at the extreme end of diffusion component 1
 adata.uns['iroot'] = int(np.argmin(adata.obsm['X_diffmap'][:, 0]))
-```
+```python
 
 ```python
 # Implement diffusion pseudotime
@@ -267,7 +266,7 @@ for ax in axes[:2]:
 plt.tight_layout()
 plt.savefig('dpt_pseudotime.png', dpi=100, bbox_inches='tight')
 plt.show()
-```
+```python
 
 ## 3. PAGA Graph Abstraction
 
@@ -288,7 +287,7 @@ sc.pl.paga(adata, threshold=0.03, layout='fr')  # Fruchterman-Reingold layout
 
 # PAGA-initialized UMAP
 sc.tl.umap(adata, init_pos='paga')
-```
+```python
 
 ### When to use PAGA
 - Complex datasets: 20+ clusters where point cloud UMAP is uninterpretable
@@ -323,10 +322,16 @@ scv.tl.recover_dynamics(adata)          # fit kinetic model (dynamical mode)
 scv.tl.velocity(adata, mode='dynamical')
 scv.tl.velocity_graph(adata)            # transition probabilities from velocities
 scv.pl.velocity_embedding_stream(adata, basis='umap')  # streamline plot
-```
+```python
 
 ### Interpreting velocity arrows
 - Arrow direction: predicted future state
 - Arrow length: speed of transcriptional change
 - Circular arrows: cells in a stable attractor state (no net change)
 - **Caveat**: velocity requires sufficient cells in transition states. If your dataset only has mature cell types, velocity will be noisy and uninterpretable.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

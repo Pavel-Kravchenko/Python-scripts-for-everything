@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/01_ont_processing.ipynb`*
 
-# ONT Data Processing
 
 **Tier 3 — Applied Bioinformatics | Module 25 · Notebook 1**
 
@@ -73,7 +72,7 @@ Output from Dorado is an **unaligned BAM** by default — this is the recommende
 # fast  → ~95-97% accuracy, highest throughput
 # hac   → ~97-99% accuracy, standard choice
 # sup   → ~99%+  accuracy, 5-10x slower than hac
-```
+```python
 
 ```python
 # Dorado basecalling — simplex HAC model
@@ -94,7 +93,7 @@ Output from Dorado is an **unaligned BAM** by default — this is the recommende
 
 # List available models (requires internet or local model cache)
 # !dorado download --list
-```
+```python
 
 ## 3. Read Quality Assessment
 
@@ -125,7 +124,7 @@ Output from Dorado is an **unaligned BAM** by default — this is the recommende
 # Check number of reads before/after filtering
 # !echo "Before: $(zcat calls.fastq.gz | wc -l | awk '{print $1/4}') reads"
 # !echo "After:  $(zcat calls_filtered.fastq.gz | wc -l | awk '{print $1/4}') reads"
-```
+```python
 
 ```python
 import numpy as np
@@ -193,7 +192,7 @@ plt.colorbar(sc, ax=axes[2], label="Q score")
 plt.suptitle("ONT R10.4.1 — simulated read QC (5,000 reads)", fontweight="bold")
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 4. Alignment with Minimap2
 
@@ -203,13 +202,13 @@ plt.show()
 
 Long reads typically achieve **95–99% alignment rate** for genomic DNA sequencing when the sample is the same species as the reference. The supplementary alignment rate (reads split across two loci — a signature of structural variants) is ~1–5%, compared with <0.1% for short reads. After alignment, always sort with `samtools sort` and index with `samtools index` for efficient random access. Use `samtools flagstat` for a quick summary of mapping statistics.
 
-```
+```python
 Key samtools flagstat fields for long-read BAMs:
   - total reads            → all primary + supplementary + secondary
   - mapped (%)             → primary mapped reads
   - supplementary          → chimeric/split reads (SV signatures)
   - paired-in-sequencing   → always 0 for long reads (single-end)
-```
+```python
 
 ```python
 # Align ONT reads (map-ont preset)
@@ -223,4 +222,10 @@ Key samtools flagstat fields for long-read BAMs:
 # For PacBio HiFi reads use map-hifi preset:
 # !minimap2 -ax map-hifi -t 8 hg38.fa hifi_reads.fastq.gz \
 #     | samtools sort -o hifi_aligned.bam
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

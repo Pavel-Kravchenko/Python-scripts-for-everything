@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/02_assembly_sv.ipynb`*
 
-# Long-Read Assembly & Structural Variants
 **Tier 3 — Applied Bioinformatics | Module 25 · Notebook 2**
 
 *Prerequisites: Notebook 1 (ONT Processing), Module 17 (Genome Assembly)*
@@ -73,7 +72,7 @@ The `--genome-size` flag is required (e.g., `5m` for 5 Mb bacterial, `3g` for 3 
 # View assembly statistics
 # !cat flye_assembly/assembly_info.txt
 # !grep -c ">" flye_assembly/assembly.fasta  # count contigs
-```
+```python
 
 ```python
 import numpy as np
@@ -127,7 +126,7 @@ def compute_n50(lengths):
 
 n50 = compute_n50(contig_lengths)
 print(f"Assembly N50:      {n50:,} bp")
-```
+```python
 
 ## 2. HiFi Assembly with Hifiasm
 
@@ -165,7 +164,7 @@ Compared to Flye, Hifiasm typically produces larger contigs (higher N50) and bet
 # Count and summarize contigs
 # !grep -c ">" assembly_primary.fasta
 # !awk '/^>/{next}{len+=length($0)} END{print "Total bases:", len}' assembly_primary.fasta
-```
+```python
 
 ```python
 import numpy as np
@@ -214,7 +213,7 @@ ax.set_xlim(0, 100)
 ax.set_ylim(0)
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 3. Assembly Polishing with Medaka
 
@@ -231,3 +230,9 @@ Medaka is specifically designed for ONT reads. For PacBio HiFi assemblies, polis
 | Deletions | ~0.10% | ~0.015% | ~7× |
 | Homopolymer errors | ~0.5–1% | ~0.1–0.2% | ~5× |
 | Overall QV | ~QV30 | ~QV40–45 | significant |
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

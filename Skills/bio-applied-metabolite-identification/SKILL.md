@@ -1,6 +1,6 @@
 ---
 name: bio-applied-metabolite-identification
-description: "**Tier 3 — Applied Bioinformatics | Module 36 · Notebook 2**"
+description: "Metabolite identification from MS/MS spectra: spectral matching, molecular formula prediction, and database searching (HMDB, KEGG). Use when annotating unknown metabolites."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/36_Metabolomics/02_metabolite_identification.ipynb"
 primary_tool: RDKit
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/36_Metabolomics/02_metabolite_identification.ipynb`*
 
-# Metabolite Identification and Annotation
 
 **Tier 3 — Applied Bioinformatics | Module 36 · Notebook 2**
 
@@ -61,7 +60,7 @@ package and adapt the example to match the actual API rather than retrying.
 # from rdkit.Chem import MolFromSmiles
 # mol = MolFromSmiles('C(C(=O)O)N')  # Alanine
 # exact_mass = Descriptors.ExactMolWt(mol)
-```
+```python
 
 ## 3. MS/MS Spectral Matching
 
@@ -74,3 +73,9 @@ package and adapt the example to match the actual API rather than retrying.
 ## 5. Pathway Enrichment (MSEA)
 
 > Over-representation analysis (ORA) with KEGG metabolic pathways. Quantitative enrichment analysis (QEA) using all metabolite ranks. MetaboAnalyst pathway impact plots. iPath3 visualization.
+
+## Common Pitfalls
+
+- **Mass accuracy thresholds**: Use ppm, not absolute Da; 5 ppm at m/z 500 = 0.0025 Da
+- **Schymanski confidence levels**: Level 1 requires reference standard match — most identifications are Level 2-3
+- **Ion mode bias**: ESI+ and ESI- detect different metabolite classes; always run both modes

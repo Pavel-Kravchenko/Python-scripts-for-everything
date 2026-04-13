@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/02_Vision_RAG/02_Vision_RAG.ipynb`*
 
-# Module T5-02: Vision RAG
 
 **Tier 5 — Modern AI for Science | Module 02**
 
@@ -143,24 +142,24 @@ for ax, page, i in zip(axes, pages, range(len(pages))):
     ax.axis("off")
 plt.suptitle("Synthetic document pages (simulating PDF rendering)", y=1.02)
 plt.tight_layout(); plt.show()
-```
+```python
 
 ## 3. ColPali: Late-Interaction Retrieval
 
 **Single-vector retrieval (CLIP-style):**
-```
+```python
 query → q_emb (512d)
 page  → p_emb (512d)
 score = cosine(q_emb, p_emb)
-```
+```python
 Problem: compresses complex page into one vector → loses spatial detail.
 
 **Late interaction (ColPali/ColBERT-style):**
-```
+```python
 query → Q matrix (n_tokens × dim)
 page  → P matrix (n_patches × dim)
 score = Σ_i max_j(Q[i] · P[j])    ← MaxSim
-```
+```python
 Each query token finds its best matching page patch independently → preserves spatial detail.
 
 **ColPali training:** A PaliGemma-2 backbone fine-tuned contrastively on (query, relevant page) pairs from document retrieval benchmarks (ViDoRe).
@@ -212,7 +211,7 @@ for rank, page_idx in enumerate(ranked):
     print(f"  Rank {rank+1}: Page {page_idx+1} (score = {scores[page_idx]:.3f})")
 print(f"\nTop-1 page: {ranked[0]+1} (correct answer: Page 2)")
 print(f"Recall@1: {int(ranked[0] == 1)}")
-```
+```python
 
 ## 4. Full RAG Pipeline
 
@@ -257,7 +256,7 @@ queries = [
 for q in queries:
     result = simple_rag_pipeline(q, pages, page_embeddings, top_k=2)
     print()
-```
+```python
 
 ## 5. Qwen2-VL Inference Pattern
 
@@ -306,4 +305,10 @@ def answer_from_pages(pages, question):
 
 print("Qwen2-VL inference pattern:")
 print(QWEN_PATTERN)
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

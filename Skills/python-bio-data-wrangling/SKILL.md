@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/17_Data_Wrangling/01_data_wrangling.ipynb`*
 
-# Module 17: Data Wrangling with Pandas
 
 **Estimated time: 90-120 minutes**
 
@@ -40,12 +39,12 @@ package and adapt the example to match the actual API rather than retrying.
 
 Real biological data is messy. Gene names have inconsistent capitalization, clinical tables have missing values, expression matrices arrive in the wrong shape, and annotation files mix numeric IDs with free text. Before any analysis, you must clean and reshape the data. This module teaches the Pandas tools for that.
 
-```
+```python
 Raw Data        Clean          Reshape         Analyze
  Missing   -->  Fill/Drop  -->  Melt/Pivot -->  Ready for
  Dupes          Fix types       Merge           statistics
  Messy          Strings         Stack
-```
+```python
 
 ---
 
@@ -76,7 +75,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 np.random.seed(42)
-```
+```python
 
 ```python
 # A messy gene expression dataset with missing values and duplicates
@@ -92,14 +91,14 @@ print("Messy expression data:")
 print(messy_expr)
 print(f"\nMissing values per column:\n{messy_expr.isna().sum()}")
 print(f"\nTotal missing values: {messy_expr.isna().sum().sum()}")
-```
+```python
 
 ```python
 # Strategy 1: Drop rows with any missing value
 dropped = messy_expr.dropna()
 print(f"After dropna(): {len(dropped)} rows (from {len(messy_expr)})")
 print(dropped)
-```
+```python
 
 ```python
 # Strategy 2: Fill with column mean (common for expression data)
@@ -109,7 +108,7 @@ filled[sample_cols] = filled[sample_cols].fillna(filled[sample_cols].mean())
 
 print("After filling NaN with column means:")
 print(filled)
-```
+```python
 
 ```python
 # Strategy 3: Fill with row mean (gene-wise imputation)
@@ -120,7 +119,7 @@ for col in sample_cols:
 
 print("After filling NaN with row means:")
 print(filled_row)
-```
+```python
 
 ### Biological context: when to drop vs. fill
 
@@ -137,14 +136,14 @@ print(filled_row)
 # Detect duplicates
 print("Duplicate gene_ids:")
 print(filled[filled.duplicated(subset='gene_id', keep=False)])
-```
+```python
 
 ```python
 # Strategy 1: Keep the first occurrence
 deduped = filled.drop_duplicates(subset='gene_id', keep='first')
 print(f"After drop_duplicates (keep='first'): {len(deduped)} rows")
 print(deduped)
-```
+```python
 
 ```python
 # Strategy 2: Average the duplicates (common for technical replicates)
@@ -156,7 +155,7 @@ averaged = filled.groupby('gene_id', as_index=False).agg({
 })
 print(f"After averaging duplicates: {len(averaged)} rows")
 print(averaged)
-```
+```python
 
 ---
 
@@ -178,7 +177,7 @@ print("Original dtypes:")
 print(clinical.dtypes)
 print()
 print(clinical)
-```
+```python
 
 ```python
 # Convert with error handling
@@ -190,7 +189,7 @@ print("Fixed dtypes:")
 print(clinical.dtypes)
 print()
 print(clinical)
-```
+```python
 
 ```python
 # Categorical dtype -- saves memory and enables ordering
@@ -203,7 +202,7 @@ print("Tumor stage is now categorical:")
 print(clinical['tumor_stage'])
 print(f"\nPatients with stage >= III:")
 print(clinical[clinical['tumor_stage'] >= 'III'][['patient_id', 'tumor_stage']])
-```
+```python
 
 ---
 
@@ -211,7 +210,7 @@ print(clinical[clinical['tumor_stage'] >= 'III'][['patient_id', 'tumor_stage']])
 
 Biological data often needs to be converted between **wide** and **long** format.
 
-```
+```python
 WIDE (one row per gene):
   gene  | sample_1 | sample_2 | sample_3
   TP53  |   5.2    |   5.4    |   5.0
@@ -223,7 +222,7 @@ LONG (one row per measurement):
   TP53  | sample_1 |   5.2
   TP53  | sample_2 |   5.4
   TP53  | sample_3 |   5.0
-```
+```python
 
 - **Wide format** is natural for matrix computations (NumPy, heatmaps).
 - **Long format** is required by most plotting libraries (seaborn, ggplot) and statistical models.
@@ -241,7 +240,7 @@ wide_expr = pd.DataFrame({
 
 print("Wide format:")
 print(wide_expr)
-```
+```python
 
 ```python
 # Melt: wide -> long
@@ -254,7 +253,7 @@ long_expr = wide_expr.melt(
 
 print("Long format (melted):")
 print(long_expr)
-```
+```python
 
 ```python
 # Add a condition column derived from the sample name
@@ -262,7 +261,7 @@ long_expr['condition'] = long_expr['sample'].str.split('_').str[0]
 
 print("With condition column:")
 print(long_expr.head(8))
-```
+```python
 
 ```python
 # Pivot: long -> wide
@@ -277,7 +276,7 @@ wide_again.columns.name = None
 
 print("Pivoted back to wide:")
 print(wide_again)
-```
+```python
 
 ### Stack and Unstack
 
@@ -299,7 +298,7 @@ print(stacked.head(8))
 unstacked = stacked.unstack()
 print("\nUnstacked (wide again):")
 print(unstacked)
-```
+```python
 
 ---
 
@@ -322,7 +321,7 @@ annotations = pd.DataFrame({
 
 print("Raw GTF-like attribute column:")
 print(annotations)
-```
+```python
 
 ```python
 # Extract Ensembl ID using str.extract with regex
@@ -336,7 +335,7 @@ annotations['biotype'] = annotations['raw_id'].str.extract(r'gene_biotype "([^"]
 
 print("Parsed annotations:")
 print(annotations[['ensembl_id', 'gene_name', 'biotype']])
-```
+```python
 
 ```python
 # Common string operations
@@ -348,7 +347,7 @@ print("Lower:      ", genes.str.lower().tolist())
 print("Starts 'T': ", genes.str.upper().str.startswith('T').tolist())
 print("Contains 'A':", genes.str.upper().str.contains('A').tolist())
 print("Length:     ", genes.str.len().tolist())
-```
+```python
 
 ```python
 # Splitting strings: extract chromosome arm from cytogenetic band
@@ -364,7 +363,7 @@ band_df = pd.DataFrame({
     'arm': arms,
 })
 print(band_df)
-```
+```python
 
 ---
 
@@ -404,7 +403,7 @@ def classify_expression(row):
 
 expr_data['category'] = expr_data.apply(classify_expression, axis=1)
 print(expr_data[['gene', 'category']])
-```
+```python
 
 ```python
 # Apply a function column-wise: z-score normalize each sample
@@ -416,4 +415,10 @@ normalized.insert(0, 'gene', expr_data['gene'])
 
 print("Z-score normalized:")
 print(normalized.round(2))
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

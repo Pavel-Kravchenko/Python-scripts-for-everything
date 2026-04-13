@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/01_taxonomic_profiling.ipynb`*
 
-# Taxonomic Profiling of Shotgun Metagenomes
 
 **Tier 3 — Applied Bioinformatics | Module 26 · Notebook 1**
 
@@ -61,14 +60,14 @@ Two major strategies exist for characterizing microbial communities:
 
 ### Shotgun Metagenomics Pipeline Overview
 
-```
+```python
 Raw FASTQ → QC (fastp) → Host decontamination (Bowtie2/hg38)
   → Taxonomic profiling (Kraken2 + Bracken)
   → Functional profiling (HUMAnN3)
   → Assembly (MEGAHIT)
   → Binning (MetaBAT2)
   → MAG QC (CheckM)
-```
+```python
 
 ## 2. Host Read Removal
 
@@ -91,7 +90,7 @@ bowtie2 -x hg38_index/hg38 \
 
 # Report host content
 echo "Host contamination: $(cat contamination_rate.txt)%"
-```
+```python
 
 **Typical host contamination rates:**
 - Gut metagenome: 1–10% human reads
@@ -153,7 +152,7 @@ plt.show()
 
 print(f'Mean host fraction: {host_fracs.mean():.1%}')
 print(f'Mean reads retained: {(1 - host_fracs).mean():.1%}')
-```
+```python
 
 ## 3. Taxonomic Classification with Kraken2
 
@@ -175,7 +174,7 @@ kraken2 \
     --report kraken2_report.txt \
     --output kraken2_output.txt \
     decontam_1.fastq.gz decontam_2.fastq.gz
-```
+```python
 
 **Kraken2 report columns** (`kraken2_report.txt`):
 1. Percentage of reads classified to this clade
@@ -237,7 +236,7 @@ ax.axvline(1.0, color='red', linestyle=':', lw=1, label='1% threshold')
 ax.legend()
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 4. Abundance Re-estimation with Bracken
 
@@ -258,7 +257,7 @@ bracken \
     -r 150 \
     -l S \
     -t 10
-```
+```python
 
 **Bracken output columns** (`bracken_species.txt`):
 - `name`: species name
@@ -334,4 +333,10 @@ axes[1].set_title('Species-level relative abundance\n(Bracken estimates)')
 
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

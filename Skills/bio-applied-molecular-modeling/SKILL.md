@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/09_Molecular_Modeling_and_Docking/01_molecular_modeling.ipynb`*
 
-# Molecular Modeling
 
 **Tier 3 — Module 09** | [Next: Docking →](./02_docking.ipynb)
 
@@ -46,7 +45,7 @@ import pandas as pd
 plt.rcParams['figure.figsize'] = (12, 5)
 plt.rcParams['font.size'] = 12
 np.random.seed(42)
-```
+```python
 
 ---
 ## 1. Introduction to Molecular Modeling
@@ -67,7 +66,7 @@ Experimental structure determination (X-ray crystallography, cryo-EM, NMR) provi
 
 Molecular modeling spans multiple levels of approximation. The choice depends on the system size and the question being asked.
 
-```
+```python
 Accuracy ▲                                    System size ▲
          │  Quantum Mechanics (QM)                       │  Coarse-Grained (CG)
          │  ├─ Ab initio (HF, DFT, MP2)                 │  ├─ MARTINI
@@ -79,7 +78,7 @@ Accuracy ▲                                    System size ▲
          │  ├─ AMBER, CHARMM, OPLS                      │  ├─ Generalized Born
          │  └─ ~10⁵–10⁶ atoms, ns timescales            │  └─ Entire organelles
          ▼                                               ▼
-```
+```python
 
 **Key insight:** There is always a tradeoff between accuracy and computational cost. Quantum mechanics treats electrons explicitly but is limited to small systems. Molecular mechanics uses parametrized potentials (force fields) and can handle entire proteins in explicit solvent. Coarse-grained models sacrifice atomic detail for access to longer timescales.
 
@@ -130,7 +129,7 @@ ax.annotate('Attractive\n(r⁻⁶ dominates)', xy=(2.0, -0.3), fontsize=10, colo
 ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ---
 ## 2. Force Fields and Molecular Mechanics
@@ -217,7 +216,7 @@ axes[1, 1].grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### 2.3 Common Force Fields
 
@@ -288,7 +287,7 @@ plt.show()
 print(f"Final position: ({path_sd[-1, 0]:.4f}, {path_sd[-1, 1]:.4f})")
 print(f"Final energy:    {rosenbrock(path_sd[-1, 0], path_sd[-1, 1]):.6f}")
 print(f"True minimum:    (1.0, 1.0) with energy 0.0")
-```
+```python
 
 ---
 ## 3. Homology Modeling
@@ -299,7 +298,7 @@ Proteins with similar sequences tend to adopt similar 3D structures. **Homology 
 
 The general workflow:
 
-```
+```python
 Target sequence
        │
        ▼
@@ -325,4 +324,10 @@ Target sequence
 ┌─────────────────┐
 │ Quality check    │  ← Ramachandran, QMEAN, ProSA
 └─────────────────┘
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

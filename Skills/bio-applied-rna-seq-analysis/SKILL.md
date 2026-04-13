@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/03_RNA_seq_Analysis/01_rna_seq_analysis.ipynb`*
 
-# RNA-seq Analysis: From Reads to Differential Expression
 
 RNA-seq (RNA sequencing) is the dominant technology for studying gene expression at the transcriptome level. This notebook covers the complete RNA-seq analysis workflow, from experimental design through differential expression and visualization.
 
@@ -77,7 +76,7 @@ Good experimental design is critical. Mistakes here cannot be fixed computationa
 
 ### Library Preparation
 
-```
+```python
 Total RNA
     |
     v
@@ -97,7 +96,7 @@ PCR amplification (limited cycles)
     |
     v
 Sequencing (Illumina, etc.)
-```
+```python
 
 **poly-A selection** enriches for mRNA (coding genes); **rRNA depletion** retains non-coding RNA and is needed for degraded samples (e.g., FFPE tissue).
 
@@ -107,7 +106,7 @@ Process all samples together when possible. If batches are unavoidable, balance 
 
 ## 3. RNA-seq Workflow Overview
 
-```
+```python
 FASTQ files (raw reads)
       |
       v
@@ -142,7 +141,7 @@ featureCounts/HTSeq           |
           |
           v
    Gene set enrichment (GSEA / ORA)
-```
+```python
 
 ```python
 import numpy as np
@@ -159,7 +158,7 @@ np.random.seed(42)
 # Plotting defaults
 plt.rcParams['figure.dpi'] = 100
 plt.rcParams['font.size'] = 11
-```
+```python
 
 ## 5. Alignment-Based Quantification
 
@@ -184,7 +183,7 @@ STAR --genomeDir star_index/ \
      --readFilesIn sample_R1.fastq sample_R2.fastq \
      --outSAMtype BAM SortedByCoordinate \
      --quantMode GeneCounts
-```
+```python
 
 ### Step 2: Counting reads per gene
 
@@ -202,7 +201,7 @@ featureCounts -a genes.gtf \
               -T 4 \
               -p --countReadPairs \
               sample1.bam sample2.bam sample3.bam
-```
+```python
 
 The result is a **count matrix**: rows are genes, columns are samples, values are integer read counts.
 
@@ -226,7 +225,7 @@ salmon quant -i salmon_index \
              -2 sample_R2.fastq \
              -o sample_quant \
              --validateMappings
-```
+```python
 
 ### Key Advantage: Speed and Accuracy
 
@@ -284,7 +283,7 @@ tpm_df = pd.DataFrame({
 
 print(tpm_df)
 print(f"\nTPM sum: {tpm.sum():.0f} (should be 1,000,000)")
-```
+```python
 
 ## 8. The Count Matrix
 
@@ -380,4 +379,10 @@ print(sample_info)
 print(f"\nDE genes in simulation: {gene_info['true_de'].sum()} out of {len(gene_info)}")
 print(f"\nFirst few rows of count matrix:")
 counts_df.head(10)
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

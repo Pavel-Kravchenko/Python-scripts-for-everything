@@ -76,7 +76,7 @@ sc.pl.umap(adata, color=['leiden', 'CD3D', 'CD79A'])
 # Marker genes
 sc.tl.rank_genes_groups(adata, 'leiden', method='wilcoxon')
 sc.pl.rank_genes_groups(adata, n_genes=10, sharey=False)
-```
+```python
 
 ## CellTypist Automated Annotation
 
@@ -89,7 +89,7 @@ model = models.Model.load(model='Immune_All_Low.pkl')
 predictions = celltypist.annotate(adata, model=model, majority_voting=True)
 adata = predictions.to_adata()
 sc.pl.umap(adata, color='majority_voting')
-```
+```python
 
 ## RNA Velocity (scVelo)
 
@@ -101,7 +101,7 @@ scv.pp.moments(adata, n_pcs=30, n_neighbors=30)
 scv.tl.velocity(adata, mode='dynamical')
 scv.tl.velocity_graph(adata)
 scv.pl.velocity_embedding_stream(adata, basis='umap')
-```
+```python
 
 ## Common Pitfalls
 - **Forgetting `adata.raw = adata`** before filtering HVGs — stores full gene set for DE

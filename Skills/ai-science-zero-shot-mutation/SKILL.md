@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/06_Protein_Language_Models/02_zero_shot_mutation.ipynb`*
 
-# Zero-Shot Mutation Effect Prediction
 
 **Tier 5 — Modern AI for Science | Module 06 · Notebook 2**
 
@@ -59,7 +58,7 @@ import pandas as pd
 
 np.random.seed(13)
 AA = list('ACDEFGHIKLMNPQRSTVWY')
-```
+```python
 
 ## 1. Zero-Shot Scoring: Theory and Real Implementation
 
@@ -113,7 +112,7 @@ def score_mutations(sequence: str, positions: list[int]) -> dict:
                 pos_scores[f"{wt_aa}{pos}{mut_aa}"] = delta
             scores.update(pos_scores)
     return scores
-```
+```python
 
 ### Ensemble Averaging
 
@@ -129,7 +128,7 @@ models_and_alphabets = [
     esm.pretrained.esm1v_t33_650M_UR90S_5(),
 ]
 # Average the delta scores from all 5 models for each variant
-```
+```python
 
 ```python
 HYDRO = set('AILMFWVY')
@@ -148,7 +147,7 @@ def aa_group(a):
 def toy_zero_shot_delta(wt: str, mut: str) -> float:
     # toy proxy: penalize physicochemical group switches
     return 0.25 if aa_group(wt) == aa_group(mut) else -0.55
-```
+```python
 
 ## 2. Score all single substitutions in a region
 
@@ -165,7 +164,7 @@ for i, wt in enumerate(wt_seq):
 
 df = pd.DataFrame(records)
 df.sort_values('delta_ll').head(8)
-```
+```python
 
 ## 3. Synthetic benchmark against pseudo-fitness
 
@@ -177,7 +176,7 @@ df['fitness'] = 0.6 + 0.5 * df['delta_ll'] + noise
 
 corr = df[['delta_ll', 'fitness']].corr(method='spearman').iloc[0, 1]
 print('Spearman correlation (delta vs fitness):', round(float(corr), 3))
-```
+```python
 
 ## 4. Clinically oriented triage table
 
@@ -195,7 +194,7 @@ subset['priority'] = (
 )
 
 subset.sort_values('priority', ascending=False)[['pos', 'wt', 'mut', 'delta_ll', 'rarity', 'plddt_proxy', 'priority']]
-```
+```python
 
 ## Summary
 
@@ -214,3 +213,9 @@ Checked online during content expansion.
 
 - [ESM repository (ESM-1v/ESM-2 variants)](https://github.com/facebookresearch/esm)
 - [ProteinGym benchmark](https://proteingym.org/)
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

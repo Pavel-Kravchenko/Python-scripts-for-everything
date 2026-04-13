@@ -58,7 +58,7 @@ NanoFilt -q 10 -l 1000 reads.fastq.gz > reads_filtered.fastq.gz
 # Alignment
 minimap2 -ax map-ont hg38.fa reads_filtered.fastq.gz | \
     samtools sort -o aligned.bam && samtools index aligned.bam
-```
+```python
 
 **Pattern 2: De novo assembly**
 ```bash
@@ -73,13 +73,13 @@ awk '/^S/{print ">"$2"\n"$3}' sample.asm.bp.p_ctg.gfa > assembly.fasta
 # Polish ONT assembly with Medaka
 medaka_consensus -i reads_filtered.fastq.gz -d flye_out/assembly.fasta \
     -o medaka/ -t 8 -m r1041_e82_400bps_hac_v4.2.0
-```
+```python
 
 **Pattern 3: Structural variant calling**
 ```bash
 sniffles --input aligned.bam --vcf svs.vcf \
     --reference hg38.fa --threads 8 --minsupport 5
-```
+```python
 
 **Pattern 4: Methylation detection**
 ```bash
@@ -89,7 +89,7 @@ dorado basecaller hac,5mCG_5hmCG pod5/ > calls_mod.bam
 # Extract CpG methylation
 modkit pileup calls_mod.bam methylation.bed \
     --ref hg38.fa --cpg --threads 8
-```
+```python
 
 **Pattern 5: Isoform analysis (R)**
 ```r
@@ -100,7 +100,7 @@ se <- bambu(reads='aligned.bam',
 writeBambuOutput(se, path='bambu_output/')
 # se@rowRanges contains isoform coordinates
 # assay(se, 'CPM') contains isoform-level expression
-```
+```python
 
 ## Technology Comparison
 
@@ -143,7 +143,7 @@ def parse_nanostat(fastq_path):
 stats = parse_nanostat('reads.fastq.gz')
 print(f"N50: {stats.get('read_length_n50', 'N/A')} bp")
 print(f"Mean Q: {stats.get('mean_read_quality', 'N/A')}")
-```
+```python
 
 ### Parse Sniffles2 VCF for SVs
 ```python
@@ -174,7 +174,7 @@ svs = parse_sv_vcf('sniffles_svs.vcf')
 deletions = svs[svs['svtype'] == 'DEL']
 large_dels = deletions[deletions['svlen'] >= 1000]
 print(f"Large deletions (≥1 kb): {len(large_dels)}")
-```
+```python
 
 ### Assembly N50 Calculator
 ```python
@@ -200,7 +200,7 @@ def assembly_stats(fasta_path):
 
 stats = assembly_stats('assembly.fasta')
 print(f"N50 = {stats['n50']:,} bp | Total = {stats['total_length']:,} bp")
-```
+```python
 
 ## Related Skills
 - `ngs-variant-calling` — short-read alignment, GATK variant calling, VCF format

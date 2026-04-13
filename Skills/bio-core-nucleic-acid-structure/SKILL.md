@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/08_Nucleic_Acid_Structure/01_nucleic_acid_structure.ipynb`*
 
-# Nucleic Acid Structure
 
 ---
 
@@ -85,7 +84,7 @@ print("-" * 55)
 for form, p in helix_params.items():
     print(f"{form:<8} {p['bp_per_turn']:<10} {p['rise_A']:<10} {p['diameter_A']:<14} {p['handedness']}")
 print("\nProceed to Section 1.")
-```
+```python
 
 ---
 
@@ -93,7 +92,7 @@ print("\nProceed to Section 1.")
 
 DNA can adopt different helical conformations depending on sequence, hydration, and salt concentration:
 
-```
+```python
 A-DNA                   B-DNA                    Z-DNA
 (dehydrated)            (physiological)          (high salt, alt. pur-pyr)
 
@@ -107,7 +106,7 @@ A-DNA                   B-DNA                    Z-DNA
    \/                    \/                        \/
 
 Right-handed            Right-handed              Left-handed
-```
+```python
 
 | Parameter | A-DNA | B-DNA | Z-DNA |
 |-----------|-------|-------|-------|
@@ -165,7 +164,7 @@ print(f"Human genome ({genome_bp/1e9:.1f} Gbp) as B-DNA:")
 print(f"  Length: {d['length_nm']/1e9:.2f} m = {d['length_nm']/1e9*100:.0f} cm")
 print(f"  Turns:  {d['turns']/1e6:.0f} million")
 print(f"  (That is ~2 meters of DNA packed into a ~6 um nucleus!)")
-```
+```python
 
 ---
 
@@ -173,7 +172,7 @@ print(f"  (That is ~2 meters of DNA packed into a ~6 um nucleus!)")
 
 The double helix has two grooves of unequal size, created because the glycosidic bonds of a base pair are not diametrically opposite:
 
-```
+```python
                   MAJOR GROOVE (~12 A wide in B-DNA)
                 /                          \
    5' --------/  Rich in chemical groups    \-------- 3'
@@ -193,7 +192,7 @@ Groove accessibility in different forms:
 A-DNA    Narrow, deep    Wide, shallow
 B-DNA    Wide, deep      Narrow, deep
 Z-DNA    Flat            Narrow, deep
-```
+```python
 
 ### Why Grooves Matter
 
@@ -261,7 +260,7 @@ for seq in test_seqs:
     dG = nearest_neighbor_dG(seq)
     tm = melting_temperature(seq)
     print(f"{seq:<12s} {gc_content(seq):5.0f} {dG:14.2f} {tm:7.0f}")
-```
+```python
 
 ---
 
@@ -271,7 +270,7 @@ Unlike DNA, RNA is typically single-stranded and folds back on itself to form co
 
 ### RNA Secondary Structure Elements
 
-```
+```python
 1. STEM (paired region)        2. HAIRPIN LOOP (stem-loop)
 
    G - C                              U  C  A
@@ -299,7 +298,7 @@ Unlike DNA, RNA is typically single-stranded and folds back on itself to form co
    G-C  A-U  C-G                    (pairs with downstream region)
    | |  | |  | |
    C-G  U-A  G-C
-```
+```python
 
 ### Dot-Bracket Notation
 
@@ -309,3 +308,9 @@ RNA secondary structure is commonly represented in dot-bracket format:
 - `)` = 3' partner of a base pair
 
 Example hairpin: `((((....))))` -- 4-bp stem with 4-nt loop
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

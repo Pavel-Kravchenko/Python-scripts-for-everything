@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/27_Multi_Omics_Integration/02_mofa2.ipynb`*
 
-# MOFA2: Multi-Omics Factor Analysis
 
 **Tier 3 — Applied Bioinformatics | Module 27 · Notebook 2**
 
@@ -49,14 +48,14 @@ package and adapt the example to match the actual API rather than retrying.
 
 ### The generative model
 
-```
+```python
                           Z (shared factors)
                           |    |    |
                          W_1  W_2  W_3
                           |    |    |
                          X_1  X_2  X_3
                     (RNA)  (Prot) (Meth)
-```
+```python
 
 - **Z** (N × K): Latent factor matrix (N samples, K factors) — shared across views
 - **W_m** (D_m × K): Feature weight matrix for view m — view-specific
@@ -83,14 +82,14 @@ ent.set_train_options(iter=1000, convergence_mode="fast")
 ent.build()
 ent.run()
 ent.save("mofa_model.hdf5")
-```
+```python
 
 Or via muon (recommended):
 ```python
 import muon as mu
 mdata = mu.MuData({'rna': rna_adata, 'prot': prot_adata, 'meth': meth_adata})
 mu.tl.mofa(mdata, n_factors=10, outfile="model.hdf5")
-```
+```python
 
 ```python
 import numpy as np
@@ -165,7 +164,7 @@ print(f"  Proteomics:  {prot_scaled.shape}")
 print(f"  Methylation: {meth_scaled.shape}")
 print(f"\nTrue latent factors: {n_factors_true}")
 print(f"Sample types: {dict(pd.Series(sample_type).value_counts())}")
-```
+```python
 
 ## 2. Training the MOFA2 Model
 
@@ -191,7 +190,7 @@ MOFA2 expects a **long-format DataFrame** with columns:
 MOFA2 optimizes the **Evidence Lower Bound (ELBO)** via variational Bayes. Monitor convergence:
 ```python
 model.plot_ELBO()  # ELBO should plateau
-```
+```python
 Typically converges in 100-500 iterations.
 
 ```python
@@ -248,7 +247,7 @@ df_var = pd.DataFrame(var_explained * 100,
                        index=view_names,
                        columns=[f'Factor{k+1}' for k in range(n_factors)])
 print(df_var.round(2).to_string())
-```
+```python
 
 ## 3. Variance Decomposition
 
@@ -308,7 +307,7 @@ print("\nInterpretation:")
 print("- Factors with high R² in multiple views = shared biological signal")
 print("- Factors with high R² in only one view = view-specific signal")
 print("- Factor 1 captures most shared variance (present in all views)")
-```
+```python
 
 ## 4. Factor Interpretation
 
@@ -381,4 +380,10 @@ for i in range(n_factors):
         r, _ = pearsonr(Z_est[:, i], Z_true[:, j])
         row += f'   {abs(r):.2f} '
     print(row)
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

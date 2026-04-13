@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/06_Phylogenetics/01_phylogenetics.ipynb`*
 
-# Phylogenetics: Reconstructing Evolutionary History
 
 Phylogenetic trees are hypotheses about the evolutionary relationships among organisms, genes, or other biological entities. This notebook covers the theory, algorithms, and practical tools for building and interpreting phylogenetic trees.
 
@@ -74,7 +73,7 @@ print(f"Terminals: {[c.name for c in tree.get_terminals()]}")
 print(f"Human-Chimp distance: {tree.distance('Human','Chimp'):.3f}")
 print(f"Human-Mouse distance: {tree.distance('Human','Mouse'):.3f}")
 print("\nProceed to Section 1.")
-```
+```python
 
 ```python
 import re
@@ -145,7 +144,7 @@ tree = parse_newick(newick_str)
 print(f"Newick: {newick_str}")
 print(f"\nTree structure:")
 print_tree_ascii(tree)
-```
+```python
 
 ---
 
@@ -250,7 +249,7 @@ for name, s1, s2 in [("A vs B", seq_a, seq_b), ("A vs C", seq_a, seq_c), ("B vs 
     jc = jukes_cantor_distance(s1, s2)
     k2 = kimura_distance(s1, s2)
     print(f"{name:<15} {pd:>12.4f} {jc:>12.4f} {k2:>12.4f}")
-```
+```python
 
 ```python
 # Visualize how corrections diverge from p-distance
@@ -282,7 +281,7 @@ plt.show()
 print("Key insight: at p=0.30, JC69 estimates d=0.38 -- 27% more than observed.")
 print("At p=0.50, JC69 estimates d=0.82 -- 64% more than observed.")
 print("At p>=0.75, saturation -- random expectation for 4 equally likely nucleotides.")
-```
+```python
 
 ```python
 def build_distance_matrix(sequences, names, method='jukes-cantor'):
@@ -336,7 +335,7 @@ seq_names = ["Sp_A", "Sp_B", "Sp_C", "Sp_D", "Sp_E"]
 dm = build_distance_matrix(aligned_seqs, seq_names, method='jukes-cantor')
 print("Distance matrix (Jukes-Cantor):")
 print_distance_matrix(dm, seq_names)
-```
+```python
 
 ```python
 def plot_distance_matrix(matrix, names, title="Distance Matrix"):
@@ -362,4 +361,10 @@ def plot_distance_matrix(matrix, names, title="Distance Matrix"):
 
 
 plot_distance_matrix(dm, seq_names, title="JC69 Distance Matrix")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

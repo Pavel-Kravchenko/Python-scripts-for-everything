@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/06_Protein_Language_Models/01_esm2_embeddings.ipynb`*
 
-# ESM2 Embeddings and ESMFold
 
 **Tier 5 — Modern AI for Science | Module 06 · Notebook 1**
 
@@ -56,7 +55,7 @@ Protein language models trained on millions of evolutionary sequences learn a ri
 import numpy as np
 
 np.random.seed(9)
-```
+```python
 
 ## 1. ESM2 Architecture
 
@@ -124,7 +123,7 @@ sequence_representations = []
 for i, (_, seq) in enumerate(data):
     seq_emb = token_representations[i, 1 : len(seq) + 1].mean(0)
     sequence_representations.append(seq_emb)
-```
+```python
 
 ### ESMFold: structure from sequence without MSA
 
@@ -144,7 +143,7 @@ with torch.no_grad():
 # output is a PDB string
 with open("predicted.pdb", "w") as f:
     f.write(output)
-```
+```python
 
 The output PDB B-factor column contains pLDDT values (0–100), interpreted identically to AlphaFold2.
 
@@ -167,7 +166,7 @@ seq = 'MKTAYIAKQRQISFVKSHFSRQLEERLGLIEVQ'
 emb = toy_embed(seq)
 print('Embedding shape:', emb.shape)
 print('Top composition entries:', np.argsort(emb[:20])[-5:][::-1])
-```
+```python
 
 ## 2. Amino Acid Composition Baseline
 
@@ -202,7 +201,7 @@ c0 = X[train][y[train] == 0].mean(axis=0)
 c1 = X[train][y[train] == 1].mean(axis=0)
 pred = (((X[test]-c1)**2).sum(axis=1) < ((X[test]-c0)**2).sum(axis=1)).astype(int)
 print('Probe accuracy:', float((pred == y[test]).mean()))
-```
+```python
 
 ## 3. ESMFold Confidence Interpretation
 
@@ -227,7 +226,7 @@ def confidence_bucket(mean_plddt: float) -> str:
 
 for v in [96, 82, 63, 41]:
     print(v, confidence_bucket(v))
-```
+```python
 
 ## 4. Practical Guidance
 
@@ -252,3 +251,9 @@ Checked online during content expansion.
 
 - [ESM official repository](https://github.com/facebookresearch/esm)
 - [ESM Atlas](https://esmatlas.com)
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

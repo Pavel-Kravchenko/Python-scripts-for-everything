@@ -96,7 +96,7 @@ Use `@functools.lru_cache(maxsize=None)` to add memoization with one line.
 from collections import defaultdict
 graph = defaultdict(list)  # {node: [(neighbor, weight), ...]}
 graph[u].append((v, w)); graph[v].append((u, w))
-```
+```python
 
 ### BFS — level order, shortest hops
 ```python
@@ -111,7 +111,7 @@ def bfs(graph, start):
                 dist[v] = dist[u] + 1
                 queue.append(v)
     return dist
-```
+```python
 
 ### DFS — iterative
 ```python
@@ -123,7 +123,7 @@ def dfs(graph, start):
             visited.add(u); order.append(u)
             stack.extend(v for v in graph[u] if v not in visited)
     return order
-```
+```python
 
 ### Dijkstra
 ```python
@@ -147,7 +147,7 @@ def path(pred, end):
     p = []; v = end
     while v is not None: p.append(v); v = pred.get(v)
     return p[::-1]
-```
+```python
 
 ### Union-Find (for Kruskal)
 ```python
@@ -163,7 +163,7 @@ class UF:
         self.p[py] = px
         if self.rank[px] == self.rank[py]: self.rank[px] += 1
         return True
-```
+```python
 
 ### Kruskal's MST
 ```python
@@ -176,7 +176,7 @@ def kruskal(vertices, edges):  # edges: [(u, v, w)]
             mst.append((u, v, w)); total += w
             if len(mst) == len(vertices) - 1: break
     return mst, total
-```
+```python
 
 ### Prim's MST
 ```python
@@ -190,7 +190,7 @@ def prim(vertices, adj):  # adj: {v: [(neighbor, w)]}
         for nb, nw in adj[v]:
             if nb not in visited: heapq.heappush(heap, (nw, v, nb))
     return mst, total
-```
+```python
 
 ### Topological Sort — Kahn's Algorithm
 ```python
@@ -207,7 +207,7 @@ def topo_kahn(vertices, adj):  # adj: {u: [v, ...]}
             in_deg[v] -= 1
             if in_deg[v] == 0: queue.append(v)
     return result if len(result) == len(vertices) else None  # None = cycle
-```
+```python
 
 ### 0/1 Knapsack (space-optimized)
 ```python
@@ -231,7 +231,7 @@ def knapsack_items(weights, values, names, capacity):
         if dp[i][c] != dp[i-1][c]:
             selected.append(names[i-1]); c -= weights[i-1]
     return dp[n][capacity], selected[::-1]
-```
+```python
 
 ### Needleman-Wunsch (global alignment)
 ```python
@@ -257,7 +257,7 @@ def needleman_wunsch(s1, s2, match=1, mismatch=-1, gap=-2):
         else:
             a1.append('-'); a2.append(s2[j-1]); j-=1
     return dp[m][n], ''.join(reversed(a1)), ''.join(reversed(a2))
-```
+```python
 
 ### Smith-Waterman (local alignment)
 ```python
@@ -277,7 +277,7 @@ def smith_waterman(s1, s2, match=2, mismatch=-1, gap=-1):
         elif dp[i][j]==dp[i-1][j]+gap: a1.append(s1[i-1]); a2.append('-'); i-=1
         else: a1.append('-'); a2.append(s2[j-1]); j-=1
     return best, ''.join(reversed(a1)), ''.join(reversed(a2))
-```
+```python
 
 ---
 

@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/02_Sorting_Algorithms/01_comparison_sorts.ipynb`*
 
-# Comparison-Based Sorting Algorithms
 
 This notebook provides comprehensive coverage of fundamental comparison-based sorting algorithms.
 
@@ -44,7 +43,7 @@ import numpy as np
 
 %matplotlib inline
 plt.style.use('seaborn-v0_8-whitegrid')
-```
+```python
 
 ---
 
@@ -75,7 +74,7 @@ plt.style.use('seaborn-v0_8-whitegrid')
 
 ## ASCII Art Visualization
 
-```
+```python
 Initial: [5, 3, 8, 1, 2]
 
 Pass 1:
@@ -115,7 +114,7 @@ Pass 4:
  ^  ^  ^  ^  ^
 
 Final: [1, 2, 3, 5, 8]
-```
+```python
 
 ## Complexity Analysis
 
@@ -191,28 +190,28 @@ def bubble_sort(arr: List[int], verbose: bool = False) -> List[int]:
         print(f"Final sorted array: {arr}")
     
     return arr
-```
+```python
 
 ```python
 # Example 1: Basic usage with step-by-step output
 test_array = [5, 3, 8, 1, 2]
 print("=== Bubble Sort Example ===")
 bubble_sort(test_array.copy(), verbose=True)
-```
+```python
 
 ```python
 # Example 2: Already sorted array (best case)
 sorted_array = [1, 2, 3, 4, 5]
 print("\n=== Best Case: Already Sorted ===")
 bubble_sort(sorted_array.copy(), verbose=True)
-```
+```python
 
 ```python
 # Example 3: Reverse sorted array (worst case)
 reverse_array = [5, 4, 3, 2, 1]
 print("\n=== Worst Case: Reverse Sorted ===")
 bubble_sort(reverse_array.copy(), verbose=True)
-```
+```python
 
 ---
 
@@ -242,7 +241,7 @@ bubble_sort(reverse_array.copy(), verbose=True)
 
 ## ASCII Art Visualization
 
-```
+```python
                     [38, 27, 43, 3, 9, 82, 10]
                               |
               ┌───────────────┴───────────────┐
@@ -286,7 +285,7 @@ Step 3: Compare 38 and 43 → Take 38   Result: [3, 27, 38]
              ↑
 
 Step 4: Left exhausted    → Take 43   Result: [3, 27, 38, 43]
-```
+```python
 
 ## Complexity Analysis
 
@@ -384,7 +383,7 @@ def merge(left: List[int], right: List[int]) -> List[int]:
         j += 1
     
     return result
-```
+```python
 
 ```python
 # Example 1: Basic usage with step-by-step output
@@ -394,7 +393,7 @@ print(f"Original: {test_array}")
 print("\nSorting process:")
 result = merge_sort(test_array.copy(), verbose=True)
 print(f"\nSorted: {result}")
-```
+```python
 
 ```python
 # Example 2: Demonstrating stability
@@ -406,7 +405,7 @@ print(f"Original: {data}")
 sorted_data = sorted(data, key=lambda x: x[0])  # Python's sort is stable like merge sort
 print(f"Stable sorted: {sorted_data}")
 print("Note: (3, 'a') comes before (3, 'c'), and (1, 'b') comes before (1, 'e')")
-```
+```python
 
 ---
 
@@ -433,3 +432,9 @@ print("Note: (3, 'a') comes before (3, 'c'), and (1, 'b') comes before (1, 'e')"
 - In-place sorting (O(1) extra memory)
 - Simple to implement
 - Good for medium-sized arrays
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

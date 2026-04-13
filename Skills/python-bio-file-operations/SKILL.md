@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/07_File_Operations/01_file_operations.ipynb`*
 
-# Module 7: File Operations for Bioinformatics
 
 ## Reading, Writing, and Parsing Biological Data Formats
 
@@ -68,7 +67,7 @@ File handling is fundamental in bioinformatics. We constantly work with FASTA (s
 
 ### File Modes
 
-```
+```python
 Mode   Description
 ----   -----------
 'r'    Read (default) — file must exist
@@ -78,7 +77,7 @@ Mode   Description
 'r+'   Read and write
 'rb'   Read in binary mode
 'wb'   Write in binary mode
-```
+```python
 
 ### Run this cell first to create demo files used throughout this notebook
 
@@ -101,7 +100,7 @@ print("Demo files created:")
 print("  demo_sequences.fasta (FASTA with 3 sequences)")
 print("\nFirst 100 characters:")
 print(sample_fasta[:100])
-```
+```python
 
 ```python
 # The OLD way (not recommended): manual open/close
@@ -112,7 +111,7 @@ print(f"First line: {first_line.strip()}")
 f.close()
 print(f"File is closed: {f.closed}")
 # Problem: if an error occurs before f.close(), the file stays open!
-```
+```python
 
 ```python
 # The RECOMMENDED way: context manager (with statement)
@@ -124,7 +123,7 @@ with open('demo_sequences.fasta', 'r') as f:
     print(f"Inside 'with': file open = {not f.closed}")
 
 print(f"Outside 'with': file open = {not f.closed}")
-```
+```python
 
 ---
 ## 2. Reading Methods
@@ -143,7 +142,7 @@ with open('demo_sequences.fasta', 'r') as f:
     content = f.read()
 print(f"read(): {len(content)} characters")
 print(content[:80], "...")
-```
+```python
 
 ```python
 # readline() -- one line at a time
@@ -152,7 +151,7 @@ with open('demo_sequences.fasta', 'r') as f:
     line2 = f.readline()
     print(f"Line 1: {line1.strip()}")
     print(f"Line 2: {line2.strip()}")
-```
+```python
 
 ```python
 # readlines() -- all lines into a list
@@ -161,7 +160,7 @@ with open('demo_sequences.fasta', 'r') as f:
 print(f"readlines(): {len(lines)} lines")
 for i, line in enumerate(lines):
     print(f"  {i}: {line.strip()}")
-```
+```python
 
 ```python
 # BEST PRACTICE: iterate directly over file object
@@ -170,7 +169,7 @@ for i, line in enumerate(lines):
 with open('demo_sequences.fasta', 'r') as f:
     for line_num, line in enumerate(f, 1):
         print(f"  Line {line_num}: {line.strip()}")
-```
+```python
 
 ---
 ## 3. Writing Files
@@ -186,7 +185,7 @@ with open('output.txt', 'w') as f:
 # Verify
 with open('output.txt', 'r') as f:
     print(f.read())
-```
+```python
 
 ```python
 # 'a' mode appends to the end of an existing file
@@ -196,7 +195,7 @@ with open('output.txt', 'a') as f:
 with open('output.txt', 'r') as f:
     print("After appending:")
     print(f.read())
-```
+```python
 
 ```python
 # writelines() -- writes a list of strings (no newlines added)
@@ -207,7 +206,7 @@ with open('genes.tsv', 'w') as f:
 
 with open('genes.tsv', 'r') as f:
     print(f.read())
-```
+```python
 
 ---
 ## 4. Text vs. Binary Files
@@ -231,20 +230,20 @@ print(f"Decoded text portion: {raw[4:].decode('ascii')}")
 
 import os
 os.remove('binary_demo.bin')
-```
+```python
 
 ---
 ## 5. FASTA File Format
 
 FASTA is the most common sequence format in bioinformatics.
 
-```
+```python
 >sequence_id description text
 ATGCGATCGATCGATCGATCG
 ATCGATCGATCGATCGATCGA
 >another_sequence more info
 GGGGCCCCAAAATTTT
-```
+```python
 
 Rules:
 - Header lines start with `>`
@@ -269,7 +268,7 @@ with open('sequences.fasta', 'w') as f:
     f.write(fasta_content)
 
 print("FASTA file created with 3 sequences.")
-```
+```python
 
 ```python
 def read_fasta(filename):
@@ -315,7 +314,7 @@ for header, seq in seqs.items():
     print(f"  Length: {len(seq)} bp, GC: {gc:.1f}%")
     print(f"  First 40 bp: {seq[:40]}...")
     print()
-```
+```python
 
 ```python
 # Alternative FASTA parser using split (good for smaller files)
@@ -341,7 +340,7 @@ def read_fasta_split(filename):
 
 for header, seq in read_fasta_split('sequences.fasta'):
     print(f"{header.split('|')[1]}: {len(seq)} bp")
-```
+```python
 
 ```python
 def write_fasta(sequences, filename, line_width=60):
@@ -377,7 +376,7 @@ print(f"Wrote {len(gc_rich)} GC-rich sequences to gc_rich.fasta")
 # Verify
 with open('gc_rich.fasta', 'r') as f:
     print(f.read())
-```
+```python
 
 ---
 ## 6. CSV and TSV Files
@@ -405,7 +404,7 @@ with open('gene_expression.csv', 'w', newline='') as f:
     writer.writerows(expression_data)
 
 print("CSV file created.")
-```
+```python
 
 ```python
 # Reading CSV with csv.reader
@@ -416,4 +415,10 @@ with open('gene_expression.csv', 'r') as f:
     print()
     for row in reader:
         print(f"  {row[1]:6s} | Length: {row[2]:>5s} | GC: {row[3]}% | Expr: {row[4]}")
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

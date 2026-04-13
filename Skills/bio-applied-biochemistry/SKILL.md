@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/13_Biochemistry_and_Enzyme_Kinetics/01_biochemistry.ipynb`*
 
-# Biochemistry
 
 Split from `01_biochemistry_and_enzyme_kinetics.ipynb` to keep this topic self-contained.
 
@@ -47,11 +46,11 @@ Enzymes are biological catalysts that accelerate chemical reactions without bein
 
 The overall catalytic cycle:
 
-```
+```python
 E + S  ⇌  ES  →  E + P
         k₁      k₂
         k₋₁
-```
+```python
 
 | Symbol | Meaning |
 |--------|------------------------------------------|
@@ -100,7 +99,7 @@ def absorbance_to_concentration(absorbance, eps=epsilon, l=path_length):
     return absorbance / (eps * l)
 
 print(f"A = 0.622 corresponds to [{absorbance_to_concentration(0.622)*1e6:.1f}] µM NADH")
-```
+```python
 
 ### 1.2 Extracting Initial Velocity from a Progress Curve
 
@@ -137,7 +136,7 @@ plt.tight_layout()
 plt.show()
 
 print(f"Estimated initial velocity v₀ = {v0_uM_per_s:.3f} µM/s")
-```
+```python
 
 ---
 ## 2. Michaelis-Menten Kinetics
@@ -183,7 +182,7 @@ print("Substrate [µM] | Observed velocity [µM/s]")
 print("-" * 40)
 for s, v in zip(substrate_uM, observed_velocities):
     print(f"  {s:6.1f}       |  {v:8.3f}")
-```
+```python
 
 ### 2.1 Fitting Km and Vmax with `scipy.optimize.curve_fit`
 
@@ -212,7 +211,7 @@ ci_km   = 1.96 * perr[1]
 
 print(f"Fitted Vmax = {fitted_vmax:.2f} ± {ci_vmax:.2f} µM/s  (true: {true_vmax})")
 print(f"Fitted Km   = {fitted_km:.2f}  ± {ci_km:.2f}  µM    (true: {true_km})")
-```
+```python
 
 ```python
 # Plot Michaelis-Menten curve with data
@@ -236,7 +235,7 @@ ax.set_title('Michaelis-Menten Kinetics')
 ax.legend()
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### 2.2 Confidence Intervals via Parametric Bootstrap
 
@@ -277,7 +276,7 @@ plt.show()
 
 print(f"Bootstrap Vmax: {np.nanmean(bootstrap_params[:,0]):.2f} ± {np.nanstd(bootstrap_params[:,0]):.2f} µM/s")
 print(f"Bootstrap Km:   {np.nanmean(bootstrap_params[:,1]):.2f} ± {np.nanstd(bootstrap_params[:,1]):.2f} µM")
-```
+```python
 
 ---
 ## 3. Linearization Methods
@@ -335,7 +334,7 @@ print(f"{'Nonlinear (NLS)':<20} {fitted_vmax:>12.2f} {fitted_km:>10.2f}")
 print(f"{'Lineweaver-Burk':<20} {lb_vmax:>12.2f} {lb_km:>10.2f}")
 print(f"{'Eadie-Hofstee':<20} {eh_vmax:>12.2f} {eh_km:>10.2f}")
 print(f"{'Hanes-Woolf':<20} {hw_vmax:>12.2f} {hw_km:>10.2f}")
-```
+```python
 
 ```python
 fig, axes = plt.subplots(1, 3, figsize=(14, 4))
@@ -372,4 +371,10 @@ ax.set_title('Hanes-Woolf')
 plt.suptitle('Linearization Methods Compared', fontsize=13, y=1.02)
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

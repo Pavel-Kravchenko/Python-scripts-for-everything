@@ -63,7 +63,7 @@ from pdf2image import convert_from_path
 
 pages = convert_from_path("paper.pdf", dpi=150)  # returns list of PIL Images
 print(f"{len(pages)} pages, size: {pages[0].size}")
-```
+```python
 
 **Pattern 2: ColPali embedding**
 ```python
@@ -86,7 +86,7 @@ def embed_query(text):
     inputs = processor(text=[text], return_tensors="pt")
     with torch.no_grad():
         return model(**inputs)  # (1, n_tokens, dim)
-```
+```python
 
 **Pattern 3: MaxSim retrieval (ColBERT-style)**
 ```python
@@ -99,7 +99,7 @@ def retrieve(query_emb, page_embeddings, top_k=5):
     scores = [maxsim_score(query_emb[0], pe) for pe in page_embeddings]
     top_idx = sorted(range(len(scores)), key=lambda i: -scores[i])[:top_k]
     return top_idx, [scores[i] for i in top_idx]
-```
+```python
 
 **Pattern 4: Qwen2-VL inference**
 ```python
@@ -120,7 +120,7 @@ image_inputs, _ = process_vision_info(messages)
 inputs = processor(text=[text], images=image_inputs, return_tensors="pt")
 outputs = model.generate(**inputs, max_new_tokens=256)
 answer = processor.decode(outputs[0], skip_special_tokens=True)
-```
+```python
 
 ## Code Templates
 
@@ -138,7 +138,7 @@ top_pages, scores = retrieve(query_emb, page_embeddings, top_k=3)
 # 3. Generate
 context_pages = [pages[i] for i in top_pages]
 answer = qwen_answer(context_pages, query)
-```
+```python
 
 ## Common Pitfalls
 

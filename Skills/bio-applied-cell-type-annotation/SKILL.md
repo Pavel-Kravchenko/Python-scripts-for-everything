@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/30_Single_Cell_RNA_seq/03_cell_type_annotation.ipynb`*
 
-# scRNA-seq: Cell Type Annotation
 
 **Tier 3 — Applied Bioinformatics | Module 30 · Notebook 3**
 
@@ -91,7 +90,7 @@ except FileNotFoundError:
 
 coords = adata.obsm['X_umap']
 print(f"Clusters: {adata.obs['leiden'].unique().tolist()}")
-```
+```python
 
 ## 1. Canonical Marker-Based Manual Annotation
 
@@ -191,7 +190,7 @@ plt.show()
 # Accuracy
 correct = (adata.obs['cell_type_annotated'] == adata.obs['cell_type']).mean()
 print(f"\nAnnotation accuracy: {correct:.1%}")
-```
+```python
 
 ## 2. SingleR Automated Reference Annotation
 
@@ -223,7 +222,7 @@ plotScoreHeatmap(pred)
 
 # Diagnostic: how confident is each annotation?
 table(pred$pruned.labels)
-```
+```python
 
 ### Key output: `pred$pruned.labels`
 Cells with low confidence across all reference types are labeled `NA` in `pruned.labels` (but have a label in `labels`). Inspect these cells carefully — they may be:
@@ -238,7 +237,7 @@ CellTypist (Domínguez Conde et al. 2022, *Science*) is a logistic regression cl
 ### Installation and usage
 ```bash
 pip install celltypist
-```
+```python
 
 ```python
 import celltypist
@@ -261,7 +260,7 @@ predictions = celltypist.annotate(adata, model=model, majority_voting=True)
 # majority_voting=True: each Leiden cluster gets the plurality label
 # majority_voting=False: each cell gets an independent prediction
 adata = predictions.to_adata()
-```
+```python
 
 ### Majority voting mode
 With `majority_voting=True`, individual cell predictions within each cluster are pooled, and the cluster gets the most common prediction. This reduces noise from individual cell misclassifications. Confidence is measured by the fraction of cells in the cluster assigned to the winning label.
@@ -337,4 +336,10 @@ axes[1].legend(bbox_to_anchor=(1.02, 1), fontsize=8)
 plt.tight_layout()
 plt.savefig('celltypist_results.png', dpi=100, bbox_inches='tight')
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

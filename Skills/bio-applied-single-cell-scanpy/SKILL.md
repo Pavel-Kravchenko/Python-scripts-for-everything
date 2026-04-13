@@ -1,6 +1,6 @@
 ---
 name: bio-applied-single-cell-scanpy
-description: "1. Explain **why** single-cell RNA-seq reveals biology that bulk RNA-seq cannot 2. Navigate the **AnnData** data structure and understand its components 3. Apply standard **quality control** metrics t"
+description: "Single-cell analysis with Scanpy: AnnData objects, preprocessing, clustering, UMAP visualization, and marker gene detection. Use when analyzing scRNA-seq with Scanpy."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/12_Modern_Workflows/01_single_cell_scanpy.ipynb"
 primary_tool: scanpy
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/12_Modern_Workflows/01_single_cell_scanpy.ipynb`*
 
-# Single-Cell RNA-seq Analysis with Scanpy
 
 **Tier 3 -- Applied Bioinformatics**
 
@@ -73,7 +72,7 @@ sc.settings.verbosity = 3  # Show informative output
 sc.settings.set_figure_params(dpi=100, frameon=False, figsize=(6, 5))
 
 print(f"Scanpy version: {sc.__version__}")
-```
+```python
 
 ---
 
@@ -81,7 +80,7 @@ print(f"Scanpy version: {sc.__version__}")
 
 Scanpy uses **AnnData** (Annotated Data), a purpose-built data structure for single-cell data. Think of it as a container that keeps expression data, cell metadata, and gene metadata together.
 
-```
+```python
 AnnData object
     ├── X          : Expression matrix (cells × genes) -- sparse or dense
     ├── obs        : Cell metadata (DataFrame) -- cell barcodes, QC metrics, clusters
@@ -91,7 +90,7 @@ AnnData object
     ├── obsp       : Cell-cell graphs (dict) -- neighbor connectivities
     ├── uns        : Unstructured data (dict) -- colors, clustering parameters
     └── raw        : Copy of original data before filtering
-```
+```python
 
 ### Why This Structure?
 
@@ -108,7 +107,7 @@ print(f"Sparsity: {1 - (adata.X.nnz / np.prod(adata.X.shape)):.1%} zeros")
 
 # Display the AnnData object
 adata
-```
+```python
 
 ```python
 # Explore the structure
@@ -121,7 +120,7 @@ print(adata.var.head())
 print("\nFirst cell's expression (top 10 nonzero genes):")
 cell_expr = pd.Series(adata.X[0].toarray().flatten(), index=adata.var_names)
 print(cell_expr[cell_expr > 0].sort_values(ascending=False).head(10))
-```
+```python
 
 ---
 
@@ -156,7 +155,7 @@ sc.pl.violin(adata, 'total_counts', ax=axes[1], show=False)
 sc.pl.violin(adata, 'pct_counts_mt', ax=axes[2], show=False)
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ```python
 # Filter cells
@@ -167,7 +166,7 @@ sc.pp.filter_genes(adata, min_cells=3)
 adata = adata[adata.obs.pct_counts_mt < 20, :]
 
 print(f"After filtering: {adata.n_obs} cells")
-```
+```python
 
 ---
 
@@ -207,7 +206,7 @@ print(f"Selected {n_hvg} highly variable genes ({n_hvg/adata.n_vars:.1%} of tota
 # Visualize: x = mean expression, y = dispersion (variance/mean)
 # Black dots = highly variable genes
 sc.pl.highly_variable_genes(adata)
-```
+```python
 
 ---
 
@@ -246,7 +245,7 @@ sc.tl.pca(adata, svd_solver='arpack', n_comps=50)
 
 # How many PCs to keep? Look at variance explained
 sc.pl.pca_variance_ratio(adata, n_pcs=50, log=True)
-```
+```python
 
 ```python
 # Build k-nearest neighbor graph in PCA space
@@ -259,7 +258,7 @@ sc.tl.umap(adata)
 # Visualize: color by QC metrics to check for batch effects
 sc.pl.umap(adata, color=['n_genes_by_counts', 'total_counts', 'pct_counts_mt'],
            ncols=3, wspace=0.4)
-```
+```python
 
 ---
 
@@ -283,7 +282,7 @@ print(f"\nCells per cluster:\n{adata.obs['leiden'].value_counts()}")
 # Visualize clusters on UMAP
 sc.pl.umap(adata, color='leiden', legend_loc='on data', 
            title='Leiden Clustering (resolution=0.5)')
-```
+```python
 
 ---
 
@@ -303,7 +302,7 @@ sc.tl.rank_genes_groups(adata, 'leiden', method='wilcoxon')
 
 # Plot top 5 markers per cluster
 sc.pl.rank_genes_groups(adata, n_genes=5, sharey=False, fontsize=10)
-```
+```python
 
 ```python
 # Use known markers to identify cell types
@@ -327,7 +326,7 @@ print(f"Available markers: {len(available)}/{len(all_markers)}")
 # Dot plot: size = fraction expressing, color = mean expression
 sc.pl.dotplot(adata, available, groupby='leiden', standard_scale='var',
               figsize=(12, 4))
-```
+```python
 
 ---
 
@@ -348,7 +347,7 @@ Based on the marker gene dot plot above, assign cell type labels to each cluster
 # }
 # adata.obs['cell_type'] = adata.obs['leiden'].map(cluster_annotations)
 # sc.pl.umap(adata, color='cell_type')
-```
+```python
 
 ### Exercise 2: Resolution Sensitivity
 
@@ -359,7 +358,7 @@ Re-cluster the data at resolution 0.2 and 1.0. How does cluster number change? W
 # sc.tl.leiden(adata, resolution=0.2, key_added='leiden_low')
 # sc.tl.leiden(adata, resolution=1.0, key_added='leiden_high')
 # sc.pl.umap(adata, color=['leiden_low', 'leiden', 'leiden_high'], ncols=3)
-```
+```python
 
 ### Exercise 3: Compare Wilcoxon and t-test
 
@@ -369,7 +368,7 @@ Re-run marker detection with `method='t-test'`. Do the top markers change signif
 # Your code here
 # sc.tl.rank_genes_groups(adata, 'leiden', method='t-test', key_added='ttest_markers')
 # sc.pl.rank_genes_groups(adata, key='ttest_markers', n_genes=5)
-```
+```python
 
 ---
 
@@ -392,3 +391,9 @@ Re-run marker detection with `method='t-test'`. Do the top markers change signif
 | **Find markers** | `sc.tl.rank_genes_groups()` | `method='wilcoxon'` |
 
 ---
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

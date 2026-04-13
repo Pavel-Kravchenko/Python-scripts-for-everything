@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/02_enformer_regulatory.ipynb`*
 
-# Enformer: Predicting Regulatory Activity from DNA
 
 **Tier 5 — Modern AI for Science | Module 05 · Notebook 2**
 
@@ -93,7 +92,7 @@ def random_dna(n: int) -> str:
 
 def count_motif(seq: str, motif: str) -> int:
     return sum(1 for i in range(len(seq) - len(motif) + 1) if seq[i:i + len(motif)] == motif)
-```
+```python
 
 ## 2. Toy Multi-Track Regulatory Predictor
 
@@ -115,7 +114,7 @@ def toy_regulatory_model(seq: str) -> np.ndarray:
 seq = random_dna(300)
 scores = toy_regulatory_model(seq)
 print("Toy track scores:", np.round(scores, 3))
-```
+```python
 
 ## 3. In-Silico Mutagenesis (ISM)
 
@@ -144,7 +143,7 @@ print("Reference base:", ref)
 print("Baseline:", np.round(baseline, 3))
 for alt, delta in effects.items():
     print(f"{ref}>{alt} delta:", np.round(delta, 3))
-```
+```python
 
 ## 4. Variant Prioritization by Effect Size
 
@@ -169,7 +168,7 @@ variants = sorted(variants, key=lambda x: abs(x[3]), reverse=True)
 print("Top promoter-impact variants:")
 for v in variants[:6]:
     print(f"pos={v[0]} {v[1]}>{v[2]} delta={v[3]:+.3f}")
-```
+```python
 
 ## 5. Interpreting Direction
 
@@ -185,7 +184,7 @@ In real studies, these scores are combined with population frequency, GWAS/eQTL 
 # from enformer_pytorch import from_pretrained
 # model = from_pretrained('EleutherAI/enformer-official-rough', target_length=-1)
 # model.eval()
-```
+```python
 
 The course notebook keeps default execution lightweight while preserving the interpretation workflow.
 
@@ -207,3 +206,9 @@ Checked online during content expansion.
 - [Avsec et al. 2021, Enformer (Nature Methods)](https://www.nature.com/articles/s41592-021-01252-x)
 - [DeepMind Enformer implementation](https://github.com/google-deepmind/deepmind-research/tree/master/enformer)
 - [Borzoi repository](https://github.com/calico/borzoi)
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

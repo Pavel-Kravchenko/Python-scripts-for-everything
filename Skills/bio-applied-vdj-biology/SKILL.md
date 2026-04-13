@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/34_Immunogenomics/01_vdj_biology.ipynb`*
 
-# V(D)J Recombination and Adaptive Immune Receptors
 
 **Tier 3 — Applied Bioinformatics | Module 34 · Notebook 1**
 
@@ -188,7 +187,7 @@ print(f"Total reads: {total_reads:,}")
 print(f"Top clone frequency: {clonotype_table['frequency'].max():.1%}")
 print()
 print(clonotype_table[['clone_id', 'v_call', 'j_call', 'junction_aa', 'duplicate_count', 'frequency']].head(10).to_string(index=False))
-```
+```python
 
 ## 4. Clonotype Diversity Metrics
 
@@ -222,7 +221,7 @@ Where $f_1$ = singletons, $f_2$ = doubletons. Estimates true repertoire size fro
 
 ```python
 ## 5. V-Gene Usage and CDR3 Analysis
-```
+```python
 
 ```python
 np.random.seed(42)
@@ -296,7 +295,7 @@ plt.tight_layout()
 plt.savefig('tcr_repertoire_analysis.png', dpi=120, bbox_inches='tight')
 plt.show()
 print("Figure saved.")
-```
+```python
 
 ```python
 # Example: Load scTCR-seq with scirpy
@@ -304,8 +303,14 @@ print("Figure saved.")
 # mdata = ir.io.read_10x_vdj('filtered_contig_annotations.csv')
 # ir.pp.index_chains(mdata)
 # ir.tl.chain_qc(mdata)
-```
+```python
 
 ## 4. Clonotype Diversity Metrics
 
 > Shannon entropy, Simpson index, clonal dominance. Compare diversity between conditions (tumor vs blood, pre/post treatment). Rarefaction curves for sampling depth normalization.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

@@ -121,7 +121,7 @@ class Trie:
             results.append(word)
         for ch, child in sorted(node.children.items()):
             self._dfs(child, word + ch, results)
-```
+```python
 
 ### Aho-Corasick (reference implementation)
 
@@ -175,7 +175,7 @@ def find(text: str, patterns: list[str]) -> dict[str, list[int]]:
         for pat in node.patterns:
             results[pat].append(i - len(pat) + 1)
     return dict(results)
-```
+```python
 
 ### Suffix Array (naive O(n² log n) + Kasai LCP)
 
@@ -224,7 +224,7 @@ def search_suffix_array(text: str, sa: list[int], pattern: str) -> list[int]:
         else:
             right = mid
     return sorted(sa[lo:left])
-```
+```python
 
 ### Suffix Array Manber-Myers (O(n log n))
 
@@ -247,7 +247,7 @@ def build_suffix_array_mm(text: str) -> list[int]:
             break
         k *= 2
     return sa
-```
+```python
 
 ---
 

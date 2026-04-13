@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/04_Linear_Data_Structures/03_dynamic_arrays.ipynb`*
 
-# Dynamic Arrays
 
 A comprehensive guide to dynamic arrays: how they work, why we need them, and their performance characteristics.
 
@@ -42,7 +41,7 @@ A comprehensive guide to dynamic arrays: how they work, why we need them, and th
 1. **Wasted Memory**: If we allocate too much space, we waste memory
 2. **Overflow**: If we allocate too little, we can't store all our data
 
-```
+```python
 Static Array Problem:
 
 Case 1: Over-allocation (waste)
@@ -54,7 +53,7 @@ Case 2: Under-allocation (overflow)
 ┌───┬───┬───┬───┐
 │ A │ B │ C │ D │  ← FULL! Can't add 'E'!
 └───┴───┴───┴───┘
-```
+```python
 
 **Dynamic arrays** solve this by automatically resizing when needed.
 
@@ -75,7 +74,7 @@ When a dynamic array runs out of space:
 3. **Free** the old array (in languages with manual memory management)
 4. **Insert** the new element
 
-```
+```python
 Array Resizing Visualization:
 
 Initial: capacity=4, size=4
@@ -99,7 +98,7 @@ Step 3: Add new element
 ┌───┬───┬───┬───┬───┬───┬───┬───┐
 │ 1 │ 2 │ 3 │ 4 │ 5 │   │   │   │  size=5
 └───┴───┴───┴───┴───┴───┴───┴───┘
-```
+```python
 
 ### Growth Factor Trade-offs
 
@@ -156,7 +155,7 @@ class DynamicMassive:
     
     def _make_array(self, new_cap):
         return np.empty(new_cap, dtype=int, order='C')
-```
+```python
 
 ### Enhanced Implementation with Full Features
 
@@ -402,7 +401,7 @@ class DynamicArray:
             A ctypes array of py_object
         """
         return (capacity * ctypes.py_object)()
-```
+```python
 
 ---
 
@@ -429,7 +428,7 @@ class DynamicArray:
 
 Let's trace what happens when we append 9 elements:
 
-```
+```python
 Amortized Analysis of append() with 2x growth factor:
 
 Op  Size  Capacity  Cost  Cumulative  Notes
@@ -446,13 +445,13 @@ Op  Size  Capacity  Cost  Cumulative  Notes
 
 Total cost: 23 for 9 operations
 Amortized: 23/9 ≈ 2.56 = O(1) per operation!
-```
+```python
 
 ### Why Does This Work?
 
 The key insight: **We resize infrequently enough that the expensive copies are "paid for" by the cheap inserts.**
 
-```
+```python
 Cost breakdown for n appends:
 
 Resize copies: 1 + 2 + 4 + 8 + ... + n/2 = n - 1 copies
@@ -460,4 +459,10 @@ Regular inserts: n inserts (cost 1 each)
 
 Total cost ≤ n + (n - 1) = 2n - 1
 Amortized cost = (2n - 1) / n ≈ 2 = O(1)
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

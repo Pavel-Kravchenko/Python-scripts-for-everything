@@ -1,6 +1,6 @@
 ---
 name: bio-applied-virtual-screening
-description: "**Tier 3 — Applied Bioinformatics | Module 29 · Notebook 3**"
+description: "Virtual screening for drug discovery: pharmacophore modeling, docking score filtering, and ADMET prediction. Use when computationally screening compound libraries."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/03_virtual_screening.ipynb"
 primary_tool: Pandas
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/03_virtual_screening.ipynb`*
 
-# Virtual Screening & ADMET Prediction
 
 **Tier 3 — Applied Bioinformatics | Module 29 · Notebook 3**
 
@@ -64,7 +63,7 @@ package and adapt the example to match the actual API rather than retrying.
 # view.addModel(open('1IEP_fixed.pdb').read(), 'pdb')
 # view.setStyle({'cartoon': {'color': 'spectrum'}})
 # view.show()
-```
+```python
 
 ## 3. Molecular Docking with AutoDock Vina
 
@@ -84,7 +83,7 @@ package and adapt the example to match the actual API rather than retrying.
 # with open('vina_config.txt', 'w') as f: f.write(vina_config)
 # !vina --config vina_config.txt --out gefitinib_docked.pdbqt --log docking.log
 # !grep 'REMARK VINA RESULT' gefitinib_docked.pdbqt | head
-```
+```python
 
 ## 4. ADMET Property Prediction
 
@@ -97,7 +96,7 @@ package and adapt the example to match the actual API rather than retrying.
 # featurizer = dc.feat.CircularFingerprint(size=2048)
 # X = featurizer.featurize(smiles_list)
 # # Example: Use pre-trained Tox21 model for toxicity prediction
-```
+```python
 
 ## 5. Hit Prioritization
 
@@ -117,8 +116,14 @@ import pandas as pd
 # hits_filtered['composite'] = -hits_filtered['vina_score'] + hits_filtered['qsar_pIC50']
 # top10 = hits_filtered.nlargest(10, 'composite')
 # print(top10[['SMILES', 'vina_score', 'qsar_pIC50', 'composite']])
-```
+```python
 
 ## Summary
 
 > Recap VS pipeline: library preparation → docking → ADMET filter → QSAR scoring → prioritization. Discuss limitations of rigid docking (induced fit, water molecules). Link to GNN notebook for end-to-end learned scoring.
+
+## Common Pitfalls
+
+- **Docking score ≠ binding affinity**: Docking scores correlate weakly with experimental Kd; always validate top hits experimentally
+- **Receptor flexibility**: Rigid docking misses induced-fit binding; use ensemble docking for flexible targets
+- **PAINS compounds**: Filter pan-assay interference compounds before virtual screening

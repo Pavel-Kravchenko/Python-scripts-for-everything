@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/11_Clinical_Genomics/01_clinical_genomics.ipynb`*
 
-# Clinical Genomics: From Variants to Patient Care
 
 ## Tier 3 - Applied Bioinformatics
 
@@ -53,7 +52,7 @@ The journey from the Human Genome Project (completed 2003) to routine clinical s
 - **Improved interpretation**: Growing databases of variant-disease associations
 - **Clinical validation**: Proven utility in rare disease diagnosis, cancer treatment, pharmacogenomics
 
-```
+```python
 Precision Medicine Pipeline:
 
   Patient         Sequencing        Bioinformatics       Clinical
@@ -69,7 +68,7 @@ Precision Medicine Pipeline:
                                          v
                                     Treatment
                                     Decision
-```
+```python
 
 ### 1.2 Types of Genetic Testing
 
@@ -112,7 +111,7 @@ except ImportError:
     print("requests not installed -- ClinVar API examples will use mock data")
 
 print("Imports ready.")
-```
+```python
 
 ---
 
@@ -124,7 +123,7 @@ The **American College of Medical Genetics and Genomics (ACMG)** and the **Assoc
 
 Every variant evaluated in a clinical context is assigned to one of five categories:
 
-```
+```python
 ACMG 5-Tier Classification:
 
   Pathogenic  >  Likely       >  Variant of    >  Likely   >  Benign
@@ -134,7 +133,7 @@ ACMG 5-Tier Classification:
 
   |-- Reportable as   --|  |-- Typically not  --|  |-- Reportable as  --|
      disease-causing        acted upon clinically     not disease-causing
-```
+```python
 
 - **Pathogenic (P)**: Strong evidence that the variant causes disease
 - **Likely Pathogenic (LP)**: >90% certainty of being disease-causing
@@ -298,4 +297,10 @@ print('-' * 85)
 for criteria, desc in test_cases:
     result = classify_variant(criteria)
     print(f'{", ".join(criteria):<30} {result:<20} {desc}')
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

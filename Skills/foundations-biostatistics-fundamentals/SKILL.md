@@ -1,6 +1,6 @@
 ---
 name: foundations-biostatistics-fundamentals
-description: "Every major question in modern biology is ultimately a statistical question:"
+description: "Biostatistics fundamentals: descriptive statistics, distributions, hypothesis testing, and confidence intervals for biological data. Use when analyzing experimental results."
 tool_type: python
 source_notebook: "Tier_0_Computational_Foundations/06_Biostatistics/01_biostatistics_fundamentals.ipynb"
 primary_tool: NumPy
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_0_Computational_Foundations/06_Biostatistics/01_biostatistics_fundamentals.ipynb`*
 
-# Biostatistics Fundamentals
 
 **Tier 0 -- Computational Foundations | Module 6**
 
@@ -79,7 +78,7 @@ np.random.seed(42)
 # Plot styling
 plt.rcParams['figure.figsize'] = (10, 4)
 plt.rcParams['figure.dpi'] = 100
-```
+```python
 
 ---
 
@@ -155,7 +154,7 @@ sem = np.std(expression, ddof=1) / np.sqrt(len(expression))
 print(f"\nStandard Error of Mean: {sem:.2f}  (SD / sqrt(n))")
 print(f"  This tells us how precisely we know the mean.")
 print(f"  n = {len(expression)}, so SEM << SD")
-```
+```python
 
 ```python
 # Why median > mean when outliers are high
@@ -164,7 +163,7 @@ print(f"  Without outliers: mean = {np.mean(expression[:100]):.2f}, median = {np
 print(f"  With 3 outliers:  mean = {np.mean(expression):.2f}, median = {np.median(expression):.2f}")
 print(f"  The mean shifted by {np.mean(expression) - np.mean(expression[:100]):.2f}, "
       f"but median only by {np.median(expression) - np.median(expression[:100]):.2f}")
-```
+```python
 
 ```python
 # Visualizing distributions
@@ -191,11 +190,11 @@ axes[2].set_title('Q-Q Plot (deviation at tails = outliers)')
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### Understanding the Boxplot
 
-```
+```python
           o           <- Outliers (beyond 1.5 * IQR from box edge)
           |
     ------+------     <- Upper whisker (last data point within 1.5 * IQR)
@@ -207,7 +206,7 @@ plt.show()
     |   Q1 (25%) |    <- Bottom of box
     |            |
     ------+------     <- Lower whisker
-```
+```python
 
 The box contains 50% of the data (the IQR). Points beyond 1.5 * IQR from the box edges are flagged as potential outliers.
 
@@ -250,7 +249,7 @@ ax.legend()
 ax.set_xlim(-4, 4)
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### 4.2 Distributions Used in Bioinformatics
 
@@ -294,7 +293,7 @@ for ax in axes.flat:
 plt.suptitle('Distributions in Bioinformatics', fontsize=14, fontweight='bold', y=1.02)
 plt.tight_layout()
 plt.show()
-```
+```python
 
 **Why Negative Binomial for RNA-seq?**
 
@@ -315,3 +314,9 @@ The standard error of the mean (SEM) quantifies how precisely we know the sample
 **SEM = SD / sqrt(n)**
 
 More samples = smaller SEM = more precise estimate of the true mean.
+
+## Common Pitfalls
+
+- **Assumption violations**: Check normality and homoscedasticity before parametric tests; use nonparametric alternatives when assumptions fail
+- **Multiple comparisons**: Bonferroni is conservative; use Benjamini-Hochberg FDR for large-scale testing
+- **Correlation ≠ causation**: Statistical association does not imply biological mechanism

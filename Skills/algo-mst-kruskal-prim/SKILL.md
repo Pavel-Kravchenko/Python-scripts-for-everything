@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/04_mst_kruskal_prim.ipynb`*
 
-# 🌳 Minimum Spanning Trees: Kruskal's and Prim's Algorithms
 
 ## Learning Objectives
 
@@ -71,7 +70,7 @@ class UnionFind:
         if self.rank[px] == self.rank[py]:
             self.rank[px] += 1
         return True
-```
+```python
 
 ```python
 def kruskal(vertices, edges):
@@ -118,7 +117,7 @@ print("Minimum Spanning Tree (simplified phylogeny):")
 for u, v, w in mst:
     print(f"  {u} -- {v}: {w}")
 print(f"Total evolutionary distance: {total}")
-```
+```python
 
 ## Step-by-Step Kruskal
 
@@ -144,7 +143,7 @@ def kruskal_verbose(vertices, edges):
 
 print("Kruskal step-by-step on species distances:")
 kruskal_verbose(species, distances)
-```
+```python
 
 ```python
 def prim(vertices, adj):
@@ -188,7 +187,7 @@ mst_prim, total_prim = prim(species, adj)
 print("\nPrim's MST (same result):")
 for u, v, w in mst_prim:
     print(f"  {u} -- {v}: {w}")
-```
+```python
 
 ## Connection to Phylogenetics
 
@@ -230,7 +229,7 @@ def mst_clustering(vertices, edges, k=2):
 clusters = mst_clustering(species, distances, k=2)
 for i, c in enumerate(clusters, 1):
     print(f"Cluster {i}: {c}")
-```
+```python
 
 ## Exercises
 
@@ -247,7 +246,7 @@ coexpression = [
 ]
 
 # YOUR CODE HERE: call kruskal and print the MST backbone
-```
+```python
 
 ### Exercise 2 (2 stars): MST Edge Replacement
 
@@ -274,4 +273,10 @@ def mst_update(vertices, mst_edges, new_edge):
     # between new_edge endpoints using BFS/DFS, then find the max-weight
     # edge on that path. If new_edge weight < max path weight, swap them.
     pass
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

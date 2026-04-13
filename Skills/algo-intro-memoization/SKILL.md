@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/01_intro_memoization.ipynb`*
 
-# 🔄 Introduction to Dynamic Programming: Memoization
 
 ## Learning Objectives
 
@@ -52,11 +51,11 @@ Understanding DP fundamentals will help you understand these algorithms deeply.
 
 Let's start with the classic Fibonacci sequence:
 
-```
+```python
 F(0) = 0
 F(1) = 1
 F(n) = F(n-1) + F(n-2) for n > 1
-```
+```python
 
 ```python
 import time
@@ -70,7 +69,7 @@ def fib_recursive(n):
 # Test small values
 for i in range(10):
     print(f"F({i}) = {fib_recursive(i)}")
-```
+```python
 
 ```python
 # Let's see how long it takes for larger values
@@ -83,13 +82,13 @@ def time_function(func, n):
 for n in [20, 25, 30, 35]:
     result, elapsed = time_function(fib_recursive, n)
     print(f"F({n}) = {result}, took {elapsed:.3f} seconds")
-```
+```python
 
 ### Why is it so slow?
 
 The recursion tree has **overlapping subproblems**:
 
-```
+```python
                     F(5)
                    /    \
                 F(4)     F(3)       ← F(3) computed twice!
@@ -97,7 +96,7 @@ The recursion tree has **overlapping subproblems**:
             F(3)  F(2)  F(2)  F(1)  ← F(2) computed 3 times!
            /  \   
         F(2)  F(1)
-```
+```python
 
 For F(n), we make ~2^n function calls, even though there are only n unique subproblems.
 
@@ -127,7 +126,7 @@ def fib_memoized(n, memo=None):
 for n in [20, 25, 30, 35, 100]:
     result, elapsed = time_function(fib_memoized, n)
     print(f"F({n}) = {result}, took {elapsed:.6f} seconds")
-```
+```python
 
 ### Using Python's `@functools.lru_cache`
 
@@ -150,7 +149,7 @@ result, elapsed = time_function(fib_cached, 100)
 print(f"F(100) = {result}")
 print(f"Time: {elapsed:.6f} seconds")
 print(f"Cache info: {fib_cached.cache_info()}")
-```
+```python
 
 ## 3. The DP Mindset: Identify Subproblems
 
@@ -186,7 +185,7 @@ def climb_stairs(n):
 
 for n in range(1, 11):
     print(f"Stairs={n}: {climb_stairs(n)} ways")
-```
+```python
 
 ## 5. 🧬 Bioinformatics Example: Counting Alignments
 
@@ -219,7 +218,7 @@ for m, n in [(3, 3), (5, 5), (10, 10)]:
     count_alignments.cache_clear()
     count = count_alignments(m, n)
     print(f"Sequences of length {m} and {n}: {count:,} possible alignments")
-```
+```python
 
 ```python
 # The growth is exponential - this is why we need scoring!
@@ -246,7 +245,7 @@ plt.title('Alignment Count (Log Scale)')
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 6. Example: Coin Change (Minimum Operations)
 
@@ -289,7 +288,7 @@ coins = [1, 5, 10, 25]
 for amount in [11, 30, 41, 63]:
     result = min_coins(coins, amount)
     print(f"Amount ${amount/100:.2f}: {result} coins minimum")
-```
+```python
 
 ## 🧬 Exercise 1: RNA Folding Count
 
@@ -317,7 +316,7 @@ def count_rna_structures(n):
 # Test (these are Catalan-like numbers)
 # for n in range(1, 15):
 #     print(f"n={n}: {count_rna_structures(n)} structures")
-```
+```python
 
 ## 🧬 Exercise 2: Longest Increasing Subsequence
 
@@ -337,7 +336,7 @@ def longest_increasing_subsequence(arr):
 # Test
 # test_arr = [10, 22, 9, 33, 21, 50, 41, 60, 80]
 # print(f"LIS length: {longest_increasing_subsequence(test_arr)}")
-```
+```python
 
 ---
 
@@ -358,3 +357,9 @@ In this notebook, you learned:
 ## Key Takeaway
 
 > **Memoization** is top-down DP: start with the big problem, recursively break it down, cache results. It's the easiest way to add DP to a recursive solution — just add `@lru_cache`!
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

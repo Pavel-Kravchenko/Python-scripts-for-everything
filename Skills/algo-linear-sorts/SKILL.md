@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/02_Sorting_Algorithms/02_linear_sorts.ipynb`*
 
-# Linear Time Sorting Algorithms
 
 This notebook covers **non-comparison-based** sorting algorithms that can achieve **O(n)** time complexity under certain conditions.
 
@@ -84,7 +83,7 @@ This notebook covers **non-comparison-based** sorting algorithms that can achiev
 
 ### ASCII Art Visualization
 
-```
+```python
 Input: [4, 2, 2, 8, 3, 3, 1]
 Range: 1-8
 
@@ -114,7 +113,7 @@ Step 3: Build output (right to left for stability)
 │          ↑  ↑  ↑  ↑  ↑  ↑  ↑            │
 │         pos 0  1  2  3  4  5  6         │
 └─────────────────────────────────────────┘
-```
+```python
 
 ```python
 from typing import List, Optional
@@ -165,7 +164,7 @@ def counting_sort(arr: List[int], max_val: Optional[int] = None) -> List[int]:
         output[count[num]] = num
     
     return output
-```
+```python
 
 ```python
 def counting_sort_verbose(arr: List[int]) -> List[int]:
@@ -221,7 +220,7 @@ def counting_sort_verbose(arr: List[int]) -> List[int]:
     print(f"Sorted array: {output}")
     
     return output
-```
+```python
 
 ```python
 # Example: Step-by-step execution
@@ -230,7 +229,7 @@ print("=" * 60)
 
 test_array = [4, 2, 2, 8, 3, 3, 1]
 result = counting_sort_verbose(test_array)
-```
+```python
 
 ```python
 # Test stability: elements with same key maintain relative order
@@ -267,7 +266,7 @@ print("        Note: Three items with key=3: A, C, E")
 sorted_items = counting_sort_with_objects(items)
 print(f"Output: {sorted_items}")
 print("        Items with key=3 maintain order: A, C, E ✓")
-```
+```python
 
 ---
 
@@ -293,7 +292,7 @@ If we use a **stable** sort for each digit position, the overall sort is correct
 
 ### ASCII Art Visualization
 
-```
+```python
 Input: [170, 45, 75, 90, 802, 24, 2, 66]
 
 Pad to 3 digits: [170, 045, 075, 090, 802, 024, 002, 066]
@@ -348,7 +347,7 @@ Pass 3: Sort by 100s digit (leftmost)
 ═══════════════════════════════════════════════════════════════
 Final: [2, 24, 45, 66, 75, 90, 170, 802] ✓
 ═══════════════════════════════════════════════════════════════
-```
+```python
 
 ```python
 def counting_sort_by_digit(arr: List[int], exp: int) -> List[int]:
@@ -427,7 +426,7 @@ def radix_sort(arr: List[int]) -> List[int]:
         exp *= 10
     
     return result
-```
+```python
 
 ```python
 def radix_sort_verbose(arr: List[int]) -> List[int]:
@@ -488,4 +487,10 @@ def radix_sort_verbose(arr: List[int]) -> List[int]:
     print(f"{'='*70}")
     
     return result
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

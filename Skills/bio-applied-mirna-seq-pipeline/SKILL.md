@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/35_Small_RNA_and_ncRNA/01_mirna_seq_pipeline.ipynb`*
 
-# miRNA-seq Processing and Analysis
 
 **Tier 3 — Applied Bioinformatics | Module 35 · Notebook 1**
 
@@ -50,7 +49,7 @@ package and adapt the example to match the actual API rather than retrying.
 
 ### Biogenesis Pathway
 
-```
+```python
 Genomic DNA → RNA Pol II transcription
        ↓
    pri-miRNA (primary transcript, 1-3 kb, capped + polyadenylated)
@@ -66,7 +65,7 @@ Genomic DNA → RNA Pol II transcription
    mRNA target binding via seed sequence (positions 2-7/8)
        ↓
    Translational repression + mRNA deadenylation/degradation
-```
+```python
 
 ### Key Features
 - **Guide strand** (miR-X-5p or miR-X-3p): loaded into RISC, guides target silencing
@@ -110,7 +109,7 @@ cutadapt \
   -j 8 \                        # threads
   -o trimmed.fastq.gz \
   sample.fastq.gz
-```
+```python
 
 ### Bowtie Alignment to miRBase
 ```bash
@@ -125,7 +124,7 @@ bowtie -x mirbase_index \
   -p 8 \
   trimmed.fastq.gz \
   -S aligned.sam
-```
+```python
 
 ### Quantification with featureCounts
 ```bash
@@ -136,7 +135,7 @@ featureCounts \
   -g Name \
   -s 1 \                        # strand-specific
   aligned.bam
-```
+```python
 
 ## 3. Processing Pipeline: Normalization and Quality Control
 
@@ -204,7 +203,7 @@ de_df['significant'] = (de_df['padj'] < 0.05) & (de_df['log2FC'].abs() > 1.0)
 
 print("=== Differential miRNA Expression: Tumor vs Normal ===")
 print(de_df[['miRNA', 'log2FC', 'pvalue', 'padj', 'significant']].sort_values('log2FC', ascending=False).to_string(index=False, float_format=lambda x: f"{x:.3f}"))
-```
+```python
 
 ## 4. Differential miRNA Expression: Visualization
 
@@ -304,7 +303,7 @@ print("\nBiological significance:")
 print("• miR-21 targets PTEN → activates PI3K/AKT → promotes proliferation/survival")
 print("• let-7 targets KRAS/NRAS → inhibits RAS signaling → tumor suppression")
 print("• miR-210 targets ISCU → impairs iron-sulfur cluster assembly → metabolic shift")
-```
+```python
 
 ## 3. Processing Pipeline
 
@@ -315,7 +314,7 @@ print("• miR-210 targets ISCU → impairs iron-sulfur cluster assembly → met
 # !cutadapt -a TGGAATTCTCGGGTGCCAAGG -m 16 -M 28 -o trimmed.fastq.gz sample.fastq.gz
 # !bowtie -x hg38 -p 8 --norc trimmed.fastq.gz -S aligned.sam
 # !featureCounts -a miRBase_hg38.gff -o counts.txt aligned.bam
-```
+```python
 
 ## 4. Differential miRNA Expression
 
@@ -324,3 +323,9 @@ print("• miR-210 targets ISCU → impairs iron-sulfur cluster assembly → met
 ## 5. Target Prediction and Network Analysis
 
 > TargetScan context++ scores. miRTarBase curated experimental targets. miRNA-target interaction network in NetworkX/Cytoscape. KEGG pathway enrichment of targets. miRNA sponge hypothesis and ceRNA networks.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

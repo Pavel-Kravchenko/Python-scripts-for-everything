@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/32_DNA_Methylation_Analysis/03_epigenetic_clocks.ipynb`*
 
-# Epigenetic Clocks and Aging Analysis
 
 **Tier 3 — Applied Bioinformatics | Module 32 · Notebook 3**
 
@@ -152,7 +151,7 @@ print(f"  {N_CLOCK} CpGs have true age associations")
 print(f"  {N_CPGS - N_CLOCK} CpGs are noise")
 print(f"Age range: {chronological_ages.min():.0f}–{chronological_ages.max():.0f} years")
 print(f"\nTransformed age range: {transformed_ages.min():.2f}–{transformed_ages.max():.2f}")
-```
+```python
 
 ## 3. Age Acceleration Analysis
 
@@ -284,4 +283,10 @@ plt.show()
 print("Clock MAE vs chronological age:")
 for name, mae in mae_vals.items():
     print(f"  {name:<12}: {mae:.2f} years")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

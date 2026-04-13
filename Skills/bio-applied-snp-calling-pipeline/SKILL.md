@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/02_Variant_Calling_and_SNP_Analysis/02_snp_calling_pipeline.ipynb`*
 
-# SNP Calling Pipeline: A Practical Hands-On Workflow
 
 ## Tier 3 - Applied Bioinformatics
 
@@ -45,7 +44,7 @@ The pipeline accepts single-end FASTQ reads and produces a variant report annota
 
 > **Historical context:** This pipeline was built around HISAT2, a splice-aware RNA-seq aligner, which is used here with flags to disable spliced alignment (making it suitable for DNA). Modern pipelines use **BWA-MEM2** for DNA alignment. The biological results from either approach are comparable for SNP calling; see Section 4 for details.
 
-```
+```python
 Raw FASTQ reads
        |
        v
@@ -77,11 +76,11 @@ Raw FASTQ reads
        |
        v
   Final annotated report
-```
+```python
 
 ### Pipeline File Structure
 
-```
+```python
 snp-calling-pipeline/
 ├── reads/                 ← put your .fastq files here
 ├── Human/                 ← HISAT2 index + reference FASTA per chromosome
@@ -97,7 +96,7 @@ snp-calling-pipeline/
 ├── hisat2-2.1.0/          ← HISAT2 binaries
 ├── output/                ← created at runtime, one sub-dir per sample
 └── script.sh              ← main pipeline driver
-```
+```python
 
 ---
 
@@ -120,7 +119,7 @@ conda create -n snp-pipeline python=3.10
 conda activate snp-pipeline
 conda install -c bioconda trimmomatic hisat2 samtools bcftools
 # ANNOVAR requires manual registration at http://annovar.openbioinformatics.org/
-```
+```python
 
 ---
 
@@ -143,7 +142,7 @@ java -jar $home/Trimmomatic-0.36/trimmomatic-0.36.jar \
     chr_outfile.fastq \
     TRAILING:20 \
     MINLEN:50
-```
+```python
 
 ### 3.2 Parameter Breakdown
 
@@ -251,7 +250,7 @@ plt.show()
 print(f"Reads kept: {kept} ({100*kept/500:.1f}%)")
 print(f"Reads discarded (< {MINLEN} bp): {discarded} ({100*discarded/500:.1f}%)")
 print(f"Mean length after trimming: {np.mean(read_lengths_after):.1f} bp")
-```
+```python
 
 ---
 
@@ -372,4 +371,10 @@ if unique / total >= 0.80:
     print("  ✓ Unique alignment rate >= 80%: GOOD")
 else:
     print("  ⚠ High multi-mapping rate: consider duplicate-region filtering")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

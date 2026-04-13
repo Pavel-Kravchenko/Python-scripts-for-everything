@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_0_Computational_Foundations/01_Linux_Basics/01_linux_fundamentals.ipynb`*
 
-# Module 0.1: Linux Fundamentals for Bioinformatics
 
 ---
 
@@ -77,7 +76,7 @@ ls --help 2>&1 | head -20
 # whatis gives a one-line description
 whatis grep
 whatis awk
-```
+```python
 
 ---
 
@@ -86,7 +85,7 @@ whatis awk
 The Linux file system is a tree rooted at `/`. Everything -- devices, processes, your
 home directory -- is a file or directory somewhere in this tree.
 
-```
+```python
                      / (root)
                      |
      +---------------+----------------+
@@ -101,7 +100,7 @@ home directory -- is a file or directory somewhere in this tree.
           +-- data/
                 +-- raw_reads/
                 +-- references/
-```
+```python
 
 ### Key path concepts
 
@@ -124,7 +123,7 @@ ls -l           # Long format: permissions, owner, size, date
 ls -a           # Include hidden files (starting with .)
 ls -lah         # Long + all + human-readable sizes -- the combo you will use most
 ls -1           # One file per line -- useful for piping
-```
+```python
 
 ```python
 %%bash
@@ -137,7 +136,7 @@ cd projects       # Relative path (from current directory)
 cd -              # Go back to the previous directory
 
 # Tip: Press Tab to autocomplete paths -- saves enormous time
-```
+```python
 
 ---
 
@@ -156,7 +155,7 @@ mkdir -p project/{data/{raw,processed},results,scripts,logs}
 # touch -- Create an empty file (or update timestamp of existing file)
 touch README.md
 touch data/sample_{01,02,03}.txt    # Creates three files via brace expansion
-```
+```python
 
 ### Copying, Moving, Renaming, Deleting
 
@@ -175,7 +174,7 @@ rm file.txt                         # Delete a file
 rm -r directory/                    # Delete a directory and everything inside
 rm -rf directory/                   # Force-delete without confirmation
 #   NEVER run: rm -rf /   or   rm -rf ~   -- you will destroy your system/data
-```
+```python
 
 ### Bioinformatics context: Project directory conventions
 
@@ -184,7 +183,7 @@ analysis order obvious:
 
 ```bash
 mkdir -p RNA_Seq_Project/{00_raw_data,01_qc,02_trimmed,03_aligned,04_counts,05_analysis,scripts,logs}
-```
+```python
 
 This mirrors the actual pipeline steps: raw reads go in `00_raw_data`, quality
 control reports in `01_qc`, and so on. Anyone opening the project folder immediately
@@ -216,7 +215,7 @@ head -n 4 reads.fastq       # First read in a FASTQ file (4 lines per read)
 # wc -- Word/line/character count
 wc -l file.txt              # Count lines
 wc -c file.txt              # Count bytes
-```
+```python
 
 ### Bioinformatics file formats you will encounter
 
@@ -230,21 +229,21 @@ wc -c file.txt              # Count bytes
 | GFF/GTF | `.gff`, `.gtf` | Gene annotations | MB |
 
 **FASTA format example:**
-```
+```python
 >seq1 Homo sapiens BRCA1 mRNA
 ATGGATTTATCTGCTCTTCGCGTTGAAGAAGTACAAAATGTCATTAAT
 GCTATGCAGAAAATCTTAGAGTGTCCCATCTGTCTGGAGTTGATCAAGG
 >seq2 Mus musculus TP53 mRNA
 ATGACTGCCATGGAGGAGTCACAGTCGGATATCAGCCTCGAGCTCCCTC
-```
+```python
 
 **FASTQ format example (4 lines per read):**
-```
+```python
 @SEQ_ID_001
 GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
 +
 IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-```
+```python
 
 ### Text Editors in the Terminal
 
@@ -256,7 +255,7 @@ IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 
 **Vim survival guide** (you WILL encounter vim on servers):
 
-```
+```python
 vim filename          # Open file
 i                     # Enter INSERT mode (now you can type)
 Esc                   # Return to NORMAL mode
@@ -272,7 +271,7 @@ Ctrl+R                # Redo
 gg / G                # Go to beginning / end of file
 :21                   # Go to line 21
 :%s/old/new/g         # Replace all occurrences of 'old' with 'new'
-```
+```python
 
 ---
 
@@ -281,7 +280,7 @@ gg / G                # Go to beginning / end of file
 This is the Unix superpower. Each command does one thing well; pipes (`|`) chain them
 together into powerful data-processing pipelines.
 
-```
+```python
 Data flow:
 
   command1 | command2 | command3 > output.txt
@@ -297,7 +296,7 @@ Redirection operators:
   2>&1 Redirect stderr to same place as stdout
   <    Use file as stdin
   |    Pipe stdout of left command to stdin of right command
-```
+```python
 
 ```python
 %%bash
@@ -320,7 +319,7 @@ echo "Sample_002" >> sample_list.txt     # Append to file
 
 # Extract sequence IDs from FASTA, clean them up, save to file:
 # grep "^>" sequences.fasta | cut -d' ' -f1 | sed 's/>//' > sequence_ids.txt
-```
+```python
 
 ### Bioinformatics pipeline examples
 
@@ -337,7 +336,7 @@ grep -v "^>" genome.fa | tr -d '\n' | \
 
 # Count reads in a compressed FASTQ
 zcat sample.fastq.gz | wc -l | awk '{print $1/4, "reads"}'
-```
+```python
 
 ---
 
@@ -366,7 +365,7 @@ zcat sample.fastq.gz | wc -l | awk '{print $1/4, "reads"}'
 
 # Search compressed files without decompressing
 # zgrep "PASS" variants.vcf.gz
-```
+```python
 
 #### grep in bioinformatics
 
@@ -391,4 +390,10 @@ grep -l "rs12345" *.vcf
 
 # Search for a motif and show the full FASTA header above it
 grep -B 1 "GAATTC" sequences.fasta    # EcoRI recognition site
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

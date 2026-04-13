@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/06_Hash_Based_Structures/01_hash_tables_bloom.ipynb`*
 
-# Hash Tables and Bloom Filters
 
 This notebook covers hash-based data structures that provide **O(1) average-case** operations for insert, search, and delete.
 
@@ -40,12 +39,12 @@ This notebook covers hash-based data structures that provide **O(1) average-case
 
 A **hash function** maps data of arbitrary size to fixed-size values (hash codes). It converts keys into array indices for fast lookups.
 
-```
+```python
 key ──────► h(key) ──────► index
 "hello"      hash()        42
 "world"      hash()        17
 12345        hash()        85
-```
+```python
 
 ### Properties of a Good Hash Function
 
@@ -131,7 +130,7 @@ for key in [15, 22, 8, 1, 29, 36]:
 print(f"\nString hash (table size 10):")
 for word in ["hello", "world", "hash", "table"]:
     print(f"  h('{word}') = {string_hash(word, 10)}")
-```
+```python
 
 ---
 
@@ -141,7 +140,7 @@ for word in ["hello", "world", "hash", "table"]:
 
 A hash table uses an array where elements are stored at indices determined by a hash function.
 
-```
+```python
 Direct Addressing (no collisions):
 
 Keys: {15, 3, 22, 8}
@@ -153,7 +152,7 @@ Index:  0    1    2    3    4    5    6    7    8    9
       └────┴────┴────┴────┴────┴────┴────┴────┴────┴────┘
               ↑    ↑         ↑              ↑
          22%10=2  3%10=3   15%10=5       8%10=8
-```
+```python
 
 ### Complexity Analysis
 
@@ -226,7 +225,7 @@ ht.display()
 print(f"\nget(15) = {ht.get(15)}")
 print(f"get(3) = {ht.get(3)}")
 print(f"get(99) = {ht.get(99)}")
-```
+```python
 
 ---
 
@@ -238,7 +237,7 @@ A **collision** occurs when two different keys hash to the same index. There are
 
 Each slot contains a linked list of all elements that hash to that index.
 
-```
+```python
 Hash function: h(key) = key % 7
 
 Insert: 15, 22, 8, 1, 29, 36
@@ -258,7 +257,7 @@ Index:  0    1    2    3    4    5    6
            [15] → [22] → [8] → [1] → [29] → [36] → null
 
 Insert/Search: Walk the chain at index h(key)
-```
+```python
 
 ### 3.2 Open Addressing
 
@@ -266,7 +265,7 @@ All elements are stored in the array itself. On collision, probe for next availa
 
 #### Linear Probing
 
-```
+```python
 h(key, i) = (h(key) + i) % m
 
 Insert 15, 22, 29 (all hash to 1)
@@ -292,29 +291,29 @@ Index:  0    1    2    3    4    5    6
       └────┴────┴────┴────┴────┴────┴────┘
             ↑────↑────↑
             probe sequence
-```
+```python
 
 #### Quadratic Probing
 
-```
+```python
 h(key, i) = (h(key) + c₁*i + c₂*i²) % m
 
 Typically: h(key, i) = (h(key) + i²) % m
 
 Probes: +0, +1, +4, +9, +16, ...
 Reduces primary clustering but may not visit all slots
-```
+```python
 
 #### Double Hashing
 
-```
+```python
 h(key, i) = (h₁(key) + i * h₂(key)) % m
 
 h₁(key) = key % m
 h₂(key) = 1 + (key % (m-1))  # must never return 0
 
 Best distribution but requires two hash functions
-```
+```python
 
 ### Comparison: Chaining vs Open Addressing
 
@@ -487,4 +486,10 @@ print(f"\nLookup examples:")
 print(f"  get(22) = {ht.get(22)}")
 print(f"  get(36) = {ht.get(36)}")
 print(f"  get(100) = {ht.get(100)}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

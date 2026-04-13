@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/01_genomic_llms.ipynb`*
 
-# Genomic Foundation Models: Nucleotide Transformers, HyenaDNA, and Evo
 
 **Tier 5 — Modern AI for Science | Module 05 · Notebook 1**
 
@@ -59,7 +58,7 @@ import numpy as np
 from collections import Counter
 
 np.random.seed(7)
-```
+```python
 
 ## 1. Tokenization in Genomic LMs
 
@@ -78,7 +77,7 @@ def kmers(seq: str, k: int = 6):
 sequence = "ATGCGTACGTTAGCGTATCGATCGGATCGA"
 print("Sequence length:", len(sequence))
 print("First 10 6-mers:", kmers(sequence, 6)[:10])
-```
+```python
 
 ## 2. Build a Simple Embedding Baseline (k-mer frequency)
 
@@ -98,7 +97,7 @@ vocab_3 = [a + b + c for a in alphabet for b in alphabet for c in alphabet]
 example_vec = kmer_embedding("ATGATGATGCCC", vocab_3, k=3)
 print("Embedding dimension:", example_vec.shape[0])
 print("Non-zero features:", int((example_vec > 0).sum()))
-```
+```python
 
 ## 3. Probe Task: Promoter-like vs Background Sequences
 
@@ -144,7 +143,7 @@ pred = (d1 < d0).astype(int)
 
 acc = (pred == y_test).mean()
 print(f"Nearest-centroid probe accuracy: {acc:.3f}")
-```
+```python
 
 ## 4. Why Long Context Matters
 
@@ -164,7 +163,7 @@ toy_long = inject_motif(toy_long, "CACC", 920)
 
 print("Long-range label:", distal_interaction_label(toy_long))
 print("If truncated to 200 bp, end motif is lost -> label can flip.")
-```
+```python
 
 ## 5. Practical Model Selection
 
@@ -185,7 +184,7 @@ Use lightweight baselines first, then escalate to foundation models when context
 # model_name = 'InstaDeepAI/nucleotide-transformer-v2-500m-multi-species'
 # tokenizer = AutoTokenizer.from_pretrained(model_name)
 # model = AutoModel.from_pretrained(model_name).eval()
-```
+```python
 
 In this course version we keep runnable cells CPU-friendly and dependency-light.
 
@@ -209,3 +208,9 @@ Checked online during content expansion.
 - [Nucleotide Transformer repository](https://github.com/instadeepai/nucleotide-transformer)
 - [HyenaDNA repository](https://github.com/HazyResearch/hyena-dna)
 - [Evo repository](https://github.com/evo-design/evo)
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

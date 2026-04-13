@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/05_Tree_Structures/03_red_black_trees.ipynb`*
 
-# Red-Black Trees
 
 A **Red-Black Tree** is a self-balancing binary search tree where each node has an extra bit for color (RED or BLACK). The tree uses these colors to ensure the tree remains approximately balanced during insertions and deletions.
 
@@ -53,7 +52,7 @@ A Red-Black Tree must satisfy **5 essential properties**:
 
 ### Visual Summary:
 
-```
+```python
 Property 1: Every node is RED or BLACK
 ┌─────────────────────────────────────┐
 │   (B)20         Each node has a     │
@@ -98,7 +97,7 @@ Property 5: Same BLACK count on all paths
 │ Path 20→10→15→NIL:  BLACK=2 (20,15) │
 │ Path 20→30→NIL:     BLACK=2 (20,30) │
 └─────────────────────────────────────┘
-```
+```python
 
 ### Why These Properties Matter
 
@@ -127,7 +126,7 @@ Both AVL and Red-Black trees are self-balancing BSTs, but they make different tr
 
 ### Visual Comparison
 
-```
+```python
 Same 7 nodes in AVL vs Red-Black:
 
 AVL Tree (strictly balanced):      Red-Black Tree (loosely balanced):
@@ -141,11 +140,11 @@ AVL Tree (strictly balanced):      Red-Black Tree (loosely balanced):
 Height: 3                            Height: 3 (can be up to 4)
 Max rotations per insert: 2          Max rotations per insert: 2
 But AVL rotates more often!          Recoloring often sufficient
-```
+```python
 
 ### When to Choose Which?
 
-```
+```python
 Choose AVL when:
 ├── Lookups >> Insertions/Deletions
 ├── Need fastest possible search
@@ -155,7 +154,7 @@ Choose Red-Black when:
 ├── Many insertions and deletions
 ├── Need good overall performance
 └── Example: Language runtime libraries (Java, C++, Linux kernel)
-```
+```python
 
 ---
 
@@ -165,7 +164,7 @@ Choose Red-Black when:
 
 Using **(R)** for RED nodes and **(B)** for BLACK nodes:
 
-```
+```python
                     (B)13
                    /     \
                (R)8      (R)17
@@ -173,11 +172,11 @@ Using **(R)** for RED nodes and **(B)** for BLACK nodes:
             (B)1  (B)11 (B)15 (B)25
               \             \    \
              (R)6         (R)22 (R)27
-```
+```python
 
 ### Verifying Properties:
 
-```
+```python
 ✓ Property 1: All nodes are R or B
 ✓ Property 2: Root (13) is BLACK
 ✓ Property 3: All NIL leaves are BLACK (implicit)
@@ -191,7 +190,7 @@ Black-height verification:
   13→17→15→NIL    = 2 black (13, 15)
   13→17→25→22→NIL = 2 black (13, 25)
   13→17→25→27→NIL = 2 black (13, 25)
-```
+```python
 
 ---
 
@@ -224,7 +223,7 @@ class RBNode:
     
     def is_black(self):
         return self.color == BLACK
-```
+```python
 
 ```python
 class RedBlackTree:
@@ -528,4 +527,10 @@ class RedBlackTree:
                 self._print_tree_helper(node.right, new_prefix, False)
             if has_left:
                 self._print_tree_helper(node.left, new_prefix, True)
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

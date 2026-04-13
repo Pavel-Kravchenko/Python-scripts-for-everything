@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/10_Sequence_Motifs_and_Domains/02_domains.ipynb`*
 
-# Sequence Motifs and Protein Domains
 
 ---
 
@@ -80,7 +79,7 @@ databases = [
 ]
 for db, content, notes in databases:
     print(f"  {db:<12} {content:<42} {notes}")
-```
+```python
 
 ```python
 def display_ppm_heatmap(ppm, title="Position Probability Matrix"):
@@ -108,7 +107,7 @@ def display_ppm_heatmap(ppm, title="Position Probability Matrix"):
 
 
 display_ppm_heatmap(ppm, "PPM for TF Binding Sites")
-```
+```python
 
 ### 2.4 Scoring Sequences with a PWM
 
@@ -151,7 +150,7 @@ print("-" * 30)
 for seq in test_seqs:
     s = score_sequence(pwm, seq)
     print(f"{seq:<12} {s:7.2f} {100 * s / max_s:8.1f}%")
-```
+```python
 
 ```python
 # Scan a longer sequence
@@ -164,7 +163,7 @@ print(f"\n{'Pos':>4} {'Subseq':<10} {'Score':>7}")
 print("-" * 25)
 for pos, subseq, score in hits:
     print(f"{pos:4d} {subseq:<10} {score:7.2f}")
-```
+```python
 
 ### 2.5 Both-Strand Scanning
 
@@ -202,7 +201,7 @@ print(f"{'Pos':>4} {'Strand':>6} {'Match':<10} {'Score':>7}")
 print("-" * 32)
 for pos, subseq, score, strand in dual_hits:
     print(f"{pos:4d} {strand:>6} {subseq:<10} {score:7.2f}")
-```
+```python
 
 ---
 
@@ -239,7 +238,7 @@ for i, val in enumerate(ic):
     bar = '#' * int(val * 15)
     print(f"{i + 1:8d} {val:10.3f} {bar}")
 print(f"\nTotal IC: {ic.sum():.2f} bits (max possible: {2 * len(ic):.0f} bits)")
-```
+```python
 
 ### 3.2 Sequence Logos
 
@@ -293,7 +292,7 @@ def plot_sequence_logo(ppm, title="Sequence Logo"):
 
 
 plot_sequence_logo(ppm, "Sequence Logo: Example TF Binding Motif")
-```
+```python
 
 ---
 
@@ -381,4 +380,10 @@ for name, pat in patterns.items():
     print(f"{name}:")
     print(f"  PROSITE: {pat}")
     print(f"  Regex:   {regex}\n")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

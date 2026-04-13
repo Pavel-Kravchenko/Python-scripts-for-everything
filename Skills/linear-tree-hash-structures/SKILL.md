@@ -132,7 +132,7 @@ class SLL:
         while curr:
             curr.next, prev, curr = prev, curr, curr.next
         self.head = prev
-```
+```python
 
 ### Floyd's Cycle Detection
 ```python
@@ -142,7 +142,7 @@ def has_cycle(head):
         slow, fast = slow.next, fast.next.next
         if slow is fast: return True
     return False
-```
+```python
 
 ### Stack (array-backed, Python)
 ```python
@@ -154,7 +154,7 @@ class Stack:
         return self._items.pop()
     def peek(self): return self._items[-1]
     def __len__(self): return len(self._items)
-```
+```python
 
 ### Queue (linked-list, O(1) both ends)
 ```python
@@ -170,7 +170,7 @@ class Queue:
         val = self._front.value; self._front = self._front.next
         if not self._front: self._rear = None
         self._size -= 1; return val
-```
+```python
 
 ### BST Insert + Search (iterative)
 ```python
@@ -192,7 +192,7 @@ def search(root, val):
         if val == root.val: return root
         root = root.left if val < root.val else root.right
     return None
-```
+```python
 
 ### AVL Rotations (core)
 ```python
@@ -209,7 +209,7 @@ def rotate_left(z):         # RR case
     z.height = 1 + max(height(z.left), height(z.right))
     y.height = 1 + max(height(y.left), height(y.right))
     return y
-```
+```python
 
 ### Hash Table: Chaining (minimal)
 ```python
@@ -226,7 +226,7 @@ class HashTable:
         for item in self.buckets[self._h(k)]:
             if item[0] == k: return item[1]
         return None
-```
+```python
 
 ### Bloom Filter
 ```python
@@ -245,7 +245,7 @@ class BloomFilter:
         for i in self._hashes(item): self.bits[i] = 1
     def __contains__(self, item):
         return all(self.bits[i] for i in self._hashes(item))
-```
+```python
 
 ## Common Pitfalls
 

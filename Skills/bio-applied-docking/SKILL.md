@@ -1,6 +1,6 @@
 ---
 name: bio-applied-docking
-description: "**Tier 3 — Module 09, Part 2** | [← Molecular Modeling](./01_molecular_modeling.ipynb)"
+description: "Molecular docking: ligand preparation, receptor setup, AutoDock Vina workflow, scoring functions, and binding pose analysis. Use when predicting protein-ligand interactions."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/09_Molecular_Modeling_and_Docking/02_docking.ipynb"
 primary_tool: NumPy
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/09_Molecular_Modeling_and_Docking/02_docking.ipynb`*
 
-# Molecular Docking and Chemoinformatics
 
 **Tier 3 — Module 09, Part 2** | [← Molecular Modeling](./01_molecular_modeling.ipynb)
 
@@ -38,7 +37,7 @@ import pandas as pd
 plt.rcParams['figure.figsize'] = (12, 5)
 plt.rcParams['font.size'] = 12
 np.random.seed(42)
-```
+```python
 
 ---
 ## 1. Introduction to Molecular Modeling
@@ -59,7 +58,7 @@ Experimental structure determination (X-ray crystallography, cryo-EM, NMR) provi
 
 Molecular modeling spans multiple levels of approximation. The choice depends on the system size and the question being asked.
 
-```
+```python
 Accuracy ▲                                    System size ▲
          │  Quantum Mechanics (QM)                       │  Coarse-Grained (CG)
          │  ├─ Ab initio (HF, DFT, MP2)                 │  ├─ MARTINI
@@ -71,7 +70,7 @@ Accuracy ▲                                    System size ▲
          │  ├─ AMBER, CHARMM, OPLS                      │  ├─ Generalized Born
          │  └─ ~10⁵–10⁶ atoms, ns timescales            │  └─ Entire organelles
          ▼                                               ▼
-```
+```python
 
 **Key insight:** There is always a tradeoff between accuracy and computational cost. Quantum mechanics treats electrons explicitly but is limited to small systems. Molecular mechanics uses parametrized potentials (force fields) and can handle entire proteins in explicit solvent. Coarse-grained models sacrifice atomic detail for access to longer timescales.
 
@@ -122,7 +121,7 @@ ax.annotate('Attractive\n(r⁻⁶ dominates)', xy=(2.0, -0.3), fontsize=10, colo
 ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ---
 ## 2. Force Fields and Molecular Mechanics
@@ -209,7 +208,7 @@ axes[1, 1].grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### 2.3 Common Force Fields
 
@@ -280,7 +279,7 @@ plt.show()
 print(f"Final position: ({path_sd[-1, 0]:.4f}, {path_sd[-1, 1]:.4f})")
 print(f"Final energy:    {rosenbrock(path_sd[-1, 0], path_sd[-1, 1]):.6f}")
 print(f"True minimum:    (1.0, 1.0) with energy 0.0")
-```
+```python
 
 ---
 ## 3. Homology Modeling
@@ -291,7 +290,7 @@ Proteins with similar sequences tend to adopt similar 3D structures. **Homology 
 
 The general workflow:
 
-```
+```python
 Target sequence
        │
        ▼
@@ -317,4 +316,10 @@ Target sequence
 ┌─────────────────┐
 │ Quality check    │  ← Ramachandran, QMEAN, ProSA
 └─────────────────┘
-```
+```python
+
+## Common Pitfalls
+
+- **SMILES canonicalization**: Different SMILES can represent the same molecule; always canonicalize before comparison
+- **Stereochemistry**: Ignoring chirality in fingerprints can merge enantiomers with different bioactivity
+- **Descriptor scaling**: Molecular descriptors span different ranges; always standardize before ML

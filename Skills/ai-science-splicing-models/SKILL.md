@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/03_splicing_models.ipynb`*
 
-# Splicing Models: SpliceAI and AlphaGenome
 
 **Tier 5 — Modern AI for Science | Module 05 · Notebook 3**
 
@@ -75,7 +74,7 @@ def acceptor_score(window: str) -> float:
     score = 0.7 if center == "AG" else 0.1
     score += 0.02 * window.count("T")
     return min(score, 1.0)
-```
+```python
 
 ## 2. Compute Splice Delta Scores (DS)
 
@@ -116,7 +115,7 @@ for alt in "ACGT":
     if alt == example[pos]:
         continue
     print(example[pos], ">", alt, splice_deltas(example, pos, alt))
-```
+```python
 
 ## 3. Rank Candidate Variants
 
@@ -139,7 +138,7 @@ ranked.sort(key=lambda x: x[3], reverse=True)
 
 for r in ranked:
     print(f"pos={r[0]} {r[1]}>{r[2]} maxDS={r[3]:.3f} details={r[4]}")
-```
+```python
 
 ## 4. Splice-Specialized vs Multi-Task Outputs
 
@@ -163,7 +162,7 @@ for v in demo:
 
 for v in sorted(demo, key=lambda d: d["priority"], reverse=True):
     print(v)
-```
+```python
 
 ## Summary
 
@@ -184,3 +183,9 @@ Checked online during content expansion.
 - [SpliceAI repository](https://github.com/Illumina/SpliceAI)
 - [AlphaGenome paper (Nature 2026)](https://www.nature.com/articles/s41586-025-10014-0)
 - [AlphaGenome research repository](https://github.com/google-deepmind/alphagenome_research)
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

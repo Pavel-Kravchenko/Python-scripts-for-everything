@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/34_Immunogenomics/03_hla_typing.ipynb`*
 
-# HLA Typing and Antigen Presentation
 
 **Tier 3 — Applied Bioinformatics | Module 34 · Notebook 3**
 
@@ -93,7 +92,7 @@ Format: `Gene*Field1:Field2:Field3:Field4[Suffix]`
 | **Polysolver** | Bayesian | WES BAM | 4-digit |
 
 ### OptiType Workflow
-```
+```python
 FASTQ reads
     ↓  (map to HLA reference with RazerS3/yara)
 HLA-mapped reads only
@@ -101,7 +100,7 @@ HLA-mapped reads only
 Best-fitting allele pair per locus
     ↓
 Output: sample_result.tsv  →  A*02:01,A*03:01,B*07:02,B*44:02,C*05:01,C*07:02
-```
+```python
 
 ### arcasHLA (from RNA-seq)
 More practical for studies with existing RNA-seq data:
@@ -111,7 +110,7 @@ arcasHLA genotype hla_reads/sample.extracted.1.fq.gz \
                   hla_reads/sample.extracted.2.fq.gz \
                   -g A,B,C,DPB1,DQB1,DQA1,DRB1 \
                   -o hla_typing/
-```
+```python
 
 ### Homozygosity and Loss of Heterozygosity (LOH)
 - Tumor cells can lose one HLA allele (LOH) to escape T-cell recognition
@@ -181,7 +180,7 @@ print(f"\nHLA-A allele counts in cohort:\n{all_a.to_string()}")
 State-of-the-art predictor using pan-allele neural network:
 ```bash
 netMHCpan -p peptides.txt -a HLA-A02:01 -l 9 -BA > predictions.txt
-```
+```python
 
 Output columns: `Pos | Peptide | Allele | 1-log50k(aff) | Affinity(nM) | %Rank_EL | BindLevel`
 
@@ -192,7 +191,7 @@ Each HLA allele has characteristic **anchor residues** at positions 2 and 9 (for
 - **HLA-A*01:01**: P3=D/E (acidic), P9=Y (tyrosine)
 
 ### Neoantigen Pipeline
-```
+```python
 Tumor somatic SNVs (VCF)
     ↓  VEP/ANNOVAR → peptide window extraction
 8-11 mer peptides containing each mutation
@@ -200,7 +199,7 @@ Tumor somatic SNVs (VCF)
 Rank by binding affinity (%Rank_EL < 0.5)
     ↓  Filter for expression, clonal fraction, foreignness
 Ranked neoantigen candidates for vaccine/TCR therapy
-```
+```python
 
 ## 4. HLA Disease Associations
 
@@ -276,7 +275,7 @@ plt.show()
 print("\nKey clinical message:")
 print("• Pharmacogenomics: Screen for HLA-B*57:01 BEFORE prescribing abacavir")
 print("  European patients: ~3.6% carry this allele → pre-treatment HLA testing is standard of care")
-```
+```python
 
 ## 3. Neoantigen Prediction Pipeline
 
@@ -303,3 +302,9 @@ print("  European patients: ~3.6% carry this allele → pre-treatment HLA testin
 - HLA genotype (Nb3) → determines which peptides are presented
 - Repertoire clonality (Nb2) → reflects antigen-specific T cell expansion
 - Together: the immunogenomics triangle connecting sequence, specificity, and clinical response
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

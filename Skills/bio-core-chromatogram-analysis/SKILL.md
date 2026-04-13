@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/09_Chromatogram_Analysis/01_chromatogram_analysis.ipynb`*
 
-# Chromatogram Analysis: Sanger Sequencing in Practice
 
 ---
 
@@ -76,7 +75,7 @@ for q in [10, 20, 30, 40]:
 
 print("\nNote: Real .ab1 files are needed for Sections 2-3.")
 print("Sections 3-10 use synthetic chromatogram data generated in-notebook.")
-```
+```python
 
 ```python
 def read_ab1(filepath):
@@ -103,7 +102,7 @@ def read_ab1(filepath):
 
 # For this tutorial we will also build synthetic examples
 # so the notebook runs without data files.
-```
+```python
 
 ### 2.2 What is Inside the Record?
 
@@ -144,7 +143,7 @@ def inspect_ab1_channels(record):
 
 # Uncomment with real data:
 # channels, peaks = inspect_ab1_channels(record)
-```
+```python
 
 ---
 
@@ -199,7 +198,7 @@ traces, peaks = make_synthetic_trace(demo_seq)
 print(f"Sequence:    {demo_seq}")
 print(f"Trace length: {len(traces['A'])} scan points")
 print(f"Bases called: {len(peaks)}")
-```
+```python
 
 ```python
 # Standard colors used for chromatograms
@@ -247,7 +246,7 @@ def plot_chromatogram(traces, peak_positions, sequence, start=0, end=None, title
 
 
 plot_chromatogram(traces, peaks, demo_seq, start=0, end=30, title="Synthetic Chromatogram")
-```
+```python
 
 ```python
 def plot_ab1_chromatogram(record, start=0, end=None, title=None):
@@ -273,7 +272,7 @@ def plot_ab1_chromatogram(record, start=0, end=None, title=None):
 
 # Uncomment with real data:
 # plot_ab1_chromatogram(record, start=50, end=120)
-```
+```python
 
 ---
 
@@ -339,7 +338,7 @@ synth_quals = make_synthetic_qualities(750)
 print(f"Simulated {len(synth_quals)} quality scores")
 print(f"Mean Q: {np.mean(synth_quals):.1f}  |  Median Q: {np.median(synth_quals):.0f}")
 print(f"Min Q: {np.min(synth_quals)}  |  Max Q: {np.max(synth_quals)}")
-```
+```python
 
 ```python
 def plot_quality_scores(qualities, title="Phred Quality Scores"):
@@ -376,4 +375,10 @@ def plot_quality_scores(qualities, title="Phred Quality Scores"):
 
 
 plot_quality_scores(synth_quals, "Synthetic Read -- Quality Profile")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

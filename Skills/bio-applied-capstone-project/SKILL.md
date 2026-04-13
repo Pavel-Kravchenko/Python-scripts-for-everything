@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/08_Capstone_Project/01_capstone_project.ipynb`*
 
-# From Sequence to Discovery: An Integrative Bioinformatics Project
 
 ---
 
@@ -41,7 +40,7 @@ confronted with new sequence data.
 
 ### What you will do
 
-```
+```python
 Unknown DNA sequences
        |
        v
@@ -70,7 +69,7 @@ Unknown DNA sequences
        |
        v
   [Step 9] Scientific report
-```
+```python
 
 ### How this notebook is organized
 
@@ -166,7 +165,7 @@ plt.rcParams['font.size'] = 11
 Entrez.email = "your.email@example.com"  # <-- CHANGE THIS
 
 print("All imports successful.")
-```
+```python
 
 ---
 
@@ -249,7 +248,7 @@ for name, seq_str in raw_sequences.items():
 print(f"Loaded {len(seq_records)} sequences:")
 for rec in seq_records:
     print(f"  {rec.id}: {len(rec.seq)} bp")
-```
+```python
 
 ```python
 # Quick exploration of the raw input data
@@ -264,7 +263,7 @@ for name, seq_str in raw_sequences.items():
           f"GC: {gc:.1f}%, "
           f"Starts: {seq_upper[:6]}... "
           f"Ends: ...{seq_upper[-6:]}")
-```
+```python
 
 **Initial observations** (fill in after running the cell above):
 
@@ -295,11 +294,11 @@ Write your QC code in the cells below.
 ```python
 # YOUR CODE: Step 1 -- Quality Control
 # Inspect the raw sequences for ambiguous bases, trim N's, calculate stats
-```
+```python
 
 ```python
 # YOUR CODE: Step 1 continued -- Verify coding sequence properties
-```
+```python
 
 <details>
 <summary><b>Hint: Step 1</b> (click to expand)</summary>
@@ -348,7 +347,7 @@ for rec in seq_records:
           f"{clean_len:>10} {gc:>5.1f}% {'Yes' if starts_atg else 'NO':>11} {divisible:>6}")
 
 print(f"\nAll {len(cleaned_records)} sequences cleaned and validated.")
-```
+```python
 
 </details>
 
@@ -382,8 +381,14 @@ sequences and infer the rest from alignment similarity.
 ```python
 # YOUR CODE: Step 2 -- BLAST search
 # Run BLAST for one or more sequences, parse and display results
-```
+```python
 
 ```python
 # YOUR CODE: Step 2 continued -- Summarize identifications
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

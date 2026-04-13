@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/04_BLAST_Searching/01_blast_searching.ipynb`*
 
-# BLAST: Sequence Similarity Searching
 
 **Tier 2 -- Core Bioinformatics**
 
@@ -84,7 +83,7 @@ print("-" * 100)
 for prog, (query, db, use) in programs.items():
     print(f"{prog:<10} {query:<30} {db:<30} {use}")
 print("\nProceed to Section 1.")
-```
+```python
 
 ---
 
@@ -100,26 +99,26 @@ BLAST breaks the query into overlapping **words** of length $W$ (word size):
 
 For protein BLAST, BLAST does not just look for exact word matches. It looks for **word neighborhoods** — all database words whose alignment score with the query word exceeds a threshold $T$. This is what makes blastp sensitive to divergent sequences even at the seeding stage.
 
-```
+```python
 Query word: LEW
 Neighborhood (score >= T=11 with BLOSUM62):
   LEW (exact, score=14), LEF (score=12), LEY (score=11), LKW (score=11), ...
 
 This allows BLAST to find seeds even when the database sequence differs slightly.
-```
+```python
 
 ### Phase 2: Extend Seeds (Ungapped Extension)
 
 When a seed is found, BLAST extends it in both directions **without allowing gaps**. Extension continues as long as the score does not drop more than $X$ below the best score seen so far (the **X-drop** heuristic). This produces a **high-scoring pair (HSP)**.
 
-```
+```python
 Query:    ...MVLSPADKTNVKAAWGKVGAHAG...
                |||||||||||||||||||||||
 Database: ...MVLSGEDKSNIKAAWGKIGGHGAE...
                     ^ seed ^
               <-- extend left   extend right -->
               Stop when cumulative score drops X below maximum
-```
+```python
 
 ### Phase 3: Gapped Extension (Full Alignment)
 
@@ -228,7 +227,7 @@ print()
 print("The X-drop extension terminates when the running score drops more")
 print("than X below the best score seen — avoiding wasted computation")
 print("on sequences that diverge after a good seed.")
-```
+```python
 
 ---
 
@@ -246,7 +245,7 @@ Different BLAST programs handle different combinations of query and database typ
 
 ### Decision Guide
 
-```
+```python
 What is your QUERY?                 What is your DATABASE?
 
    DNA/RNA ----+----> DNA/RNA DB ---------> blastn (or megablast)
@@ -260,7 +259,7 @@ What is your QUERY?                 What is your DATABASE?
    DNA/RNA ----------> DNA/RNA DB ---------> tblastx (translate both)
    (when you suspect     (slow but most sensitive for
     distant homology)     distant nucleotide comparisons)
-```
+```python
 
 ### Nucleotide BLAST Sub-variants
 
@@ -321,4 +320,10 @@ print("=" * 75)
 for qt, dt, sens, task in scenarios:
     rec = recommend_blast(qt, dt, sens)
     print(f"{task:<35} {rec}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

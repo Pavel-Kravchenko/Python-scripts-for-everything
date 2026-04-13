@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/04_molecular_gnn.ipynb`*
 
-# Graph Neural Networks for Molecular Property Prediction
 
 **Tier 3 — Applied Bioinformatics | Module 29 · Notebook 4**
 
@@ -69,7 +68,7 @@ import numpy as np
 #     edge_index = torch.tensor(edges, dtype=torch.long).t()
 #     x = torch.tensor(node_features, dtype=torch.float)
 #     return Data(x=x, edge_index=edge_index)
-```
+```python
 
 ## 2. MPNN Architecture
 
@@ -94,7 +93,7 @@ from torch_geometric.nn import GCNConv, global_mean_pool
 #         x = self.conv3(x, edge_index).relu()
 #         x = global_mean_pool(x, batch)
 #         return self.lin(x)
-```
+```python
 
 ## 3. Training on MoleculeNet BBBP Dataset
 
@@ -120,7 +119,7 @@ import torch.optim as optim
 #         total_loss += loss.item()
 #     if epoch % 10 == 0:
 #         print(f'Epoch {epoch:3d}, Loss: {total_loss/len(train_loader):.4f}')
-```
+```python
 
 ## 4. GNN vs Fingerprint Baseline
 
@@ -143,8 +142,14 @@ from sklearn.metrics import roc_auc_score
 # gnn_auc = roc_auc_score(gnn_labels, gnn_preds)
 # print(f'GNN AUC: {gnn_auc:.3f}')
 # # Example: RF baseline AUC for comparison
-```
+```python
 
 ## Summary
 
 > Recap GNN-based molecular property prediction. Discuss attention mechanisms (GAT) for atom importance. Point to GNN extensions: 3D-aware models (DimeNet, SchNet), generative models for drug design.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

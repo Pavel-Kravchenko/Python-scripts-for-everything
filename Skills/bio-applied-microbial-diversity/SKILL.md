@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/04_Microbial_Diversity/01_microbial_diversity.ipynb`*
 
-# Microbial Diversity Analysis
 
 Microorganisms represent the vast majority of biological diversity on Earth. Studying microbial communities -- who is there, how many, and how they differ across environments -- is central to fields from ecology to clinical medicine. This notebook covers the computational tools and concepts used to analyze microbial diversity from amplicon sequencing data.
 
@@ -51,7 +50,7 @@ The 16S ribosomal RNA gene is the standard marker for bacterial identification b
 - Has a **large reference database** (SILVA, Greengenes, RDP)
 - Is ~1500 bp long -- suitable for sequencing
 
-```
+```python
 16S rRNA gene (~1500 bp):
 
   V1   V2   V3   V4   V5   V6   V7   V8   V9
@@ -59,7 +58,7 @@ The 16S ribosomal RNA gene is the standard marker for bacterial identification b
   C    C    C    C    C    C    C    C    C    C
 
 C = conserved region    V = variable region
-```
+```python
 
 ### Common Primer Targets
 
@@ -79,7 +78,7 @@ C = conserved region    V = variable region
 
 ### Amplicon Sequencing Workflow
 
-```
+```python
 Environmental sample (soil, gut, water, etc.)
       |
       v
@@ -100,7 +99,7 @@ Bioinformatics pipeline:
   - Denoising (ASVs) or clustering (OTUs)
   - Taxonomy assignment
   - Diversity analysis
-```
+```python
 
 ## 2. OTU Clustering vs. ASV Denoising
 
@@ -152,7 +151,7 @@ After obtaining OTUs or ASVs, we assign taxonomy to each sequence.
 
 ### Taxonomy Ranks
 
-```
+```python
 Kingdom: Bacteria
   Phylum: Firmicutes
     Class: Bacilli
@@ -160,7 +159,7 @@ Kingdom: Bacteria
         Family: Lactobacillaceae
           Genus: Lactobacillus
             Species: Lactobacillus acidophilus
-```
+```python
 
 ### Reference Databases
 
@@ -186,7 +185,7 @@ np.random.seed(42)
 
 plt.rcParams['figure.dpi'] = 100
 plt.rcParams['font.size'] = 11
-```
+```python
 
 ## 5. The Feature Table
 
@@ -305,13 +304,13 @@ print(sample_metadata.head(6))
 print(f"\nSamples per body site:")
 print(sample_metadata['body_site'].value_counts())
 print(f"\nLibrary sizes range: {feature_table.sum(axis=0).min()} - {feature_table.sum(axis=0).max()}")
-```
+```python
 
 ```python
 # Preview the feature table
 print("Feature table (first 8 taxa, first 6 samples):")
 feature_table.iloc[:8, :6]
-```
+```python
 
 ## 6. Alpha Diversity: Who Is There? How Many?
 
@@ -331,3 +330,9 @@ A sample with 100 species all at equal abundance is more diverse (in terms of ev
 
 - **Non-phylogenetic**: treat all taxa as equally related
 - **Phylogenetic**: incorporate the evolutionary tree (e.g., Faith's PD)
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

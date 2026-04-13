@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/08_Advanced_String_Structures/03_suffix_arrays.ipynb`*
 
-# Suffix Arrays
 
 A comprehensive guide to suffix arrays - a space-efficient alternative to suffix trees for string processing.
 
@@ -41,15 +40,15 @@ A **suffix array** is a sorted array of all suffixes of a string. More precisely
 
 ### Suffix Array Definition
 
-```
+```python
 SA[i] = starting position of the i-th smallest suffix in lexicographic order
-```
+```python
 
 This means if we sort all suffixes alphabetically, `SA[i]` tells us where the `i`-th suffix in that sorted order originally started in the string.
 
 ## ASCII Art Visualization: Suffix Array for "banana$"
 
-```
+```python
 All suffixes:
 Index  Suffix
   0    banana$
@@ -77,7 +76,7 @@ Reading the array:
   SA[1] = 5  →  2nd smallest starts at position 5: "a$"
   SA[2] = 3  →  3rd smallest starts at position 3: "ana$"
   ...
-```
+```python
 
 ## 2. Naive Construction - O(n² log n)
 
@@ -127,7 +126,7 @@ def build_suffix_array_naive(text):
     suffixes.sort(key=lambda x: x[0])
     # Extract starting positions
     return [pos for suffix, pos in suffixes]
-```
+```python
 
 ```python
 # Test naive construction
@@ -139,7 +138,7 @@ print()
 print("Verification - suffixes in sorted order:")
 for i, pos in enumerate(sa):
     print(f"  SA[{i}] = {pos}  →  '{text[pos:]}'")
-```
+```python
 
 ### Step-by-Step Naive Construction
 
@@ -184,7 +183,7 @@ def build_suffix_array_naive_verbose(text):
     return sa
 
 sa = build_suffix_array_naive_verbose("banana$")
-```
+```python
 
 ## 3. Manber-Myers Algorithm - O(n log n)
 
@@ -201,7 +200,7 @@ The trick: When sorting by 2k characters, we use the **ranks from the k-characte
 
 ### ASCII Art: Manber-Myers Doubling Process
 
-```
+```python
 Text: "banana$"
 
 ═══════════════════════════════════════════════════════════════════
@@ -236,7 +235,7 @@ Round 3 (k=4): Sort by first 4 characters
   Continue until all suffixes have unique ranks or k ≥ n
 
 After log(n) rounds → Fully sorted suffix array!
-```
+```python
 
 ```python
 import collections
@@ -303,7 +302,7 @@ def build_suffix_array_manber_myers(text):
         return result
     
     return sort_bucket(text, range(len(text)), 1)
-```
+```python
 
 ```python
 # Test Manber-Myers construction
@@ -315,7 +314,7 @@ print()
 print("Verification:")
 for i, pos in enumerate(sa_mm):
     print(f"  SA[{i}] = {pos}  →  '{text[pos:]}'")
-```
+```python
 
 ```python
 def build_suffix_array_manber_myers_verbose(text):
@@ -369,7 +368,7 @@ def build_suffix_array_manber_myers_verbose(text):
     return sa
 
 sa = build_suffix_array_manber_myers_verbose("banana$")
-```
+```python
 
 ### Alternative Manber-Myers Implementation (Iterative with Ranks)
 
@@ -434,7 +433,7 @@ text = "banana$"
 sa = build_suffix_array_manber_myers_iterative(text)
 print(f"Text: {text}")
 print(f"Suffix Array: {sa}")
-```
+```python
 
 ## 4. Pattern Search using Suffix Array - O(m log n)
 
@@ -447,7 +446,7 @@ Once we have a suffix array, we can search for patterns using **binary search**.
 
 ### ASCII Art: Pattern Search with Binary Search
 
-```
+```python
 Text = "banana$"
 SA = [6, 5, 3, 1, 0, 4, 2]
 Find: "ana"
@@ -472,4 +471,10 @@ Binary search for upper bound of "ana":
 Result: All occurrences in range [2, 4) of SA
   → Positions SA[2]=3 and SA[3]=1
   → Pattern "ana" found at positions: 1, 3
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/14_Hi-C_Analysis/14_hic_analysis.ipynb`*
 
-# Hi-C Analysis: 3D Genome Organization
 
 **Tier 2 — Core Bioinformatics | Module 14**
 
@@ -89,7 +88,7 @@ except ImportError:
 import urllib.request, os
 
 plt.rcParams.update({"figure.dpi": 120, "axes.spines.top": False, "axes.spines.right": False})
-```
+```python
 
 ## 1. Loading Hi-C Data with cooler
 
@@ -142,7 +141,7 @@ print(f"Chromosomes: {clr.chromnames}")
 print(f"Matrix shape: {clr.shape}")
 print(f"\nBin table (first 5 rows):")
 print(clr.bins()[:5])
-```
+```python
 
 ## 2. Visualizing the Contact Matrix
 
@@ -173,7 +172,7 @@ axes[1].set_xlabel("Genomic bin")
 plt.tight_layout()
 plt.show()
 print(f"Matrix shape: {mat.shape} | Max: {np.nanmax(mat):.0f} | NaN bins: {np.isnan(mat).sum()}")
-```
+```python
 
 ## 3. Contact Decay Curve (P(s) Curve)
 
@@ -211,7 +210,7 @@ ax.set_title("Contact decay curve (P(s))")
 ax.grid(True, alpha=0.3, which="both")
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 4. A/B Compartment Detection
 
@@ -249,7 +248,7 @@ try:
 except Exception as e:
     print(f"Eigenvector computation skipped for synthetic data: {e}")
     print("In real data: cooltools.eigs_cis(clr, view_df=view_df, n_eigs=3)")
-```
+```python
 
 ## 5. Insulation Score and TAD Boundary Detection
 
@@ -287,4 +286,10 @@ try:
 except Exception as e:
     print(f"Insulation score skipped for synthetic data: {e}")
     print("In real data: cooltools.insulation(clr, window_bp=[200_000], view_df=view_df)")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

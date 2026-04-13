@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/15_Motif_Discovery/15_motif_discovery.ipynb`*
 
-# Motif Discovery
 
 **Tier 2 — Core Bioinformatics | Module 15**
 
@@ -88,7 +87,7 @@ COLORS = {"A": "#2ecc71", "C": "#3498db", "G": "#f39c12", "T": "#e74c3c"}
 
 plt.rcParams.update({"figure.dpi": 120, "axes.spines.top": False, "axes.spines.right": False})
 print("Libraries loaded.")
-```
+```python
 
 ## 1. Building a PPM and PWM
 
@@ -148,7 +147,7 @@ pwm = make_pwm(ppm)
 print(f"\nPPM shape: {ppm.shape}  (L\u00d74: {ppm.shape[0]} positions \u00d7 4 bases)")
 print(f"PPM row sums (should \u2248 1): {ppm.sum(axis=1).round(4)}")
 print(f"\nPWM (first 5 positions):\n{pd.DataFrame(pwm[:5], columns=list(ALPHABET)).round(3)}")
-```
+```python
 
 ## 2. Information Content and KDIC
 
@@ -196,7 +195,7 @@ axes[1].set_title("Sequence logo (information-content heights)")
 axes[1].legend(frameon=False, ncol=4)
 
 plt.tight_layout(); plt.show()
-```
+```python
 
 ## 3. IUPAC Consensus Sequence
 
@@ -232,7 +231,7 @@ print(f"Length: {len(consensus_seq)}")
 # Compare with max-IC base at each position
 max_base = "".join(ALPHABET[np.argmax(ppm[i])] for i in range(len(ppm)))
 print(f"Max-probability: {max_base}")
-```
+```python
 
 ## 4. Scoring Sequences Against a PWM
 
@@ -279,7 +278,7 @@ ax.hist([score_sequence(s, pwm) for s in rnd], bins=30, color="salmon", alpha=0.
 ax.set_xlabel("PWM score"); ax.set_ylabel("Count")
 ax.set_title("Score distributions: motif sites vs random sequences")
 ax.legend(); plt.tight_layout(); plt.show()
-```
+```python
 
 ## 5. Score Distribution and Threshold Selection
 
@@ -317,4 +316,10 @@ ax.axvline(threshold_1e4, color="red", lw=2, label=f"p < 1e-4 threshold ({thresh
 ax.set_xlabel("PWM score"); ax.set_ylabel("Count")
 ax.set_title(f"Background score distribution (L={L})")
 ax.legend(); plt.tight_layout(); plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

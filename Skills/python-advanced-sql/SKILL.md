@@ -83,7 +83,7 @@ class DNA(BioSequence):
 
 class Protein(BioSequence):
     VALID = set('ACDEFGHIKLMNPQRSTVWY*')
-```
+```python
 
 ### GeneAnnotation Dataclass
 ```python
@@ -103,7 +103,7 @@ class GeneAnnotation:
 
     def overlaps(self, other):
         return self.chromosome == other.chromosome and self.start < other.end and other.start < self.end
-```
+```python
 
 ### Properties for Validation
 ```python
@@ -117,7 +117,7 @@ def sequence(self, value):
     if invalid:
         raise ValueError(f"Invalid nucleotides: {invalid}")
     self._sequence = value
-```
+```python
 
 ### classmethod / staticmethod
 ```python
@@ -130,7 +130,7 @@ def from_fasta_string(cls, fasta_text):
 @staticmethod
 def is_valid_dna(seq):
     return set(seq.upper()).issubset(set('ATGCN'))
-```
+```python
 
 ---
 
@@ -192,7 +192,7 @@ def retry(max_attempts=3, delay=0.5):
 @timer
 @validate_sequence('ATGC', seq_type='DNA')
 def analyze(seq): ...
-```
+```python
 
 ### Context Managers
 ```python
@@ -239,7 +239,7 @@ def temp_fasta(sequences):
         yield path
     finally:
         os.unlink(path)
-```
+```python
 
 ### Error Handling Hierarchy
 ```python
@@ -264,7 +264,7 @@ class FastaParseError(BioinformaticsError):
         self.line_number, self.line_content = line_number, line_content
 
 class TranslationError(BioinformaticsError): pass
-```
+```python
 
 ### Graceful Batch Processing
 ```python
@@ -281,7 +281,7 @@ def batch_gc_analysis(sequences, strict=False):
             if strict: raise
             errors.append((seq_id, str(e)))
     return results, errors
-```
+```python
 
 ### Exception Chaining
 ```python
@@ -289,7 +289,7 @@ try:
     value = int(fields[3])
 except ValueError as e:
     raise FastaParseError(f"Non-integer start position", line_number=n) from e
-```
+```python
 
 ### Logging
 ```python
@@ -301,7 +301,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger('bioinfo_pipeline')
 # Use DEBUG for detail, INFO for progress, WARNING for bad-but-recoverable, ERROR for failures
-```
+```python
 
 ### SQL — SQLite setup
 ```python
@@ -324,7 +324,7 @@ cursor.executescript('''
     );
 ''')
 conn.commit()
-```
+```python
 
 ### SQL — Common Bio Queries
 ```python
@@ -386,7 +386,7 @@ pd.read_sql_query("""
     FROM de_results d JOIN genes g ON d.gene_id = g.gene_id
     ORDER BY d.padj
 """, conn)
-```
+```python
 
 ---
 

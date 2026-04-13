@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/01_graph_representations.ipynb`*
 
-# 🔗 Graph Representations
 
 ## Learning Objectives
 
@@ -56,12 +55,12 @@ A **graph** G = (V, E) consists of:
 
 ### Types of Graphs
 
-```
+```python
 Undirected          Directed           Weighted
 A --- B             A --> B            A --5-- B
 |     |             |     |            |       |
 C --- D             C <-- D            C --3-- D
-```
+```python
 
 ```python
 # Let's define a sample biological network:
@@ -78,7 +77,7 @@ interactions = [
 ]
 
 print(f"Network has {len(proteins)} proteins and {len(interactions)} interactions")
-```
+```python
 
 ## 2. Adjacency Matrix
 
@@ -130,7 +129,7 @@ class AdjacencyMatrix:
         for i, v in enumerate(self.vertices):
             row = "  ".join(f"{self.matrix[i][j]:>4}" for j in range(self.n))
             print(f"{v[:4]:>4} {row}")
-```
+```python
 
 ```python
 # Build our PPI network as adjacency matrix
@@ -140,7 +139,7 @@ for p1, p2 in interactions:
     ppi_matrix.add_edge(p1, p2)  # undirected by default
 
 ppi_matrix.display()
-```
+```python
 
 ```python
 # Query the network
@@ -148,7 +147,7 @@ print(f"Does TP53 interact with MDM2? {ppi_matrix.has_edge('TP53', 'MDM2')}")
 print(f"Does MDM2 interact with ATM? {ppi_matrix.has_edge('MDM2', 'ATM')}")
 print(f"\nTP53 interacts with: {ppi_matrix.neighbors('TP53')}")
 print(f"TP53 degree (# interactions): {ppi_matrix.degree('TP53')}")
-```
+```python
 
 ## 3. Adjacency List
 
@@ -210,7 +209,7 @@ class AdjacencyList:
         for v in sorted(self.graph.keys()):
             neighbors = sorted(self.graph[v])
             print(f"{v}: {neighbors}")
-```
+```python
 
 ```python
 # Build PPI network as adjacency list
@@ -223,13 +222,13 @@ for p1, p2 in interactions:
     ppi_list.add_edge(p1, p2)
 
 ppi_list.display()
-```
+```python
 
 ```python
 # Same queries, more efficient for sparse graphs
 print(f"TP53 neighbors: {ppi_list.neighbors('TP53')}")
 print(f"All edges: {ppi_list.edges()}")
-```
+```python
 
 ## 4. Edge List
 
@@ -280,7 +279,7 @@ class EdgeList:
     def display(self):
         for u, v, w in self.edges:
             print(f"{u} --({w})-- {v}")
-```
+```python
 
 ```python
 # Example: Weighted PPI network (weights = confidence scores)
@@ -299,14 +298,14 @@ for p1, p2, conf in weighted_interactions:
     ppi_edges.add_edge(p1, p2, conf)
 
 ppi_edges.display()
-```
+```python
 
 ```python
 # Edges sorted by confidence (useful for filtering)
 print("\nHighest confidence interactions:")
 for u, v, w in ppi_edges.sorted_edges()[::-1]:
     print(f"  {u} <-> {v}: {w:.2f}")
-```
+```python
 
 ## 5. Comparison Summary
 
@@ -329,12 +328,12 @@ for u, v, w in ppi_edges.sorted_edges()[::-1]:
 
 The examples above use hard-coded protein networks. Real-world graphs are typically stored as **edge lists** — one edge per line with optional weights. Here is how to parse the format used in `Course/Assets/data/graph1.txt`:
 
-```
+```python
 G E 7
 G F 8
 E D 5
 ...
-```
+```python
 
 Each line is `node_a  node_b  weight`. Loading this into an adjacency list gives you a real weighted graph to experiment with.
 
@@ -371,13 +370,13 @@ print()
 for node in sorted(g.keys()):
     neighbors = ", ".join(f"{v}({w:.0f})" for v, w in sorted(g[node]))
     print(f"  {node}: {neighbors}")
-```
+```python
 
 ## 🧬 Exercise 1: Gene Regulatory Network
 
 Build a **directed** gene regulatory network where edges represent "gene A regulates gene B".
 
-```
+```python
 Regulatory relationships:
 - MYC → CCND1 (activates)
 - MYC → CDKN1A (represses)
@@ -385,7 +384,7 @@ Regulatory relationships:
 - TP53 → BAX (activates)
 - E2F1 → CCND1 (activates)
 - RB1 → E2F1 (represses)
-```
+```python
 
 1. Implement using an adjacency list
 2. Find all genes regulated by TP53
@@ -404,7 +403,7 @@ regulations = [
 
 # Implement directed graph using AdjacencyList
 # Hint: Use directed=True when adding edges
-```
+```python
 
 ## 🧬 Exercise 2: Memory Analysis
 
@@ -433,7 +432,7 @@ print("Ratio:", round(matrix_bytes / list_bytes, 1), "x")
 print()
 print("For sparse graphs (E << V*V), adjacency lists use far less memory.")
 print("Adjacency matrices are only practical when E is close to V*V.")
-```
+```python
 
 ---
 
@@ -453,3 +452,9 @@ In this notebook, you learned:
 ## Key Takeaway
 
 > Most biological networks (PPI, GRN, metabolic) are **sparse** — adjacency lists are almost always the right choice. Reserve adjacency matrices for small, dense networks or when you need fast edge lookups.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

@@ -89,7 +89,7 @@ samtools index aligned.bam                   # Required before random access
 samtools view aligned.bam chr17:7571720-7590868  # Region extract (TP53)
 samtools flagstat aligned.bam                # Alignment statistics
 samtools sort -o sorted.bam unsorted.bam     # Sort by coordinate
-```
+```python
 
 ### Git Commands
 | Command | Purpose |
@@ -118,7 +118,7 @@ git checkout -b feature-batch-correction   # Create + switch
 git merge feature-batch-correction         # Merge into current
 git branch -d feature-batch-correction     # Delete merged branch
 git push -u origin feature-name            # Push new branch to remote
-```
+```python
 
 ---
 
@@ -129,57 +129,57 @@ git push -u origin feature-name            # Push new branch to remote
 grep -c "^>" proteins.fasta                         # FASTA sequences
 zcat sample.fastq.gz | wc -l | awk '{print $1/4}'  # FASTQ reads
 grep -v "^#" variants.vcf | wc -l                   # VCF variants
-```
+```python
 
 **2. VCF chromosome distribution**
 ```bash
 grep -v "^#" variants.vcf | cut -f1 | sort | uniq -c | sort -rn
-```
+```python
 
 **3. FASTQ → FASTA conversion**
 ```bash
 sed -n '1~4s/^@/>/p;2~4p' reads.fastq > reads.fasta
-```
+```python
 
 **4. Average read length from FASTQ**
 ```bash
 awk 'NR%4==2 {sum+=length($0); count++} END {print sum/count}' reads.fastq
-```
+```python
 
 **5. Extract gene names from GTF**
 ```bash
 awk -F'\t' '$3=="gene"' gencode.gtf \
   | grep -o 'gene_name "[^"]*"' \
   | sed 's/gene_name "//;s/"//' | sort -u
-```
+```python
 
 **6. GC content of a FASTA genome**
 ```bash
 grep -v "^>" genome.fa | tr -d '\n' \
   | awk '{gc=gsub(/[GC]/,"",$0); at=gsub(/[AT]/,"",$0); print gc/(gc+at)*100"%"}'
-```
+```python
 
 **7. BED feature length with awk**
 ```bash
 awk -F'\t' '{print $0 "\t" $3-$2}' regions.bed
 awk -F'\t' '{len=$3-$2; sum+=len; n++} END {print sum/n}' regions.bed  # average
-```
+```python
 
 **8. Filter high-quality VCF variants**
 ```bash
 grep -v "^#" sample.vcf | awk -F'\t' '$6 > 30' | sort -k6,6rn
-```
+```python
 
 **9. Parallel FastQC with xargs**
 ```bash
 find data/ -name "*.fastq.gz" | xargs -P 4 -I {} fastqc {} -o results/qc/
-```
+```python
 
 **10. Paired-end R1 → R2 derivation**
 ```bash
 r2="${r1/_R1/_R2}"
 sample=$(basename "$r1" _R1.fastq.gz)
-```
+```python
 
 ---
 
@@ -211,7 +211,7 @@ __pycache__/ *.pyc
 # OS / IDE
 .DS_Store Thumbs.db
 .vscode/ .idea/
-```
+```python
 
 ### Robust bash script skeleton
 ```bash
@@ -239,7 +239,7 @@ command -v samtools &>/dev/null || { log "ERROR: samtools not installed"; exit 1
 
 mkdir -p "$OUTPUT_DIR"
 log "Starting pipeline. Input: $INPUT_DIR"
-```
+```python
 
 ### Batch FASTQ processing loop
 ```bash
@@ -257,7 +257,7 @@ for fastq in "${INPUT_DIR}"/*.fastq.gz; do
     fastqc "$fastq" -o "$OUTPUT_DIR" -t 4
 done
 echo "Done. Processed $count files."
-```
+```python
 
 ### Sample sheet generator (paired-end)
 ```bash
@@ -274,7 +274,7 @@ for r1 in "${input_dir}"/*_R1.fastq.gz; do
     [[ -f "$r2" ]] || { echo "WARNING: Missing R2 for $sample"; continue; }
     echo -e "${sample}\t${r1}\t${r2}" >> "$output_file"
 done
-```
+```python
 
 ### FASTA report
 ```bash
@@ -289,7 +289,7 @@ total_nt=$(grep -v "^>" "$file" | tr -d '\n' | wc -c | tr -d ' ')
 echo "Sequences:  $num_seqs"
 echo "Total nt:   $total_nt"
 echo "Avg length: $(( total_nt / num_seqs ))"
-```
+```python
 
 ### Case statement: route by file type
 ```bash
@@ -300,7 +300,7 @@ case "$file" in
     *.fasta | *.fa)        grep -c "^>" "$file" ;;
     *)                     echo "Unknown format: $file"; exit 1 ;;
 esac
-```
+```python
 
 ### Git workflow for paper submission
 ```bash
@@ -322,7 +322,7 @@ git checkout -b experiment-limma-vs-deseq2
 git checkout main
 git merge experiment-limma-vs-deseq2
 git branch -d experiment-limma-vs-deseq2
-```
+```python
 
 ---
 
@@ -362,7 +362,7 @@ def sanitize_sequence(seq, valid_chars='ATGCNatgcn'):
     if removed:
         print(f"WARNING: Removed {removed}")
     return ''.join(cleaned)
-```
+```python
 
 ### Fix FASTA bytes (BOM + line endings + non-ASCII sequences)
 ```python
@@ -376,14 +376,14 @@ def fix_fasta(raw_bytes):
         else:
             lines.append(''.join(c for c in line if ord(c) < 128))
     return '\n'.join(lines)
-```
+```python
 
 ### Shell: detect and fix line endings
 ```bash
 file sample.txt           # reports "CRLF line terminators" for Windows files
 dos2unix sample.txt       # convert \r\n -> \n in-place
 sed -i 's/\r//' file.txt  # alternative without dos2unix
-```
+```python
 
 ---
 

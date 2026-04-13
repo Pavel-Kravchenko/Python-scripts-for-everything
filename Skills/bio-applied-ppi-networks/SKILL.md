@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/28_Network_Biology/01_ppi_networks.ipynb`*
 
-# PPI Network Construction & Analysis
 
 **Tier 3 — Applied Bioinformatics | Module 28 · Notebook 1**
 
@@ -121,7 +120,7 @@ for _ in range(n_interactions * 5):
 df_edges = pd.DataFrame(edges)
 print(f"Interactions loaded: {len(df_edges)}")
 print(df_edges.head(5).to_string(index=False))
-```
+```python
 
 ## 2. STRING Database and Network Construction
 
@@ -152,7 +151,7 @@ params = {
 }
 response = requests.get(f"{string_api}/json/network", params=params)
 interactions = pd.DataFrame(response.json())
-```
+```python
 
 ```python
 # ----- Simulating STRING database query -----
@@ -203,7 +202,7 @@ for channel, desc in channels.items():
     print(f"  {channel:<15}: {desc}")
 print("\nCombined score = 1 - prod(1 - individual_scores)")
 print("Threshold recommendations: 400 (medium), 700 (high), 900 (highest)")
-```
+```python
 
 ## 3. Building the NetworkX Graph
 
@@ -222,7 +221,7 @@ G = nx.from_pandas_edgelist(df, source='gene1', target='gene2',
 for gene in G.nodes():
     G.nodes[gene]['degree'] = G.degree(gene)
     G.nodes[gene]['type'] = annotations[gene]
-```
+```python
 
 ### Connected components
 Real PPI networks often have:
@@ -274,7 +273,7 @@ if not nx.is_connected(G):
 # Use largest connected component for analysis
 G_main = G.subgraph(max(nx.connected_components(G), key=len)).copy()
 print(f"\nMain component: {G_main.number_of_nodes()} nodes, {G_main.number_of_edges()} edges")
-```
+```python
 
 ## 4. Network Centrality Measures
 
@@ -293,11 +292,11 @@ How quickly a node can reach all others via shortest paths. Genes with high clos
 A node is important if its neighbors are important. Captures quality of connections, not just quantity. Basis of Google PageRank.
 
 ### Hub and bottleneck classification
-```
+```python
              High betweenness    Low betweenness
 High degree  Hub + bottleneck    Hub only
 Low degree   Bottleneck only     Peripheral
-```
+```python
 
 ```python
 # ----- Network centrality analysis -----
@@ -359,4 +358,10 @@ for ax, metric in zip(axes[1, :], metrics_top):
 
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

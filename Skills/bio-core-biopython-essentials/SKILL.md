@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/02_BioPython_Essentials/01_biopython_essentials.ipynb`*
 
-# BioPython Essentials
 
 BioPython is the most widely used Python library for bioinformatics. This notebook covers its core modules through practical, hands-on examples -- from sequence manipulation to fetching data from NCBI and building a complete gene-to-protein analysis workflow.
 
@@ -74,7 +73,7 @@ print(f"GC content: {gc_fraction(dna)*100:.1f}%")
 blosum62 = substitution_matrices.load("BLOSUM62")
 print(f"BLOSUM62 loaded: score(L,I)={blosum62['L','I']}, score(K,D)={blosum62['K','D']}")
 print("\nAll imports ready. Proceed to Section 1.")
-```
+```python
 
 ```python
 dna = Seq("ATGCGATCGATCGTAA")
@@ -92,7 +91,7 @@ print(f"RNA: {rna}")
 # Back-transcription: RNA -> DNA
 print(f"Back to DNA: {rna.back_transcribe()}")
 print(f"Round-trip OK: {rna.back_transcribe() == dna}")
-```
+```python
 
 ### 1.2 Translation: DNA/RNA to Protein
 
@@ -114,7 +113,7 @@ print(f"Codons:         ATG TGA ATG GAA")
 print(f"Standard (1):   {dna2.translate(table=1)}  (TGA = stop)")
 print(f"Mito (2):       {dna2.translate(table=2)}  (TGA = Trp)")
 print(f"Bacterial (11): {dna2.translate(table=11)}  (TGA = stop)")
-```
+```python
 
 ```python
 # GC content and molecular weight
@@ -129,7 +128,7 @@ print(f"Protein MW: {molecular_weight(protein, seq_type='protein'):.1f} Da")
 mutable = MutableSeq("ATGCGATCG")
 mutable[3] = "T"  # G -> T point mutation
 print(f"\nMutated: {mutable} (position 3: G->T)")
-```
+```python
 
 ---
 ## 2. SeqRecord Objects
@@ -154,7 +153,7 @@ print(f"ID: {record.id}  |  Name: {record.name}")
 print(f"Description: {record.description}")
 print(f"Sequence: {record.seq}  ({len(record)} bp)")
 print(f"Annotations: {dict(record.annotations)}")
-```
+```python
 
 ```python
 # Adding features (annotated regions on the sequence)
@@ -174,7 +173,7 @@ for feat in record.features:
 # Extract the nucleotide sequence of a feature
 cds_seq = cds_feature.location.extract(record.seq)
 print(f"\nCDS protein: {cds_seq.translate(to_stop=True)}")
-```
+```python
 
 ```python
 # Per-letter annotations (e.g., quality scores in FASTQ)
@@ -184,7 +183,7 @@ short_record.letter_annotations["phred_quality"] = [30, 30, 28, 35, 35, 33, 30, 
 for base, qual in zip(short_record.seq, short_record.letter_annotations["phred_quality"]):
     print(f"  {base} Q={qual}", end="")
 print(f"\nMean quality: {sum(short_record.letter_annotations['phred_quality']) / len(short_record):.1f}")
-```
+```python
 
 ---
 ## 3. SeqIO: Reading and Writing Sequence Files
@@ -214,7 +213,7 @@ with open("insulin_seqs.fasta", "w") as f:
 # Read and display
 for record in SeqIO.parse("insulin_seqs.fasta", "fasta"):
     print(f"{record.id:15s} {len(record):4d} aa  {record.description}")
-```
+```python
 
 ```python
 # Load into dictionary, write new file
@@ -229,7 +228,7 @@ new_records = [
 ]
 count = SeqIO.write(new_records, "output.fasta", "fasta")
 print(f"\nWrote {count} sequences to output.fasta")
-```
+```python
 
 ### 3.2 GenBank Files
 
@@ -280,7 +279,7 @@ print(f"\nFeatures ({len(record.features)}):")
 for feat in record.features:
     gene = feat.qualifiers.get('gene', [''])[0]
     print(f"  {feat.type:10s} {str(feat.location):20s} {gene}")
-```
+```python
 
 ```python
 # Extract CDS and translate
@@ -295,7 +294,7 @@ for feat in record.features:
         print(f"Annotated protein: {annotated}")
         print(f"Our translation:   {our_translation}")
         break
-```
+```python
 
 ```python
 # Create sample FASTQ, read, and filter by quality
@@ -326,7 +325,7 @@ good = [r for r in SeqIO.parse("reads.fastq", "fastq")
         if sum(r.letter_annotations["phred_quality"]) / len(r) >= 25]
 SeqIO.write(good, "filtered.fastq", "fastq")
 print(f"\nKept {len(good)}/3 reads with mean Q >= 25")
-```
+```python
 
 ```python
 # Format conversion
@@ -340,7 +339,7 @@ print(f"Converted {count} FASTQ records to FASTA")
 
 with open("reads.fasta") as f:
     print(f.read())
-```
+```python
 
 ---
 ## 4. Bio.Entrez: Accessing NCBI Databases
@@ -349,3 +348,9 @@ The `Entrez` module provides programmatic access to all NCBI databases. The key 
 - `Entrez.esearch(db, term)` -- search, returns IDs
 - `Entrez.efetch(db, id, rettype, retmode)` -- download records
 - `Entrez.elink(dbfrom, db, id)` -- find cross-database links
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

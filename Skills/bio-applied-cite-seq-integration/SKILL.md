@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/31_Single_Cell_Multi_Omics/02_cite_seq_integration.ipynb`*
 
-# CITE-seq and Multiome Data Integration
 
 **Tier 3 — Applied Bioinformatics | Module 31 · Notebook 2**
 
@@ -83,9 +82,9 @@ ADT counts have a fundamentally different distribution from RNA:
 ### CLR (Centered Log-Ratio) normalization
 The simplest and most widely used approach. For each cell, compute the geometric mean of all ADT counts, then divide each protein count by the geometric mean and take the log:
 
-```
+```python
 CLR(x_i) = log(x_i / geometric_mean(x))
-```
+```python
 
 This centers the distribution around 0, making comparison across cells and proteins meaningful. CLR is implemented in Seurat as `NormalizeData(assay='ADT', normalization.method='CLR', margin=2)` (margin=2 = normalize across features within each cell).
 
@@ -181,7 +180,7 @@ print("\nCD3 CLR values by cell type:")
 for ct in ['CD4_T', 'CD8_T', 'B_cell', 'Monocyte', 'NK_cell']:
     mask = np.array(all_labels) == ct
     print(f"  {ct}: mean={adt_clr[mask, 0].mean():.2f}  (positive should be T/NK cells)")
-```
+```python
 
 ## 3. Weighted Nearest Neighbor (WNN) Integration
 
@@ -229,7 +228,7 @@ sc.pp.neighbors(mdata['prot'])
 mu.pp.neighbors(mdata, key_added='wnn')
 sc.tl.umap(mdata, neighbors_key='wnn')
 sc.pl.umap(mdata, color='leiden_wnn')
-```
+```python
 
 ## 4. 10x Multiome: Paired RNA + ATAC from the Same Cell
 
@@ -274,9 +273,15 @@ sc.tl.pca(mdata['atac'])  # LSI component 1 will be depth-correlated
 # Joint UMAP (WNN concept applied to RNA + ATAC)
 mu.pp.neighbors(mdata)
 sc.tl.umap(mdata)
-```
+```python
 
 ### Gene activity scores (bridging ATAC to RNA)
 In the absence of paired RNA, scATAC clusters can be annotated using **gene activity scores**: sum the ATAC signal in the gene body + promoter (2kb upstream) for each gene, creating a pseudo-expression matrix. This proxy expression is much noisier than actual RNA but enables:
 - Coarse cell type annotation using well-known marker genes
 - Reference mapping to RNA atlases for label transfer
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/09_Dictionaries_and_Sets/02_sets.ipynb`*
 
-# Module 9: Dictionaries and Sets
 
 ---
 
@@ -62,7 +61,7 @@ A dictionary maps **keys** to **values**. Looking up a key is extremely fast (O(
 ```python
 codon_table = {"ATG": "Met", "TAA": "Stop", "GGG": "Gly"}   # str -> str
 gene_lengths = {"BRCA1": 81189, "TP53": 19149}               # str -> int
-```
+```python
 
 **Key properties:**
 - Keys must be unique and **hashable** (strings, numbers, tuples — not lists)
@@ -91,7 +90,7 @@ print(f"Codon names: {codon_names}")
 # Empty dictionary
 annotations = {}
 print(f"Empty dict: {annotations}")
-```
+```python
 
 ### 1.2 Accessing Values
 
@@ -108,7 +107,7 @@ print(f"KRAS length:  {gene_lengths.get('KRAS', 'not found')}")
 # Membership test
 print(f"\n'TP53' in dict: {'TP53' in gene_lengths}")
 print(f"'KRAS' in dict: {'KRAS' in gene_lengths}")
-```
+```python
 
 ### 1.3 Modifying Dictionaries
 
@@ -135,7 +134,7 @@ print(f"Removed KRAS ({removed_val} bp): {gene_info}")
 gene_info.setdefault("TP53", 0)   # TP53 exists, so no change
 gene_info.setdefault("RB1", 180388)  # RB1 is new
 print(f"After setdefault: {gene_info}")
-```
+```python
 
 ### 1.4 Dictionary Iteration
 
@@ -158,7 +157,7 @@ print(f"\n{'Gene':<8} {'Chr':<6} {'Length':>10} {'GC%':>6}")
 print("-" * 34)
 for gene, info in gene_data.items():
     print(f"{gene:<8} chr{info['chr']:<4} {info['length']:>9,} {info['gc']:>5.1f}%")
-```
+```python
 
 ### 1.5 The Genetic Code as a Dictionary
 
@@ -198,7 +197,7 @@ def translate(dna):
 cds = "ATGGCCGATCGATAG"
 print(f"DNA:     {cds}")
 print(f"Protein: {translate(cds)}")
-```
+```python
 
 ### 1.6 Nucleotide Frequency Counter
 
@@ -220,7 +219,7 @@ for nt in 'ATGC':
 
 gc_pct = (freq.get('G', 0) + freq.get('C', 0)) / len(sequence) * 100
 print(f"\nGC content: {gc_pct:.1f}%")
-```
+```python
 
 ### 1.7 Nested Dictionaries -- Gene Annotation Database
 
@@ -259,7 +258,7 @@ for gene_id, info in gene_annotations.items():
     print(f"  chr{info['chromosome']}:{start:,}-{end:,} ({info['strand']})")
     print(f"  GO terms: {', '.join(info['go_terms'])}")
     print()
-```
+```python
 
 ### 1.8 defaultdict and Counter
 
@@ -286,7 +285,7 @@ for gene, chrom in gene_locations:
 print("Genes grouped by chromosome:")
 for chrom in sorted(by_chrom):
     print(f"  {chrom}: {by_chrom[chrom]}")
-```
+```python
 
 ```python
 from collections import Counter
@@ -307,7 +306,7 @@ kmer_counts = Counter(kmers)
 print(f"\n{k}-mer frequencies:")
 for kmer, count in kmer_counts.most_common(5):
     print(f"  {kmer}: {count}")
-```
+```python
 
 ```python
 # Counter arithmetic -- compare k-mer profiles between two sequences
@@ -329,7 +328,7 @@ print(f"\nShared k-mers (min counts): {dict(common)}")
 # Combined k-mers
 combined = kmers_a + kmers_b
 print(f"Combined k-mers (sum):      {dict(combined.most_common(5))}")
-```
+```python
 
 ---
 
@@ -337,7 +336,7 @@ print(f"Combined k-mers (sum):      {dict(combined.most_common(5))}")
 
 A set stores **unique, unordered** elements. Membership testing (`x in my_set`) is O(1), making sets perfect for checking whether something has been seen before.
 
-```
+```python
 +---------------------------------------------------------+
 |                     SET STRUCTURE                        |
 +---------------------------------------------------------+
@@ -350,7 +349,7 @@ A set stores **unique, unordered** elements. Membership testing (`x in my_set`) 
 |   - Supports union, intersection, difference            |
 |                                                         |
 +---------------------------------------------------------+
-```
+```python
 
 ### 2.1 Creating Sets
 
@@ -372,11 +371,11 @@ print(f"Empty set: {empty_set}, type: {type(empty_set)}")
 k = 3
 unique_kmers = set(seq[i:i+k] for i in range(len(seq) - k + 1))
 print(f"Unique {k}-mers: {unique_kmers}")
-```
+```python
 
 ### 2.2 Set Operations
 
-```
+```python
 +---------------------------------------------------------+
 |                   SET OPERATIONS                         |
 +---------------------------------------------------------+
@@ -394,4 +393,10 @@ print(f"Unique {k}-mers: {unique_kmers}")
 |        +-----+     +-----+                              |
 |                                                         |
 +---------------------------------------------------------+
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

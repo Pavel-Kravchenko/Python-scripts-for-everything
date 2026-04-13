@@ -63,7 +63,7 @@ G = nx.from_pandas_edgelist(
     target='preferredName_B',
     edge_attr='score'
 )
-```
+```python
 
 **Pattern 2: Network metrics**
 ```python
@@ -80,7 +80,7 @@ metrics = pd.DataFrame({
 })
 # Hub genes: top 10% by degree
 hubs = metrics[metrics['degree'] >= metrics['degree'].quantile(0.9)]
-```
+```python
 
 **Pattern 3: Louvain community detection**
 ```python
@@ -92,7 +92,7 @@ modules = {}
 for node, mod_id in partition.items():
     modules.setdefault(mod_id, []).append(node)
 print(f'{len(modules)} modules detected')
-```
+```python
 
 **Pattern 4: GO enrichment per module**
 ```python
@@ -109,7 +109,7 @@ for mod_id, genes in modules.items():
     )
     top = enr.results.head(5)[['Term', 'Adjusted P-value']]
     print(f'Module {mod_id} ({len(genes)} genes): {top.to_string()}')
-```
+```python
 
 **Pattern 5: GENIE3 GRN inference (R)**
 ```r
@@ -121,7 +121,7 @@ weight_matrix <- GENIE3(exprMatrix=expr_matrix, regulators=tfs,
                          nTrees=1000, nCores=8)
 link_list <- getLinkList(weight_matrix, reportMax=20000)
 # link_list: regulatoryGene | targetGene | weight
-```
+```python
 
 ## Biological Network Properties
 
@@ -168,7 +168,7 @@ def plot_degree_distribution(G, title='Degree Distribution'):
     return degrees
 
 degs = plot_degree_distribution(G, title=f'Network ({G.number_of_nodes()} nodes)')
-```
+```python
 
 ### Identify Hub Genes and Bottlenecks
 ```python
@@ -191,7 +191,7 @@ def find_network_key_nodes(G, top_n=20):
 
 key_nodes = find_network_key_nodes(G)
 print(key_nodes[['degree', 'betweenness', 'pagerank']].head(10))
-```
+```python
 
 ### Overlap Network Modules with DEGs
 ```python
@@ -217,7 +217,7 @@ def module_deg_overlap(modules, degs, background_size=20000):
 
 overlap = module_deg_overlap(modules, degs=significant_genes)
 print(overlap[overlap['padj'] < 0.05])
-```
+```python
 
 ### Export Network to GraphML (Cytoscape)
 ```python
@@ -234,7 +234,7 @@ def export_for_cytoscape(G, metrics_df, output_path):
     print(f"Saved {G.number_of_nodes()} nodes, {G.number_of_edges()} edges to {output_path}")
 
 export_for_cytoscape(G, key_nodes, 'network.graphml')
-```
+```python
 
 ## Related Skills
 - `multi-omics-integration` — integrating network modules with expression data

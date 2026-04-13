@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/04_Linear_Data_Structures/01_linked_lists.ipynb`*
 
-# Linked Lists
 
 A comprehensive guide to singly and doubly linked lists with implementations, visualizations, and practical examples.
 
@@ -65,7 +64,7 @@ A **linked list** is a linear data structure where elements are stored in nodes,
 
 ### Memory Representation
 
-```
+```python
 Array (contiguous memory):
 ┌─────┬─────┬─────┬─────┬─────┐
 │  5  │  3  │  8  │  1  │  9  │   Memory addresses: 100, 104, 108, 112, 116
@@ -76,7 +75,7 @@ Linked List (scattered memory):
 │  5  │────→│  3  │────→│  8  │────→│  1  │────→ null
 └─────┘     └─────┘     └─────┘     └─────┘
 addr:200    addr:508    addr:124    addr:336
-```
+```python
 
 ---
 
@@ -92,14 +91,14 @@ The list maintains a **head** pointer to the first node. The last node's `next` 
 
 ### Visual Structure
 
-```
+```python
 head
   ↓
 ┌───┬───┐   ┌───┬───┐   ┌───┬───┐   ┌───┬───┐
 │ 5 │ ●─┼──→│ 3 │ ●─┼──→│ 8 │ ●─┼──→│ 1 │ ○ │
 └───┴───┘   └───┴───┘   └───┴───┘   └───┴───┘
  data next   data next   data next   data null
-```
+```python
 
 ### Time Complexity
 
@@ -453,4 +452,10 @@ class SinglyLinkedList:
         self.head = None
         self.tail = None
         self._length = 0
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

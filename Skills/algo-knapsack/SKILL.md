@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/03_knapsack.ipynb`*
 
-# 🎒 Knapsack Problems
 
 ## Learning Objectives
 
@@ -86,7 +85,7 @@ weights = [2, 3, 4]
 values = [3, 4, 5]
 result = knapsack_verbose(weights, values, items, 5)
 print(f"\nOptimal value: {result}")
-```
+```python
 
 ```python
 def knapsack_01(weights, values, capacity):
@@ -117,7 +116,7 @@ budget = 100
 
 max_value = knapsack_01(costs, relevance, budget)
 print(f"Maximum clinical relevance within budget: {max_value}")
-```
+```python
 
 ```python
 def knapsack_01_with_items(weights, values, names, capacity):
@@ -145,7 +144,7 @@ value, selected = knapsack_01_with_items(costs, relevance, genes, budget)
 print(f"\nOptimal gene panel: {selected}")
 print(f"Total relevance: {value}")
 print(f"Total cost: {sum(costs[genes.index(g)] for g in selected)}")
-```
+```python
 
 ```python
 def knapsack_01_space_optimized(weights, values, capacity):
@@ -161,7 +160,7 @@ def knapsack_01_space_optimized(weights, values, capacity):
     return dp[capacity]
 
 print(f"\nSpace-optimized result: {knapsack_01_space_optimized(costs, relevance, budget)}")
-```
+```python
 
 ## Unbounded Knapsack
 
@@ -191,7 +190,7 @@ print(f"Max efficiency with budget {reagent_budget}: {result}")
 
 # Compare with 0/1 knapsack on the same input
 print(f"0/1 knapsack result: {knapsack_01_space_optimized(primer_costs, primer_efficiency, reagent_budget)}")
-```
+```python
 
 ## Subset Sum
 
@@ -212,7 +211,7 @@ def subset_sum(nums, target):
 # Can we select genes costing exactly 80 units?
 print(f"Can select genes costing exactly 80? {subset_sum(costs, 80)}")
 print(f"Can select genes costing exactly 77? {subset_sum(costs, 77)}")
-```
+```python
 
 ## Exercises
 
@@ -261,7 +260,7 @@ best_score, chosen = knapsack_with_traceback(exp_costs, exp_quality, experiments
 print(f"Best data quality score: {best_score}")
 print(f"Selected experiments: {chosen}")
 print(f"Total cost: {sum(exp_costs[experiments.index(e)] for e in chosen)}")
-```
+```python
 
 ### Exercise 2 (**)
 
@@ -312,7 +311,7 @@ def min_cost_coverage(costs, coverage, required):
 
 min_cost = min_cost_coverage(method_costs, method_coverage, required)
 print(f"Minimum cost to cover all regions: {min_cost}")
-```
+```python
 
 ---
 
@@ -325,3 +324,9 @@ print(f"Minimum cost to cover all regions: {min_cost}")
 ✅ Applications: Gene panel selection, experiment design, coverage planning
 
 **Next:** [04_sequence_alignment.ipynb](04_sequence_alignment.ipynb) - Global and local sequence alignment
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

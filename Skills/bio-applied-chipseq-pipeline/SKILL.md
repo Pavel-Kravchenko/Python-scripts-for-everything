@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/24_ChIP_seq_Epigenomics/01_chipseq_pipeline.ipynb`*
 
-# ChIP-seq Processing Pipeline
 
 **Tier 3 — Applied Bioinformatics | Module 24 · Notebook 1**
 
@@ -67,7 +66,7 @@ except ImportError:
 plt.rcParams['figure.dpi'] = 100
 plt.rcParams['font.size'] = 11
 print('Setup complete.')
-```
+```python
 
 ## 1. ChIP-seq Experimental Design
 
@@ -119,7 +118,7 @@ Warning signs to act on before proceeding: adapter content > 20% means fragment 
     --detect_adapter_for_pe \
     --thread 4 \
     -h trimmed/fastp_report.html
-```
+```python
 
 ## 3. Alignment with Bowtie2
 
@@ -160,7 +159,7 @@ Post-alignment filtering is critical for reducing noise: remove unmapped reads (
     -b hg38-blacklist.v2.bed \
     -v > aligned/sample_filtered.bam
 !samtools index aligned/sample_filtered.bam
-```
+```python
 
 ## 4. Duplicate Removal with Picard
 
@@ -189,7 +188,7 @@ ENCODE uses two complementary complexity metrics computed from the duplication m
 # --- Compare flagstat before and after deduplication ---
 !echo '=== BEFORE deduplication ===' && samtools flagstat aligned/sample_filtered.bam
 !echo '=== AFTER deduplication ===' && samtools flagstat dedup/sample_dedup.bam
-```
+```python
 
 ```python
 import pandas as pd
@@ -249,4 +248,10 @@ axes[1].legend()
 
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

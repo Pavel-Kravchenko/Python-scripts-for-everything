@@ -1,6 +1,6 @@
 ---
 name: python-bio-iterators
-description: "Split from `01_iterators_and_generators.ipynb` to keep this topic self-contained."
+description: "Python iterators for bioinformatics: custom iterators for FASTA parsing, sliding windows over sequences, and lazy data processing. Use when processing large biological datasets efficiently."
 tool_type: python
 source_notebook: "Tier_1_Python_for_Bioinformatics/11_Iterators_and_Generators/01_iterators.ipynb"
 primary_tool: Python
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/11_Iterators_and_Generators/01_iterators.ipynb`*
 
-# Iterators
 
 Split from `01_iterators_and_generators.ipynb` to keep this topic self-contained.
 
@@ -54,7 +53,7 @@ nuc_iter = iter(nucleotides)
 
 print(type(nucleotides))   # list -- iterable
 print(type(nuc_iter))      # list_iterator -- iterator
-```
+```python
 
 ```python
 # Manually advance the iterator with next()
@@ -62,7 +61,7 @@ print(next(nuc_iter))  # A
 print(next(nuc_iter))  # T
 print(next(nuc_iter))  # G
 print(next(nuc_iter))  # C
-```
+```python
 
 ```python
 # When an iterator is exhausted, StopIteration is raised
@@ -70,7 +69,7 @@ try:
     print(next(nuc_iter))
 except StopIteration:
     print("Iterator exhausted! No more nucleotides.")
-```
+```python
 
 ```python
 # Strings are iterable too -- iterate over a DNA sequence
@@ -80,7 +79,7 @@ seq_iter = iter(dna)
 print(next(seq_iter))  # A
 print(next(seq_iter))  # T
 print(next(seq_iter))  # G
-```
+```python
 
 ### How `for` Loops Really Work
 
@@ -101,7 +100,7 @@ while True:
     except StopIteration:
         break
 print()
-```
+```python
 
 ### Building a Custom Iterator Class
 
@@ -131,7 +130,7 @@ print(f"Sequence: {dna}")
 print("Codons:")
 for codon in CodonIterator(dna):
     print(f"  {codon}")
-```
+```python
 
 ```python
 # Iterators are single-pass -- once exhausted, they are done
@@ -139,7 +138,7 @@ ci = CodonIterator("ATGAAA")
 
 print("First pass:", list(ci))
 print("Second pass:", list(ci))  # empty -- already exhausted
-```
+```python
 
 ---
 ## 2. Generators with `yield`
@@ -160,7 +159,7 @@ print(f"Type: {type(gen)}")
 print(f"First codon: {next(gen)}")
 print(f"Second codon: {next(gen)}")
 print(f"Remaining: {list(gen)}")
-```
+```python
 
 ```python
 # Generator for k-mers (subsequences of length k)
@@ -173,7 +172,7 @@ def kmer_generator(sequence, k):
 dna = "ATGCGATCG"
 print(f"All 3-mers from {dna}:")
 print(list(kmer_generator(dna, 3)))
-```
+```python
 
 ```python
 # Generators can be infinite -- Fibonacci example for modeling populations
@@ -190,7 +189,7 @@ print("First 12 Fibonacci numbers:")
 for _ in range(12):
     print(next(fib), end=" ")
 print()
-```
+```python
 
 ```python
 # Translation generator -- yield amino acids one at a time
@@ -227,7 +226,7 @@ coding_seq = "ATGAAAGCCTTTGGGTGA"
 protein = ''.join(translate_generator(coding_seq))
 print(f"DNA:     {coding_seq}")
 print(f"Protein: {protein}")
-```
+```python
 
 ---
 ## 3. Generator Expressions
@@ -246,7 +245,7 @@ gc_gen = (1 for nuc in dna if nuc in 'GC')
 print(f"List: {gc_list}")
 print(f"Generator: {gc_gen}")
 print(f"GC count via generator: {sum(1 for nuc in dna if nuc in 'GC')}")
-```
+```python
 
 ```python
 # GC content with a generator expression
@@ -263,7 +262,7 @@ sequences = {
 
 for name, seq in sequences.items():
     print(f"{name:20s}: GC = {gc_content(seq):.1%}")
-```
+```python
 
 ---
 ## 4. Memory Efficiency
@@ -285,7 +284,7 @@ kmers_gen = kmer_generator(dna, 3)
 print(f"List of {len(kmers_list):,} k-mers: {sys.getsizeof(kmers_list):,} bytes")
 print(f"Generator object:              {sys.getsizeof(kmers_gen)} bytes")
 print(f"\nThe generator uses ~{sys.getsizeof(kmers_list) / sys.getsizeof(kmers_gen):,.0f}x less memory!")
-```
+```python
 
 ```python
 # Chaining generators for pipeline processing (no intermediate lists)
@@ -299,7 +298,7 @@ charged = (aa for aa in amino_acids if aa in 'DEKRH')
 # Nothing has been computed yet! Only when we consume:
 charged_count = sum(1 for _ in charged)
 print(f"Charged residues in {len(dna)} bp sequence: {charged_count}")
-```
+```python
 
 ---
 ## 5. Bioinformatics Application: Streaming FASTQ Reader
@@ -330,7 +329,7 @@ with open('sample.fastq', 'w') as f:
     f.write(fastq_content)
 
 print("Created sample.fastq")
-```
+```python
 
 ```python
 def read_fastq(filename):
@@ -361,7 +360,7 @@ for record in read_fastq('sample.fastq'):
     avg_qual = sum(ord(c) - 33 for c in record['quality']) / len(record['quality'])
     gc = gc_content(record['sequence'])
     print(f"  {record['id']}: GC={gc:.1%}, mean_qual={avg_qual:.1f}")
-```
+```python
 
 ```python
 # Generator pipeline: filter low-quality reads
@@ -389,7 +388,7 @@ filtered = quality_filter(trimmed, min_avg_quality=25)
 print("Filtered and trimmed reads:")
 for record in filtered:
     print(f"  {record['id']}: {record['sequence'][:40]}... (len={len(record['sequence'])})")
-```
+```python
 
 ---
 ## 6. Bioinformatics Application: Streaming FASTA Reader
@@ -411,7 +410,7 @@ with open('sample.fasta', 'w') as f:
     f.write(fasta_content)
 
 print("Created sample.fasta")
-```
+```python
 
 ```python
 def read_fasta(filename):
@@ -440,7 +439,7 @@ print("Parsed FASTA records:")
 for header, seq in read_fasta('sample.fasta'):
     gene_id = header.split()[0]
     print(f"  {gene_id}: {len(seq)} bp, GC={gc_content(seq):.1%}")
-```
+```python
 
 ---
 ## 7. Bioinformatics Application: All Possible k-mers
@@ -464,4 +463,10 @@ print(list(all_possible_kmers(2)))
 # How many 5-mers exist? (4^5 = 1024)
 count = sum(1 for _ in all_possible_kmers(5))
 print(f"\nTotal possible 5-mers: {count}")
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

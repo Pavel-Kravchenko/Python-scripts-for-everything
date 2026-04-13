@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/08_Lists_and_Tuples/02_tuples.ipynb`*
 
-# Module 8: Lists and Tuples
 
 ---
 
@@ -62,7 +61,7 @@ genes = ["BRCA1", "TP53", "EGFR"]   # list of strings
 quality_scores = [38, 40, 37, 42, 35]  # list of ints
 mixed = ["chr17", 43044295, True]      # lists can hold different types
 empty = []                              # empty list
-```
+```python
 
 Lists are **zero-indexed** — the first element is at index `0`.
 
@@ -84,7 +83,7 @@ print(f"Nucleotides: {nucleotides}")
 # From range -- useful for generating positions
 positions = list(range(0, 30, 3))  # every 3rd position (codon starts)
 print(f"Codon start positions: {positions}")
-```
+```python
 
 ### 1.2 Indexing and Slicing
 
@@ -96,7 +95,7 @@ print(f"First nucleotide:  {promoter[0]}")
 print(f"Fifth nucleotide:  {promoter[4]}")
 print(f"Last nucleotide:   {promoter[-1]}")
 print(f"Second-to-last:    {promoter[-2]}")
-```
+```python
 
 ```python
 # Slicing: list[start:stop:step]
@@ -108,7 +107,7 @@ print(f"Second codon: {''.join(seq[3:6])}")
 print(f"Last codon:   {''.join(seq[-3:])}")
 print(f"Every other:  {''.join(seq[::2])}")
 print(f"Reversed:     {''.join(seq[::-1])}")
-```
+```python
 
 ### 1.3 Storing Sequences as Lists of Codons
 
@@ -125,7 +124,7 @@ for i in range(0, len(cds) - len(cds) % 3, 3):
 print(f"CDS:    {cds}")
 print(f"Codons: {codons}")
 print(f"Number of complete codons: {len(codons)}")
-```
+```python
 
 ### 1.4 Essential List Methods
 
@@ -144,7 +143,7 @@ print(f"After extend: {discovered_genes}")
 # insert() -- add at a specific position
 discovered_genes.insert(1, "RB1")
 print(f"After insert: {discovered_genes}")
-```
+```python
 
 ```python
 # Removing elements
@@ -161,7 +160,7 @@ codons = ["ATG", "GCC", "GAT", "CGA", "ATG", "TAG"]
 print(f"\nIndex of 'GAT':  {codons.index('GAT')}")
 print(f"Count of 'ATG':  {codons.count('ATG')}")
 print(f"'TAG' in codons: {'TAG' in codons}")
-```
+```python
 
 ### 1.5 Sorting Sequences by Length
 
@@ -180,7 +179,7 @@ by_length = sorted(sequences, key=len)
 print(f"\nSorted by length:")
 for seq in by_length:
     print(f"  {seq} ({len(seq)} bp)")
-```
+```python
 
 ```python
 # Sort by GC content
@@ -194,7 +193,7 @@ by_gc = sorted(sequences, key=gc_content)
 print("Sorted by GC content:")
 for seq in by_gc:
     print(f"  {seq:15s}  GC = {gc_content(seq)*100:.1f}%")
-```
+```python
 
 ### 1.6 Finding Longest and Shortest Genes
 
@@ -217,7 +216,7 @@ total = sum(length for _, length in gene_data)
 avg   = total / len(gene_data)
 print(f"\nTotal length:   {total:,} bp")
 print(f"Average length: {avg:,.0f} bp")
-```
+```python
 
 ### 1.7 List Copying -- Avoiding a Common Trap
 
@@ -236,7 +235,7 @@ copy2 = original[:]       # slice
 copy1.append("TAG")
 print(f"Original after copy1.append: {original}")  # unchanged
 print(f"copy1: {copy1}")
-```
+```python
 
 ---
 
@@ -244,7 +243,7 @@ print(f"copy1: {copy1}")
 
 A **tuple** is like a list that cannot be changed after creation. This makes it ideal for fixed records such as gene coordinates.
 
-```
+```python
 +---------------------------------------------------------+
 |                    TUPLE STRUCTURE                       |
 +---------------------------------------------------------+
@@ -262,7 +261,7 @@ A **tuple** is like a list that cannot be changed after creation. This makes it 
 |   - Protects data from accidental modification          |
 |                                                         |
 +---------------------------------------------------------+
-```
+```python
 
 ### 2.1 Creating Tuples and Immutability
 
@@ -280,7 +279,7 @@ single = ("BRCA1",)
 not_a_tuple = ("BRCA1")   # this is just a string in parentheses
 print(f"Single tuple: {single}, type: {type(single)}")
 print(f"Not a tuple:  {not_a_tuple}, type: {type(not_a_tuple)}")
-```
+```python
 
 ```python
 # Tuples cannot be modified
@@ -294,7 +293,7 @@ snp_position = ("chr7", 55259515, "T", "G")  # chromosome, position, ref, alt
 corrected = snp_position[:2] + ("C", "A") + snp_position[4:]
 print(f"Original:  {snp_position}")
 print(f"Corrected: {corrected}")
-```
+```python
 
 ### 2.2 Tuple Packing and Unpacking
 
@@ -318,7 +317,7 @@ print(f"Location: {location_info}")
 a, b = "forward", "reverse"
 a, b = b, a
 print(f"After swap: a={a}, b={b}")
-```
+```python
 
 ### 2.3 Tuples for Biological Records: (gene_name, start, end)
 
@@ -341,7 +340,7 @@ for name, start, end in genes:
 # Sort genes by length
 sorted_genes = sorted(genes, key=lambda g: g[2] - g[1], reverse=True)
 print(f"\nLongest gene: {sorted_genes[0][0]} ({sorted_genes[0][2] - sorted_genes[0][1]:,} bp)")
-```
+```python
 
 ### 2.4 Named Tuples -- Readable Records
 
@@ -367,11 +366,11 @@ by_length = sorted(gene_db, key=lambda g: g.end - g.start, reverse=True)
 print("\nGenes sorted by length:")
 for gene in by_length:
     print(f"  {gene.name:6s} on {gene.chromosome}: {gene.end - gene.start:>8,} bp")
-```
+```python
 
 ### 2.5 When to Use Tuples vs. Lists
 
-```
+```python
 +---------------------------------------------------------+
 |          TUPLES vs LISTS -- WHEN TO USE                  |
 +---------------------------------------------------------+
@@ -389,4 +388,10 @@ for gene in by_length:
 |    - Intermediate results during computation             |
 |                                                         |
 +---------------------------------------------------------+
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

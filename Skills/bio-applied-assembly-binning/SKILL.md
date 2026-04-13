@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/03_assembly_binning.ipynb`*
 
-# Metagenomic Assembly, Binning & MAGs
 
 **Tier 3 — Applied Bioinformatics | Module 26 · Notebook 3**
 
@@ -64,7 +63,7 @@ megahit \
 # Check assembly statistics
 grep '>' megahit_assembly/final.contigs.fa | wc -l   # number of contigs
 seqkit stats megahit_assembly/final.contigs.fa         # N50, total length, etc.
-```
+```python
 
 **Alternative assembler — SPAdes metaSPAdes:** More accurate for low-coverage organisms but requires significantly more RAM (~100–400 GB for complex communities). Use when RAM is available and accuracy is paramount.
 
@@ -123,7 +122,7 @@ axes[1].legend()
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 2. Coverage Estimation for Binning
 
@@ -152,7 +151,7 @@ jgi_summarize_bam_contig_depths \
     --outputDepth depths.txt \
     contigs_mapped.bam
 # Output: contigName, contigLen, totalAvgDepth, sampleDepth, sampleDepthVar
-```
+```python
 
 **Multi-sample binning**: If you have multiple samples from the same environment (e.g., time series, or different individuals with similar community), mapping all samples to the same assembly and providing all BAMs to `jgi_summarize_bam_contig_depths` dramatically improves binning quality by providing differential abundance patterns as an additional signal.
 
@@ -219,7 +218,7 @@ axes[1].legend(markerscale=3, fontsize=8)
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 3. Contig Binning with MetaBAT2
 
@@ -236,7 +235,7 @@ metabat2 \
     -t 8 \
     --saveCls             # save cluster assignment file
 # Output: bins/bin.1.fa, bins/bin.2.fa, ... (one FASTA per bin)
-```
+```python
 
 **Alternative binners:**
 - **CONCOCT**: uses k-mer frequency PCA + coverage; good for low-coverage data
@@ -253,7 +252,7 @@ das_tool \
     -o dastool_output/ \
     -t 8 \
     --write_bins
-```
+```python
 
 ```python
 import numpy as np
@@ -321,7 +320,7 @@ axes[1].legend()
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 4. MAG Quality Assessment with CheckM
 
@@ -350,6 +349,12 @@ checkm qa \
     checkm_out/ \
     -o 2 \             # output format 2 = extended table with strain heterogeneity
     > checkm_summary.txt
-```
+```python
 
 **Contamination vs Strain Heterogeneity:** CheckM's contamination score counts marker genes present > 1 time. However, multi-copy markers can arise from strain mixture (multiple strains in one bin) vs true contamination from a different organism. The **strain heterogeneity** metric measures the proportion of duplicate markers that are ≥90% identical at the amino acid level — high strain heterogeneity suggests strain mixing rather than contamination.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

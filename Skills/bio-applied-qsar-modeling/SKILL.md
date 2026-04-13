@@ -1,6 +1,6 @@
 ---
 name: bio-applied-qsar-modeling
-description: "**Tier 3 — Applied Bioinformatics | Module 29 · Notebook 2**"
+description: "QSAR modeling: molecular descriptors, fingerprints, random forest/SVM models, applicability domain, and model validation. Use when building structure-activity relationship models."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/02_qsar_modeling.ipynb"
 primary_tool: RDKit
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/29_Cheminformatics_Drug_Discovery/02_qsar_modeling.ipynb`*
 
-# QSAR Modeling
 
 **Tier 3 — Applied Bioinformatics | Module 29 · Notebook 2**
 
@@ -63,7 +62,7 @@ import numpy as np
 # ).only(['molecule_chembl_id', 'standard_value', 'standard_units', 'canonical_smiles'])
 # df = pd.DataFrame(list(egfr_activities))
 # print(df.shape)
-```
+```python
 
 ## 2. Data Curation
 
@@ -76,7 +75,7 @@ import numpy as np
 # df['pIC50'] = -np.log10(df['standard_value'].astype(float) * 1e-9)
 # df['active'] = (df['pIC50'] >= 6).astype(int)
 # print(df['active'].value_counts())
-```
+```python
 
 ## 3. Feature Generation
 
@@ -97,7 +96,7 @@ from rdkit.ML.Descriptors import MoleculeDescriptors
 #     features.append(fp + desc)
 # X = np.array(features)
 # y = df['active'].values
-```
+```python
 
 ## 4. Model Training and Evaluation
 
@@ -116,7 +115,7 @@ from sklearn.metrics import roc_auc_score, matthews_corrcoef, classification_rep
 # y_prob = rf.predict_proba(X_test)[:, 1]
 # print(f'AUC: {roc_auc_score(y_test, y_prob):.3f}')
 # print(f'MCC: {matthews_corrcoef(y_test, y_pred):.3f}')
-```
+```python
 
 ## 5. Applicability Domain
 
@@ -133,8 +132,14 @@ from sklearn.neighbors import NearestNeighbors
 # ad_threshold = avg_distances.mean() + 3 * avg_distances.std()
 # in_ad = avg_distances <= ad_threshold
 # print(f'Compounds in AD: {in_ad.sum()}/{len(in_ad)}')
-```
+```python
 
 ## Summary
 
 > Recap QSAR workflow: data → curation → features → model → AD. Discuss scaffold splits vs random splits for realistic evaluation. Link to virtual screening notebook.
+
+## Common Pitfalls
+
+- **SMILES canonicalization**: Different SMILES can represent the same molecule; always canonicalize before comparison
+- **Stereochemistry**: Ignoring chirality in fingerprints can merge enantiomers with different bioactivity
+- **Descriptor scaling**: Molecular descriptors span different ranges; always standardize before ML

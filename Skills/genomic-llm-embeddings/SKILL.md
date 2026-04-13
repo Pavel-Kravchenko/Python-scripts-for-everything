@@ -46,7 +46,7 @@ def kmer_embedding(seq, vocab, k=3):
     cnt = Counter(tokens)
     vec = np.array([cnt[v] for v in vocab], dtype=float)
     return vec / (vec.sum() + 1e-9)
-```
+```python
 
 **Pattern 2: quick probe with nearest centroid**
 ```python
@@ -56,7 +56,7 @@ def nearest_centroid_predict(X_train, y_train, X_test):
     d0 = ((X_test - c0) ** 2).sum(axis=1)
     d1 = ((X_test - c1) ** 2).sum(axis=1)
     return (d1 < d0).astype(int)
-```
+```python
 
 ## Code Templates
 
@@ -64,7 +64,7 @@ def nearest_centroid_predict(X_train, y_train, X_test):
 ```python
 alphabet = ['A', 'C', 'G', 'T']
 vocab3 = [a+b+c for a in alphabet for b in alphabet for c in alphabet]
-```
+```python
 
 ### Optional pretrained embedding load (commented)
 ```python
@@ -72,7 +72,7 @@ vocab3 = [a+b+c for a in alphabet for b in alphabet for c in alphabet]
 # model_name = 'InstaDeepAI/nucleotide-transformer-v2-500m-multi-species'
 # tok = AutoTokenizer.from_pretrained(model_name)
 # model = AutoModel.from_pretrained(model_name).eval()
-```
+```python
 
 ## Common Pitfalls
 

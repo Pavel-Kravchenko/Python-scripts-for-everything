@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/05_variant_to_structure_models.ipynb`*
 
-# From DNA Variants to Protein Structure: AlphaFold2, AlphaFold3, RoseTTAFold
 
 **Tier 5 — Modern AI for Science | Module 05 · Notebook 5**
 
@@ -68,7 +67,7 @@ import numpy as np
 import pandas as pd
 
 np.random.seed(23)
-```
+```python
 
 ## 2. Variant Triage Table
 
@@ -100,7 +99,7 @@ def structure_priority(row):
 
 variants["structure_priority"] = variants.apply(structure_priority, axis=1)
 variants.sort_values("structure_priority", ascending=False)
-```
+```python
 
 ## 3. Which Structure Model to Use?
 
@@ -126,7 +125,7 @@ print(choose_structure_model(False, False, False))
 print(choose_structure_model(True, False, False))
 print(choose_structure_model(False, True, False))
 print(choose_structure_model(False, False, True))
-```
+```python
 
 ## 4. Integrating Confidence with Variant Priority
 
@@ -146,7 +145,7 @@ merged["confidence_factor"] = (
 )
 merged["final_priority"] = merged["structure_priority"] * merged["confidence_factor"]
 merged.sort_values("final_priority", ascending=False)[["var", "gene", "structure_priority", "confidence_factor", "final_priority"]]
-```
+```python
 
 ## 5. Practical Notes
 
@@ -160,7 +159,7 @@ merged.sort_values("final_priority", ascending=False)[["var", "gene", "structure
 # !docker run ... alphafold2
 # !docker run ... alphafold3
 # !python RoseTTAFold/run_e2e_ver.sh input.fa out_dir
-```
+```python
 
 These steps are intentionally commented to keep this notebook portable.
 
@@ -182,3 +181,9 @@ Checked online during content expansion.
 - [AlphaFold2 paper](https://www.nature.com/articles/s41586-021-03819-2)
 - [AlphaFold3 paper](https://www.nature.com/articles/s41586-024-07487-w)
 - [RoseTTAFold repository](https://github.com/RosettaCommons/RoseTTAFold)
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

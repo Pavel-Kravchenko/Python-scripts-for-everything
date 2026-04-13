@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/01_Complexity_Analysis/02_basic_algorithms.ipynb`*
 
-# Basic Algorithms: Foundations of Computer Science
 
 This notebook covers four fundamental algorithms that form the building blocks of computer science:
 
@@ -78,7 +77,7 @@ The Euclidean algorithm appears in **Euclid's Elements** (circa 300 BCE), making
 
 ### ASCII Art Diagram
 
-```
+```python
 gcd(48, 18):
 ┌─────────────────────────────────────────────────────┐
 │  Step 1:  48 = 18 × 2 + 12    →  gcd(18, 12)       │
@@ -94,18 +93,18 @@ gcd(48, 18):
                          ║
                          ▼
                     Result: 6
-```
+```python
 
 ### Pseudocode
 
-```
+```python
 FUNCTION gcd(a, b):
     WHILE b ≠ 0:
         temp ← b
         b ← a MOD b
         a ← temp
     RETURN a
-```
+```python
 
 ## 1.3 Complexity Analysis
 
@@ -155,7 +154,7 @@ def gcd(a: int, b: int) -> int:
         a, b = b, a % b  # Simultaneous assignment: a becomes b, b becomes remainder
     
     return a
-```
+```python
 
 ```python
 def gcd_verbose(a: int, b: int) -> int:
@@ -186,28 +185,28 @@ def gcd_verbose(a: int, b: int) -> int:
     print("=" * 50)
     print(f"Result: GCD = {a}")
     return a
-```
+```python
 
 ```python
 # Basic example with step-by-step walkthrough
 print("Example 1: gcd(48, 18)")
 print()
 result = gcd_verbose(48, 18)
-```
+```python
 
 ```python
 # Example with coprime numbers (GCD = 1)
 print("Example 2: Coprime numbers gcd(17, 13)")
 print()
 result = gcd_verbose(17, 13)
-```
+```python
 
 ```python
 # Worst case: Fibonacci numbers
 print("Example 3: Worst case - Fibonacci numbers gcd(89, 55)")
 print()
 result = gcd_verbose(89, 55)
-```
+```python
 
 ```python
 # Edge cases
@@ -228,7 +227,7 @@ print(f"gcd(-48, 18) = {gcd(-48, 18)}  # Works with negatives")
 
 # Large numbers
 print(f"gcd(123456789, 987654321) = {gcd(123456789, 987654321)}")
-```
+```python
 
 ---
 
@@ -275,7 +274,7 @@ The method is named after **Isaac Newton** (1643-1727), though similar technique
 
 ### ASCII Art Diagram
 
-```
+```python
 Finding ∛27 (should converge to 3.0):
 ┌──────────────────────────────────────────────────────────────┐
 │  Initial guess: x₀ = 27/2 = 13.5                            │
@@ -308,11 +307,11 @@ Geometric interpretation:
             ─────────┼─●────────── x
                      │  3 (root)
                      │
-```
+```python
 
 ### Pseudocode
 
-```
+```python
 FUNCTION cube_root(A, epsilon, max_iterations):
     x ← A / 2                          # Initial guess
     FOR i FROM 1 TO max_iterations:
@@ -321,7 +320,7 @@ FUNCTION cube_root(A, epsilon, max_iterations):
             RETURN x_new
         x ← x_new
     RETURN x                           # Best approximation
-```
+```python
 
 ## 2.3 Complexity Analysis
 
@@ -388,7 +387,7 @@ def cube_root(a: float, epsilon: float = 1e-10, max_iterations: int = 1000) -> f
         x = x_new
     
     return sign * x
-```
+```python
 
 ```python
 def cube_root_verbose(a: float, epsilon: float = 1e-10, max_iterations: int = 20) -> float:
@@ -435,4 +434,10 @@ def cube_root_verbose(a: float, epsilon: float = 1e-10, max_iterations: int = 20
     
     print(f"\nDid not converge within {max_iterations} iterations")
     return sign * x
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

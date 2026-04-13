@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/19_SQL_for_Bioinformatics/01_sql_for_bioinformatics.ipynb`*
 
-# SQL for Bioinformatics
 
 ## Learning Objectives
 1. Write SQL queries to retrieve biological data
@@ -143,7 +142,7 @@ print("Database ready:",
       len(pd.read_sql_query("SELECT * FROM genes", conn)), "genes,",
       len(pd.read_sql_query("SELECT * FROM variants", conn)), "variants,",
       len(pd.read_sql_query("SELECT * FROM expression", conn)), "expression rows")
-```
+```python
 
 ## Basic Queries: SELECT, WHERE, ORDER BY
 
@@ -165,7 +164,7 @@ df = pd.read_sql_query("""
     ORDER BY length DESC
 """, conn)
 print(df)
-```
+```python
 
 ## Aggregate Functions and GROUP BY
 
@@ -192,7 +191,7 @@ df = pd.read_sql_query("""
     ORDER BY avg_tumor_tpm DESC
 """, conn)
 print(df)
-```
+```python
 
 ## JOIN Operations
 
@@ -222,7 +221,7 @@ df = pd.read_sql_query("""
     ORDER BY n_variants DESC
 """, conn)
 print(df)
-```
+```python
 
 ## Subqueries
 
@@ -245,7 +244,7 @@ df = pd.read_sql_query("""
 """, conn)
 print('Highly expressed tumor genes with pathogenic variants:')
 print(df)
-```
+```python
 
 ## CREATE, INSERT, UPDATE, DELETE
 
@@ -282,7 +281,7 @@ df = pd.read_sql_query("""
     ORDER BY d.padj
 """, conn)
 print(df)
-```
+```python
 
 ## Exercises
 
@@ -294,7 +293,7 @@ df = pd.read_sql_query("""
     -- fill query
 """, conn)
 print(df)
-```
+```python
 
 **Exercise 2** (★★) — Calculate the fold change (tumor AVG TPM / normal AVG TPM) for each gene in breast tissue. Return gene symbol and fold change, ordered by fold change descending.
 
@@ -304,7 +303,7 @@ df = pd.read_sql_query("""
     -- fill query
 """, conn)
 print(df)
-```
+```python
 
 **Exercise 3** (★★) — Find genes that have more than one pathogenic variant. Return gene symbol and the count of pathogenic variants, ordered by count descending.
 
@@ -316,4 +315,10 @@ df = pd.read_sql_query("""
 print(df)
 
 conn.close()
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

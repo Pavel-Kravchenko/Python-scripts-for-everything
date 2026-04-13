@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/03_dijkstra.ipynb`*
 
-# ⚡ Dijkstra's Algorithm: Shortest Paths in Weighted Graphs
 
 ## Learning Objectives
 
@@ -47,7 +46,7 @@ class WeightedGraph:
     
     def vertices(self):
         return list(self.adj.keys())
-```
+```python
 
 ## 1. Dijkstra's Algorithm
 
@@ -141,7 +140,7 @@ def reconstruct_path(predecessors, end):
         path.append(current)
         current = predecessors.get(current)
     return path[::-1]
-```
+```python
 
 ## Step-by-Step Walkthrough
 
@@ -187,7 +186,7 @@ for u, v, w in [('A', 'B', 1.0), ('A', 'C', 4.0), ('B', 'C', 2.0), ('B', 'D', 5.
 
 print("Dijkstra walkthrough from A:")
 dijkstra_verbose(demo, 'A')
-```
+```python
 
 ```python
 # Build weighted PPI network (weights = interaction confidence)
@@ -215,7 +214,7 @@ print("Shortest path distances from TP53:")
 for gene, dist in sorted(distances.items(), key=lambda x: x[1]):
     path = reconstruct_path(predecessors, gene)
     print(f"  {gene}: {dist:.2f} via {' -> '.join(path)}")
-```
+```python
 
 ## Why Non-Negative Weights?
 
@@ -256,7 +255,7 @@ conf_scores = {('TP53', 'MDM2'): 0.99, ('TP53', 'BRCA1'): 0.85, ('TP53', 'ATM'):
 path, rel = most_reliable_path(ppi, 'TP53', 'CDC25A', conf_scores)
 print(f"Most reliable path to CDC25A: {' -> '.join(path)}")
 print(f"Path reliability: {rel:.4f}")
-```
+```python
 
 ## Exercise 2 (2 stars): Network Diameter
 
@@ -287,4 +286,10 @@ def graph_diameter(graph):
 # print(f"PPI network diameter: {result[0]:.2f}")
 # print(f"Furthest pair: {result[1]} -> {result[2]}")
 # print(f"Path: {' -> '.join(result[3])}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

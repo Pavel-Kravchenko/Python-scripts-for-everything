@@ -94,7 +94,7 @@ print(f"NFR fraction: {fracs['NFR']:.1%}")  # target ≥ 40%
 plt.hist(fragment_sizes, bins=200, range=(0, 800), density=True, color="steelblue")
 plt.xlabel("Fragment size (bp)"); plt.ylabel("Density")
 plt.title("ATAC-seq fragment size distribution (nucleosomal ladder)")
-```
+```python
 
 **Pattern 2: Tn5 offset correction**
 ```python
@@ -118,7 +118,7 @@ def tn5_corrected_insertions(bam_file, chrom, start, end):
             if start <= pos < end:
                 insertions[pos - start] += 1
     return insertions
-```
+```python
 
 **Pattern 3: Simulate Tn5 insertion profile (without BAM)**
 ```python
@@ -141,7 +141,7 @@ def simulate_insertion_profile(n_sites=500, footprint_depth=0.4, noise=0.15):
     # Add Poisson noise over n_sites
     noisy = rng.poisson(profile, (n_sites, len(positions)))
     return noisy.mean(axis=0), noisy.std(axis=0) / np.sqrt(n_sites)
-```
+```python
 
 **Pattern 4: Footprint score**
 ```python
@@ -156,7 +156,7 @@ def footprint_score(profile, center_window=8, flank_window=(20, 60)):
     right = profile[mid + flank_window[0] : mid + flank_window[1]].mean()
     flanking = (left + right) / 2
     return flanking / (central + 1e-9)
-```
+```python
 
 **Pattern 5: pybedtools interval operations**
 ```python
@@ -178,7 +178,7 @@ clean = motif_windows.subtract(blacklist)
 # Save as FASTA for motif scanning
 # clean.sequence(fi="hg38.fa", fo="windows.fa")
 print(f"Motifs in peaks: {len(motifs_in_peaks)}")
-```
+```python
 
 ## Code Templates
 
@@ -210,7 +210,7 @@ def accumulation_plot(profiles, positions, title="Meta-profile", sigma=5):
     return fig, ax
 
 fig, ax = accumulation_plot(all_profiles, np.arange(-WINDOW, WINDOW+1))
-```
+```python
 
 **Template 2: Full footprinting QC pipeline**
 ```python
@@ -244,7 +244,7 @@ def footprinting_pipeline(bam_file, peaks_bed, motifs_bed, window=200):
     return mean_p, score
 
 # mean_profile, fp_score = footprinting_pipeline("sample.bam", "peaks.bed", "ctcf.bed")
-```
+```python
 
 ## Common Pitfalls
 

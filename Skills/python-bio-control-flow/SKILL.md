@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/05_Control_Flow/01_control_flow.ipynb`*
 
-# Module 5: Control Flow for Bioinformatics
 
 ---
 
@@ -66,13 +65,13 @@ By the end of this module, you will be able to:
 
 Conditionals let your program make decisions. In bioinformatics, we constantly classify, filter, and branch based on sequence properties.
 
-```
+```python
          condition
            / \
         True  False
          |      |
       if block  else block
-```
+```python
 
 **Syntax:**
 
@@ -83,7 +82,7 @@ elif another_condition:
     # runs when first is False but this is True
 else:
     # runs when all conditions above are False
-```
+```python
 
 ```python
 # Basic example: validate a nucleotide
@@ -97,7 +96,7 @@ else:
     print(f"{nucleotide} is not a standard nucleotide")
 
 # Try changing 'nucleotide' to 'U', 'X', or 'T' to see different branches
-```
+```python
 
 ### Classifying Nucleotides: Purines vs. Pyrimidines
 
@@ -119,7 +118,7 @@ def classify_nucleotide(nuc):
 
 for base in "ATGCU":
     print(f"{base}: {classify_nucleotide(base)}")
-```
+```python
 
 ### GC Content Classification
 
@@ -163,7 +162,7 @@ print("-" * 70)
 for name, seq in sequences.items():
     gc, cat = classify_gc_content(seq)
     print(f"{name:<20} {seq:<26} {gc:5.1f}%  {cat}")
-```
+```python
 
 ### Detecting Sequence Type
 
@@ -194,7 +193,7 @@ test_sequences = [
 for seq in test_sequences:
     seq_type = detect_sequence_type(seq)
     print(f"{seq:<25} -> {seq_type}")
-```
+```python
 
 ## 2. For Loops
 
@@ -203,7 +202,7 @@ For loops iterate over a sequence (string, list, range, etc.). They are the work
 ```python
 for item in iterable:
     # process item
-```
+```python
 
 ```python
 # Iterate over nucleotides in a sequence
@@ -226,17 +225,17 @@ for nucleotide in dna:
         c_count += 1
 
 print(f"A={a_count}, T={t_count}, G={g_count}, C={c_count}")
-```
+```python
 
 ### The `range()` Function
 
 Generates a sequence of integers. Essential for position-based iteration.
 
-```
+```python
 range(stop)              -> 0, 1, 2, ..., stop-1
 range(start, stop)       -> start, start+1, ..., stop-1
 range(start, stop, step) -> start, start+step, start+2*step, ...
-```
+```python
 
 ```python
 # range() examples
@@ -244,7 +243,7 @@ print("range(5):        ", list(range(5)))
 print("range(1, 6):     ", list(range(1, 6)))
 print("range(0, 15, 3): ", list(range(0, 15, 3)))  # codon start positions
 print("range(10, 0, -1):", list(range(10, 0, -1)))  # countdown
-```
+```python
 
 ```python
 # Extract codons using range with step 3
@@ -262,7 +261,7 @@ for i in range(0, len(dna) - 2, 3):
         print(f"  Position {i:2d}-{i+2:2d}: {codon}")
 
 print(f"\nTotal complete codons: {len(codons)}")
-```
+```python
 
 ### `enumerate()`: Get Index and Value
 
@@ -282,7 +281,7 @@ for i, nuc in enumerate(dna):
 
 print(f"  0-based: {g_positions}")
 print(f"  1-based: {[p+1 for p in g_positions]}")
-```
+```python
 
 ### `zip()`: Iterate Over Multiple Sequences in Parallel
 
@@ -307,7 +306,7 @@ for nuc1, nuc2 in zip(seq1, seq2):
 
 print(f"\n\nMismatches: {mismatches}")
 print(f"Identity: {(len(seq1) - mismatches) / len(seq1) * 100:.1f}%")
-```
+```python
 
 ```python
 # zip() with enumerate() for position-aware comparison
@@ -318,7 +317,7 @@ print("Mutation report:")
 for i, (nuc1, nuc2) in enumerate(zip(seq1, seq2)):
     if nuc1 != nuc2:
         print(f"  Position {i+1}: {nuc1} -> {nuc2}")
-```
+```python
 
 ```python
 # zip() to pair gene names with their sequences
@@ -330,7 +329,7 @@ print(f"{'Gene':<10} {'Length':>10} {'GC%':>6}")
 print("-" * 28)
 for name, length, gc in zip(gene_names, gene_lengths, gc_contents):
     print(f"{name:<10} {length:>10,} {gc:>5.1f}%")
-```
+```python
 
 ### Nested Loops
 
@@ -353,7 +352,7 @@ print(f"Last 8:   {all_codons[-8:]}")
 # How many start with 'A'?
 a_start = [c for c in all_codons if c.startswith('A')]
 print(f"\nCodons starting with A: {len(a_start)}")
-```
+```python
 
 ## 3. While Loops
 
@@ -363,7 +362,7 @@ While loops keep running as long as a condition is True. Useful when you do not 
 while condition:
     # loop body
     # must eventually make condition False!
-```
+```python
 
 ```python
 # Find the first stop codon in a reading frame
@@ -383,7 +382,7 @@ while position <= len(dna) - 3:
 
 if not found:
     print("No stop codon found in this reading frame")
-```
+```python
 
 ```python
 # Find all occurrences of a motif using while
@@ -398,7 +397,7 @@ while pos != -1:
 
 print(f"Sequence: {dna}")
 print(f"'{motif}' found at positions: {positions}")
-```
+```python
 
 ## 4. Loop Control: break, continue, and the for-else Pattern
 
@@ -421,7 +420,7 @@ for i, nuc in enumerate(sequence):
 else:
     # This block runs only if the loop did NOT break
     print("Sequence is valid!")
-```
+```python
 
 ```python
 # Validate a correct sequence -- the else clause runs
@@ -435,7 +434,7 @@ for i, nuc in enumerate(sequence):
         break
 else:
     print("Sequence is valid!")
-```
+```python
 
 ```python
 # CONTINUE: skip non-standard amino acids
@@ -454,4 +453,10 @@ for aa in protein:
 print(f"Original: {protein} ({len(protein)} aa)")
 print(f"Cleaned:  {''.join(clean_protein)} ({len(clean_protein)} aa)")
 print(f"Skipped {skipped} non-standard residues")
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

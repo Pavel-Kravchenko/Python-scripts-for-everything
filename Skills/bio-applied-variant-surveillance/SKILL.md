@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/37_Virology_Bioinformatics/03_variant_surveillance.ipynb`*
 
-# Variant Surveillance and Wastewater Epidemiology
 
 **Tier 3 — Applied Bioinformatics | Module 37 · Notebook 3**
 
@@ -73,7 +72,7 @@ pangolin sequences.fasta --outfile lineages.csv --threads 4
 # Assign clades with Nextclade
 nextclade run --input-fasta sequences.fasta \
     --input-dataset sars-cov-2 --output-tsv nextclade.tsv
-```
+```python
 
 ```python
 import numpy as np
@@ -149,7 +148,7 @@ peak_weeks = {lin_labels[i]: weeks[np.argmax(freq_matrix_norm[i])] for i in rang
 print("Estimated peak weeks:")
 for lin, pw in peak_weeks.items():
     print(f"  {lin}: week {pw}")
-```
+```python
 
 ## 2. Mutation Tracking and Spike Protein Analysis
 
@@ -268,7 +267,7 @@ plt.colorbar(im, ax=axes[1,1], label='Co-occurrence freq')
 plt.tight_layout()
 plt.show()
 print(f"RBD mutations: {rbd_mask.sum()}/{len(df_mut)} mutations in receptor binding domain")
-```
+```python
 
 ## 3. Wastewater Genomic Surveillance
 
@@ -293,7 +292,7 @@ freyja demix variants.tsv depths.tsv --output lineages.csv
 # Step 3: Aggregate across time
 freyja aggregate --inputdir ./samples/ --output aggregated.tsv
 freyja plot aggregated.tsv --output lineage_plot.pdf
-```
+```python
 
 ```python
 import numpy as np
@@ -376,4 +375,10 @@ r, p = pearsonr(ww_signal, cli_shifted)
 print(f"Pearson r (WW vs clinical, 5-week lead): {r:.3f} (p={p:.2e})")
 print("Freyja command: freyja variants <bam> --variants <vcf> --depths <depths>")
 print("                freyja demix <variants> <depths> --output <lineages.csv>")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

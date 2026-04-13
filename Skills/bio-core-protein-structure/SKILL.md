@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/07_Protein_Structure/01_protein_structure.ipynb`*
 
-# Protein Structure Analysis
 
 ---
 
@@ -80,7 +79,7 @@ print("      -> Chain (e.g., 'A', 'B')")
 print("        -> Residue (id = (hetflag, resseq, icode))")
 print("          -> Atom (name = 'CA', 'N', 'O', 'CB', ...)")
 print("\nProceed to Section 1.")
-```
+```python
 
 ---
 
@@ -88,7 +87,7 @@ print("\nProceed to Section 1.")
 
 BioPython provides a powerful, object-oriented PDB parser built around the **SMCRA hierarchy**:
 
-```
+```python
 Structure
   |-- Model (0, 1, ...)
         |-- Chain ('A', 'B', ...)
@@ -100,7 +99,7 @@ M = Model       One set of coordinates (X-ray: 1 model; NMR: ~20 models)
 C = Chain       One polypeptide or nucleic acid chain
 R = Residue     One amino acid or nucleotide
 A = Atom        One atom with (x, y, z) coordinates
-```
+```python
 
 Each level is iterable, so you can use nested loops or list comprehensions to traverse the hierarchy.
 
@@ -114,7 +113,7 @@ warnings.filterwarnings('ignore')  # Suppress PDB parsing warnings for cleaner o
 pdbl = PDBList()
 pdb_file = pdbl.retrieve_pdb_file('1CRN', pdir='pdb_files', file_format='pdb')
 print(f"Downloaded: {pdb_file}")
-```
+```python
 
 ```python
 # Parse the downloaded structure
@@ -139,7 +138,7 @@ for model in structure:
         for res in aa_residues[:5]:
             atoms = list(res.get_atoms())
             print(f"      {res.get_resname()} {res.id[1]}: {len(atoms)} atoms")
-```
+```python
 
 ```python
 # Accessing individual atoms and their properties
@@ -159,7 +158,7 @@ for atom in residue:
     print(f"  {atom.get_name():4s}  element={atom.element:2s}  "
           f"coords=({coord[0]:7.3f}, {coord[1]:7.3f}, {coord[2]:7.3f})  "
           f"B-factor={atom.get_bfactor():.2f}")
-```
+```python
 
 ```python
 # Extract all CA atoms (backbone trace)
@@ -188,7 +187,7 @@ AA_MAP = {
 }
 sequence = ''.join(AA_MAP.get(ca['res_name'], 'X') for ca in ca_atoms)
 print(sequence)
-```
+```python
 
 ---
 
@@ -201,7 +200,7 @@ Structural analysis frequently requires measuring geometric properties:
 - **Dihedral angle**: Torsion angle defined by four atoms
 - **RMSD**: Root Mean Square Deviation between two coordinate sets
 
-```
+```python
 RMSD = sqrt( (1/N) * sum( |r_i - r_i'|^2 ) )
 
 Interpretation:
@@ -210,7 +209,7 @@ Interpretation:
   2 - 3 A    Similar fold, some variation
   3 - 5 A    Same topology, different details
   > 5 A      Different structures
-```
+```python
 
 ```python
 import numpy as np
@@ -277,7 +276,7 @@ omega = dihedral(
     res6['CA'].get_vector().get_array()
 )
 print(f"Omega angle (res 5--6):   {omega:.1f} degrees (expected ~180 for trans)")
-```
+```python
 
 ```python
 # BioPython also provides built-in distance calculation via the minus operator
@@ -305,7 +304,7 @@ print(f"\nCA-CA contacts (< 8 A, |i-j| >= 4): {len(contacts)}")
 print("First 10 contacts:")
 for res_i, res_j, dist in contacts[:10]:
     print(f"  Res {res_i:3d} -- Res {res_j:3d}: {dist:.2f} A")
-```
+```python
 
 ---
 
@@ -364,4 +363,10 @@ except Exception as e:
     print("Install with: conda install -c salilab dssp")
     print("\nFalling back to PDB HELIX/SHEET records...")
     print("(PDB files contain pre-calculated secondary structure in HELIX and SHEET records)")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

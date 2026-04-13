@@ -56,7 +56,7 @@ kraken2 --db standard/ --paired --gzip-compressed \
 # Bracken species-level re-estimation
 bracken -d standard/ -i kraken2_report.txt \
     -o bracken_species.txt -r 150 -l S -t 10
-```
+```python
 
 **Pattern 2: Functional annotation with HUMAnN3**
 ```bash
@@ -70,7 +70,7 @@ humann_renorm_table --input humann3_out/sample_pathabundance.tsv \
 # Join multiple samples
 humann_join_tables --input humann3_outputs/ \
     --output all_pathways.tsv --file_name pathabundance
-```
+```python
 
 **Pattern 3: Assembly and binning**
 ```bash
@@ -89,7 +89,7 @@ metabat2 -i megahit/final.contigs.fa -a depths.txt -o bins/bin --minContig 1500
 
 # CheckM quality
 checkm lineage_wf bins/ checkm_out/ -t 8 -x fa
-```
+```python
 
 **Pattern 4: QIIME2 16S workflow (CLI)**
 ```bash
@@ -116,7 +116,7 @@ qiime diversity core-metrics-phylogenetic \
     --i-table table.qza --i-phylogeny rooted_tree.qza \
     --p-sampling-depth 5000 --m-metadata-file metadata.tsv \
     --output-dir diversity/
-```
+```python
 
 ## MAG Quality Standards (MIMAG)
 
@@ -146,7 +146,7 @@ def simpson_diversity(counts):
 
 def observed_richness(counts):
     return int(np.sum(np.array(counts) > 0))
-```
+```python
 
 | Metric | Formula | Notes |
 |--------|---------|-------|
@@ -160,7 +160,7 @@ def observed_richness(counts):
 def bray_curtis(s1, s2):
     s1, s2 = np.array(s1, float), np.array(s2, float)
     return np.sum(np.abs(s1 - s2)) / np.sum(s1 + s2)
-```
+```python
 
 | Metric | Phylogenetic | Quantitative |
 |--------|:-----------:|:------------:|
@@ -184,7 +184,7 @@ def read_kraken2_report(path):
 report = read_kraken2_report('kraken2_report.txt')
 species = report[report['rank'] == 'S'].sort_values('pct', ascending=False)
 print(species[['name', 'pct']].head(10).to_string(index=False))
-```
+```python
 
 ### Alpha Diversity from OTU Table
 ```python
@@ -197,7 +197,7 @@ alpha = pd.DataFrame({
     'richness': otu_table.apply(observed_richness, axis=1),
 })
 print(alpha.describe())
-```
+```python
 
 ### Bray-Curtis Distance Matrix & PCoA
 ```python
@@ -228,7 +228,7 @@ def pcoa(dm: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     return coords[:, :2], prop[:2]
 
 coords, prop = pcoa(dist)
-```
+```python
 
 ### PERMANOVA
 ```python
@@ -251,7 +251,7 @@ def permanova(dm: np.ndarray, grouping: np.ndarray,
     perm_count = sum(f_stat(np.random.permutation(grouping)) >= obs
                      for _ in range(n_perm))
     return obs, (perm_count + 1) / (n_perm + 1)
-```
+```python
 
 ### CheckM TSV Parser
 ```python
@@ -264,7 +264,7 @@ def read_checkm(path):
     print(f"High-quality MAGs: {len(high_q)}")
     print(f"Medium-quality MAGs: {len(med_q)}")
     return df
-```
+```python
 
 ## Common Pitfalls
 

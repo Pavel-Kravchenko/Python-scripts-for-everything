@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/03_Searching_Algorithms/01_linear_binary_search.ipynb`*
 
-# Linear and Binary Search Algorithms
 
 This notebook covers fundamental search algorithms, from the simple linear search to various binary search variants.
 
@@ -46,7 +45,7 @@ from typing import List, Optional, Tuple
 
 %matplotlib inline
 plt.style.use('seaborn-v0_8-whitegrid')
-```
+```python
 
 ---
 ## 1. Linear Search
@@ -68,7 +67,7 @@ plt.style.use('seaborn-v0_8-whitegrid')
 
 ### ASCII Art Visualization
 
-```
+```python
 Find 7 in [3, 1, 4, 1, 5, 9, 2, 6, 7]
 
 Step 1: [3, 1, 4, 1, 5, 9, 2, 6, 7]
@@ -93,7 +92,7 @@ Summary:
          [3, 1, 4, 1, 5, 9, 2, 6, 7]
           ↑  ↑  ↑  ↑  ↑  ↑  ↑  ↑  ✓
           1  2  3  4  5  6  7  8  9 comparisons
-```
+```python
 
 ### Complexity Table
 
@@ -155,7 +154,7 @@ def linear_search_with_sentinel(arr: List[int], target: int) -> int:
     if i < len(arr) - 1 or arr[-1] == target:
         return i
     return -1
-```
+```python
 
 ```python
 def linear_search_verbose(arr: List[int], target: int) -> int:
@@ -179,7 +178,7 @@ print("TEST 1: Normal case")
 print("=" * 60)
 result = linear_search_verbose([3, 1, 4, 1, 5, 9, 2, 6, 7], 7)
 print(f"\nResult: index {result}\n")
-```
+```python
 
 ```python
 print("=" * 60)
@@ -187,7 +186,7 @@ print("TEST 2: Element at beginning (best case)")
 print("=" * 60)
 result = linear_search_verbose([7, 1, 4, 1, 5, 9, 2, 6, 3], 7)
 print(f"\nResult: index {result}\n")
-```
+```python
 
 ```python
 print("=" * 60)
@@ -209,7 +208,7 @@ print(f"linear_search([3], 5) = {linear_search([3], 5)}")
 # Element not in array
 print("\nElement not found:")
 print(f"linear_search([1, 2, 3, 4], 10) = {linear_search([1, 2, 3, 4], 10)}")
-```
+```python
 
 ---
 ## 2. Binary Search (Classic)
@@ -234,7 +233,7 @@ print(f"linear_search([1, 2, 3, 4], 10) = {linear_search([1, 2, 3, 4], 10)}")
 
 ### ASCII Art Visualization
 
-```
+```python
 Find 7 in [1, 2, 3, 4, 5, 6, 7, 8, 9]
           indices: 0  1  2  3  4  5  6  7  8
 
@@ -260,7 +259,7 @@ Summary: Only 2 comparisons vs 7 for linear search!
 Search space reduction:
 Step 1: 9 elements → 4 elements (eliminated 5)
 Step 2: 4 elements → FOUND
-```
+```python
 
 ### Complexity Table
 
@@ -338,7 +337,7 @@ def binary_search_recursive(arr: List[int], target: int,
         return binary_search_recursive(arr, target, mid + 1, right)
     else:
         return binary_search_recursive(arr, target, left, mid - 1)
-```
+```python
 
 ```python
 def binary_search_verbose(arr: List[int], target: int) -> int:
@@ -402,14 +401,14 @@ print("=" * 70)
 print("TEST: Finding 7 in sorted array")
 print("=" * 70)
 result = binary_search_verbose([1, 2, 3, 4, 5, 6, 7, 8, 9], 7)
-```
+```python
 
 ```python
 print("=" * 70)
 print("TEST: Element not in array")
 print("=" * 70)
 result = binary_search_verbose([1, 2, 3, 4, 5, 6, 8, 9, 10], 7)
-```
+```python
 
 ```python
 print("=" * 60)
@@ -435,7 +434,7 @@ for target in [1, 7, 15, 6]:
     iter_result = binary_search_iterative(test_arr, target)
     rec_result = binary_search_recursive(test_arr, target)
     print(f"  target={target:2d}: iterative={iter_result:2d}, recursive={rec_result:2d}")
-```
+```python
 
 ---
 ## 3. Binary Search Variants
@@ -452,7 +451,7 @@ for target in [1, 7, 15, 6]:
 
 #### ASCII Art Visualization
 
-```
+```python
 Find FIRST 5 in [1, 3, 5, 5, 5, 7, 9]
 indices:         0  1  2  3  4  5  6
 
@@ -482,7 +481,7 @@ Answer: First occurrence at index 2
         [1, 3, 5, 5, 5, 7, 9]
                ↑  ↑  ↑
            first  │  last
-```
+```python
 
 ```python
 def find_first_occurrence(arr: List[int], target: int) -> int:
@@ -547,4 +546,4 @@ print(f"Array: {test_arr}")
 print(f"Find first 5: index {find_first_occurrence(test_arr, 5)}")
 print(f"Find first 7: index {find_first_occurrence(test_arr, 7)}")
 print(f"Find first 4: index {find_first_occurrence(test_arr, 4)}")
-```
+```python

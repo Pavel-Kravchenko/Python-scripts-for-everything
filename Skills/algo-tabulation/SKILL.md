@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/02_tabulation.ipynb`*
 
-# 📊 Tabulation: Bottom-Up Dynamic Programming
 
 ## Learning Objectives
 
@@ -70,7 +69,7 @@ def fib_optimized(n):
     return prev1
 
 print(f"F(50) = {fib_optimized(50)}")
-```
+```python
 
 ## 2. 🧬 Edit Distance (Levenshtein Distance)
 
@@ -109,7 +108,7 @@ def edit_distance(s1, s2):
 seq1 = "ATCGATCG"
 seq2 = "ATGGATGG"
 print(f"Edit distance between {seq1} and {seq2}: {edit_distance(seq1, seq2)}")
-```
+```python
 
 ## Visualizing the Edit Distance Table
 
@@ -140,7 +139,7 @@ def edit_distance_verbose(s1, s2):
     return dp[m][n]
 
 edit_distance_verbose("ATCG", "ATGG")
-```
+```python
 
 ## 3. Longest Common Subsequence (LCS)
 
@@ -192,7 +191,7 @@ seq1 = "ATGCAATGC"
 seq2 = "ATCCAATCC"
 print(f"LCS of {seq1} and {seq2}: {lcs_with_traceback(seq1, seq2)}")
 print(f"LCS length: {lcs(seq1, seq2)}")
-```
+```python
 
 ## Biological Significance of LCS
 
@@ -231,7 +230,7 @@ def lcs_space_optimized(s1, s2):
     return prev[n]
 
 print(f"LCS (space-optimized): {lcs_space_optimized(seq1, seq2)}")
-```
+```python
 
 ## 🧬 Exercise: Longest Increasing Subsequence
 
@@ -257,7 +256,7 @@ def lis_tabulation(arr):
 expression = [2.1, 3.5, 1.2, 4.8, 3.9, 5.2, 6.1, 4.5, 7.0]
 print(f"Gene expression: {expression}")
 print(f"Longest increasing trend: {lis_tabulation(expression)} time points")
-```
+```python
 
 ### Exercise 2 (**)
 
@@ -317,7 +316,7 @@ print(f"Edit distance: {distance}")
 print("Operations:")
 for op in operations:
     print(f"  {op}")
-```
+```python
 
 ---
 
@@ -331,3 +330,9 @@ for op in operations:
 ✅ Edit distance traceback recovers the exact sequence of operations
 
 **Next:** [03_knapsack.ipynb](03_knapsack.ipynb) - Resource optimization with knapsack DP
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

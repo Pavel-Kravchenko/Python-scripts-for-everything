@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/30_Single_Cell_RNA_seq/01_scrna_preprocessing.ipynb`*
 
-# scRNA-seq: Quality Control and Preprocessing
 
 **Tier 3 — Applied Bioinformatics | Module 30 · Notebook 1**
 
@@ -120,7 +119,7 @@ print(f"AnnData object: {adata.n_obs} cells x {adata.n_vars} genes")
 print(f"Mitochondrial genes: {adata.var['is_mt'].sum()}")
 print(f"\nData type: {type(adata.X)}")
 print(f"Memory: {adata.X.nbytes / 1e6:.1f} MB (dense); real 10x data uses sparse scipy.csr_matrix)")
-```
+```python
 
 ## 2. Generating Count Matrices
 
@@ -165,7 +164,7 @@ print(f"\nFirst 5 cell barcodes:")
 print(adata.obs_names[:5].tolist())
 print(f"\nFirst 5 gene names:")
 print(adata.var_names[:5].tolist())
-```
+```python
 
 ## 3. Quality Control Metrics
 
@@ -246,7 +245,7 @@ plt.show()
 # Apply filter (subset AnnData)
 adata = adata[quality_mask].copy()
 print(f"\nFiltered to {adata.n_obs} cells x {adata.n_vars} genes")
-```
+```python
 
 ## 4. Normalization and Log-Transformation
 
@@ -256,9 +255,9 @@ Each cell has a different total UMI count (library size) due to technical variat
 ### Library-size normalization (CPM-style)
 Divide each cell's counts by its total, then multiply by a scale factor (10,000 by convention, making units "counts per 10k" or CP10K):
 
-```
+```python
 normalized_count = raw_count / cell_total * 10,000
-```
+```python
 
 This is `sc.pp.normalize_total(adata, target_sum=1e4)` in scanpy.
 
@@ -273,3 +272,9 @@ scran (Lun et al. 2016) pools cells to estimate size factors, then normalizes ea
 
 ### SCTransform / analytic Pearson residuals (Seurat approach)
 Fits a regularized negative binomial regression model to remove the mean-variance trend inherent to count data. Equivalent to variance-stabilizing normalization. For scanpy users: `sc.experimental.pp.normalize_pearson_residuals()`.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

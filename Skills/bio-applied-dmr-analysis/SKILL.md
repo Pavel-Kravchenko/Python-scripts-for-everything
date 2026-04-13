@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/32_DNA_Methylation_Analysis/02_dmr_analysis.ipynb`*
 
-# Differentially Methylated Regions (DMRs)
 
 **Tier 3 — Applied Bioinformatics | Module 32 · Notebook 2**
 
@@ -83,7 +82,7 @@ dml_test  <- DMLtest(bs_ctrl, bs_treat, smoothing=TRUE, smoothing.span=500)
 
 # Call DMRs from DML results
 dmrs <- callDMR(dml_test, p.threshold=0.001, delta=0.1, minlen=50, minCG=3)
-```
+```python
 
 **Key parameters:**
 - `smoothing.span`: bandwidth in bp for local smoothing (200–500 bp is typical)
@@ -207,7 +206,7 @@ plt.show()
 print(f"Pearson r = {r:.3f}  (p = {p_val:.2e})")
 print(f"Strongly silenced genes (Δβ > 0.25 AND log2FC < -1): "
       f"{((is_hyper) & (rna_log2fc < -1)).sum()}")
-```
+```python
 
 ## 6. Methylation Heatmap Across Samples
 
@@ -257,7 +256,7 @@ ax.text(3.75, -2.5, 'Treatment', ha='center', va='top', fontsize=9,
 plt.tight_layout()
 plt.savefig('dmr_heatmap.png', dpi=120, bbox_inches='tight')
 plt.show()
-```
+```python
 
 ## 7. Summary and Key Takeaways
 
@@ -274,3 +273,9 @@ This notebook walked through the complete DMR analysis workflow:
 5. **Expression integration**: Promoter Δ beta correlates negatively with RNA-seq log₂FC. This anti-correlation is the key evidence that methylation is functionally silencing gene expression rather than being a bystander mark.
 
 **Next**: Notebook 3 covers **epigenetic clocks** — how methylation at specific CpG sites predicts biological age.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

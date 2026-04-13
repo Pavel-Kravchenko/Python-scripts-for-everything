@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/07_String_Algorithms/04_dfa_matching.ipynb`*
 
-# DFA-Based Pattern Matching
 
 This notebook covers **Deterministic Finite Automaton (DFA)** based string pattern matching - a technique that preprocesses the pattern to build a state machine enabling O(n) search time with no backtracking.
 
@@ -56,14 +55,14 @@ where:
 
 ### DFA Operation
 
-```
+```python
 Given input string w = a₁a₂...aₙ:
 
 1. Start at state q₀
 2. For each character aᵢ:
    current_state = δ(current_state, aᵢ)
 3. Accept if final state ∈ F
-```
+```python
 
 ---
 ## 2. DFA for Pattern Matching
@@ -85,7 +84,7 @@ $$\text{DFA} = (Q, \Sigma, \delta, 0, \{m\})$$
 
 ### State Meaning
 
-```
+```python
 Pattern: "ABABC" (m = 5)
 
 State 0: No characters matched     → matched ""
@@ -94,11 +93,11 @@ State 2: Matched P[0..1]           → matched "AB"
 State 3: Matched P[0..2]           → matched "ABA"
 State 4: Matched P[0..3]           → matched "ABAB"
 State 5: Matched P[0..4]           → matched "ABABC" ✓ ACCEPTING
-```
+```python
 
 ### ASCII Art: DFA for Pattern "ABABC"
 
-```
+```python
 States: 0, 1, 2, 3, 4, 5 (5 = accepting state)
 
       A       B       A       B       C
@@ -114,11 +113,11 @@ Legend:
   →(0)   = Start state
   ((5))  = Accepting (double circle)
   ────→  = Transition on matching character
-```
+```python
 
 ### Complete Transition Table
 
-```
+```python
 ┌─────────────────────────────────────────────┐
 │ State │  A  │  B  │  C  │ (other)           │
 ├───────┼─────┼─────┼─────┼───────────────────┤
@@ -134,7 +133,7 @@ Reading the table:
 - Row = current state
 - Column = input character
 - Cell value = next state
-```
+```python
 
 ---
 ## 3. Building the Transition Table
@@ -145,10 +144,10 @@ The key insight is computing δ(state, char) for ALL combinations:
 
 For state `q` and character `c`:
 
-```
+```python
 δ(q, c) = length of LONGEST prefix of P that is also
           a suffix of (P[0..q-1] + c)
-```
+```python
 
 In other words:
 - We've matched P[0..q-1]
@@ -158,22 +157,22 @@ In other words:
 ### Two Cases
 
 **Case 1: Character matches next pattern character**
-```
+```python
 If c == P[q], then δ(q, c) = q + 1
 (We extend the match by one character)
-```
+```python
 
 **Case 2: Character doesn't match (mismatch)**
-```
+```python
 Find the longest proper prefix of P[0..q-1] + c
 that is also a suffix of the pattern.
 
 This is where we use the PREFIX FUNCTION!
-```
+```python
 
 ### Building Transitions Using Prefix Function
 
-```
+```python
 Pattern: "ABABC"
 Prefix function π: [0, 0, 1, 2, 0]
 
@@ -212,7 +211,7 @@ Example 3: δ(4, 'A')  — state=4 (matched "ABAB"), char='A'
   - δ(4, 'A') = 2 + 1 = 3
 
   Meaning: "ABAB" + "A" → keep suffix "ABA" = P[0..2]
-```
+```python
 
 ### Naive vs Optimized Construction
 
@@ -225,7 +224,7 @@ for state in range(m + 1):
             if pattern[:k] == (pattern[:state] + char)[-k:]:
                 delta[state][char] = k
                 break
-```
+```python
 
 **Optimized Approach: O(m|Σ|)** using prefix function
 ```python
@@ -238,25 +237,25 @@ for state in range(m + 1):
         if pattern[k] == char:
             k += 1
         delta[state][char] = k
-```
+```python
 
 ---
 ## 4. Searching with DFA
 
 Once the DFA is built, searching is simple and fast:
 
-```
+```python
 DFA_SEARCH(text, dfa):
     state = 0
     for i = 0 to len(text) - 1:
         state = dfa[state][text[i]]
         if state == m:           # Accepting state
             report match at position (i - m + 1)
-```
+```python
 
 ### Search Example
 
-```
+```python
 Pattern: "ABABC" (m = 5)
 Text:    "ABABABC"
 
@@ -276,13 +275,13 @@ State:  0→ 1 → 2 → 3 → 4 → 3 → 4 → 5
 Match found at position: 6 - 5 + 1 = 2
 
 Verification: text[2:7] = "ABABC" ✓
-```
+```python
 
 ### Finding All Occurrences
 
 For overlapping matches, continue searching after finding a match:
 
-```
+```python
 Pattern: "ABA"
 Text:    "ABABABA"
 
@@ -296,7 +295,7 @@ State: 0→1→2→3→2→3→2→3
 Note: After reaching accepting state 3,
       we transition using dfa[3][next_char]
       to continue finding overlapping matches.
-```
+```python
 
 ---
 ## 5. Implementation
@@ -351,7 +350,7 @@ def compute_prefix_function(pattern: str) -> list:
 print("Prefix function examples:")
 for pattern in ["ABABC", "AAAA", "ABCABC", "ATTCTGATTT"]:
     print(f"  π('{pattern}') = {compute_prefix_function(pattern)}")
-```
+```python
 
 ```python
 def build_dfa(pattern: str, alphabet: str) -> dict:
@@ -427,7 +426,7 @@ test_dfa = build_dfa("AB", "ABC")
 print("DFA for pattern 'AB':")
 for state in test_dfa:
     print(f"  State {state}: {test_dfa[state]}")
-```
+```python
 
 ```python
 def build_dfa_via_suffix_check(pattern: str, alphabet: str) -> dict:
@@ -481,4 +480,10 @@ dfa1 = build_dfa(pattern, alphabet)
 dfa2 = build_dfa_via_suffix_check(pattern, alphabet)
 
 print(f"Both implementations match: {dfa1 == dfa2}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

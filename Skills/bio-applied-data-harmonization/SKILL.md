@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/27_Multi_Omics_Integration/01_data_harmonization.ipynb`*
 
-# Data Harmonization for Multi-Omics
 
 **Tier 3 — Applied Bioinformatics | Module 27 · Notebook 1**
 
@@ -137,7 +136,7 @@ print(f"  Proteomics: {prot_matrix.shape[0]} samples x {prot_matrix.shape[1]} fe
 print(f"  Methylation: {meth_matrix.shape[0]} samples x {meth_matrix.shape[1]} features")
 print(f"\nMetadata:")
 print(metadata.groupby(['Type', 'Batch']).size().to_string())
-```
+```python
 
 ## 2. Normalization and Scaling
 
@@ -206,7 +205,7 @@ def compare_normalizations(data, title, sample_labels, n_show=20):
 compare_normalizations(rna_matrix, 'RNA-seq', sample_type)
 print("Key observation: Quantile normalization equalizes feature distributions")
 print("but can over-correct if batch effect is confounded with biology.")
-```
+```python
 
 ## 3. Missing Data in Multi-Omics
 
@@ -289,7 +288,7 @@ plt.tight_layout()
 plt.show()
 print("\nKNN imputation generally performs best for MAR data.")
 print("Min/2 (half-minimum) is preferred for MNAR (missing not at random) in proteomics.")
-```
+```python
 
 ## 4. Batch Effect Detection and Correction
 
@@ -312,3 +311,9 @@ Batch effects arise from technical variation: different sequencing runs, laborat
 
 ### Important caveat
 **Never correct batch when it is confounded with biology** (e.g., all tumor samples in Batch1, all normals in Batch2). Always check confounding with `table(batch, type)` first.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

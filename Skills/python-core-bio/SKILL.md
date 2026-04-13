@@ -38,33 +38,33 @@ def detect_seq_type(seq):
     if chars <= set("AUGC"): return "RNA"
     if chars <= set("ACDEFGHIKLMNPQRSTVWY"): return "Protein"
     return "Unknown"
-```
+```python
 
 ### Reverse Complement
 ```python
 RC_TABLE = str.maketrans("ATGC", "TACG")
 rc = seq.upper().translate(RC_TABLE)[::-1]
 complement = seq.upper().translate(RC_TABLE)          # 3'->5', no reversal
-```
+```python
 
 ### GC Content
 ```python
 def gc_content(seq: str) -> float:
     s = seq.upper()
     return (s.count("G") + s.count("C")) / len(s) * 100
-```
+```python
 
 ### Transcription / Reverse Transcription
 ```python
 mrna = dna.upper().replace("T", "U")   # DNA coding strand -> mRNA
 dna  = rna.upper().replace("U", "T")   # mRNA -> DNA coding strand
-```
+```python
 
 ### Codon Extraction
 ```python
 codons = [seq[i:i+3] for i in range(0, len(seq), 3) if len(seq[i:i+3]) == 3]
 # reading frame offset: position % 3 gives frame (0, 1, 2)
-```
+```python
 
 ### Codon Table (Standard Genetic Code)
 ```python
@@ -87,7 +87,7 @@ CODON_TABLE = {
     'GGT':'G','GGC':'G','GGA':'G','GGG':'G',
 }
 STOP_CODONS = {'TAA', 'TAG', 'TGA'}
-```
+```python
 
 ### Translation
 ```python
@@ -99,7 +99,7 @@ def translate(dna: str) -> str:
         if aa == '*': break
         protein.append(aa)
     return ''.join(protein)
-```
+```python
 
 ## Key Patterns
 
@@ -111,7 +111,7 @@ def tm(primer: str) -> float:
     if len(s) < 14:
         return 2 * (a + t) + 4 * (g + c)          # Wallace rule
     return 64.9 + 41 * (g + c - 16.4) / len(s)    # salt-adjusted
-```
+```python
 
 ### DNA Molecular Weight (ssDNA)
 ```python
@@ -119,7 +119,7 @@ NUC_MW = {'A': 331.2, 'T': 322.2, 'G': 347.2, 'C': 307.2}
 def dna_mw(seq: str) -> float:
     s = seq.upper()
     return sum(NUC_MW[n] for n in s) - (len(s) - 1) * 18.02
-```
+```python
 
 ### ORF Finding (all 3 forward frames)
 ```python
@@ -144,7 +144,7 @@ def find_orfs(seq: str, min_len: int = 30) -> list[dict]:
     return orfs
 
 # Both strands: run find_orfs on seq and on rc separately, tag strand +/-
-```
+```python
 
 ### Sliding Window GC
 ```python
@@ -152,7 +152,7 @@ def sliding_gc(seq: str, window: int = 100, step: int = 1) -> list[tuple]:
     s = seq.upper()
     return [(i, (s[i:i+window].count('G') + s[i:i+window].count('C')) / window * 100)
             for i in range(0, len(s) - window + 1, step)]
-```
+```python
 
 ### Motif / Restriction Site Finder
 ```python
@@ -162,21 +162,21 @@ def find_motif(seq: str, motif: str) -> list[int]:
         positions.append(pos)
         pos = seq.find(motif, pos + 1)
     return positions
-```
+```python
 
 ### Palindrome Check (restriction enzyme sites)
 ```python
 def is_palindrome(seq: str) -> bool:
     s = seq.upper()
     return s == s.translate(RC_TABLE)[::-1]
-```
+```python
 
 ### Sequence Identity (Hamming)
 ```python
 def identity(s1: str, s2: str) -> float:
     matches = sum(a == b for a, b in zip(s1, s2))
     return matches / len(s1) * 100
-```
+```python
 
 ### CDS Validation
 ```python
@@ -189,7 +189,7 @@ def validate_cds(seq: str) -> list[tuple]:
     checks.append(("Start codon", s[:3] == 'ATG', s[:3]))
     checks.append(("Stop codon", s[-3:] in STOP_CODONS, s[-3:]))
     return checks
-```
+```python
 
 ## Code Templates
 
@@ -216,7 +216,7 @@ def parse_fasta(filename: str):
 for header, seq in parse_fasta('seqs.fasta'):
     seq_id = header.split()[0]
     print(seq_id, len(seq))
-```
+```python
 
 ### FASTA Writer (with line wrapping)
 ```python
@@ -226,7 +226,7 @@ def write_fasta(seqs: dict, filename: str, width: int = 60):
             f.write(f">{header}\n")
             for i in range(0, len(seq), width):
                 f.write(seq[i:i+width] + '\n')
-```
+```python
 
 ### FASTQ Parser
 ```python
@@ -241,7 +241,7 @@ def parse_fastq(filename: str):
             qual  = f.readline().strip()
             scores = [ord(c) - 33 for c in qual]   # Phred+33 encoding
             yield header[1:], seq, scores
-```
+```python
 
 ### CSV / TSV Reading and Writing
 ```python
@@ -262,7 +262,7 @@ with open('results.csv', 'w', newline='') as f:
     writer = csv.DictWriter(f, fieldnames=['gene', 'fold_change', 'p_value'])
     writer.writeheader()
     writer.writerows(results)   # results: list of dicts
-```
+```python
 
 ### GenBank Minimal Sequence Extractor
 ```python
@@ -279,7 +279,7 @@ def extract_genbank_seq(filename: str) -> str:
                 seq_parts.append(''.join(c for c in line if c.isalpha()))
     return ''.join(seq_parts).upper()
 # Full parsing: use Bio.SeqIO.read(filename, "genbank")
-```
+```python
 
 ### Parse TSV Data Line (common in bioinformatics)
 ```python
@@ -287,7 +287,7 @@ def extract_genbank_seq(filename: str) -> str:
 gene, chrom, start, end, gc = line.split('\t')
 chrom, start, end = int(chrom), int(start), int(end)
 gc = float(gc)
-```
+```python
 
 ### UniProt FASTA Header Parsing
 ```python
@@ -297,7 +297,7 @@ parts = header.split('|')
 accession  = parts[1]                      # P04637
 entry_name = parts[2].split()[0]           # P53_HUMAN
 gn = next((p[3:] for p in header.split() if p.startswith('GN=')), None)  # TP53
-```
+```python
 
 ### Functional Patterns for Sequence Collections
 ```python
@@ -314,7 +314,7 @@ upper = list(map(lambda t: (t[0], t[1].upper()), sequences))
 
 # List comprehension (preferred over map/filter for readability)
 lengths = {sid: len(seq) for sid, seq in sequences}
-```
+```python
 
 ### File Path Handling
 ```python
@@ -330,7 +330,7 @@ output.parent.mkdir(parents=True, exist_ok=True)
 
 for fasta_file in Path('data').glob('*.fasta'):
     ...
-```
+```python
 
 ## Common Pitfalls
 

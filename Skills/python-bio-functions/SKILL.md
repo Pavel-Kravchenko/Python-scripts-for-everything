@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/06_Functions/01_functions.ipynb`*
 
-# Module 6: Functions in Python
 
 ## From Basic Definitions to Functional Programming
 
@@ -71,7 +70,7 @@ def function_name(parameter1, parameter2):
     """Docstring: describes what the function does."""
     # function body
     return result
-```
+```python
 
 **Why use functions?**
 - Write code once, call it many times (DRY: Don't Repeat Yourself)
@@ -86,7 +85,7 @@ def greet():
 
 greet()
 greet()  # call it as many times as you like
-```
+```python
 
 ```python
 # Function with a parameter and a return value
@@ -107,7 +106,7 @@ def calculate_gc_content(sequence):
 seq = "ATGCGATCGATCGTAGC"
 gc = calculate_gc_content(seq)
 print(f"GC content of {seq}: {gc:.2f}%")
-```
+```python
 
 ```python
 # Functions can return multiple values as a tuple
@@ -120,7 +119,7 @@ def analyze_nucleotides(sequence):
 a, t, g, c = analyze_nucleotides("ATGCGATCGATCGATCG")
 print(f"A={a}, T={t}, G={g}, C={c}")
 print(f"Total: {a + t + g + c} nucleotides")
-```
+```python
 
 ```python
 # Returning a dictionary for richer results
@@ -141,18 +140,18 @@ result = analyze_sequence("ATGCGATCGATCGTAGCGATCGATCG")
 print(f"Length: {result['length']} bp")
 print(f"GC content: {result['gc_content']}%")
 print(f"Nucleotide counts: {result['counts']}")
-```
+```python
 
 ---
 ## 2. Default Arguments
 
 Parameters can have default values. Required arguments must come before defaults.
 
-```
+```python
 Positional:  def func(a, b)       -> func(1, 2)
 Keyword:     def func(a, b)       -> func(a=1, b=2)
 Default:     def func(a, b=10)    -> func(1)  # b defaults to 10
-```
+```python
 
 ```python
 import random
@@ -177,7 +176,7 @@ print(f"Short DNA (20 bp): {short_dna}")
 # Generate RNA instead
 rna = make_random_sequence(length=20, alphabet="AUGC")
 print(f"Random RNA (20 bp): {rna}")
-```
+```python
 
 ```python
 # Codon translation with default table
@@ -194,7 +193,7 @@ def translate_codon(codon, table='standard'):
 print(f"ATG -> {translate_codon('ATG')}  (Methionine / Start)")
 print(f"TAA -> {translate_codon('TAA')}  (Stop)")
 print(f"GGC -> {translate_codon('GGC')}  (Glycine)")
-```
+```python
 
 ```python
 # WARNING: Mutable default arguments are a classic Python trap!
@@ -218,7 +217,7 @@ def good_collect(item, items=None):
 
 print(good_collect('A'))  # ['A']
 print(good_collect('T'))  # ['T'] -- Correct!
-```
+```python
 
 ---
 ## 3. `*args` and `**kwargs`
@@ -235,7 +234,7 @@ def concatenate_sequences(*sequences):
 
 print(concatenate_sequences('ATG', 'CCC', 'GGG'))  # 'ATGCCCGGG'
 print(concatenate_sequences('ATG'))                 # 'ATG'
-```
+```python
 
 ```python
 # **kwargs: build a FASTA header with flexible metadata
@@ -254,7 +253,7 @@ header = create_fasta_header(
     chromosome=17
 )
 print(header)
-```
+```python
 
 ```python
 # Combining all argument types
@@ -286,7 +285,7 @@ def sequence_stats(*sequences, normalize=False, **options):
 stats = sequence_stats('ATGCATGC', 'GGGGCCCC', normalize=True, include_gc=True)
 for i, s in enumerate(stats):
     print(f"Sequence {i+1}: {s}")
-```
+```python
 
 ---
 ## 4. Docstrings and Type Hints
@@ -319,7 +318,7 @@ def validate_dna_sequence(sequence: str, allow_n: bool = False) -> bool:
 print(validate_dna_sequence('ATGCGATCG'))          # True
 print(validate_dna_sequence('ATGXYZ'))              # False
 print(validate_dna_sequence('ATGNNNC', allow_n=True))  # True
-```
+```python
 
 ```python
 def find_orfs(sequence: str, min_length: int = 30) -> list[dict]:
@@ -370,7 +369,7 @@ test_seq = "CCCATGGCCGATCGATAGCCCATGAAAGGGCCCTTTAAATTT"
 orfs = find_orfs(test_seq, min_length=9)
 for orf in orfs:
     print(f"ORF at {orf['start']}-{orf['end']}: {orf['sequence']} ({orf['length']} bp)")
-```
+```python
 
 ---
 ## 5. Lambda Functions
@@ -379,6 +378,12 @@ Anonymous, single-expression functions. Useful as short callbacks for sorting/fi
 
 ```python
 lambda arguments: expression
-```
+```python
 
 **Important:** Lambdas provide no speed advantage over regular functions. They are purely a convenience for short, throwaway operations.
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

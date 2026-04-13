@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/11_Gene_Ontology_and_Pathways/01_gene_ontology.ipynb`*
 
-# Gene Ontology
 
 Split from `01_gene_ontology_and_pathways.ipynb` to keep this topic self-contained.
 
@@ -70,7 +69,7 @@ print("Evidence codes (most to least reliable):")
 print("  EXP, IDA, IPI, IMP, IGI, IEP -> Experimental (gold standard)")
 print("  ISS, ISO, ISA, ISM, IGC, IBA -> Computational (inferred)")
 print("  IEA -> Inferred from Electronic Annotation (automated, lowest confidence)")
-```
+```python
 
 ---
 
@@ -78,7 +77,7 @@ print("  IEA -> Inferred from Electronic Annotation (automated, lowest confidenc
 
 A **GO annotation** links a gene product to a GO term, supported by an **evidence code** indicating how the annotation was determined.
 
-```
+```python
 +----------+----------------------------------------------+----------+
 | Code     | Meaning                                      | Quality  |
 +----------+----------------------------------------------+----------+
@@ -107,7 +106,7 @@ A **GO annotation** links a gene product to a GO term, supported by an **evidenc
 +----------+----------------------------------------------+----------+
 | IEA      | Inferred from Electronic Annotation          | Low      |
 +----------+----------------------------------------------+----------+
-```
+```python
 
 When filtering annotations, experimental evidence (EXP, IDA, IMP, ...) is the gold standard. IEA annotations are the most abundant but least reliable.
 
@@ -164,7 +163,7 @@ print(f"\nGenes with high-quality annotations: {len(high_quality)}")
 for gene in sorted(high_quality):
     terms = [go_id for go_id, _ in high_quality[gene]]
     print(f"  {gene}: {len(terms)} annotations")
-```
+```python
 
 ---
 
@@ -176,7 +175,7 @@ Given a list of interesting genes (e.g., differentially expressed genes from an 
 
 The statistical model is the **hypergeometric distribution** (equivalent to Fisher's exact test for a 2x2 contingency table).
 
-```
+```python
 +--------------------+--------------+--------------+--------+
 |                    | In GO term   | Not in term  | Total  |
 +--------------------+--------------+--------------+--------+
@@ -192,7 +191,7 @@ The statistical model is the **hypergeometric distribution** (equivalent to Fish
   k = genes in your list AND annotated to this GO term
 
   P(X >= k) = sum_{i=k}^{min(n,K)} C(K,i)*C(N-K,n-i) / C(N,n)
-```
+```python
 
 A small p-value means the overlap `k` is larger than expected by chance -- the term is **enriched**.
 
@@ -285,7 +284,7 @@ def go_enrichment(gene_list, gene_annotations, go_terms, background_size=20000):
         r['fdr'] = min(r['p_value'] * m / (i + 1), 1.0)
 
     return results
-```
+```python
 
 ```python
 # Run GO enrichment on an example gene list
@@ -302,4 +301,10 @@ print("-" * 85)
 for r in enrichment_results[:12]:
     print(f"{r['go_id']:<14} {r['domain']:<4} {r['name'][:40]:<42} {r['k']:>3} {r['p_value']:>10.2e} {r['fdr']:>10.2e}")
     print(f"{'':>14} Genes: {', '.join(r['genes'])}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

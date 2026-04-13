@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/12_Regular_Expressions/01_regular_expressions.ipynb`*
 
-# Regular Expressions for Bioinformatics
 
 ## Learning Objectives
 - Master the `re` module: `match`, `search`, `findall`, `finditer`, `sub`, `compile`
@@ -61,7 +60,7 @@ dna = "GCTATGCGATCGATCGTAA"
 match = re.search('ATG', dna)
 if match:
     print(f"Found '{match.group()}' at position {match.start()}-{match.end()}")
-```
+```python
 
 ```python
 # re.match() -- matches only at the BEGINNING of the string
@@ -69,7 +68,7 @@ dna = "ATGCGATCGATCG"
 
 print(f"match('ATG', ...): {re.match('ATG', dna)}")   # Match object (starts at 0)
 print(f"match('CGA', ...): {re.match('CGA', dna)}")   # None (CGA not at start)
-```
+```python
 
 ```python
 # re.findall() -- return all non-overlapping matches as a list
@@ -78,7 +77,7 @@ dna = "ATGCGATCGATGCGATGCTAA"
 starts = re.findall('ATG', dna)
 print(f"Start codons found: {starts}")
 print(f"Count: {len(starts)}")
-```
+```python
 
 ```python
 # re.finditer() -- returns an iterator of match objects (preferred for positions)
@@ -87,7 +86,7 @@ dna = "ATGCGATCGATGCGATGCTAA"
 print("All ATG positions:")
 for match in re.finditer('ATG', dna):
     print(f"  Position {match.start()}: {match.group()}")
-```
+```python
 
 ```python
 # Match objects carry useful information
@@ -98,7 +97,7 @@ print(f"Matched text:  {match.group()}")
 print(f"Start position: {match.start()}")
 print(f"End position:   {match.end()}")
 print(f"Span:           {match.span()}")
-```
+```python
 
 ---
 ## 2. Metacharacters and Character Classes
@@ -125,7 +124,7 @@ dna = "ATGCGATCG"
 
 # Find A followed by any character, then G
 print(f"Pattern A.G matches: {re.findall('A.G', dna)}")
-```
+```python
 
 ```python
 # ^ and $ -- anchors for start and end of string
@@ -134,7 +133,7 @@ dna = "ATGCGATCGTAA"
 print(f"Starts with ATG: {bool(re.match('^ATG', dna))}")
 print(f"Ends with TAA:   {bool(re.search('TAA$', dna))}")
 print(f"Ends with ATG:   {bool(re.search('ATG$', dna))}")
-```
+```python
 
 ```python
 # [] -- character classes
@@ -147,7 +146,7 @@ print(f"Purines: {purines} (count: {len(purines)})")
 # Pyrimidines (C or T)
 pyrimidines = re.findall('[CT]', dna)
 print(f"Pyrimidines: {pyrimidines} (count: {len(pyrimidines)})")
-```
+```python
 
 ```python
 # [^] -- negated character class
@@ -160,7 +159,7 @@ print(f"Non-standard characters: {non_standard}")
 # Find their positions
 for m in re.finditer('[^ATGC]', dna):
     print(f"  Position {m.start()}: '{m.group()}'")
-```
+```python
 
 ```python
 # | (pipe) -- alternation (OR)
@@ -169,7 +168,7 @@ dna = "ATGCGATCGATCGTAGTGATAA"
 # Find all stop codons
 stop_codons = re.findall('TAA|TAG|TGA', dna)
 print(f"Stop codons found: {stop_codons}")
-```
+```python
 
 ---
 ## 3. Quantifiers
@@ -191,7 +190,7 @@ dna = "AAATTTAAAAAATTTTTGCGCGC"
 print(f"A+ (one or more A): {re.findall('A+', dna)}")
 print(f"T+ (one or more T): {re.findall('T+', dna)}")
 print(f"[GC]+ (GC runs):    {re.findall('[GC]+', dna)}")
-```
+```python
 
 ```python
 # Exact repetition counts
@@ -199,7 +198,7 @@ dna = "ATGATGATGATGATG"
 
 print(f"Triplets (.{{3}}): {re.findall('.{3}', dna)}")
 print(f"4-6 chars ([ATGC]{{4,6}}): {re.findall('[ATGC]{4,6}', dna)}")
-```
+```python
 
 ```python
 # Greedy vs lazy matching -- critical for biological pattern search
@@ -212,7 +211,7 @@ print(f"Greedy  (ATG.*TAG):  {greedy}")
 # Lazy: matches the SHORTEST possible string
 lazy = re.findall('ATG.*?TAG', dna)
 print(f"Lazy    (ATG.*?TAG): {lazy}")
-```
+```python
 
 ```python
 # Practical example: find homopolymer runs of 4+ bases
@@ -222,7 +221,7 @@ print(f"Sequence: {dna}")
 print("\nHomopolymer runs (4+ bases):")
 for m in re.finditer(r'(.)\1{3,}', dna):
     print(f"  '{m.group()}' at position {m.start()} ({len(m.group())} bases)")
-```
+```python
 
 ---
 ## 4. Groups
@@ -246,7 +245,7 @@ if match:
     print(f"Gene ID:     {match.group(1)}")
     print(f"Gene name:   {match.group(2)}")
     print(f"Description: {match.group(3)}")
-```
+```python
 
 ```python
 # Named groups -- (?P<name>pattern)
@@ -260,7 +259,7 @@ if match:
     print(f"Entry name:  {match.group('entry_name')}")
     print(f"Description: {match.group('description')}")
     print(f"Organism:    {match.group('organism')}")
-```
+```python
 
 ```python
 # Non-capturing groups -- (?:pattern)
@@ -274,7 +273,7 @@ print(f"Capturing group:     {with_capture}")
 # With non-capturing group: findall returns the full match
 without_capture = re.findall('(?:TAA|TAG|TGA)', dna)
 print(f"Non-capturing group: {without_capture}")
-```
+```python
 
 ```python
 # Backreferences -- find repeated codons (tandem repeats)
@@ -289,7 +288,7 @@ for m in re.finditer(r'([ATGC]{3})\1+', dna):
     unit = m.group(1)
     copies = len(m.group(0)) // len(unit)
     print(f"  '{unit}' x {copies} at position {m.start()}")
-```
+```python
 
 ---
 ## 5. Lookahead and Lookbehind
@@ -314,7 +313,7 @@ print(f"G followed by C: {len(gc_dinucs)} occurrences")
 # Find all overlapping 3-mers starting with AT using lookahead
 overlapping = re.findall('(?=(AT.))', dna)
 print(f"Overlapping 3-mers starting with AT: {overlapping}")
-```
+```python
 
 ```python
 # Negative lookahead: find a codon that is NOT a stop codon
@@ -325,7 +324,7 @@ print(f"All codons: {codons}")
 # Find positions where ATG is NOT followed by a stop codon
 non_stop_starts = re.findall('ATG(?!TAA|TAG|TGA)', dna)
 print(f"ATG not followed by stop: {non_stop_starts}")
-```
+```python
 
 ```python
 # Lookbehind: find bases that come after a specific context
@@ -338,7 +337,7 @@ print(f"C preceded by AT: {len(after_at)} occurrences")
 # Find bases after EcoRI site (GAATTC)
 after_ecori = re.findall('(?<=GAATTC).{3}', dna)
 print(f"3 bases after EcoRI site: {after_ecori}")
-```
+```python
 
 ---
 ## 6. Substitution and Splitting
@@ -351,7 +350,7 @@ dna = "ATGCGATCGATCG"
 rna = re.sub('T', 'U', dna)
 print(f"DNA: {dna}")
 print(f"RNA: {rna}")
-```
+```python
 
 ```python
 # Using groups in substitution
@@ -360,7 +359,7 @@ fasta = ">gene1 description one\nATGCGATC\n>gene2 description two\nGCTAGCTA"
 
 modified = re.sub(r'>(\w+)', r'>Hsapiens_\1', fasta)
 print(modified)
-```
+```python
 
 ```python
 # Substitution with a function
@@ -377,7 +376,7 @@ dna = "ATGAAAAAACGATTTTTTTCGATCG"
 masked = re.sub(r'(.)\1{2,}', mask_repeat, dna)
 print(f"Original: {dna}")
 print(f"Masked:   {masked}")
-```
+```python
 
 ```python
 # re.split() -- split by pattern
@@ -389,7 +388,7 @@ fragments = re.split('GAATTC|GGATCC|AAGCTT', dna)
 print(f"Fragments after triple digestion:")
 for i, frag in enumerate(fragments, 1):
     print(f"  Fragment {i}: {frag} ({len(frag)} bp)")
-```
+```python
 
 ---
 ## 7. Compiled Patterns and Flags
@@ -409,7 +408,7 @@ print(f"Stop codons:  {stop_pattern.findall(dna)}")
 # Compiled patterns have the same methods: search, match, findall, finditer, sub, split
 for m in start_codon.finditer(dna):
     print(f"  ATG at position {m.start()}")
-```
+```python
 
 ```python
 # re.IGNORECASE (re.I) -- case-insensitive matching
@@ -420,7 +419,7 @@ print(f"Case sensitive:   {re.findall('ATG', dna_mixed)}")
 
 # With flag: finds both
 print(f"Case insensitive: {re.findall('ATG', dna_mixed, re.IGNORECASE)}")
-```
+```python
 
 ```python
 # re.MULTILINE (re.M) -- ^ and $ match at line boundaries
@@ -434,4 +433,10 @@ print(f"Without MULTILINE: {re.findall('^>.*', fasta)}")
 
 # With MULTILINE: ^ matches start of each line
 print(f"With MULTILINE:    {re.findall('^>.*', fasta, re.MULTILINE)}")
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

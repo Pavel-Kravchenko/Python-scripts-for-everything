@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/10_Deep_Learning_for_Biology/01_deep_learning_for_biology.ipynb`*
 
-# Deep Learning for Biology
 
 **Tier 3 -- Applied Bioinformatics**
 
@@ -56,7 +55,7 @@ torch.manual_seed(42)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f"Using device: {device}")
 print(f"PyTorch version: {torch.__version__}")
-```
+```python
 
 ---
 ## 1. From Classical ML to Deep Learning
@@ -122,7 +121,7 @@ for ax, vals, name in zip(axes, [sigmoid, relu, tanh], ['Sigmoid', 'ReLU', 'Tanh
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ---
 ## 2. Building Neural Networks with PyTorch
@@ -144,7 +143,7 @@ print(f"x     = {x.data}")
 print(f"y     = {y.data}")
 print(f"dy/dx = {x.grad}")  # dy/dx = 2x + 2
 print(f"Expected: {2 * x.data + 2}")
-```
+```python
 
 ```python
 # Converting between NumPy and PyTorch
@@ -155,7 +154,7 @@ back_to_np = tensor.numpy()
 print(f"NumPy shape: {np_array.shape}, dtype: {np_array.dtype}")
 print(f"Tensor shape: {tensor.shape}, dtype: {tensor.dtype}")
 print(f"Shares memory: {np.shares_memory(np_array, back_to_np)}")
-```
+```python
 
 ### Defining Models with nn.Module
 
@@ -184,7 +183,7 @@ model = SimpleClassifier(input_dim=16)
 print(model)
 total_params = sum(p.numel() for p in model.parameters())
 print(f"\nTotal parameters: {total_params:,}")
-```
+```python
 
 ### Case Study: Promoter vs Non-Promoter Classification
 
@@ -233,7 +232,7 @@ sequences, labels = generate_sequences(500)
 X, feature_names = dinucleotide_features(sequences)
 print(f"Dataset: {X.shape[0]} sequences, {X.shape[1]} features")
 print(f"Labels: {np.sum(labels == 1)} promoters, {np.sum(labels == 0)} non-promoters")
-```
+```python
 
 ```python
 # The standard PyTorch training loop
@@ -289,7 +288,7 @@ with torch.no_grad():
 
 print(f"Final training loss: {train_losses[-1]:.4f}")
 print(f"Test accuracy: {test_acc:.4f}")
-```
+```python
 
 ```python
 # Plot training loss
@@ -301,7 +300,7 @@ plt.title('Training Loss -- Promoter Classifier')
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ---
 ## 3. Convolutional Neural Networks for Sequences
@@ -310,13 +309,13 @@ plt.show()
 
 Instead of extracting hand-crafted features (k-mer frequencies), we can feed **raw sequences** into a CNN. Each position becomes a 4-dimensional one-hot vector (for DNA) or a 20-dimensional vector (for proteins).
 
-```
+```python
 Sequence: A  C  G  T  A
 A:        1  0  0  0  1
 C:        0  1  0  0  0
 G:        0  0  1  0  0
 T:        0  0  0  1  0
-```
+```python
 
 A 1D convolution slides a **filter** (kernel) across the sequence. Filters learn to detect motifs -- just like k-mers, but the network discovers the relevant patterns itself.
 
@@ -352,7 +351,7 @@ ax.set_xlabel('Position')
 ax.set_title('One-hot encoding (first 30 bp of a promoter)')
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ### 1D CNN Architecture for TF Binding Site Prediction
 
@@ -361,3 +360,9 @@ The architecture follows a proven pattern for biological sequence classification
 **Conv1D** (detect motifs) --> **ReLU** (nonlinearity) --> **MaxPool** (position invariance) --> **Dense** (classify)
 
 Multiple convolutional layers can capture motif combinations and spacing patterns.
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

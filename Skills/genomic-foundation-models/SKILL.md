@@ -77,7 +77,7 @@ embeddings = outputs.last_hidden_state.mean(dim=1).numpy()
 
 # Per-residue embeddings for nucleotide-level tasks
 token_embeddings = outputs.last_hidden_state.numpy()
-```
+```python
 
 ## Fine-Tuning for Classification (Splice Sites)
 
@@ -114,7 +114,7 @@ args = TrainingArguments(
 
 trainer = Trainer(model=model, args=args, train_dataset=train_dataset)
 trainer.train()
-```
+```python
 
 ## Enformer: Predict Regulatory Tracks
 
@@ -140,7 +140,7 @@ one_hot = one_hot_encode(sequence_196kbp)  # shape: (1, 196608, 4)
 with torch.no_grad():
     predictions = model(one_hot)
 # predictions['human'] shape: (1, 896, 5313) → 5313 tracks at 128bp resolution
-```
+```python
 
 ## In-Silico Mutagenesis (ISM) with Enformer
 
@@ -159,7 +159,7 @@ def ism_score(model, one_hot_seq, target_track=4799, center_pos=196608//2):
         pred = model(mut_seq)['human'][0, 448, target_track].item()
         scores.append(pred - baseline)
     return scores  # [delta_A, delta_C, delta_G, delta_T]
-```
+```python
 
 ## Common Pitfalls
 - **Context length**: NT models use 6-mers → 512 tokens = ~3 kbp; for longer sequences use HyenaDNA

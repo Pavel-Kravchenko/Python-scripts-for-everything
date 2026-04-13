@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/02_bfs_dfs.ipynb`*
 
-# 🔍 Graph Traversals: BFS and DFS
 
 ## Learning Objectives
 
@@ -53,19 +52,19 @@ class Graph:
     
     def vertices(self):
         return list(self.adj.keys())
-```
+```python
 
 ## 1. Breadth-First Search (BFS)
 
 BFS explores vertices level by level, using a **queue** (FIFO).
 
-```
+```python
        A           Level 0: A
       /|\ 
      B C D         Level 1: B, C, D
     /|   |
    E F   G         Level 2: E, F, G
-```
+```python
 
 **Use cases:**
 - Shortest path in unweighted graphs
@@ -111,7 +110,7 @@ print("BFS traversal from TP53:", order)
 print("\nDistances from TP53:")
 for gene, dist in sorted(distances.items(), key=lambda x: x[1]):
     print(f"  {gene}: {dist} hops")
-```
+```python
 
 ```python
 def find_neighbors_within_k(graph, start, k):
@@ -122,7 +121,7 @@ def find_neighbors_within_k(graph, start, k):
 # Find genes within 2 hops of TP53
 neighborhood = find_neighbors_within_k(ppi, 'TP53', 2)
 print(f"Genes within 2 hops of TP53: {neighborhood}")
-```
+```python
 
 ## 2. Depth-First Search (DFS)
 
@@ -172,7 +171,7 @@ def dfs_recursive(graph, start, visited=None):
 
 print("DFS iterative from TP53:", dfs_iterative(ppi, 'TP53'))
 print("DFS recursive from TP53:", dfs_recursive(ppi, 'TP53'))
-```
+```python
 
 ## 3. Finding Connected Components
 
@@ -211,7 +210,7 @@ components = find_connected_components(ppi)
 print(f"Found {len(components)} connected components:")
 for i, comp in enumerate(components, 1):
     print(f"  Component {i}: {comp}")
-```
+```python
 
 ## 4. BFS vs DFS Comparison
 
@@ -252,7 +251,7 @@ def shortest_path(graph, start, end):
 # Test: Find path from E2F1 to ATM
 path = shortest_path(ppi, 'E2F1', 'ATM')
 print(f"Shortest path E2F1 → ATM: {' → '.join(path)}")
-```
+```python
 
 ## 🧬 Exercise 2: Cycle Detection
 
@@ -282,7 +281,7 @@ def has_cycle(graph):
 # Add a cycle
 ppi.add_edge('ATM', 'BRCA1')  # Creates TP53-ATM-BRCA1-TP53 cycle
 print(f"Network has cycle: {has_cycle(ppi)}")
-```
+```python
 
 ---
 
@@ -294,3 +293,9 @@ print(f"Network has cycle: {has_cycle(ppi)}")
 ✅ Connected components reveal network modules
 
 **Next:** [03_dijkstra.ipynb](03_dijkstra.ipynb) - Shortest paths with weighted edges
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

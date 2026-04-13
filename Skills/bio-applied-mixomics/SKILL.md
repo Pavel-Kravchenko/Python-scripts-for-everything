@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/27_Multi_Omics_Integration/03_mixomics.ipynb`*
 
-# mixOmics: Supervised Multi-Omics Integration
 
 **Tier 3 — Applied Bioinformatics | Module 27 · Notebook 3**
 
@@ -51,11 +50,11 @@ package and adapt the example to match the actual API rather than retrying.
 
 PLS finds **latent components** that maximize the covariance between X (features) and Y (outcome). This makes it ideal for high-dimensional data where p >> n.
 
-```
+```python
 X (samples × features)  →  T (samples × components)  →  Y (samples × outcome)
          "scores"                "predictors"
          "loadings"
-```
+```python
 
 ### mixOmics method family
 
@@ -144,7 +143,7 @@ print(f"  Proteomics:  {prot_scaled.shape}")
 print(f"  Methylation: {meth_scaled.shape}")
 print(f"  Classes: {list(le.classes_)}")
 print(f"  Balanced: {dict(pd.Series(class_labels).value_counts())}")
-```
+```python
 
 ## 2. PLS-DA: Single Omics Classification
 
@@ -238,7 +237,7 @@ plt.tight_layout()
 plt.show()
 for name, (m, s) in results.items():
     print(f"  {name}: {m*100:.1f} +/- {s*100:.1f}%")
-```
+```python
 
 ## 3. sPLS-DA: Sparse Feature Selection
 
@@ -263,7 +262,7 @@ tune.splsda <- tune.splsda(X, Y, ncomp=3, validation='Mfold',
                             folds=5, dist='max.dist', 
                             test.keepX=test.keepX, nrepeat=50)
 optimal.keepX <- tune.splsda$choice.keepX
-```
+```python
 
 ```python
 # ----- sPLS-DA: Sparse PLS-DA for feature selection -----
@@ -347,4 +346,10 @@ stable_genes = {k: np.where(np.bincount(v, minlength=n_rna)/n_boot > 0.5)[0]
 print("Stably selected features (>50% bootstrap frequency):")
 for comp, genes in stable_genes.items():
     print(f"  {comp}: {len(genes)} features")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

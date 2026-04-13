@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/18_Proteomics_and_Structural_Methods/02_structural_methods.ipynb`*
 
-# Proteomics and Structural Methods
 
 **Tier 3 -- Applied Bioinformatics**
 
@@ -44,7 +43,7 @@ from collections import Counter, defaultdict
 plt.rcParams['figure.figsize'] = (12, 5)
 plt.rcParams['font.size'] = 12
 np.random.seed(42)
-```
+```python
 
 ---
 ## Part 1: Mass Spectrometry for Proteomics
@@ -96,13 +95,13 @@ Where $m_{\text{res},i}$ is the **residue mass** of amino acid $i$ (monoisotopic
 
 **Note:** A common source of confusion — the full neutral peptide mass = $\sum m_{\text{res}} + H_2O$ (for the two termini), while b ions do NOT add water (they lose it at the C-terminus). This means $m_{b_k} + m_{y_{n-k}} = M_{\text{peptide}} + 2m_H$ (both carry a proton).
 
-```
+```python
   b1   b2   b3   b4
   ↓    ↓    ↓    ↓
 H-AA1-AA2-AA3-AA4-AA5-OH
           ↑    ↑    ↑
           y3   y2   y1
-```
+```python
 
 The mass difference between adjacent b (or y) ions directly reveals the **residue mass** of the intervening amino acid, enabling de novo sequencing. For example: $m_{b_3} - m_{b_2} = m_{\text{res},3}$.
 
@@ -154,7 +153,7 @@ print()
 print(f"{'Ion':<8} {'m/z (b)':<12} {'Ion':<8} {'m/z (y)':<12}")
 for i, (bi, yi) in enumerate(zip(b, y), 1):
     print(f"b{i:<7} {bi:<12.4f} y{len(peptide)-i:<7} {yi:<12.4f}")
-```
+```python
 
 ```python
 # Visualize a simulated MS/MS spectrum
@@ -187,7 +186,7 @@ ax.legend(handles=[b_patch, y_patch])
 ax.set_ylim(0, 130)
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ---
 ## Part 2: Protein Identification and Database Searching
@@ -196,7 +195,7 @@ plt.show()
 
 The dominant proteomics strategy is **bottom-up (shotgun) proteomics**:
 
-```
+```python
 Protein mixture
     ↓  (1) Reduction & alkylation (DTT + iodoacetamide)
 Denatured protein
@@ -212,7 +211,7 @@ MS/MS spectra
 Peptide-spectrum matches (PSMs)
     ↓  (7) FDR filtering → peptide / protein lists
 Quantitative protein abundance table
-```
+```python
 
 **Trypsin** is the enzyme of choice: it cleaves specifically on the C-terminal side of lysine (K) and arginine (R), **except when followed by proline (P)**. This generates peptides of 6–25 residues — the optimal size range for LC-MS/MS.
 
@@ -264,7 +263,7 @@ print(f"{'Peptide':<30} {'Mass (Da)':<12} {'Length':<8}")
 print("-" * 52)
 for pep, mass in sorted(masses, key=lambda x: -x[1]):
     print(f"{pep:<30} {mass:<12.2f} {len(pep):<8}")
-```
+```python
 
 ### 2.2 Peptide Mass Fingerprinting (PMF)
 
@@ -289,3 +288,9 @@ PMF works well for simple mixtures (single protein from a gel band). For complex
 | **Comet** | Open-source Sequest-style | Fast; command-line friendly |
 
 All engines compare observed MS/MS spectra against **theoretical spectra** predicted for every peptide in the database at the given precursor mass (±10–20 ppm for Orbitrap).
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

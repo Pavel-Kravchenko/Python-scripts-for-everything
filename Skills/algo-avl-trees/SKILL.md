@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/05_Tree_Structures/02_avl_trees.ipynb`*
 
-# AVL Trees
 
 **Self-Balancing Binary Search Trees**
 
@@ -35,7 +34,7 @@ Named after inventors **A**delson-**V**elsky and **L**andis (1962) - the first s
 
 A regular Binary Search Tree can degenerate into a **linked list** when elements are inserted in sorted order:
 
-```
+```python
 Insert: 1, 2, 3, 4, 5
 
     (1)                 Ideal BST:      (3)
@@ -50,7 +49,7 @@ Insert: 1, 2, 3, 4, 5
 
 Height: 4 (degenerate)
 Operations: O(n)
-```
+```python
 
 ### Performance Comparison
 
@@ -75,7 +74,7 @@ $$\text{Balance Factor} = \text{height(left subtree)} - \text{height(right subtr
 
 Valid balance factors: **-1, 0, +1**
 
-```
+```python
 Balance Factor Visualization:
 
         (8) bf=-1          bf = height(left) - height(right)
@@ -91,7 +90,7 @@ Heights (using h(leaf)=1, h(None)=0):
 - Node 8:  root         → height = 3,  bf = h(left) - h(right) = 1 - 2 = -1
 
 All |bf| ≤ 1 → valid AVL tree
-```
+```python
 
 ### Why Balance Factor ≤ 1 Guarantees O(log n) Height
 
@@ -120,7 +119,7 @@ Rotations are the fundamental operations that restore balance. They:
 
 **When to use:** Node has `balance_factor = +2` AND left child has `balance_factor ≥ 0`
 
-```
+```python
          z                                y
         / \                             /   \
        y   T4      Right Rotate        x     z
@@ -135,7 +134,7 @@ Steps:
 3. y's original right subtree (T3) becomes z's left subtree
 
 BST Property preserved: T1 < x < T2 < y < T3 < z < T4
-```
+```python
 
 ---
 
@@ -143,7 +142,7 @@ BST Property preserved: T1 < x < T2 < y < T3 < z < T4
 
 **When to use:** Node has `balance_factor = -2` AND right child has `balance_factor ≤ 0`
 
-```
+```python
      z                                   y
     / \                                /   \
    T1  y         Left Rotate          z     x
@@ -158,7 +157,7 @@ Steps:
 3. y's original left subtree (T2) becomes z's right subtree
 
 BST Property preserved: T1 < z < T2 < y < T3 < x < T4
-```
+```python
 
 ---
 
@@ -166,7 +165,7 @@ BST Property preserved: T1 < z < T2 < y < T3 < x < T4
 
 **When to use:** Node has `balance_factor = +2` AND left child has `balance_factor = -1`
 
-```
+```python
        z                    z                        x
       / \                  / \                     /   \
      y   T4               x   T4                  y     z
@@ -179,7 +178,7 @@ Step 1: Left rotate the left child (y)
 Step 2: Right rotate the unbalanced node (z)
 
 BST Property preserved: T1 < y < T2 < x < T3 < z < T4
-```
+```python
 
 ---
 
@@ -187,7 +186,7 @@ BST Property preserved: T1 < y < T2 < x < T3 < z < T4
 
 **When to use:** Node has `balance_factor = -2` AND right child has `balance_factor = +1`
 
-```
+```python
      z                   z                          x
     / \                 / \                       /   \
    T1  y               T1  x                     z     y
@@ -200,7 +199,7 @@ Step 1: Right rotate the right child (y)
 Step 2: Left rotate the unbalanced node (z)
 
 BST Property preserved: T1 < z < T2 < x < T3 < y < T4
-```
+```python
 
 ### Rotation Decision Table
 
@@ -224,7 +223,7 @@ BST Property preserved: T1 < z < T2 < x < T3 < y < T4
 
 ### Insertion Example: Insert 30, 20, 10
 
-```
+```python
 Step 1: Insert 30          Step 2: Insert 20         Step 3: Insert 10
 
     (30) bf=0                 (30) bf=+1                (30) bf=+2  ← UNBALANCED!
@@ -244,11 +243,11 @@ After Right Rotation:
     bf=0    bf=0
 
 Tree is now balanced!
-```
+```python
 
 ### Another Example: Insert 30, 10, 20 (LR Case)
 
-```
+```python
 Step 1: Insert 30          Step 2: Insert 10         Step 3: Insert 20
 
     (30) bf=0                 (30) bf=+1                (30) bf=+2  ← UNBALANCED!
@@ -269,7 +268,7 @@ Step A: Left rotate node 10      Step B: Right rotate node 30
   (10) bf=0
 
 Tree is now balanced!
-```
+```python
 
 ## 5. Deletion with Rebalancing
 
@@ -285,7 +284,7 @@ Tree is now balanced!
 
 ### Deletion Example
 
-```
+```python
 Initial Tree:                  After deleting 40:
 
         (30) bf=0                    (30) bf=+2  ← UNBALANCED!
@@ -311,7 +310,7 @@ After Right Rotation:
         bf=0
 
 Tree is now balanced!
-```
+```python
 
 ### Key Difference from Insertion
 
@@ -370,7 +369,7 @@ class AVLNode:
     
     def __repr__(self) -> str:
         return f"AVLNode({self.value})"
-```
+```python
 
 ```python
 class AVLTree:
@@ -719,4 +718,10 @@ class AVLTree:
     
     def __repr__(self) -> str:
         return f"AVLTree(inorder={self.inorder()})"
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

@@ -1,6 +1,6 @@
 ---
 name: foundations-r-fundamentals
-description: "While this course primarily uses Python, R is indispensable in bioinformatics. The **Bioconductor** ecosystem provides over 2,000 packages for genomics, transcriptomics, and proteomics. Tools like **D"
+description: "R programming fundamentals for bioinformatics: data types, vectors, matrices, data frames, functions, and plotting with ggplot2. Use when learning R for biological data analysis."
 tool_type: python
 source_notebook: "Tier_0_Computational_Foundations/05_R_Basics/01_r_fundamentals.ipynb"
 primary_tool: Python
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_0_Computational_Foundations/05_R_Basics/01_r_fundamentals.ipynb`*
 
-# R Fundamentals for Bioinformatics
 
 **Tier 0 -- Computational Foundations | Module 5**
 
@@ -100,7 +99,7 @@ is_oncogene <- FALSE
 cat("gene_name:", class(gene_name), "\n")
 cat("expression_level:", class(expression_level), "\n")
 cat("is_oncogene:", class(is_oncogene), "\n")
-```
+```python
 
 ```python
 # Creating vectors with c() -- "combine"
@@ -112,7 +111,7 @@ is_oncogene <- c(FALSE, FALSE, TRUE, TRUE, TRUE)
 mixed <- c(1, "two", TRUE)
 cat("Mixed vector:", mixed, "\n")  # Everything becomes character
 cat("Type:", class(mixed), "\n")
-```
+```python
 
 ```python
 # Sequences -- extremely common in R
@@ -130,7 +129,7 @@ cat("GC content range:", gc_range, "\n")
 # rep() to repeat values
 groups <- rep(c("control", "treatment"), each = 3)
 cat("Groups:", groups, "\n")
-```
+```python
 
 ---
 
@@ -156,7 +155,7 @@ counts <- c(100, 500, 10, 2000, 50)
 cat("\nRaw counts:  ", counts, "\n")
 cat("Log2 counts: ", round(log2(counts), 2), "\n")
 cat("Log2(x+1):   ", round(log2(counts + 1), 2), "\n")  # Pseudocount to avoid log(0)
-```
+```python
 
 ```python
 # Logical operations (the basis of all filtering)
@@ -173,7 +172,7 @@ cat("2 < expr < 6:    ", in_range, "\n")
 cat("\nHow many > 3?  ", sum(expression > 3), "\n")   # TRUE counts as 1
 cat("Any > 10?      ", any(expression > 10), "\n")
 cat("All > 0?       ", all(expression > 0), "\n")
-```
+```python
 
 ```python
 # Useful vector functions
@@ -189,7 +188,7 @@ cat("max:   ", max(x), "\n")
 cat("range: ", range(x), "\n")
 cat("sort:  ", sort(x), "\n")
 cat("order: ", order(x), "\n")  # Indices that would sort the vector
-```
+```python
 
 ---
 
@@ -216,7 +215,7 @@ cat("x[-(1:3)]  =", x[-(1:3)], "\n")    # Exclude first 3: 40 50 60
 
 # Logical indexing
 cat("x[x > 25]  =", x[x > 25], "\n")    # Values > 25: 30 40 50 60
-```
+```python
 
 ```python
 # Named vectors -- very useful for biological data
@@ -229,7 +228,7 @@ cat("Names:", names(gc_content), "\n")
 gc_rich <- gc_content[gc_content > 0.5]
 cat("GC-rich genes:", names(gc_rich), "\n")
 cat("Their GC content:", gc_rich, "\n")
-```
+```python
 
 ### Bioinformatics Example: Filtering Differentially Expressed Genes
 
@@ -253,7 +252,7 @@ cat("  log2FC:", log2fc[sig_down], "\n")
 
 # which() returns the indices of TRUE values
 cat("\nIndices of significant genes:", which(sig_up | sig_down), "\n")
-```
+```python
 
 ---
 
@@ -278,7 +277,7 @@ print(expr_matrix)
 cat("\nDimensions:", dim(expr_matrix), "\n")
 cat("Row names:", rownames(expr_matrix), "\n")
 cat("Col names:", colnames(expr_matrix), "\n")
-```
+```python
 
 ```python
 # Matrix indexing: [row, column]
@@ -290,7 +289,7 @@ cat("All BRCA1 values:", expr_matrix[, "BRCA1"], "\n")
 cat("\nMean per sample (rows): ", apply(expr_matrix, 1, mean), "\n")
 cat("Mean per gene (columns):", apply(expr_matrix, 2, mean), "\n")
 cat("SD per gene:            ", round(apply(expr_matrix, 2, sd), 2), "\n")
-```
+```python
 
 ---
 
@@ -310,7 +309,7 @@ gene_data <- data.frame(
 )
 
 print(gene_data)
-```
+```python
 
 ```python
 # Inspecting data frames
@@ -319,7 +318,7 @@ cat("Column names:", colnames(gene_data), "\n")
 str(gene_data)   # Structure -- very useful
 cat("\n")
 summary(gene_data)  # Statistical summary of each column
-```
+```python
 
 ```python
 # Accessing data
@@ -335,7 +334,7 @@ print(gene_data[gene_data$is_oncogene, ])
 cat("\nSignificantly upregulated (log2FC > 1, p < 0.05):\n")
 sig_up <- gene_data[gene_data$log2fc > 1 & gene_data$pvalue < 0.05, ]
 print(sig_up)
-```
+```python
 
 ```python
 # Modifying data frames
@@ -352,7 +351,7 @@ gene_data$fdr <- p.adjust(gene_data$pvalue, method = "BH")
 # Sorting
 gene_data_sorted <- gene_data[order(gene_data$pvalue), ]
 print(gene_data_sorted)
-```
+```python
 
 ---
 
@@ -383,4 +382,10 @@ cat("  Min:   ", round(min(expression_values), 2), "\n")
 cat("  Max:   ", round(max(expression_values), 2), "\n")
 cat("\n")
 summary(expression_values)
-```
+```python
+
+## Common Pitfalls
+
+- **Assumption violations**: Check normality and homoscedasticity before parametric tests; use nonparametric alternatives when assumptions fail
+- **Multiple comparisons**: Bonferroni is conservative; use Benjamini-Hochberg FDR for large-scale testing
+- **Correlation ≠ causation**: Statistical association does not imply biological mechanism

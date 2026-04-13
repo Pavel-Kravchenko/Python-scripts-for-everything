@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/05_Multiple_Sequence_Alignment/01_multiple_sequence_alignment.ipynb`*
 
-# Multiple Sequence Alignment: From Theory to Practice
 
 Multiple Sequence Alignment (MSA) is one of the most fundamental techniques in bioinformatics. While pairwise alignment compares two sequences, MSA simultaneously aligns three or more sequences to reveal conserved regions, functional domains, and evolutionary relationships that pairwise comparisons would miss.
 
@@ -76,7 +75,7 @@ for tool in ['mafft', 'muscle', 'clustalw', 'clustalo']:
 
 print("\nNote: if no external MSA tools are found, the notebook will use")
 print("a built-in progressive alignment implementation for demonstrations.")
-```
+```python
 
 ```python
 def exact_msa_three_sequences(seq1, seq2, seq3, match=1, mismatch=-1, gap=-2):
@@ -153,7 +152,7 @@ optimal = exact_msa_three_sequences(s1, s2, s3)
 print(f"\nFor 3 sequences of length ~4: manageable")
 print(f"For 3 sequences of length 100: {101**3:,} cells")
 print(f"For 10 sequences of length 100: {101**10:.2e} cells -- impossible!")
-```
+```python
 
 ---
 
@@ -163,7 +162,7 @@ Since exact MSA is intractable, practical tools use **heuristic** approaches. Th
 
 ### The Progressive Strategy
 
-```
+```python
 Progressive Alignment Pipeline
 ================================
 
@@ -196,7 +195,7 @@ Step 4: Align sequences following guide tree order
        |
        v
 Step 5: Final MSA
-```
+```python
 
 ### The Chicken-and-Egg Problem
 
@@ -263,7 +262,7 @@ for i, name in enumerate(names):
     for j in range(len(names)):
         print(f"{dm[i,j]:>12.3f}", end='')
     print()
-```
+```python
 
 ### 3.1 Building the Guide Tree with UPGMA
 
@@ -340,7 +339,7 @@ def upgma(dist_matrix, names):
 guide_tree = upgma(dm, names)
 print("Guide tree (Newick):")
 print(guide_tree)
-```
+```python
 
 ### 3.2 Aligning Alignments: The Profile Concept
 
@@ -359,3 +358,9 @@ For example, aligning column `[A, C]` against column `[T, G]` with a substitutio
 $$
 S = \frac{m[A][T] + m[A][G] + m[C][T] + m[C][G]}{2 \times 2}
 $$
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

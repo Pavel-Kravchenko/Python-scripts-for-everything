@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/01_NGS_Fundamentals/02_bio_data_formats.ipynb`*
 
-# Bioinformatics Data Formats: A Comprehensive Guide
 
 ## Tier 3 – Applied Bioinformatics
 
@@ -68,7 +67,7 @@ except ImportError:
     print("BioPython not installed – pure-Python fallbacks will be used.")
 
 print("Ready.")
-```
+```python
 
 ---
 
@@ -78,11 +77,11 @@ print("Ready.")
 
 FASTA is the simplest sequence format and the *lingua franca* of bioinformatics.
 
-```
+```python
 >sequence_id [optional description]
 AGCTAGCTAGCTAGCTAGCT
 AGCTAGCTAGCTAGCTAGCT   ← wrap at 60–80 chars (conventional)
-```
+```python
 
 Key rules
 - The `>` character **must** be the first character on the header line.
@@ -143,7 +142,7 @@ for header, seq in parse_fasta(sample_fasta):
     print(f"Desc : {' '.join(header.split()[1:])}")
     print(f"Len  : {len(seq)} aa")
     print()
-```
+```python
 
 ```python
 # ── Writing FASTA ─────────────────────────────────────────────────────────
@@ -161,7 +160,7 @@ output = write_fasta([
     ("another_gene|456 Second record",         "ATCGATCGATCGATCGATCG"),
 ])
 print(output)
-```
+```python
 
 ```python
 # ── FASTA index (.fai) ────────────────────────────────────────────────────
@@ -206,7 +205,7 @@ def faidx_fetch(fasta_path, fai_path, chrom, start, end):
     return seq
 
 print("\nfaidx_fetch is defined – call it on a real .fa/.fai pair to fetch regions.")
-```
+```python
 
 ---
 
@@ -216,19 +215,19 @@ print("\nfaidx_fetch is defined – call it on a real .fa/.fai pair to fetch reg
 
 FASTQ extends FASTA by embedding per-base quality scores.
 
-```
+```python
 @SEQ_ID [optional description]    ← header line (@ not >)
 AGCTAGCTAGCTAGCT                  ← raw sequence (may NOT wrap)
 +                                 ← separator (optionally repeats the header)
 IIIIIIIIIIIIIIII                  ← quality string, same length as sequence
-```
+```python
 
 Each ASCII character in the quality string encodes a **Phred score**:
 
-```
+```python
 Phred(Q) = -10 × log₁₀(P_error)
 ASCII offset 33 (Sanger/Illumina ≥1.8): quality_char = chr(Q + 33)
-```
+```python
 
 ### 2.2 Quality encoding history
 
@@ -296,7 +295,7 @@ for hdr, seq, qual in parse_fastq(sample_fastq):
     print(f"  Min Q   : {min(q_vals)}  Max Q: {max(q_vals)}")
     print(f"  Q≥30 %  : {sum(q>=30 for q in q_vals)/len(q_vals)*100:.1f}%")
     print()
-```
+```python
 
 ```python
 # ── FASTQ quality histogram (text-based) ─────────────────────────────────
@@ -310,7 +309,7 @@ print(f"{'Q':>4}  {'count':>5}  bar")
 for q in sorted(counts):
     bar = '█' * counts[q]
     print(f"{q:>4}  {counts[q]:>5}  {bar}")
-```
+```python
 
 ---
 
@@ -320,12 +319,12 @@ for q in sorted(counts):
 
 **SAM (Sequence Alignment/Map)** is the universal format for read alignments.
 
-```
+```python
 @HD  VN:1.6  SO:coordinate          ← header section (lines starting with @)
 @SQ  SN:chr1  LN:248956422
 @PG  ID:bwa  PN:bwa  VN:0.7.17
 read1  0  chr1  100  60  50M  *  0  0  ACGT...  IIII...  NM:i:0
-```
+```python
 
 #### SAM FLAG field (column 2)
 
@@ -406,4 +405,10 @@ def flag_summary(flag):
 # Typical Illumina paired-end properly-mapped read1
 for flag in [99, 147, 4, 1024, 2064]:
     print(f"FLAG {flag:>5} (0x{flag:04X}): {flag_summary(flag)}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

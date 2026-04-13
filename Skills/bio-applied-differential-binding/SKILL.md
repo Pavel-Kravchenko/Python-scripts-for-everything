@@ -1,6 +1,6 @@
 ---
 name: bio-applied-differential-binding
-description: "**Tier 3 — Applied Bioinformatics | Module 24 · Notebook 2**"
+description: "Differential binding analysis for ChIP-seq: DiffBind workflow, consensus peaks, normalization, and MA/volcano plots. Use when comparing ChIP-seq signal between conditions."
 tool_type: python
 source_notebook: "Tier_3_Applied_Bioinformatics/24_ChIP_seq_Epigenomics/02_differential_binding.ipynb"
 primary_tool: Matplotlib
@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/24_ChIP_seq_Epigenomics/02_differential_binding.ipynb`*
 
-# Differential Binding & Peak Annotation
 
 **Tier 3 — Applied Bioinformatics | Module 24 · Notebook 2**
 
@@ -59,7 +58,7 @@ except ImportError:
 plt.rcParams['figure.dpi'] = 100
 plt.rcParams['font.size'] = 11
 print('Setup complete.')
-```
+```python
 
 ## 1. Differential Binding with DiffBind (R)
 
@@ -118,7 +117,7 @@ The **DiffBind sample sheet** is a CSV file with one row per sample and columns 
 # # Export to BED
 # rtracklayer::export(db_peaks, 'diffbind_results.bed')
 print('R code shown as comments — run in an R environment or Rscript.')
-```
+```python
 
 ```python
 import numpy as np
@@ -212,7 +211,7 @@ axes[1].legend(markerscale=2)
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 2. Peak Annotation with ChIPseeker
 
@@ -267,7 +266,7 @@ Visualisation in ChIPseeker conveys biology directly: `plotAnnoPie()` and `plotA
 # promoter_peaks <- anno_df[abs(anno_df$distanceToTSS) < 2000, ]
 # cat('Promoter-associated peaks:', nrow(promoter_peaks), '\n')
 print('R code shown as comments — run in an R environment or Rscript.')
-```
+```python
 
 ```python
 import numpy as np
@@ -341,4 +340,10 @@ axes[1].set_xlim(-50000, 50000)
 
 plt.tight_layout()
 plt.show()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

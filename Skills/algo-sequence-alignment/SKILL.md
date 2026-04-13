@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/10_Dynamic_Programming/04_sequence_alignment.ipynb`*
 
-# 🧬 Sequence Alignment with Dynamic Programming
 
 ## Learning Objectives
 
@@ -85,7 +84,7 @@ for r in bases:
     for c in bases:
         print(f"{DNA_SCORE[(r,c)]:>5}", end="")
     print()
-```
+```python
 
 ## DP Table Fill: Step by Step
 
@@ -148,7 +147,7 @@ s1, s2 = "AGTC", "AATC"
 dp = build_nw_dp(s1, s2)
 print(f"NW DP table for seq1='{s1}', seq2='{s2}' (match=1, mismatch=-1, gap=-2):\n")
 print_dp_table(s1, s2, dp)
-```
+```python
 
 ## Traceback Visualization
 
@@ -227,7 +226,7 @@ def visualize_traceback(seq1, seq2, match=1, mismatch=-1, gap=-2):
     print("\nLegend: * = traceback path  D=\\ diagonal  U=| up  L=- left")
 
 visualize_traceback("AGTC", "AATC")
-```
+```python
 
 ## Global vs Local Alignment
 
@@ -303,4 +302,10 @@ print(f"Global Alignment (Needleman-Wunsch)")
 print(f"Score: {score}")
 print(f"Seq1: {a1}")
 print(f"Seq2: {a2}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_0_Computational_Foundations/02_Git_Version_Control/01_git_version_control.ipynb`*
 
-# Module 0.2: Git Version Control for Scientists
 
 ---
 
@@ -76,7 +75,7 @@ git config --global core.editor "nano"    # or "vim", or "code --wait" for VS Co
 
 # Verify your configuration
 git config --list
-```
+```python
 
 ---
 
@@ -85,7 +84,7 @@ git config --list
 Every file in a Git repo exists in one of three states. Understanding this model
 is the key to understanding everything else in Git.
 
-```
+```python
 +----------------+     git add     +----------------+    git commit    +----------------+
 |    WORKING     | -------------> |    STAGING      | -------------> |   REPOSITORY   |
 |   DIRECTORY    |                |   AREA (index)  |                |   (commits)    |
@@ -93,7 +92,7 @@ is the key to understanding everything else in Git.
 
   Your files as         Files marked           Permanent snapshots
   you edit them         "ready to commit"      of your project
-```
+```python
 
 **Why a staging area?** It lets you commit a subset of your changes. For example,
 you fixed a bug AND started a new feature in the same session. You can stage and
@@ -120,7 +119,7 @@ git init
 
 # Check the status of your repo
 git status
-```
+```python
 
 ### Setting Up a Bioinformatics Project with Git
 
@@ -148,7 +147,7 @@ EOF
 
 echo "Project created and initialized!"
 git status
-```
+```python
 
 ---
 
@@ -215,7 +214,7 @@ GITIGNORE
 
 echo ".gitignore created"
 cat .gitignore
-```
+```python
 
 **What TO track in Git:**
 
@@ -252,7 +251,7 @@ git commit -m "Initialize project with README and .gitignore"
 
 # Verify
 git log --oneline
-```
+```python
 
 ```python
 %%bash
@@ -286,14 +285,14 @@ EOF
 git add scripts/deseq2_analysis.R
 git commit -m "Add DESeq2 differential expression analysis script"
 git log --oneline
-```
+```python
 
 ### Writing Good Commit Messages
 
 Commit messages are for your future self and your collaborators. They should explain
 the *why*, not just the *what*.
 
-```
+```python
 BAD commit messages:             GOOD commit messages:
 
   "fix"                            "Fix off-by-one error in codon extraction"
@@ -305,21 +304,21 @@ BAD commit messages:             GOOD commit messages:
 Template:  <verb> <what> [context/reason]
 
 Common verbs: Add, Fix, Update, Remove, Refactor, Optimize, Implement
-```
+```python
 
 For longer messages, use the editor instead of `-m`:
 
 ```bash
 git commit    # Opens your editor for a multi-line message
-```
+```python
 
 Multi-line message convention:
-```
+```python
 Short summary (50 chars or less)
 
 Detailed explanation of what changed and why. Wrap at 72 characters.
 Reference relevant issues: Fixes #42
-```
+```python
 
 ---
 
@@ -348,7 +347,7 @@ git diff HEAD~1                  # Changes since the previous commit
 # Show details of a specific commit
 git show HEAD                    # Latest commit with full diff
 # git show abc123                # Specific commit by hash
-```
+```python
 
 ### Practical example: Tracking pipeline changes
 
@@ -371,7 +370,7 @@ git commit -m "Tighten significance threshold from 0.05 to 0.01"
 echo ""
 echo "=== Commit history ==="
 git log --oneline
-```
+```python
 
 ---
 
@@ -408,7 +407,7 @@ echo '  restore --staged  = unstage'
 echo '  reset --soft      = undo commit, keep changes staged'
 echo '  reset --hard      = undo commit, DELETE changes (dangerous)'
 echo '  revert            = new commit that undoes an old one (safe)'
-```
+```python
 
 ### When to use each undo method
 
@@ -431,10 +430,16 @@ each other. This is essential when:
 - Multiple lab members are working on different analyses
 - You need to fix a bug while a new feature is half-done
 
-```
+```python
 main -------*--------*---------------------*---*---> (stable code)
              \                             /   /
               *---*---*---*--- feature ---/   /      (new analysis method)
                    \                        /
                     *---*--- bugfix -------/         (quick fix)
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

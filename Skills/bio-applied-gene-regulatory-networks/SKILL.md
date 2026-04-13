@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/28_Network_Biology/03_gene_regulatory_networks.ipynb`*
 
-# Gene Regulatory Network Inference
 
 **Tier 3 — Applied Bioinformatics | Module 28 · Notebook 3**
 
@@ -121,7 +120,7 @@ print(f"Transcription factors: {n_tfs}")
 print(f"Target genes: {n_targets}")
 print(f"True regulatory edges: {int(np.abs(true_grn) > 0).sum()}")
 print(f"Sparsity: {1 - (np.abs(true_grn)>0).mean():.2%}")
-```
+```python
 
 ## 2. Correlation-Based GRN Inference
 
@@ -146,7 +145,7 @@ from sklearn.covariance import GraphicalLassoCV
 glasso = GraphicalLassoCV(cv=5).fit(tf_expr)
 partial_corr = -glasso.precision_ / np.outer(np.sqrt(np.diag(glasso.precision_)),
                                                np.sqrt(np.diag(glasso.precision_)))
-```
+```python
 
 ```python
 # ----- Correlation-based GRN inference -----
@@ -229,7 +228,7 @@ axes[2].legend(fontsize=8)
 
 plt.tight_layout()
 plt.show()
-```
+```python
 
 ## 3. Mutual Information: ARACNE Algorithm
 
@@ -242,16 +241,16 @@ plt.show()
 
 ### Data Processing Inequality (DPI)
 For three variables A, B, C forming a chain A → B → C:
-```
+```python
 MI(A, B) >= MI(A, C)  and  MI(B, C) >= MI(A, C)
-```
+```python
 ARACNE removes the weakest edge in any triangle of 3 highly connected genes, keeping only direct regulatory relationships.
 
 ### VIPER: Protein activity inference from GRN
 VIPER uses the inferred regulon (TF → target weights from ARACNE) to infer TF **activity** (not just expression) from gene expression data:
 ```python
 # In R: viper(expr_matrix, regulon=aracne_output, method="ttest")
-```
+```python
 
 ```python
 # ----- Mutual Information-based GRN (ARACNE concept) -----
@@ -333,4 +332,10 @@ plt.show()
 print(f"MI-based: Precision={prec_mi:.3f}, Recall={rec_mi:.3f}")
 print(f"Pearson:  Precision={precision:.3f}, Recall={recall:.3f}")
 print(f"\nARACNE applies Data Processing Inequality (DPI) to prune indirect edges.")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

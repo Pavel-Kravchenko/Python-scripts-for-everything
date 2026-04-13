@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_1_Python_for_Bioinformatics/15_Error_Handling/01_error_handling.ipynb`*
 
-# Module 15: Error Handling and Debugging
 
 ## Writing Robust Bioinformatics Code
 
@@ -57,7 +56,7 @@ except ParseError:
     log.warning(f"bad file: {file}")
 else:
     analyze(seq)   # only runs if parse succeeded
-```
+```python
 
 **3. `raise ... from ...` preserves the chain**
 When catching one exception and raising another, use `raise NewError(...) from original` to keep the full traceback chain. Without `from`, the original cause is hidden.
@@ -83,7 +82,7 @@ def gc_content(seq):
 print(f"Normal: {gc_content('ATGCGC'):.1f}%")
 print(f"Empty:  {gc_content('')}%")
 print(f"Wrong type: {gc_content(12345)}")
-```
+```python
 
 **Rule:** Always catch specific exceptions. A bare `except:` hides bugs
 by catching everything, including `KeyboardInterrupt` and `SystemExit`.
@@ -144,7 +143,7 @@ print(f"Result: {seqs}\n")
 
 print("--- Non-existent file ---")
 seqs = read_fasta('does_not_exist.fasta')
-```
+```python
 
 ## 4. Raising Exceptions
 
@@ -182,7 +181,7 @@ for seq, description in test_cases:
         print(f"  {description}: OK -> {result}")
     except (TypeError, ValueError) as e:
         print(f"  {description}: FAILED -> {e}")
-```
+```python
 
 ## 5. Custom Exceptions
 
@@ -235,7 +234,7 @@ class FastaParseError(BioinformaticsError):
 class TranslationError(BioinformaticsError):
     """Raised when DNA/RNA translation fails."""
     pass
-```
+```python
 
 ```python
 # Using custom exceptions
@@ -293,7 +292,7 @@ for seq in test_cases:
     except BioinformaticsError as e:
         # Catches any BioinformaticsError subclass not caught above
         print(f"  '{seq}' -> General bio error: {e}")
-```
+```python
 
 ## 6. Exception Chaining
 
@@ -344,7 +343,7 @@ except FastaParseError as e:
     print(f"\nParse error: {e}")
     if e.__cause__:
         print(f"  Caused by: {e.__cause__}")
-```
+```python
 
 ## 7. Handling Malformed FASTA Files
 
@@ -425,4 +424,10 @@ try:
     seqs = strict_fasta_parser('bad2.fasta')
 except FastaParseError as e:
     print(f"Parse error: {e}")
-```
+```python
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level

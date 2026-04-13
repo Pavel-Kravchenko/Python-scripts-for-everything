@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_2_Core_Bioinformatics/01_Biological_Databases/01_biological_databases.ipynb`*
 
-# Biological Databases
 
 Modern bioinformatics depends on large, well-curated public databases. This notebook covers the major databases you will use daily as a bioinformatician: where biological data lives, what each database contains, and how to access it programmatically.
 
@@ -72,7 +71,7 @@ except Exception as e:
     print("Check your internet connection. You can still read the notebook offline.")
 
 print("\nImports ready: Bio.Entrez, Bio.SeqIO, urllib.request, json")
-```
+```python
 
 ### 1.3 NCBI Gene
 
@@ -138,7 +137,7 @@ print(f"NCBI has {len(db_list)} databases:\n")
 for i in range(0, len(db_list), 5):
     row = db_list[i:i+5]
     print("  ".join(f"{db:<18}" for db in row))
-```
+```python
 
 ```python
 # Get details about a specific database
@@ -154,7 +153,7 @@ print(f"Last updated: {info['LastUpdate']}")
 print(f"\nSearchable fields ({len(info['FieldList'])}):\n")
 for field in info['FieldList'][:10]:
     print(f"  [{field['Name']}] - {field['FullName']}: {field['Description']}")
-```
+```python
 
 ### 2.1 Searching NCBI with esearch()
 
@@ -181,7 +180,7 @@ print(f"Total matches: {results['Count']}")
 print(f"IDs returned: {results['IdList']}")
 print(f"\nNote: retmax={10}, so up to 10 IDs are returned.")
 print(f"Set retmax higher to get more IDs.")
-```
+```python
 
 ```python
 # Search PubMed for recent bioinformatics papers
@@ -195,7 +194,7 @@ handle.close()
 
 print(f"Total CRISPR + bioinformatics papers (2023-2024): {results['Count']}")
 print(f"First 5 PubMed IDs: {results['IdList']}")
-```
+```python
 
 ### 2.2 Fetching Records with efetch()
 
@@ -222,7 +221,7 @@ print(f"ID: {record.id}")
 print(f"Description: {record.description}")
 print(f"Length: {len(record)} bp")
 print(f"First 60 nt: {record.seq[:60]}")
-```
+```python
 
 ```python
 # Fetch in GenBank format to get full annotations
@@ -247,7 +246,7 @@ for key in ['organism', 'taxonomy', 'keywords']:
 print(f"\nFeatures ({len(record.features)}):")
 for feat in record.features:
     print(f"  {feat.type:12s} {feat.location}")
-```
+```python
 
 ```python
 # Extract CDS from the GenBank record and translate it
@@ -273,7 +272,7 @@ for feature in record.features:
         if "gene" in feature.qualifiers:
             print(f"\nGene: {feature.qualifiers['gene'][0]}")
         break
-```
+```python
 
 ```python
 # Fetch a PubMed abstract
@@ -288,7 +287,7 @@ handle.close()
 
 print("PubMed record:")
 print(abstract_text[:1000])
-```
+```python
 
 ### 2.3 Linking Between Databases with elink()
 
@@ -310,7 +309,7 @@ for linkset in link_results:
         print(f"Link name: {link_db['LinkName']}")
         for link in link_db["Link"][:5]:
             print(f"  Protein ID: {link['Id']}")
-```
+```python
 
 ---
 ## 3. UniProt: The Protein Knowledgebase
@@ -354,7 +353,7 @@ print(f"\nSequence:")
 seq = insulin['sequence']['value']
 for i in range(0, len(seq), 60):
     print(f"  {seq[i:i+60]}")
-```
+```python
 
 ```python
 # Explore protein function and annotations
@@ -378,4 +377,10 @@ for ref in pdb_refs[:5]:
     props = {p['key']: p['value'] for p in ref.get('properties', [])}
     print(f"  {ref['id']} - Method: {props.get('Method', 'N/A')}, "
           f"Resolution: {props.get('Resolution', 'N/A')}")
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

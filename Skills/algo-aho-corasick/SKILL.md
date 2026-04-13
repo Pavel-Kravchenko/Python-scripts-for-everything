@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/08_Advanced_String_Structures/02_aho_corasick.ipynb`*
 
-# Aho-Corasick Algorithm
 
 ## Multi-Pattern String Matching
 
@@ -73,10 +72,10 @@ Aho-Corasick combines two concepts:
 
 ### From KMP to Aho-Corasick
 
-```
+```python
 KMP:           Single pattern → Prefix function on that pattern
 Aho-Corasick:  Multiple patterns → Trie + failure links between nodes
-```
+```python
 
 ### Failure Link Definition
 
@@ -92,7 +91,7 @@ If no such suffix exists, `fail[v]` = root.
 
 **Patterns: "he", "she", "his", "hers"**
 
-```
+```python
               (0) root
              /    \
            h        s
@@ -124,11 +123,11 @@ States:
   (7) = "sh"
   (8) = "she"   [outputs: "she", "he"]  ← also outputs "he" via dictionary link!
   (9) = "hers"  [outputs: "hers"]
-```
+```python
 
 ### Failure Links (dashed arrows)
 
-```
+```python
 fail[1] = 0    "h"   → no proper suffix is prefix of pattern → root
 fail[2] = 0    "he"  → "e" not in trie → root
 fail[3] = 0    "her" → "er", "r" not in trie → root
@@ -139,7 +138,7 @@ fail[6] = 0    "s"   → no proper suffix → root
 fail[7] = 1    "sh"  → "h" is in trie → state 1
 fail[8] = 2    "she" → "he" is in trie → state 2  ← This is key!
 fail[9] = 6    "hers"→ "s" is in trie → state 6
-```
+```python
 
 **Key insight**: `fail[8] = 2` means when we're at "she", we also know "he" matches!
 
@@ -151,7 +150,7 @@ fail[9] = 6    "hers"→ "s" is in trie → state 6
 
 We compute failure links level by level using BFS:
 
-```
+```python
 1. fail[root] = root
 2. For all children c of root: fail[c] = root  (depth-1 nodes)
 3. BFS from depth-1 nodes:
@@ -163,11 +162,11 @@ We compute failure links level by level using BFS:
          fail[v] = f.child['a']
      - Else:
          fail[v] = root
-```
+```python
 
 ### Example: Computing Failure Links
 
-```
+```python
 Patterns: "he", "she", "his", "hers"
 
 ═══════════════════════════════════════════════════════════════
@@ -224,7 +223,7 @@ Level 4: Process children of level 3 (state 9)
     parent = 3, parent_fail = fail[3] = root
     Does root have 's' child? YES → state 6
     → fail[9] = 6
-```
+```python
 
 ---
 
@@ -242,20 +241,20 @@ Following `fail[8] = 2`, we find state 2 which outputs "he". But this requires e
 
 Alternative approach: **Output list** - precompute all patterns that end at each state (including via failure chain).
 
-```
+```python
 out[8] = ["she", "he"]  ← "she" is direct, "he" comes from fail[8]=2
 out[2] = ["he"]
 out[5] = ["his"]
 out[9] = ["hers"]
-```
+```python
 
 ### Computing Output Lists (during BFS)
 
-```
+```python
 For each node v (in BFS order):
     out[v] = patterns ending at v
     out[v] += out[fail[v]]  ← inherit from failure link
-```
+```python
 
 This ensures all shorter patterns "contained" in longer ones are reported.
 
@@ -265,7 +264,7 @@ This ensures all shorter patterns "contained" in longer ones are reported.
 
 ### Algorithm
 
-```
+```python
 state = root
 for i = 0 to n-1:
     c = text[i]
@@ -276,11 +275,11 @@ for i = 0 to n-1:
     # Report all patterns ending here
     for pattern in out[state]:
         report match at position (i - len(pattern) + 1)
-```
+```python
 
 ### Search Example
 
-```
+```python
 Text: "ushers"
 Patterns: "he", "she", "hers"
 
@@ -319,7 +318,7 @@ Results:
   "he"   found at position 2
   "hers" found at position 2
 ═══════════════════════════════════════════════════════════════
-```
+```python
 
 ---
 
@@ -374,7 +373,7 @@ class AhoCorasickNode:
     
     def __repr__(self) -> str:
         return f"Node(depth={self.depth}, children={list(self.children.keys())}, output={self.output})"
-```
+```python
 
 ```python
 class AhoCorasick:
@@ -566,4 +565,10 @@ class AhoCorasick:
     def patterns(self) -> List[str]:
         """Return the list of patterns added to the automaton."""
         return self._patterns.copy()
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

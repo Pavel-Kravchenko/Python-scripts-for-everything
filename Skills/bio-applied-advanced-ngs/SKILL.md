@@ -21,7 +21,6 @@ package and adapt the example to match the actual API rather than retrying.
 
 *Source: Course notebook `Tier_3_Applied_Bioinformatics/17_Genome_Assembly_and_Advanced_NGS/02_advanced_ngs.ipynb`*
 
-# Genome Assembly and Advanced NGS
 
 ## Tier 3 - Applied Bioinformatics
 
@@ -54,7 +53,7 @@ random.seed(42)
 np.random.seed(42)
 
 print("Libraries loaded.")
-```
+```python
 
 ---
 
@@ -150,7 +149,7 @@ for i, j, ov in sorted(overlaps, key=lambda x: -x[2]):
 result = greedy_assemble_olc(reads, min_overlap=5)
 print(f"\nAssembly result: {result[0]}")
 print(f"Expected (lecture):  AGCTACAGTATGCTATCTGATACCTTAGCCA")
-```
+```python
 
 ### 1.3 De Bruijn Graph Assembly for Short Reads
 
@@ -264,7 +263,7 @@ for src in sorted(g.keys()):
     for dst in g[src]:
         kmer = src + dst[-1]
         print(f"  {src} -> {dst}  [{kmer}]")
-```
+```python
 
 ```python
 # Fix the adjacency copy (use items() properly) and assemble a small sequence
@@ -339,7 +338,7 @@ print(f"\nAssembled contigs:")
 for c in contigs:
     match = "MATCH" if c == target else ("PARTIAL" if c in target else "MISMATCH")
     print(f"  {c} [{match}]")
-```
+```python
 
 ### 1.4 Real-World Assemblers
 
@@ -370,4 +369,10 @@ flye --nano-raw reads.fastq.gz --genome-size 5m --out-dir flye_output/ --threads
 
 # hifiasm for PacBio HiFi
 hifiasm -o assembly -t 16 hifi_reads.fastq.gz
-```
+```python
+
+## Common Pitfalls
+
+- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
+- **Batch effects**: Always check for batch confounding before interpreting biological signal
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously

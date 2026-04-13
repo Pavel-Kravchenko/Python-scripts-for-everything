@@ -52,7 +52,7 @@ ir.tl.alpha_diversity(mdata, groupby='condition', target_col='clone_id')
 # V-gene usage
 ir.pl.vdj_usage(mdata, full_combination=True)
 ir.pl.clonotype_network(mdata, color='condition')
-```
+```python
 
 ## TRUST4 Bulk Repertoire
 
@@ -66,7 +66,7 @@ run-trust4 \
     -o trust4_output
 
 # Output: trust4_output_report.tsv (CDR3, V, J, abundance)
-```
+```python
 
 ## OptiType HLA Typing
 
@@ -83,7 +83,7 @@ OptiTypePipeline.py \
     --outdir hla_typing/ \
     --prefix sample
 # Output: sample_result.tsv → HLA-A,B,C alleles
-```
+```python
 
 ## Neoantigen Prediction (Python)
 
@@ -109,7 +109,7 @@ def extract_peptides(mut_aa_seq, position, lengths=[9, 10, 11]):
 # 3. NetMHCpan prediction
 # !netMHCpan -p peptides.txt -a HLA-A02:01,HLA-B07:02 -l 9,10,11 -BA > binding.txt
 # Filter: rank < 0.5 = strong binder, rank < 2.0 = weak binder
-```
+```python
 
 ## Clonotype Diversity Metrics
 
@@ -130,7 +130,7 @@ def simpson_index(counts):
 def clonal_expansion_index(counts, threshold=2):
     """Fraction of cells in expanded clones (count > threshold)."""
     return np.sum([c for c in counts if c >= threshold]) / np.sum(counts)
-```
+```python
 
 ## Key Databases
 - **IMGT**: V/J/D/C gene segment reference sequences

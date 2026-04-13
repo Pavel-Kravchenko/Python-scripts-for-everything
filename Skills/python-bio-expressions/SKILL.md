@@ -60,7 +60,7 @@ print(f"{a} / {b}  = {a / b}")      # always returns float
 print(f"{a} // {b} = {a // b}")     # truncates toward negative infinity
 print(f"{a} % {b}  = {a % b}")      # remainder
 print(f"{a} ** 2 = {a ** 2}")       # exponentiation
-```
+```python
 
 ### Division: `/` vs `//`
 
@@ -77,7 +77,7 @@ print(f"7 % 2  = {7 % 2}")     # 1    (remainder)
 # Verify: (a // b) * b + (a % b) == a
 a, b = 7, 2
 print(f"\nVerification: {a // b} * {b} + {a % b} = {(a // b) * b + (a % b)} == {a}")
-```
+```python
 
 ### Bio application: Codons and reading frames
 
@@ -93,7 +93,7 @@ remaining_nucleotides = seq_length % 3
 print(f"Sequence length: {seq_length} nt")
 print(f"Complete codons: {complete_codons}")
 print(f"Leftover nucleotides: {remaining_nucleotides}")
-```
+```python
 
 ```python
 # Which reading frame is a given position in?
@@ -105,7 +105,7 @@ print("-" * 27)
 for pos in positions:
     frame = pos % 3
     print(f"{pos:>10} {frame:>15}")
-```
+```python
 
 ### Bio application: GC content calculation
 
@@ -123,7 +123,7 @@ gc_content = (g_count + c_count) / total * 100
 print(f"Sequence: {sequence}")
 print(f"G: {g_count}, C: {c_count}, Total: {total}")
 print(f"GC content: {gc_content:.2f}%")
-```
+```python
 
 ### Bio application: Protein molecular weight
 
@@ -143,7 +143,7 @@ print(f"Protein: p53 ({num_amino_acids} amino acids)")
 print(f"Estimated MW: {protein_mw:,} Da")
 print(f"Estimated MW: {protein_mw / 1000:.1f} kDa")
 print(f"(Actual MW of p53: ~43.7 kDa)")
-```
+```python
 
 ### Augmented assignment operators
 
@@ -170,7 +170,7 @@ for nucleotide in sequence:
 
 print(f"GC count: {gc_count}")
 print(f"GC content: {gc_count / len(sequence) * 100:.1f}%")
-```
+```python
 
 ---
 
@@ -196,7 +196,7 @@ print(f"GC > 0.5?    {gc_content > 0.5}")      # True
 print(f"GC < 0.4?    {gc_content < 0.4}")      # False
 print(f"GC == 0.65?  {gc_content == 0.65}")    # True
 print(f"GC != 0.5?   {gc_content != 0.5}")     # True
-```
+```python
 
 ### Chained comparisons
 
@@ -214,7 +214,7 @@ in_range_2 = 0.40 <= gc_content <= 0.60
 
 print(f"GC = {gc_content}")
 print(f"In normal range (40-60%)? {in_range_2}")
-```
+```python
 
 ```python
 # Bio application: classifying GC content
@@ -234,7 +234,7 @@ def classify_gc(gc_percent):
 test_values = [19.4, 35.0, 41.0, 50.7, 65.0, 72.0]
 for gc in test_values:
     print(f"  GC {gc:.1f}% -> {classify_gc(gc)}")
-```
+```python
 
 ### Comparing strings
 
@@ -250,7 +250,7 @@ print(f"'ATG' < 'GGG':  {'ATG' < 'GGG'}")    # True (A < G in ASCII)
 seq1 = "ATGC"
 seq2 = "atgc"
 print(f"\nCase-insensitive match: {seq1.upper() == seq2.upper()}")
-```
+```python
 
 ---
 
@@ -266,13 +266,13 @@ Logical operators combine boolean expressions:
 
 ### Truth tables
 
-```
+```python
 A     B     A and B    A or B    not A
 True  True  True       True      False
 True  False False      True      False
 False True  False      True      True
 False False False      False     True
-```
+```python
 
 ```python
 # Sequence quality filters
@@ -295,7 +295,7 @@ print(f"Length ({seq_length}): valid? {valid_length}")
 print(f"GC ({gc_content}):   valid? {valid_gc}")
 print(f"No ambiguity:   {no_ambiguity}")
 print(f"Passes QC:      {passes_qc}")
-```
+```python
 
 ```python
 # Bio application: checking if a codon is a stop codon
@@ -307,7 +307,7 @@ print(f"Is '{codon}' a stop codon? {is_stop}")
 # More Pythonic way (using 'in'):
 is_stop = codon in ["TAA", "TAG", "TGA"]
 print(f"Is '{codon}' a stop codon? {is_stop}")
-```
+```python
 
 ```python
 # Bio application: filter sequences by multiple criteria
@@ -323,7 +323,7 @@ print("Sequences passing filters (length >= 10, 0.3 <= GC <= 0.7):")
 for name, seq, gc in sequences:
     if len(seq) >= 10 and 0.3 <= gc <= 0.7:
         print(f"  {name}: length={len(seq)}, GC={gc:.0%}")
-```
+```python
 
 ---
 
@@ -339,7 +339,7 @@ print(f"'ATG' in sequence? {'ATG' in dna}")     # True (start codon present)
 print(f"'GGG' in sequence? {'GGG' in dna}")     # True
 print(f"'TTT' in sequence? {'TTT' in dna}")     # False
 print(f"'TTT' not in sequence? {'TTT' not in dna}")  # True
-```
+```python
 
 ```python
 # Check membership in a list of stop codons
@@ -350,7 +350,7 @@ test_codons = ["ATG", "TAA", "GGG", "TGA", "CCC", "TAG"]
 for codon in test_codons:
     status = "STOP" if codon in stop_codons else "coding"
     print(f"  {codon} -> {status}")
-```
+```python
 
 ```python
 # Validate a DNA sequence using 'in'
@@ -365,7 +365,7 @@ def is_valid_dna(sequence):
 print(is_valid_dna("ATGCGATCG"))    # True
 print(is_valid_dna("ATGCXYZ"))      # False
 print(is_valid_dna("augcgaucg"))    # True (after upper())
-```
+```python
 
 ```python
 # Membership in dictionaries checks KEYS, not values
@@ -379,7 +379,7 @@ codon_table = {
 
 print(f"'ATG' in codon_table? {'ATG' in codon_table}")     # True (it is a key)
 print(f"'Met' in codon_table? {'Met' in codon_table}")     # False (it is a value, not a key)
-```
+```python
 
 ### Performance note: `in` with sets vs lists
 
@@ -397,7 +397,7 @@ print("G" in valid_nucleotides_list)  # True (scans the list)
 print("G" in valid_nucleotides_set)   # True (hash lookup -- much faster)
 
 # Rule of thumb: use sets when you only need membership testing
-```
+```python
 
 ---
 
@@ -421,7 +421,7 @@ print(f"Exon 1: {exon1}")
 print(f"Exon 2: {exon2}")
 print(f"Exon 3: {exon3}")
 print(f"Spliced mRNA: {mrna}")
-```
+```python
 
 ```python
 # Building a FASTA entry
@@ -430,8 +430,14 @@ sequence = "ATGCGATCGATCGATCGATCG"
 
 fasta_entry = header + "\n" + sequence
 print(fasta_entry)
-```
+```python
 
 ### Repetition (`*`)
 
 Repeat a string a given number of times.
+
+## Common Pitfalls
+
+- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
+- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
+- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level
