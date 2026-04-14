@@ -7,18 +7,12 @@ primary_tool: NumPy
 
 # ESM2 Embeddings and ESMFold
 
-## How to work through this notebook
+## Usage Notes
 
-1. Read the ESM2 architecture section (Section 1) to understand what information the embeddings encode.
-2. The toy embedding baseline (Section 2) demonstrates that even amino acid composition gives useful signal — ESM2 embeddings are much richer.
-3. The real ESM2 loading pattern (Section 3) is commented for portability; run it when you have a GPU available.
-4. ESMFold (Section 4) shows the structure prediction API pattern.
-
-## Common sticking points
-
-- **Mean pooling vs per-residue embeddings**: mean pooling over all residues gives a single vector per protein (use for sequence-level tasks). Per-residue embeddings (one per amino acid) are used for residue-level tasks like variant scoring and annotation.
-- **Which layer to extract from?** Later layers encode more abstract biological function; earlier layers encode more local sequence context. For most downstream tasks, the last or second-to-last layer works well. For structural prediction tasks, intermediate layers can be better.
-- **ESMFold vs AF2**: ESMFold is ~10–60× faster (no MSA needed) but typically less accurate than AF2, especially for proteins with many homologs in databases. Use ESMFold for rapid screening and AF2 for final structural analysis.
+- **Mean pooling**: pool over all residues → single vector per protein (sequence-level tasks)
+- **Per-residue**: one vector per AA → residue-level tasks (variant scoring, annotation)
+- **Layer selection**: last/second-to-last for most tasks; intermediate layers can improve structural tasks
+- **ESMFold vs AF2**: ESMFold ~60× faster (no MSA), but less accurate for proteins with many homologs — use for rapid screening, AF2 for final analysis
 
 ```python
 import numpy as np
@@ -28,9 +22,9 @@ np.random.seed(9)
 
 ## ESM2 Architecture
 
-ESM2 (Lin et al., 2023, Science) is a family of transformer-based protein language models trained on UniRef50 (~250M sequences). It uses the standard **masked language model (MLM)** pretraining objective — randomly masking ~15% of amino acids and training the model to predict them from context.
+ESM2 (Lin et al., 2023, Science) — transformer protein LM trained on UniRef50 (~250M sequences) with MLM objective (~15% masking).
 
-### Model variants
+### Model Variants
 
 | Model | Layers | Embedding dim | Parameters |
 |---|---|---|---|
@@ -41,27 +35,23 @@ ESM2 (Lin et al., 2023, Science) is a family of transformer-based protein langua
 | ESM2-3B | 36 | 2560 | 3B |
 | ESM2-15B | 48 | 5120 | 15B |
 
-For most bioinformatics tasks, ESM2-650M is the sweet spot: large enough to capture complex structural signals, small enough to run on a single GPU.
+ESM2-650M is the sweet spot for most tasks: strong signal, single-GPU feasible.
 
 ### Tokenization
 
-ESM2 uses a 33-token vocabulary:
-- 20 standard amino acids
-- 4 non-standard (B, U, Z, O)
-- Special tokens: `<cls>`, `<eos>`, `<pad>`, `<mask>`, `<unk>`
-- NO k-mer or subword tokenization — every amino acid is one token
+- 33-token vocabulary: 20 standard AAs + 4 non-standard (B, U, Z, O) + special tokens (`<cls>`, `<eos>`, `<pad>`, `<mask>`, `<unk>`)
+- No k-mer or subword tokenization — one token per amino acid
+- 500-residue protein → 502 tokens, attention matrix 502×502
 
-This means a 500-residue protein uses 502 tokens (sequence + `<cls>` + `<eos>`), and the attention matrix is 502×502.
+### What Embeddings Encode
 
-### What embeddings encode
+Despite no structural annotations during training:
+- Secondary structure ~80% accuracy from linear probes
+- Contact map prediction from attention patterns
+- Enzymatic function: same EC number → cluster together
+- Evolutionary distance correlates with embedding cosine similarity
 
-Despite never seeing structural annotations during training, ESM2 representations:
-- Predict secondary structure (helix/strand/coil) at ~80% accuracy from linear probes
-- Predict contact maps (residue pairs in contact) from attention patterns
-- Encode enzymatic function: sequences from the same EC number cluster together
-- Capture evolutionary distance: sequence similarity correlates with embedding cosine similarity
-
-### Real ESM2 usage pattern (requires GPU + `esm` package)
+### Real ESM2 Usage (requires GPU + `esm`)
 
 ```python
 # pip install fair-esm
@@ -94,9 +84,9 @@ for i, (_, seq) in enumerate(data):
     sequence_representations.append(seq_emb)
 ```
 
-### ESMFold: structure from sequence without MSA
+## ESMFold
 
-ESMFold wraps ESM2-3B with a folding trunk to predict 3D structures. It achieves AlphaFold2-level accuracy on easy targets and is ~60× faster because it skips the MSA search step.
+Wraps ESM2-3B with a folding trunk. ~60× faster than AF2 (no MSA), comparable accuracy on easy targets.
 
 ```python
 # pip install fair-esm
@@ -114,7 +104,11 @@ with open("predicted.pdb", "w") as f:
     f.write(output)
 ```
 
-The output PDB B-factor column contains pLDDT values (0–100), interpreted identically to AlphaFold2.
+Output PDB B-factor column = pLDDT (0–100, same scale as AF2).
+
+## Amino Acid Composition Baseline
+
+Toy 20-dim composition embedding — always benchmark against this before using ESM2. If ESM2 doesn't outperform it, the task may be composition-dependent, not context-dependent.
 
 ```python
 AA = list('ACDEFGHIKLMNPQRSTVWY')
@@ -136,12 +130,6 @@ emb = toy_embed(seq)
 print('Embedding shape:', emb.shape)
 print('Top composition entries:', np.argsort(emb[:20])[-5:][::-1])
 ```
-
-## Amino Acid Composition Baseline
-
-Before using ESM2, it is always worth benchmarking against simple baselines. The `toy_embed` function below computes normalized amino acid composition — a 20-dimensional vector that captures global sequence statistics but ignores position and context.
-
-ESM2 embeddings (1280 dimensions, context-aware) should substantially outperform this baseline on any real task. If they do not, consider whether the task is actually sequence-context-dependent or just composition-dependent.
 
 ```python
 def random_protein(n: int) -> str:
@@ -172,12 +160,10 @@ pred = (((X[test]-c1)**2).sum(axis=1) < ((X[test]-c0)**2).sum(axis=1)).astype(in
 print('Probe accuracy:', float((pred == y[test]).mean()))
 ```
 
-## ESMFold Confidence Interpretation
-
-The pLDDT thresholds for ESMFold output are the same as for AlphaFold2. The confidence_bucket function below encodes the standard interpretation:
+## pLDDT Confidence Buckets
 
 ```python
-# Optional real API usage (network required)
+# Optional REST API (no GPU):
 # import requests
 # sequence  'MKTAYIAKQRQISFVKSHFSRQLEERLGLIEVQ'
 # r  requests.post('https://api.esmatlas.com/foldSequence/v1/pdb/', datasequence)
@@ -197,26 +183,7 @@ for v in [96, 82, 63, 41]:
     print(v, confidence_bucket(v))
 ```
 
-## Practical Guidance
-
-- Use embeddings for large-scale screening and annotation tasks.
-- Use structure prediction when mechanism likely depends on 3D context.
-- Keep confidence-aware filters to avoid overinterpretation.
-
-## Summary
-
-- Embeddings provide compact sequence representations for downstream ML.
-- ESMFold offers fast structure hypotheses.
-- Combining embedding and structure workflows is often more robust than either alone.
-
-## Source-backed Context
-
-- ESM repository documentation groups ESM-2, ESMFold, ESM-1v, and ESM-IF1 as a coherent protein LM ecosystem.
-- ESMFold is used in practice as a fast MSA-free structural hypothesis generator.
-
-## Validated Sources
-
-Checked online during content expansion.
+## References
 
 - [ESM official repository](https://github.com/facebookresearch/esm)
 - [ESM Atlas](https://esmatlas.com)

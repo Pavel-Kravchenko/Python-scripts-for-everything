@@ -7,19 +7,14 @@ primary_tool: NumPy
 
 # Genomic Foundation Models: Nucleotide Transformers, HyenaDNA, and Evo
 
-## How to work through this notebook
+## Tokenization Strategies
 
-1. Read the tokenization section (Section 1) carefully — the k-mer vs character-level tradeoff is a recurring decision point in genomic ML.
-2. Build and run the k-mer embedding baseline (Section 2) before moving to foundation models. This gives you a concrete sense of what 64-dimensional 3-mer features capture.
-3. The promoter probe task (Section 3) is a minimal example of the standard fine-tuning evaluation workflow.
-4. Section 4 (long context) motivates HyenaDNA and similar models — run it to internalize why context length matters biologically.
-
-## Common sticking points
-
-- **k-mer vocabulary explosion**: for k=6, there are 4⁶ = 4096 possible k-mers. For k=8, there are 65,536. This is why most models use k≤6 for explicit k-mer tokenization, and character-level or BPE tokenization at larger scales.
-- **Nucleotide Transformer tokenization**: NT uses 6-mer tokens with a stride of 1, giving a 4096-token vocabulary. A sequence of length L uses approximately L/6 tokens — much shorter than character-level, but loses single-nucleotide resolution.
-- **HyenaDNA's long context**: HyenaDNA replaces self-attention with a state-space model (Hyena operator) to handle sequences up to 1 million nucleotides without the O(L²) cost of standard attention. This is essential for capturing enhancer-promoter interactions at 100kb+ distances.
-- **Evo's scope**: Evo is trained on prokaryotic and viral genomes (not human). Use it for tasks involving microbial sequence design, not mammalian regulatory biology.
+- **Character-level** (`A,C,G,T,N`): highest resolution, long sequences
+- **k-mer tokens** (e.g., k=6): compressed representation; k=6 → 4096-token vocab, k=8 → 65,536 — use k≤6 for explicit k-mer tokenization
+- **BPE/subword**: data-driven token units (used in some genomic LMs)
+- **Nucleotide Transformer**: 6-mer tokens, stride=1, 4096-vocab; ~L/6 tokens per sequence — loses single-nucleotide resolution
+- **HyenaDNA**: replaces self-attention with Hyena state-space operator; handles up to 1M nucleotides without O(L²) attention cost
+- **Evo**: trained on prokaryotic/viral genomes (not human) — use for microbial sequence design, not mammalian regulatory biology
 
 ```python
 import numpy as np
@@ -27,15 +22,6 @@ from collections import Counter
 
 np.random.seed(7)
 ```
-
-## Tokenization in Genomic LMs
-
-DNA models use different tokenization strategies:
-- **Character-level** (`A,C,G,T,N`): highest resolution, long sequences
-- **k-mer tokens** (e.g., k=6): compressed sequence representation
-- **BPE/subword**: data-driven token units (used in some genomic LMs)
-
-k-mers are often a strong baseline for lightweight analysis and sanity checks.
 
 ```python
 def kmers(seq: str, k: int = 6):
@@ -47,9 +33,7 @@ print("Sequence length:", len(sequence))
 print("First 10 6-mers:", kmers(sequence, 6)[:10])
 ```
 
-## Build a Simple Embedding Baseline (k-mer frequency)
-
-Before using large pretrained models, it is useful to benchmark against a compact embedding baseline.
+## k-mer Frequency Embedding Baseline
 
 ```python
 def kmer_embedding(seq: str, vocab: list[str], k: int = 3) -> np.ndarray:
@@ -66,10 +50,9 @@ print("Embedding dimension:", example_vec.shape[0])
 print("Non-zero features:", int((example_vec > 0).sum()))
 ```
 
-## Probe Task: Promoter-like vs Background Sequences
+## Promoter Probe Task (Nearest-Centroid Classifier)
 
-We create synthetic sequences where promoter-like samples include a TATA motif.
-Then we train a tiny nearest-centroid classifier using only k-mer embeddings.
+Synthetic sequences with TATA motif injection; nearest-centroid on k-mer embeddings.
 
 ```python
 def random_dna(n: int) -> str:
@@ -112,10 +95,9 @@ acc = (pred == y_test).mean()
 print(f"Nearest-centroid probe accuracy: {acc:.3f}")
 ```
 
-## Why Long Context Matters
+## Long-Range Context
 
-Some regulatory logic depends on distal sequence elements. Short windows can miss interactions.
-HyenaDNA and similar long-context models are useful when signals are distributed over large spans.
+Enhancer-promoter interactions can span 100kb+; short windows miss distal signals. HyenaDNA and similar long-context models address this.
 
 ```python
 def distal_interaction_label(seq: str) -> int:
@@ -132,9 +114,9 @@ print("Long-range label:", distal_interaction_label(toy_long))
 print("If truncated to 200 bp, end motif is lost -> label can flip.")
 ```
 
-## Practical Model Selection
+## Model Selection
 
-| Task profile | Good first model |
+| Task profile | Preferred model |
 |---|---|
 | Short-window promoter/enhancer classification | DNABERT-2 / Nucleotide Transformer |
 | Distal regulatory context (100kb+) | HyenaDNA |
@@ -142,26 +124,16 @@ print("If truncated to 200 bp, end motif is lost -> label can flip.")
 | Variant effect on expression tracks | Enformer / AlphaGenome |
 | Splicing-focused interpretation | SpliceAI |
 
-Use lightweight baselines first, then escalate to foundation models when context or task complexity demands it.
+Use lightweight baselines first; escalate to foundation models when context or task complexity demands it.
 
-## Optional: Real Model Loading (commented for portability)
+## Key Points
 
-## Summary
+- Tokenization choice changes both context length and biological granularity
+- k-mer embeddings are a strong sanity-check baseline
+- Long-range rules motivate long-context architectures like HyenaDNA
+- Match model family to task: embedding, regulatory prediction, splicing, or generation
 
-- Tokenization choice changes both context length and biological granularity.
-- k-mer embeddings are a strong sanity-check baseline.
-- Long-range rules motivate long-context architectures like HyenaDNA.
-- Match model family to task: embedding, regulatory prediction, splicing, or generation.
-
-## Source-backed Context
-
-- Nucleotide Transformer is maintained as a genomics foundation-model hub by InstaDeep.
-- HyenaDNA emphasizes long-context nucleotide modeling up to ~1M tokens.
-- Evo reports long-context genome-scale modeling and design in prokaryotic settings.
-
-## Validated Sources
-
-Checked online during content expansion.
+## References
 
 - [Nucleotide Transformer repository](https://github.com/instadeepai/nucleotide-transformer)
 - [HyenaDNA repository](https://github.com/HazyResearch/hyena-dna)

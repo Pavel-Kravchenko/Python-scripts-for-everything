@@ -5,27 +5,21 @@ tool_type: python
 primary_tool: Pandas
 ---
 
-# Module T5-01B: LLM Training Systems (Tracking, Epochs, and Ablations)
+# LLM Training Systems: Tracking, Epochs, and Ablations
 
-## How to work through this notebook
+## Robust Training Setup
 
-## Common sticking points
+Five required components:
+1. **Config management** — all hyperparameters captured
+2. **Tracking backend** — W&B / MLflow / TensorBoard
+3. **Evaluation protocol** — fixed validation + task metrics
+4. **Ablation framework** — controlled experiments
+5. **Run registry** — what changed, why, and what improved
 
-- **Why simulated training curves?** Real training requires GPU hours. The simulated curves here let you practice the analysis workflow (early stopping, epoch selection, ablation comparison) without spending compute.
-- **One factor at a time**: changing learning rate and rank simultaneously makes it impossible to attribute differences. Design clean ablations.
-- **Random seed discipline**: fix seeds for dataset splits, weight initialization, and data shuffling before starting a run. Adding seeds retroactively breaks reproducibility.
-- **Primary vs secondary metrics**: pick one primary metric (e.g., eval_loss) before running. Cherry-picking secondary metrics post-hoc is p-hacking for LLMs.
-
-## What an LLM training system includes
-
-A robust setup has five parts:
-1. **Config management** (all hyperparameters captured)
-2. **Tracking backend** (W&B / MLflow / TensorBoard)
-3. **Evaluation protocol** (fixed validation + task metrics)
-4. **Ablation framework** (controlled experiments)
-5. **Run registry** (what changed, why, and what improved)
-
-Without this, you cannot reliably tell whether improvement came from model changes or noise.
+**Key discipline rules:**
+- Change one factor at a time — simultaneous changes make attribution impossible
+- Fix seeds for dataset splits, weight init, and data shuffling before starting any run
+- Pick one primary metric (e.g., `eval_loss`) before running — cherry-picking post-hoc is p-hacking
 
 ```python
 from dataclasses import dataclass, asdict
@@ -63,17 +57,7 @@ cfg = TrainConfig(
 pd.Series(asdict(cfg))
 ```
 
-## Tracking setup templates
-
-Use one tracker consistently across all runs in a project.
-
-### Weights & Biases template
-
-### MLflow template
-
-### TensorBoard template
-
-## Epoch-level tracking and early stopping logic
+## Epoch Tracking and Early Stopping
 
 ```python
 def simulate_training(epochs=5, base_train=2.2, base_eval=2.4, noise=0.03):
@@ -100,11 +84,9 @@ ep, loss, acc = best_epoch(history)
 print(f'Best epoch = {ep}, eval_loss = {loss:.4f}, eval_acc = {acc:.4f}')
 ```
 
-## Ablation study design
+## Ablation Study Design
 
-Good ablations change **one factor at a time**.
-
-Example factors:
+Ablation factors (one at a time):
 - LoRA rank: 8 vs 16 vs 32
 - Learning rate: 1e-4 vs 2e-4 vs 5e-4
 - Sequence length: 1024 vs 2048
@@ -137,13 +119,9 @@ summary = ablation_df.groupby('lora_rank', as_index=False)['eval_score'].mean().
 summary
 ```
 
-## Run registry and experiment memory
+## Run Registry
 
-Save minimal metadata for every run:
-- run_id, date, git commit, dataset version
-- config values
-- best metrics
-- note: what changed vs previous run
+Minimum fields per run: run_id, date, git commit, dataset version, config values, best metrics, note on what changed.
 
 ```python
 registry = pd.DataFrame([
@@ -154,31 +132,29 @@ registry = pd.DataFrame([
 registry.sort_values('best_eval_loss')
 ```
 
-## Practical checklist for real training
+## Pre/Post-Run Checklist
 
-Before launching:
+**Before launching:**
 1. Freeze data splits and seed
 2. Log full config + package versions
-3. Define primary metric (e.g., eval_loss) and secondary metric (task F1/accuracy)
+3. Define primary metric (e.g., `eval_loss`) and secondary metric (task F1/accuracy)
 4. Set checkpoint cadence and early-stop policy
 5. Predefine ablation matrix and stopping budget
 
-After run:
+**After run:**
 1. Compare against best prior run
 2. Record interpretation (why change helped/hurt)
 3. Decide next run from evidence, not intuition alone
 
-## Suggested stack for big-LLM training
+## Recommended Stack
 
-- **Trainer/runtime**: Hugging Face `transformers` + `trl` + `accelerate`
+- **Trainer/runtime**: HuggingFace `transformers` + `trl` + `accelerate`
 - **Scaling**: DeepSpeed or FSDP for multi-GPU/multi-node
 - **Tracking**: W&B or MLflow
 - **Data/versioning**: DVC or immutable dataset snapshots
 - **Orchestration**: Slurm/Kubernetes + reproducible launch scripts
 
-Start with one-node reproducible runs, then scale out.
-
-## Validated Resources
+## References
 
 - [Hugging Face Transformers](https://github.com/huggingface/transformers)
 - [TRL (SFTTrainer, DPO, etc.)](https://github.com/huggingface/trl)

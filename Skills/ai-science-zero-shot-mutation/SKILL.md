@@ -7,19 +7,12 @@ primary_tool: NumPy
 
 # Zero-Shot Mutation Effect Prediction
 
-## How to work through this notebook
+## Key Distinctions
 
-1. Read Section 1 carefully — the log-likelihood scoring formula is the core idea and must be understood before any code.
-2. The toy scoring proxy (physicochemical group switching) illustrates the principle without requiring model weights.
-3. The real ESM-1v usage pattern (Section 2) shows exactly how to compute the scores with the actual model.
-4. Section 4 shows how to build a clinically-oriented triage table combining multiple evidence sources.
-
-## Common sticking points
-
-- **Masked vs autoregressive scoring**: ESM-1v uses masked language modeling. To score a mutation at position i, you mask position i and compare the log-probability of the mutant amino acid to the wildtype. For autoregressive models (like ProtGPT2), you compare the full sequence log-likelihoods — a different calculation.
-- **Single-site vs epistatic effects**: ESM-1v computes single-site marginal effects independently. Real fitness landscapes have epistasis (mutations interact), which single-site scoring misses. Use ESM-IF1 or DMS-fine-tuned models for epistatic questions.
-- **ΔΔG vs ΔlogP**: stability changes (ΔΔG) and fitness effects (ΔlogP) are correlated but not identical. ESM-based scores are closer to evolutionary fitness than to thermodynamic stability.
-- **ProteinGym benchmark**: before trusting a scoring method, check its Spearman correlation on ProteinGym DMS assays for your protein family. Scores that work for enzymes may perform poorly for antibodies.
+- **Masked vs autoregressive**: ESM-1v uses MLM — mask position i, compare log-probs. Autoregressive models (ProtGPT2) compare full sequence log-likelihoods.
+- **Single-site vs epistatic**: ESM-1v computes single-site marginals independently. For epistatic questions use ESM-IF1 or DMS-fine-tuned models.
+- **ΔΔG vs ΔlogP**: ESM scores track evolutionary fitness, not thermodynamic stability — correlated but not identical.
+- **Benchmark first**: check Spearman ρ on ProteinGym DMS assays for your protein family before trusting scores.
 
 ```python
 import numpy as np
@@ -29,19 +22,17 @@ np.random.seed(13)
 AA = list('ACDEFGHIKLMNPQRSTVWY')
 ```
 
-## Zero-Shot Scoring: Theory and Real Implementation
+## Core Formula
 
-### The Core Formula
-
-For a masked language model like ESM-1v, the zero-shot mutation score for wildtype amino acid `wt` → mutant `mut` at position `i` is:
+For a masked LM like ESM-1v, the zero-shot score for wt → mutant at position i:
 
 $$\Delta_{i, \text{wt}\to\text{mut}} = \log P_\theta(\text{mut} \mid x_{\setminus i}) - \log P_\theta(\text{wt} \mid x_{\setminus i})$$
 
 where $x_{\setminus i}$ is the sequence with position $i$ masked. Negative values mean the mutant is less likely under the model's evolutionary prior — a signal for deleterious effect.
 
-**Why this works:** ESM-1v was trained on ~250M evolutionary sequences. When you mask position i, the model reconstructs it based on the rest of the sequence and everything it learned about residue covariance. Amino acids that are evolutionarily tolerated at position i (given the rest of the sequence) get high probability; rare or disruptive substitutions get low probability.
+ESM-1v trained on ~250M sequences: masking position i lets the model reconstruct it from residue covariance. Evolutionarily tolerated substitutions get high probability; disruptive ones get low.
 
-### Real ESM-1v Usage Pattern (requires GPU + `fair-esm`)
+## Real ESM-1v Usage (requires GPU + `fair-esm`)
 
 ```python
 import esm
@@ -83,9 +74,9 @@ def score_mutations(sequence: str, positions: list[int]) -> dict:
     return scores
 ```
 
-### Ensemble Averaging
+## Ensemble Averaging
 
-ESM-1v comes in 5 independently trained checkpoints. Averaging scores across all 5 significantly improves correlation with experimental fitness:
+ESM-1v has 5 independently trained checkpoints. Averaging across all 5 significantly improves Spearman ρ with experimental fitness.
 
 ```python
 # Load all 5 ESM-1v models
@@ -99,26 +90,25 @@ models_and_alphabets = [
 # Average the delta scores from all 5 models for each variant
 ```
 
+## Toy Proxy (no GPU needed)
+
 ```python
 HYDRO = set('AILMFWVY')
 POLAR = set('STNQ')
 CHARGED = set('KRHDE')
 
 def aa_group(a):
-    if a in HYDRO:
-        return 'hydro'
-    if a in POLAR:
-        return 'polar'
-    if a in CHARGED:
-        return 'charged'
+    if a in HYDRO: return 'hydro'
+    if a in POLAR: return 'polar'
+    if a in CHARGED: return 'charged'
     return 'other'
 
 def toy_zero_shot_delta(wt: str, mut: str) -> float:
-    # toy proxy: penalize physicochemical group switches
+    # penalize physicochemical group switches
     return 0.25 if aa_group(wt) == aa_group(mut) else -0.55
 ```
 
-## Score all single substitutions in a region
+## Score All Single Substitutions
 
 ```python
 wt_seq = 'MKTAYIAKQRQISFVKSHFSRQLEERLGLIEVQ'
@@ -135,9 +125,7 @@ df = pd.DataFrame(records)
 df.sort_values('delta_ll').head(8)
 ```
 
-## Synthetic benchmark against pseudo-fitness
-
-We generate pseudo-fitness scores correlated with delta values and check rank correlation.
+## Benchmark Against Pseudo-Fitness
 
 ```python
 noise = np.random.normal(0, 0.08, size=len(df))
@@ -147,7 +135,7 @@ corr = df[['delta_ll', 'fitness']].corr(method='spearman').iloc[0, 1]
 print('Spearman correlation (delta vs fitness):', round(float(corr), 3))
 ```
 
-## Clinically oriented triage table
+## Clinical Triage Table
 
 Combine zero-shot effect with rarity and structural confidence proxies.
 
@@ -165,22 +153,9 @@ subset['priority'] = (
 subset.sort_values('priority', ascending=False)[['pos', 'wt', 'mut', 'delta_ll', 'rarity', 'plddt_proxy', 'priority']]
 ```
 
-## Summary
+## References
 
-- Zero-shot mutation scoring is useful when labels are scarce.
-- Relative likelihood deltas provide actionable first-pass ranking.
-- Integrating sequence score with rarity and structure confidence improves prioritization quality.
-
-## Source-backed Context
-
-- ESM-1v/related models are commonly used for zero-shot variant scoring workflows.
-- ProteinGym is a widely used benchmark reference point for mutation-effect evaluation.
-
-## Validated Sources
-
-Checked online during content expansion.
-
-- [ESM repository (ESM-1v/ESM-2 variants)](https://github.com/facebookresearch/esm)
+- [ESM repository (ESM-1v/ESM-2)](https://github.com/facebookresearch/esm)
 - [ProteinGym benchmark](https://proteingym.org/)
 
 ## Pitfalls

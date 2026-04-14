@@ -17,17 +17,11 @@ primary_tool: NumPy
 | Throughput | Up to 6 Tb/run | ~30 Gb/cell | 50–200 Gb/cell |
 | Best for | WGS, RNA-seq, ChIP-seq | De novo assembly, SVs | Structural variants, field diagnostics |
 
-**Platform selection:**
-- High-coverage WGS / RNA-seq: Illumina (cost, accuracy)
-- De novo assembly / complex SVs: PacBio HiFi (long + accurate)
-- Rapid diagnostics / ultra-long reads: Oxford Nanopore (portable, real-time)
-- Best assemblies: hybrid Illumina + long-read
+**Selection guide:** High-coverage WGS/RNA-seq → Illumina. De novo assembly/complex SVs → PacBio HiFi. Rapid diagnostics/ultra-long → Nanopore. Best assemblies: hybrid Illumina + long-read.
 
 ## FASTQ Format
 
-Each read = 4 lines: `@header`, sequence, `+`, quality string (same length as sequence).
-
-### Phred+33 encoding (all modern platforms)
+Each read = 4 lines: `@header`, sequence, `+`, quality string (same length as sequence). All modern platforms use **Phred+33** encoding.
 
 | Phred | Error prob | Accuracy | ASCII char |
 |-------|-----------|----------|------------|
@@ -41,7 +35,6 @@ def phred_to_error_prob(q): return 10 ** (-q / 10)
 def ascii_to_phred(char, offset=33): return ord(char) - offset
 def phred_to_ascii(q, offset=33): return chr(q + offset)
 
-# Decode quality string
 qual_string = "IIIII?55!!"
 scores = [ascii_to_phred(c) for c in qual_string]
 mean_q = sum(scores) / len(scores)
@@ -99,9 +92,9 @@ def per_position_quality(reads):
 
 ## Pitfalls
 
-- **Coordinate systems**: BED = 0-based half-open; VCF/GFF = 1-based inclusive — mixing causes off-by-one errors
-- **Phred+33 vs Phred+64**: Old Illumina pipeline (CASAVA <1.8) used +64 offset. Check `fastqc` encoding warning. `ord('@') - 64 = 0`, `ord('!') - 33 = 0`.
-- **Quality drop at 3' end**: Normal behavior for SBS. Trim low-quality tails before alignment (fastp `--cut_tail` or Trimmomatic `TRAILING:20`).
-- **Paired-end read order**: R1 and R2 must be in the same order. If a read is filtered from R1, remove the same read from R2.
-- **Batch effects**: Always check for batch confounding before interpreting biological signal
-- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features
+- **Coordinate systems**: BED = 0-based half-open; VCF/GFF = 1-based inclusive — mixing causes off-by-one errors.
+- **Phred+33 vs Phred+64**: Old Illumina CASAVA <1.8 used +64. Check fastqc encoding warning. `ord('@') - 64 = 0`, `ord('!') - 33 = 0`.
+- **Quality drop at 3' end**: Normal for SBS. Trim with `fastp --cut_tail` or `Trimmomatic TRAILING:20`.
+- **Paired-end read order**: R1 and R2 must stay in sync — filter a read from R1, remove the same from R2.
+- **Batch effects**: Always check for batch confounding before interpreting biological signal.
+- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features.

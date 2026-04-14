@@ -7,31 +7,24 @@ primary_tool: Pandas
 
 # SQL for Bioinformatics
 
-## Complicated moments explained
+## Key Concepts
 
-**1. JOIN type determines which rows survive**
-- `INNER JOIN`: only rows with matches in both tables.
-- `LEFT JOIN`: all rows from the left table; NULL for unmatched right-side columns.
+**JOIN type determines which rows survive:** `INNER JOIN` — only matched rows; `LEFT JOIN` — all left rows, NULL for unmatched right side.
 
-**2. `HAVING` is not the same as `WHERE`**
-`WHERE` filters rows *before* grouping. `HAVING` filters *after* grouping. To filter groups by aggregate values (e.g., "genes with more than 3 variants"), use `HAVING COUNT(*) > 3`.
+**`HAVING` vs `WHERE`:** `WHERE` filters before grouping; `HAVING` filters after. Use `HAVING COUNT(*) > 3` to filter aggregate groups.
 
-**3. Subqueries vs JOINs**
-Both can answer the same question. A JOIN is generally more readable and often faster. Subqueries with `IN (SELECT ...)` are clearer when the inner set is small.
+**Subqueries vs JOINs:** JOIN is more readable and usually faster. Subqueries with `IN (SELECT ...)` are clearer for small inner sets.
 
-**4. Always use parameterized queries**
-Never build SQL strings with f-strings containing user input — this allows SQL injection. Use `cursor.execute("WHERE gene = ?", (gene_name,))` instead.
+**Always use parameterized queries:** Never build SQL with f-strings containing user input (SQL injection). Use `cursor.execute("WHERE gene = ?", (gene_name,))`.
 
 ```python
 import sqlite3
 import pandas as pd
 import numpy as np
 
-# Create an in-memory SQLite database for all examples
 conn = sqlite3.connect(":memory:")
 cursor = conn.cursor()
 
-# Schema ----
 cursor.executescript("""
 CREATE TABLE genes (
     gene_id   INTEGER PRIMARY KEY,
@@ -70,7 +63,6 @@ CREATE TABLE gene_pathway (
 );
 """)
 
-# Seed data ----
 genes_data = [
     (1, 'BRCA1', 'chr17', 43044295, 43125483, 'protein_coding'),
     (2, 'TP53',  'chr17',  7661779,  7687538, 'protein_coding'),
@@ -110,15 +102,9 @@ gp_data = [(1,1),(2,1),(2,2),(4,2),(3,3),(2,3)]
 cursor.executemany("INSERT INTO gene_pathway VALUES (?,?)", gp_data)
 
 conn.commit()
-print("Database ready:",
-      len(pd.read_sql_query("SELECT * FROM genes", conn)), "genes,",
-      len(pd.read_sql_query("SELECT * FROM variants", conn)), "variants,",
-      len(pd.read_sql_query("SELECT * FROM expression", conn)), "expression rows")
 ```
 
-## Basic Queries: SELECT, WHERE, ORDER BY
-
-The core of SQL is `SELECT ... FROM ... WHERE`. Use `ORDER BY` to sort results and `LIMIT` to cap the number of rows returned.
+## SELECT, WHERE, ORDER BY
 
 ```python
 # All genes on chromosome 17
@@ -126,7 +112,6 @@ df = pd.read_sql_query(
     "SELECT symbol, chromosome, start_pos, end_pos FROM genes WHERE chromosome = 'chr17'",
     conn
 )
-print(df)
 
 # Genes longer than 100 kb, ordered by length
 df = pd.read_sql_query("""
@@ -135,12 +120,9 @@ df = pd.read_sql_query("""
     WHERE (end_pos - start_pos) > 100000
     ORDER BY length DESC
 """, conn)
-print(df)
 ```
 
 ## Aggregate Functions and GROUP BY
-
-`COUNT`, `AVG`, `MAX`, `MIN`, and `SUM` summarize groups of rows. `GROUP BY` splits the table into groups before aggregation. `HAVING` filters groups after aggregation (equivalent to `WHERE` on the aggregated result).
 
 ```python
 # Average expression per tissue and condition
@@ -150,7 +132,6 @@ df = pd.read_sql_query("""
     GROUP BY tissue, condition
     ORDER BY tissue, condition
 """, conn)
-print(df)
 
 # Genes with highest average tumor expression (HAVING filters after grouping)
 df = pd.read_sql_query("""
@@ -162,16 +143,12 @@ df = pd.read_sql_query("""
     HAVING AVG(e.tpm) > 50
     ORDER BY avg_tumor_tpm DESC
 """, conn)
-print(df)
 ```
 
 ## JOIN Operations
 
-JOINs combine rows from two tables based on a related column.
-
-- **INNER JOIN** — only rows that have a match in both tables.
-- **LEFT JOIN** — all rows from the left table; NULLs where no match exists in the right table.
-- **Self-join** — a table joined to itself, useful for comparing rows within the same table.
+- **INNER JOIN** — only rows with a match in both tables.
+- **LEFT JOIN** — all rows from left table; NULLs where no match on right.
 
 ```python
 # INNER JOIN: pathogenic variants with gene names
@@ -182,7 +159,6 @@ df = pd.read_sql_query("""
     WHERE v.clinical_significance = 'pathogenic'
     ORDER BY g.symbol
 """, conn)
-print(df)
 
 # LEFT JOIN: all genes with variant count (including genes with 0 variants)
 df = pd.read_sql_query("""
@@ -192,7 +168,6 @@ df = pd.read_sql_query("""
     GROUP BY g.symbol
     ORDER BY n_variants DESC
 """, conn)
-print(df)
 ```
 
 ## Subqueries
@@ -212,16 +187,11 @@ df = pd.read_sql_query("""
         WHERE clinical_significance = 'pathogenic'
     )
 """, conn)
-print('Highly expressed tumor genes with pathogenic variants:')
-print(df)
 ```
 
 ## CREATE, INSERT, UPDATE, DELETE
 
-SQL is not read-only. You can create new tables to store analysis results, insert rows, update values, and delete records. This is useful for storing intermediate results from a pipeline directly in a database.
-
 ```python
-# Add a new analysis results table
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS de_results (
         gene_id INTEGER REFERENCES genes(gene_id),
@@ -232,7 +202,6 @@ cursor.execute('''
     )
 ''')
 
-# Insert differential expression results
 de_data = [
     (1, 2.3,  0.001,  0.01,  1),
     (2, 1.8,  0.005,  0.03,  1),
@@ -242,7 +211,6 @@ de_data = [
 cursor.executemany('INSERT INTO de_results VALUES (?,?,?,?,?)', de_data)
 conn.commit()
 
-# Query the results joined back to gene names
 df = pd.read_sql_query("""
     SELECT g.symbol, d.log2fc, d.padj,
            CASE WHEN d.significant = 1 THEN 'Yes' ELSE 'No' END AS significant
@@ -250,40 +218,13 @@ df = pd.read_sql_query("""
     JOIN genes g ON d.gene_id = g.gene_id
     ORDER BY d.padj
 """, conn)
-print(df)
-```
-
-# Your query here
-df = pd.read_sql_query("""
-    -- fill query
-""", conn)
-print(df)
-```python
-
-**Exercise 2** (★★) — Calculate the fold change (tumor AVG TPM / normal AVG TPM) for each gene in breast tissue. Return gene symbol and fold change, ordered by fold change descending.
-
-```
-# Your query here
-df = pd.read_sql_query("""
-    -- fill query
-""", conn)
-print(df)
-```python
-
-**Exercise 3** (★★) — Find genes that have more than one pathogenic variant. Return gene symbol and the count of pathogenic variants, ordered by count descending.
-
-```
-# Your query here
-df = pd.read_sql_query("""
-    -- fill query
-""", conn)
-print(df)
 
 conn.close()
 ```
 
 ## Pitfalls
 
-- **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
-- **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based
-- **Deep vs shallow copy**: Nested data structures require `copy.deepcopy()` — `list.copy()` only copies the top level
+- **JOIN type**: INNER loses unmatched rows; LEFT preserves them — choose deliberately.
+- **HAVING vs WHERE**: Using WHERE on an aggregate silently fails or raises an error; use HAVING.
+- **Parameterized queries**: f-string SQL with user input = SQL injection risk.
+- **Off-by-one**: Python ranges are half-open `[start, stop)`; bioinformatics coordinates are often 1-based.

@@ -5,37 +5,14 @@ tool_type: python
 primary_tool: NumPy
 ---
 
-# Module T5-02: Vision RAG
+# Vision RAG
 
-GPU optional for inference patterns. Theory cells run on CPU.
+**Attribution:** Patterns inspired by Unsloth AI and Manuel Faysse Vision RAG tutorials.
 
+## VLM Architecture
 
-**By the end you will be able to:**
-- Explain VLM architecture (encoder + LLM decoder)
-- Understand ColPali late-interaction document retrieval
-- Implement a page-level RAG pipeline for PDF documents
-- Run Qwen2-VL inference patterns
-- Evaluate retrieval recall and generation faithfulness
-
-**Attribution:** *Patterns inspired by Unsloth AI and Manuel Faysse Vision RAG tutorials. Uses public PDF documents (arXiv papers).*
-
-## How to work through this notebook
-
-1. All cells run on CPU — the retrieval and evaluation sections use numpy simulations.
-2. The Qwen2-VL inference pattern (Section 5) requires a GPU to execute; it is shown as a printed template.
-3. Work through the MaxSim scoring derivation in Section 3 carefully — it is the core of ColPali.
-4. The evaluation metrics in Section 6 are the ones used in the ViDoRe benchmark; implement them in the exercises.
-
-## Common sticking points
-
-- **Single-vector vs late-interaction**: a single embedding per page (like CLIP) loses spatial/layout information. ColPali's per-patch embeddings fix this by letting each query token match independently against any page patch.
-- **Why 14×14 patches?** A 224×224 image divided into 16×16 pixel patches gives 196 patches (14×14 grid). Qwen2-VL uses dynamic resolution, so the patch count scales with image size.
-- **MaxSim is not symmetric**: the query side sums over all query tokens finding their best patch; this is directional (query→page), not bidirectional.
-
-## Vision-Language Model Architecture
-
-A VLM (Vision-Language Model) combines:
-1. **Visual encoder** — processes image patches (ViT: Vision Transformer)
+A VLM combines:
+1. **Visual encoder** — ViT processes image patches
 2. **Projection layer** — maps visual tokens to LLM embedding space
 3. **LLM decoder** — generates text conditioned on visual + text tokens
 
@@ -47,15 +24,9 @@ A VLM (Vision-Language Model) combines:
 | InternVL2 | 2B–76B | High benchmark scores |
 | PaliGemma | 3B | Compact, versatile |
 
-**Document understanding challenge:** PDF pages have complex layouts (multi-column, tables, figures). Standard text OCR loses layout information. VLMs process the page as an image, preserving layout.
+## Vision RAG vs Text RAG
 
-## RAG Pipeline: Retrieval + Generation
-
-**Standard text RAG:**
-1. Split document into chunks (sentences/paragraphs)
-2. Embed chunks → vector store
-3. At query time: embed query, retrieve top-k chunks by similarity
-4. Concatenate chunks as context → generate answer
+**Standard text RAG:** chunk → embed → vector store → retrieve top-k → LLM
 
 **Vision RAG (ColPali-style):**
 1. Render each PDF page as an image
@@ -64,7 +35,23 @@ A VLM (Vision-Language Model) combines:
 4. Retrieve top-k pages → feed as images to VLM
 5. VLM generates answer from visual context
 
-**Advantage:** No OCR step — layout, tables, and figures are preserved natively.
+**Advantage:** No OCR — layout, tables, and figures are preserved natively.
+
+## ColPali: Late-Interaction Retrieval
+
+**Single-vector (CLIP-style):** compresses page into one vector → loses spatial detail.
+
+**Late interaction (ColPali/ColBERT-style):**
+```python
+query → Q matrix (n_tokens × dim)
+page  → P matrix (n_patches × dim)
+score = Σ_i max_j(Q[i] · P[j])    ← MaxSim
+```
+Each query token independently finds its best matching page patch → preserves spatial detail.
+
+- **14×14 patches**: 224×224 image ÷ 16×16 px patches = 196 patches. Qwen2-VL uses dynamic resolution (patch count scales with image size).
+- **MaxSim is directional**: query→page, not bidirectional.
+- **ColPali training**: PaliGemma-2 backbone fine-tuned contrastively on (query, relevant page) pairs from ViDoRe benchmark.
 
 ```python
 import numpy as np
@@ -109,52 +96,22 @@ pages_content = [
 
 pages = [create_synthetic_page(content, i+1) for i, content in enumerate(pages_content)]
 print(f"Created {len(pages)} synthetic document pages")
-
-# Display page thumbnails
-fig, axes = plt.subplots(1, len(pages), figsize=(14, 4))
-for ax, page, i in zip(axes, pages, range(len(pages))):
-    ax.imshow(np.array(page))
-    ax.set_title(f"Page {i+1}", fontsize=9)
-    ax.axis("off")
-plt.suptitle("Synthetic document pages (simulating PDF rendering)", y=1.02)
-plt.tight_layout(); plt.show()
 ```
 
-## ColPali: Late-Interaction Retrieval
-
-**Single-vector retrieval (CLIP-style):**
-```python
-query → q_emb (512d)
-page  → p_emb (512d)
-score = cosine(q_emb, p_emb)
-```
-Problem: compresses complex page into one vector → loses spatial detail.
-
-**Late interaction (ColPali/ColBERT-style):**
-```python
-query → Q matrix (n_tokens × dim)
-page  → P matrix (n_patches × dim)
-score = Σ_i max_j(Q[i] · P[j])    ← MaxSim
-```
-Each query token finds its best matching page patch independently → preserves spatial detail.
-
-**ColPali training:** A PaliGemma-2 backbone fine-tuned contrastively on (query, relevant page) pairs from document retrieval benchmarks (ViDoRe).
+## MaxSim Implementation
 
 ```python
-# Simulate ColPali-style embeddings and retrieval
 DIM = 128
 N_Q_TOKENS = 32
 N_PATCHES = 196  # 14×14 patches for 224×224 image
 
 def simulate_page_embedding(page_idx, n_patches=N_PATCHES, dim=DIM, seed=None):
-    """Simulate page patch embeddings."""
     r = np.random.default_rng(seed or page_idx)
     emb = r.normal(0, 1, (n_patches, dim))
     emb /= np.linalg.norm(emb, axis=1, keepdims=True)
     return emb
 
 def simulate_query_embedding(query_text, n_tokens=N_Q_TOKENS, dim=DIM):
-    """Simulate query token embeddings (text → tokens → embeddings)."""
     seed = sum(ord(c) for c in query_text) % 10000
     r = np.random.default_rng(seed)
     emb = r.normal(0, 1, (n_tokens, dim))
@@ -182,10 +139,8 @@ scores = [maxsim_score(query_emb, pe) for pe in page_embeddings]
 ranked = sorted(range(5), key=lambda i: -scores[i])
 
 print(f"Query: '{query}'")
-print(f"\nRetrieval scores:")
 for rank, page_idx in enumerate(ranked):
     print(f"  Rank {rank+1}: Page {page_idx+1} (score = {scores[page_idx]:.3f})")
-print(f"\nTop-1 page: {ranked[0]+1} (correct answer: Page 2)")
 print(f"Recall@1: {int(ranked[0] == 1)}")
 ```
 
@@ -194,15 +149,11 @@ print(f"Recall@1: {int(ranked[0] == 1)}")
 ```python
 def simple_rag_pipeline(query, pages, page_embeddings, top_k=2, verbose=True):
     """
-    Simplified RAG pipeline:
     1. Embed query
     2. Retrieve top-k pages by MaxSim
     3. (Simulate) VLM generation from retrieved pages
     """
-    # Step 1: embed query
     query_emb = simulate_query_embedding(query)
-
-    # Step 2: retrieve
     scores = [maxsim_score(query_emb, pe) for pe in page_embeddings]
     top_idx = sorted(range(len(scores)), key=lambda i: -scores[i])[:top_k]
 
@@ -211,7 +162,6 @@ def simple_rag_pipeline(query, pages, page_embeddings, top_k=2, verbose=True):
         print(f"Retrieved pages: {[i+1 for i in top_idx]}")
         print(f"Scores: {[f'{scores[i]:.2f}' for i in top_idx]}")
 
-    # Step 3: simulate VLM generation
     # In practice: feed pages[top_idx] as images to Qwen2-VL with the query
     page_contents_local = [pages_content[i] for i in top_idx]
     context_summary = " | ".join([c[:80] for c in page_contents_local])
@@ -222,24 +172,14 @@ def simple_rag_pipeline(query, pages, page_embeddings, top_k=2, verbose=True):
         "simulated_context": context_summary,
     }
 
-# Test queries
-queries = [
-    "What normalization method was used?",
-    "Which genes were upregulated?",
-    "What was the GWAS sample size?",
-]
-
-for q in queries:
+for q in ["What normalization method was used?", "Which genes were upregulated?", "What was the GWAS sample size?"]:
     result = simple_rag_pipeline(q, pages, page_embeddings, top_k=2)
     print()
 ```
 
-## Qwen2-VL Inference Pattern
-
-Qwen2-VL supports multiple images in a single prompt, making it ideal for multi-page document understanding. It uses a dynamic resolution approach — patches scale with image size.
+## Qwen2-VL Inference Pattern (GPU required)
 
 ```python
-QWEN_PATTERN = """
 #  Install (Colab)
 # pip install -q transformers accelerate qwen-vl-utils
 
@@ -260,7 +200,7 @@ processor = AutoProcessor.from_pretrained(
 )
 
 def answer_from_pages(pages, question):
-    \"\"\"Answer a question using retrieved document pages.\"\"\"
+    """Answer a question using retrieved document pages."""
     content = [{"type": "image", "image": page} for page in pages]
     content.append({"type": "text", "text": question})
 
@@ -277,10 +217,6 @@ def answer_from_pages(pages, question):
     # Decode only the new tokens
     answer = processor.decode(ids[0][inputs.input_ids.shape[1]:], skip_special_tokens=True)
     return answer
-"""
-
-print("Qwen2-VL inference pattern:")
-print(QWEN_PATTERN)
 ```
 
 ## Pitfalls

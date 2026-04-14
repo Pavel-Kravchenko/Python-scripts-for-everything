@@ -7,63 +7,37 @@ primary_tool: Python
 
 # Geneformer and scGPT for Single-Cell Modeling
 
-## How to work through this notebook
+## Architecture Overview
 
-1. Read the Geneformer and scGPT architecture section (Section 1) before the code — the rank-based tokenization idea is non-obvious and critical to understand.
-2. The toy expression matrix (Section 2) uses only 30 genes; real datasets have 20,000+. The logic is identical.
-3. The rank-token embedding (Section 3) is a faithful simplification of Geneformer's approach.
-4. Section 5 (perturbation prediction) is conceptual — in real scGPT you would use learned perturbation token embeddings, not rule-based modifications.
+### Geneformer (Theodoris et al., Nature 2023)
 
-## Common sticking points
-
-- **Why rank instead of raw counts?** Raw count distributions are highly variable across cells (library size differences) and across batches (technology, protocol). Rank ordering is inherently normalized and comparable across cells without explicit batch correction.
-- **Geneformer's rank-value encoding**: Geneformer ranks all ~20,000 genes by expression level in each cell, then encodes the top-K (K≈2048) as an ordered sequence of gene tokens. The position in the sequence encodes the rank. The model never sees raw count values — only the ordering.
-- **scGPT's gene vocabulary**: scGPT uses a discrete token for each gene ID (from NCBI Entrez IDs). Expression levels are binned into discrete bins. The model then processes a sequence of (gene_token, expression_bin_token) pairs.
-- **Transfer learning**: both models are pretrained on millions of cells and fine-tuned on small task-specific datasets. Fine-tuning requires fewer labeled cells than training from scratch — but always check that the pretraining data overlaps with your tissue/cell type of interest.
-
-## Geneformer and scGPT Architecture
-
-### 1a. Geneformer
-
-Geneformer (Theodoris et al., Nature 2023) was pretrained on ~30 million human single-cell transcriptomes. Its key innovations:
+Pretrained on ~30M human single-cell transcriptomes.
 
 **Rank-value tokenization:**
-1. For each cell, rank all ~20,000 genes by expression level (highest expression = rank 1)
-2. Keep only the top-K genes (K=2048 by default) — this eliminates the dropout problem
-3. Each gene is represented by a learned embedding vector (gene token)
-4. The ordered sequence of gene tokens encodes the entire cell state
+- Rank all ~20,000 genes by expression per cell (highest = rank 1)
+- Keep top-K genes (K=2048) — eliminates dropout problem
+- Each gene → learned embedding vector; ordered sequence encodes cell state
+- Raw count values never seen — only gene ordering
 
+**Pretraining:** Masked LM — predict masked gene tokens from remaining ranked genes.
 
-**Pretraining objective:** Masked language modeling — randomly mask a fraction of gene tokens and train to predict them from the remaining ranked genes.
+**Fine-tuning tasks:** cell-type classification, gene dosage sensitivity, in-silico perturbation (silence gene token → observe CLS shift), drug response prediction.
 
-**What Geneformer learns:** Despite only seeing ranks, the model learns to predict masked genes correctly, which requires understanding gene regulatory relationships. The CLS token embedding provides a cell-state representation that encodes biology not captured by any individual gene.
+**Why ranks over raw counts?** Raw counts vary across cells (library size) and batches (technology/protocol). Rank ordering is inherently normalized without explicit batch correction.
 
-**Fine-tuning tasks:**
-- Cell-type classification (supervised, few-shot)
-- Gene dosage sensitivity prediction
-- In-silico perturbation (silence a gene token and see how CLS embedding shifts)
-- Drug response prediction
+### scGPT (Cui et al., Nature Methods 2024)
 
-### 1b. scGPT
-
-scGPT (Cui et al., Nature Methods 2024) was pretrained on ~33 million cells from CellxGene. Key differences from Geneformer:
+Pretrained on ~33M cells from CellxGene.
 
 **Expression binning tokenization:**
-- Gene vocabulary: ~60,000 Entrez gene IDs, each mapped to a learned embedding
-- Expression is discretized into bins (e.g., 51 bins from 0 to max expression)
-- Each cell is represented as a sequence of (gene_token, expression_bin_token) pairs
-- The model processes both gene identity AND relative expression level
+- Gene vocab: ~60,000 Entrez gene IDs → learned embeddings
+- Expression discretized into bins (e.g., 51 bins)
+- Each cell = sequence of (gene_token, expression_bin_token) pairs
+- Conditioned on batch/condition token for multi-batch training
 
-**Generative pretraining:**
-- scGPT uses a masked-and-then-predict objective over gene expression
-- The model is conditioned on a batch/condition token to handle multi-batch training
+**Perturbation module:** learned perturbation embedding injected into sequence; predicts post-perturbation expression profiles for in-silico knockouts and drug response.
 
-**scGPT perturbation module:**
-- A learned perturbation embedding is injected into the sequence
-- The model predicts post-perturbation expression profiles
-- This enables in-silico gene knockouts and drug response simulation
-
-### 1c. Comparison
+### Comparison
 
 | Feature | Geneformer | scGPT |
 |---|---|---|
@@ -73,9 +47,7 @@ scGPT (Cui et al., Nature Methods 2024) was pretrained on ~33 million cells from
 | Perturbation modeling | Via embedding shift | Via explicit perturbation tokens |
 | Output | CLS embedding, masked gene prediction | Expression profiles, perturbation responses |
 
-## Toy expression matrix
-
-We create a synthetic single-cell expression matrix (cells × genes) with three cell types and marker genes. This illustrates the rank-tokenization workflow from Section 1.
+## Toy Expression Matrix
 
 ```python
 genes = [f'G{i:02d}' for i in range(30)]
@@ -97,9 +69,9 @@ expr = pd.DataFrame(X, columns=genes)
 expr.head(3)
 ```
 
-## Rank-token style embedding
+## Rank-Token Embedding
 
-Geneformer-style: represent each cell by ranked genes rather than raw count vectors. The `toy_cell_embedding` function below builds a weighted sum where earlier ranks (higher expressed genes) contribute more, using a 1/(rank+1) weight — a simplified version of Geneformer's positional encoding approach.
+Geneformer-style: represent each cell by ranked genes; weight by 1/(rank+1) — higher expressed genes contribute more.
 
 ```python
 def topk_rank_tokens(row: np.ndarray, k: int = 8):
@@ -118,9 +90,9 @@ E = np.vstack([toy_cell_embedding(t, n_genes=len(genes)) for t in tokens])
 print('Embedding matrix:', E.shape)
 ```
 
-## Cell-type annotation via nearest centroid
+## Cell-Type Annotation (Nearest Centroid)
 
-Using the rank-token embeddings, we train a nearest-centroid classifier to assign cell types. This is analogous to fine-tuning Geneformer's CLS token for classification — but simpler. The high accuracy (typically >95% here) reflects that our synthetic marker genes are strong discriminators.
+Analogous to fine-tuning Geneformer's CLS token for classification.
 
 ```python
 y = np.array(types)
@@ -140,7 +112,9 @@ acc = float((pred == y[test]).mean())
 print('Annotation accuracy:', round(acc, 3))
 ```
 
-## Perturbation prediction prototype
+## Perturbation Prediction Prototype
+
+In real scGPT, learned perturbation token embeddings replace these rule-based modifications.
 
 ```python
 def perturb_predict(cell_vec: np.ndarray, pert: str) -> np.ndarray:
@@ -159,22 +133,14 @@ for p in ['KO_G02', 'KO_G09', 'CYTOKINE_X']:
     print(p, 'delta_mean=', round(float((pred_expr - cell0).mean()), 4))
 ```
 
-## Scaling to atlas data
+## Key Points
 
-## Summary
+- Rank-based representations are effective for cell-state encoding
+- Embedding-space centroid methods give strong annotation baselines
+- Perturbation prediction adds causal/extrapolative capability beyond annotation
+- Transfer learning requires fewer labeled cells than training from scratch — verify pretraining data overlaps with your tissue/cell type
 
-- Rank-based representations are effective for cell-state encoding.
-- Embedding-space centroid methods give strong annotation baselines.
-- Perturbation prediction adds causal/extrapolative capability beyond annotation.
-
-## Source-backed Context
-
-- Geneformer and scGPT are both established foundation-model references for single-cell transcriptomics tasks.
-- CellxGene Census is a practical large-scale resource for real-world atlas-scale integration workflows.
-
-## Validated Sources
-
-Checked online during content expansion.
+## References
 
 - [Geneformer paper (Nature 2023)](https://www.nature.com/articles/s41586-023-06139-9)
 - [scGPT paper (Nature Methods 2024)](https://www.nature.com/articles/s41592-024-02201-0)
