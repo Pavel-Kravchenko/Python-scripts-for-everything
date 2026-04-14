@@ -1,20 +1,9 @@
 ---
 name: scrna-seq-analysis
-description: "Single-cell RNA-seq analysis from count matrix to annotated cell types and trajectories."
+description: Single-cell RNA-seq analysis from count matrix to annotated cell types and trajectories.
 tool_type: python
 primary_tool: scanpy
 ---
-
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+, scanpy 1.10+, scvelo 0.3+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
 
 # scrna-seq-analysis
 
@@ -61,7 +50,7 @@ sc.pp.normalize_total(adata, target_sum=1e4)
 sc.pp.log1p(adata)
 adata.raw = adata  # store raw for DE
 
-# HVG → Scale → PCA → Neighbors → UMAP → Leiden
+# HVG  Scale  PCA  Neighbors  UMAP  Leiden
 sc.pp.highly_variable_genes(adata, n_top_genes=2000)
 adata = adata[:, adata.var.highly_variable]
 sc.pp.scale(adata, max_value=10)
@@ -103,7 +92,7 @@ scv.tl.velocity_graph(adata)
 scv.pl.velocity_embedding_stream(adata, basis='umap')
 ```python
 
-## Common Pitfalls
+## Pitfalls
 - **Forgetting `adata.raw = adata`** before filtering HVGs — stores full gene set for DE
 - **Over-clustering**: start with `resolution=0.3–0.5`, increase if subtypes expected
 - **Batch effects**: always color UMAP by batch/sample before interpreting clusters

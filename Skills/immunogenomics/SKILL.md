@@ -1,20 +1,9 @@
 ---
 name: immunogenomics
-description: "V(D)J repertoire analysis, HLA typing, and neoantigen prediction pipelines."
+description: V(D)J repertoire analysis, HLA typing, and neoantigen prediction pipelines.
 tool_type: cli
 primary_tool: NumPy
 ---
-
-## Version Compatibility
-
-Reference examples tested with: muon 0.1+, numpy 1.26+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
 
 # immunogenomics
 
@@ -82,7 +71,7 @@ OptiTypePipeline.py \
     --dna --verbose \
     --outdir hla_typing/ \
     --prefix sample
-# Output: sample_result.tsv → HLA-A,B,C alleles
+# Output: sample_result.tsv  HLA-A,B,C alleles
 ```python
 
 ## Neoantigen Prediction (Python)
@@ -94,7 +83,7 @@ OptiTypePipeline.py \
 import subprocess
 
 # 1. VEP annotation for somatic variants
-# !vep -i somatic.vcf -o annotated.vcf --cache --everything
+# vep -i somatic.vcf -o annotated.vcf --cache --everything
 
 # 2. Extract mutant peptides (9-11 mers around mutation)
 def extract_peptides(mut_aa_seq, position, lengths=[9, 10, 11]):
@@ -107,8 +96,8 @@ def extract_peptides(mut_aa_seq, position, lengths=[9, 10, 11]):
     return peptides
 
 # 3. NetMHCpan prediction
-# !netMHCpan -p peptides.txt -a HLA-A02:01,HLA-B07:02 -l 9,10,11 -BA > binding.txt
-# Filter: rank < 0.5 = strong binder, rank < 2.0 = weak binder
+# netMHCpan -p peptides.txt -a HLA-A02:01,HLA-B07:02 -l 9,10,11 -BA  binding.txt
+# Filter: rank  0.5  strong binder, rank  2.0  weak binder
 ```python
 
 ## Clonotype Diversity Metrics
@@ -138,7 +127,7 @@ def clonal_expansion_index(counts, threshold=2):
 - **McPAS-TCR**: manually curated pathology-associated TCRs
 - **IEDB**: immune epitope database for T/B cell epitopes
 
-## Common Pitfalls
+## Pitfalls
 - **Chain pairing**: 10x gives paired α/β, but some cells may have 2 TCRα chains
 - **HLA resolution**: 2-digit (HLA-A*02) vs 4-digit (HLA-A*02:01) affects binding prediction
 - **Neoantigen filtering**: also consider RNA expression and peptide processing (TAP, proteasome)

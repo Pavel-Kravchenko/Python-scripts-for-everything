@@ -1,42 +1,24 @@
 ---
 name: genomic-llm-embeddings
-description: DNA tokenization, k-mer baselines, and sequence embeddings for genomic foundation model workflows.
+description: DNA tokenization strategies, k-mer baselines, and pretrained sequence embeddings for genomic ML.
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+, transformers 4.38+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # genomic-llm-embeddings
 
-## When to Use
+## Tokenization Strategy Selection
 
-Use this skill when:
-- Building genomic sequence embeddings for classification or retrieval
-- Choosing between k-mer, character-level, and pretrained tokenization
-- Creating lightweight baselines before large-model inference
-
-## Quick Reference
-
-| Strategy | Typical Context | Strength | Limitation |
+| Strategy | Context | Strength | Limitation |
 |---|---:|---|---|
-| Character tokens (A/C/G/T/N) | Long | Max resolution | Long sequences/tokens |
+| Character (A/C/G/T/N) | Long | Max resolution | Long token sequences |
 | k-mer (k=3..6) | Short/medium | Fast baseline | Loses positional nuance |
-| DNABERT-2 | ~512 bp windows | Strong short-window tasks | Limited context |
-| Nucleotide Transformer | kb-scale | Good transfer embeddings | Higher memory |
+| DNABERT-2 (BPE) | ~512 bp windows | Strong short-window tasks | Limited context |
+| Nucleotide Transformer (6-mer) | kb-scale | Good transfer embeddings | Higher memory |
 | HyenaDNA | up to 1M bp | Long-range signals | Heavier training/inference |
 
 ## Key Patterns
 
-**Pattern 1: k-mer embedding baseline**
+**k-mer embedding baseline**
 ```python
 from collections import Counter
 import numpy as np
@@ -46,9 +28,9 @@ def kmer_embedding(seq, vocab, k=3):
     cnt = Counter(tokens)
     vec = np.array([cnt[v] for v in vocab], dtype=float)
     return vec / (vec.sum() + 1e-9)
-```python
+```
 
-**Pattern 2: quick probe with nearest centroid**
+**Nearest centroid probe (sanity check before deep models)**
 ```python
 def nearest_centroid_predict(X_train, y_train, X_test):
     c0 = X_train[y_train == 0].mean(axis=0)
@@ -56,33 +38,15 @@ def nearest_centroid_predict(X_train, y_train, X_test):
     d0 = ((X_test - c0) ** 2).sum(axis=1)
     d1 = ((X_test - c1) ** 2).sum(axis=1)
     return (d1 < d0).astype(int)
-```python
+```
 
-## Code Templates
+## Pitfalls
 
-### Build 3-mer vocabulary
-```python
-alphabet = ['A', 'C', 'G', 'T']
-vocab3 = [a+b+c for a in alphabet for b in alphabet for c in alphabet]
-```python
-
-### Optional pretrained embedding load (commented)
-```python
-# from transformers import AutoTokenizer, AutoModel
-# model_name = 'InstaDeepAI/nucleotide-transformer-v2-500m-multi-species'
-# tok = AutoTokenizer.from_pretrained(model_name)
-# model = AutoModel.from_pretrained(model_name).eval()
-```python
-
-## Common Pitfalls
-
-- Mixing tokenization schemes between train and inference
-- Comparing models without matched sequence windows
-- Skipping a simple baseline (hard to detect overfitting/bugs)
+- Mixing tokenization schemes between train and inference silently destroys performance
+- Always compare against a simple k-mer baseline -- hard to detect overfitting/bugs without one
+- Match sequence window lengths when comparing models
 
 ## Related Skills
 
-- `genomic-foundation-models`
-- `enformer-regulatory-prediction`
-- `ml-deep-learning-bio`
-
+- `genomic-foundation-models` -- pretrained model details and fine-tuning
+- `protein-language-models` -- ESM2 embeddings for protein sequences

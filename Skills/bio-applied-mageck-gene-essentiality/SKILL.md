@@ -1,48 +1,17 @@
 ---
 name: bio-applied-mageck-gene-essentiality
-description: "**Tier 3 — Applied Bioinformatics | Module 33 · Notebook 1**"
+description: CRISPR Screen Analysis with MAGeCK with MAGeCK
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/33_CRISPR_Screen_Analysis/01_mageck_gene_essentiality.ipynb"
 primary_tool: MAGeCK
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # CRISPR Screen Analysis with MAGeCK
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/33_CRISPR_Screen_Analysis/01_mageck_gene_essentiality.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 33 · Notebook 1**
-
-*Prerequisites: Module 01 (NGS Fundamentals), Module 14 (Genetic Engineering In Silico)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Explain pooled CRISPR screen design: positive/negative selection, sgRNA library
-2. Process screen data: FASTQ → sgRNA count table with MAGeCK count
-3. Run MAGeCK test for gene essentiality scoring (RRA algorithm)
-4. Interpret log fold-change, p-value, and FDR for hit calling
-5. Visualize screen results: volcano plot, rank plot, sgRNA-level scatter
-
-
-
-**Key resources:**
 - [MAGeCK documentation](https://sourceforge.net/p/mageck/wiki/Home/)
 - [CRISPRScreenAnalyzeR](https://www.crisprscan.org/)
 - [DepMap portal](https://depmap.org/portal/)
 
-## 1. Pooled CRISPR Screen Design
+## Pooled CRISPR Screen Design
 
 ### What is a pooled CRISPR screen?
 
@@ -77,7 +46,7 @@ A pooled CRISPR screen introduces thousands of sgRNAs simultaneously into a cell
 
 A single sgRNA knockout phenotype could be due to off-target cutting, incomplete editing, or chance. With 4–6 sgRNAs targeting the same gene, if 3 of 4 are depleted, this is strong evidence for an on-target effect. MAGeCK's RRA algorithm explicitly uses this redundancy.
 
-## 2. sgRNA Counting: FASTQ → Count Table
+## sgRNA Counting: FASTQ → Count Table
 
 ### The MAGeCK count step
 
@@ -99,13 +68,6 @@ mageck count \
 ```python
 
 **Library file format** (CSV or space-delimited):
-```python
-sgRNA_ID,Sequence,Gene
-sgRNA001,ATCGATCGATCGATCGATCG,GENE_A
-sgRNA002,GCTAGCTAGCTAGCTAGCTA,GENE_A
-...
-NTC001,AAACTAGTCGATCGATCGAT,NonTargetingControl
-```python
 
 ### Output: count table
 
@@ -128,15 +90,15 @@ from scipy.stats import nbinom, rankdata
 
 np.random.seed(42)
 
-# -----------------------------------------------------------------------
+#
 # Simulate a CRISPR screen count table
 # Parameters:
-#   1000 genes × 4 sgRNAs each = 4000 sgRNAs
+#   1000 genes  4 sgRNAs each  4000 sgRNAs
 #   + 200 non-targeting controls (NTCs)
 #   3 replicates (day 14 post-selection)
-#   ~150 essential genes (strong negative selection)
-#   ~50 resistance genes (positive selection with drug)
-# -----------------------------------------------------------------------
+#   150 essential genes (strong negative selection)
+#   50 resistance genes (positive selection with drug)
+#
 N_GENES      = 1000
 SGRNAS_GENE  = 4
 N_NTC        = 200
@@ -164,7 +126,7 @@ for k in range(N_NTC):
 n_sgrna_total = len(sgrna_ids)
 print(f"Library: {n_sgrna_total} sgRNAs  ({N_GENES} genes × {SGRNAS_GENE} + {N_NTC} NTCs)")
 
-# Plasmid counts: negative binomial (overdispersed, mean 500, dispersion ~5)
+# Plasmid counts: negative binomial (overdispersed, mean 500, dispersion 5)
 plasmid_mu = 500
 plasmid_size = 5   # dispersion parameter
 plasmid_counts = nbinom.rvs(n=plasmid_size, p=plasmid_size/(plasmid_size+plasmid_mu),
@@ -210,25 +172,20 @@ print(f"\nCount table shape: {count_df.shape}")
 print(count_df.head(8).to_string(index=False))
 ```python
 
-## 3. MAGeCK test: Robust Rank Aggregation
+## MAGeCK test: Robust Rank Aggregation
 
 > RRA algorithm: rank sgRNAs by LFC, aggregate rankings per gene. Beta score for gene essentiality. Negative binomial model for p-value estimation.
 
-```python
-# Example: MAGeCK test
-# !mageck test -k sample.count.txt -t day14_rep1,day14_rep2 -c plasmid \
-#   -n mageck_output --gene-lfc-method median
-```python
 
-## 4. Hit Calling and Interpretation
+## Hit Calling and Interpretation
 
 > FDR threshold for positive and negative selection hits. Compare to DepMap CERES/Chronos essentiality scores. Enrichment of essential gene categories (proteasome, spliceosome, ribosome).
 
-## 5. Visualization
+## Visualization
 
 > Volcano plot (LFC vs -log10 FDR). Rank plot highlighting known essential genes. sgRNA-level scatter plot for top hits. Gini index for library uniformity.
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

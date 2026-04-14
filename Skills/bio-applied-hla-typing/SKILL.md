@@ -1,49 +1,18 @@
 ---
 name: bio-applied-hla-typing
-description: "**Tier 3 — Applied Bioinformatics | Module 34 · Notebook 3**"
+description: HLA Typing and Antigen Presentation
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/34_Immunogenomics/03_hla_typing.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # HLA Typing and Antigen Presentation
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/34_Immunogenomics/03_hla_typing.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 34 · Notebook 3**
-
-*Prerequisites: Notebook 2 (Immune Repertoire)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Explain MHC class I and II antigen presentation pathways
-2. Perform HLA typing from NGS data using OptiType and HLA*LA
-3. Predict peptide-MHC binding affinity with NetMHCpan
-4. Prioritize neoantigens from tumor somatic mutations
-5. Interpret HLA diversity and disease associations in population studies
-
-
-
-**Key resources:**
 - [IMGT/HLA database](https://www.ebi.ac.uk/ipd/imgt/hla/)
 - [OptiType documentation](https://github.com/FRED-2/OptiType)
 - [NetMHCpan 4.1](https://services.healthtech.dtu.dk/services/NetMHCpan-4.1/)
 - [pVACtools for neoantigen prioritization](https://pvactools.readthedocs.io/)
 
-## 1. MHC/HLA Biology
+## MHC/HLA Biology
 
 The **Major Histocompatibility Complex (MHC)** encodes cell-surface proteins that present peptide fragments to T cells. In humans, these are called **Human Leukocyte Antigens (HLA)**.
 
@@ -79,7 +48,7 @@ Format: `Gene*Field1:Field2:Field3:Field4[Suffix]`
 
 **A*02:01** is the most common HLA-A allele in Europeans (~28% frequency).
 
-## 2. HLA Typing from NGS Data
+## HLA Typing from NGS Data
 
 ### Computational HLA Typing Tools
 
@@ -163,7 +132,7 @@ print(f"B homozygous: {hla_df['B_homozygous'].sum()}/{n_patients}")
 all_a = pd.concat([hla_df['HLA-A1'], hla_df['HLA-A2']]).value_counts()
 print(f"\nHLA-A allele counts in cohort:\n{all_a.to_string()}")
 
-## 3. Peptide-MHC Binding Prediction
+## Peptide-MHC Binding Prediction
 
 ### Peptide Presentation Pathway (Class I)
 1. Protein → **proteasomal degradation** → 8-25 aa peptides
@@ -201,7 +170,7 @@ Rank by binding affinity (%Rank_EL < 0.5)
 Ranked neoantigen candidates for vaccine/TCR therapy
 ```python
 
-## 4. HLA Disease Associations
+## HLA Disease Associations
 
 HLA genotype is one of the strongest genetic determinants of disease susceptibility and drug response.
 
@@ -277,15 +246,15 @@ print("• Pharmacogenomics: Screen for HLA-B*57:01 BEFORE prescribing abacavir"
 print("  European patients: ~3.6% carry this allele → pre-treatment HLA testing is standard of care")
 ```python
 
-## 3. Neoantigen Prediction Pipeline
+## Neoantigen Prediction Pipeline
 
 > Somatic SNVs → peptide sequences (VEP annotation). 8–11-mer peptide windows around mutation. NetMHCpan prediction for patient-specific HLA alleles. Rank percentile threshold (< 0.5% strong binder). pVACseq pipeline.
 
-## 4. HLA Disease Associations
+## HLA Disease Associations
 
 > HLA-B*57:01 and abacavir hypersensitivity. HLA-DQ and celiac disease. HLA-A*02:01 enrichment in melanoma response to immunotherapy. GWAS HLA fine-mapping.
 
-## 5. Summary
+## Summary
 
 | Topic | Key Points |
 |-------|-----------|
@@ -303,7 +272,7 @@ print("  European patients: ~3.6% carry this allele → pre-treatment HLA testin
 - Repertoire clonality (Nb2) → reflects antigen-specific T cell expansion
 - Together: the immunogenomics triangle connecting sequence, specificity, and clinical response
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

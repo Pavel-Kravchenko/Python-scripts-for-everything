@@ -1,60 +1,20 @@
 ---
 name: python-bio-python-introduction
-description: "1. Explain why Python is the dominant language in bioinformatics 2. Navigate a Jupyter notebook: edit cells, run code, interpret output 3. Write and run your first bioinformatics program 4. Understand"
+description: Python Introduction for Bioinformatics
 tool_type: python
-source_notebook: "Tier_1_Python_for_Bioinformatics/01_Python_Introduction/01_python_introduction.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
+# Python Introduction for Bioinformatics
 
-Reference examples tested with: biopython 1.83+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# Module 1: Python Introduction for Bioinformatics
-
-*Source: Course notebook `Tier_1_Python_for_Bioinformatics/01_Python_Introduction/01_python_introduction.ipynb`*
-
-
----
-
-## Learning Objectives
-
-By the end of this notebook you will be able to:
-
-1. Explain why Python is the dominant language in bioinformatics
-2. Navigate a Jupyter notebook: edit cells, run code, interpret output
-3. Write and run your first bioinformatics program
-4. Understand the Python ecosystem for biology (BioPython, pandas, etc.)
-5. Install packages and manage virtual environments
-
----
-
-## Why this notebook matters
-
-Python is the dominant language of modern bioinformatics. Before learning syntax rules, you need to understand *why* Python — and get hands-on with it immediately. This module gives you the big picture: where Python fits in the biology lab, how Jupyter notebooks work, what the ecosystem looks like, and a first working program (nucleotide counter + GC content) that you can understand line by line.
-
-## How to use this notebook
-
-1. Run cells top to bottom using `Shift + Enter`.
-2. Read each explanation *before* running the accompanying code — the explanations are not just flavor text.
-3. When you see an exercise cell, try writing your own solution before looking at any hints.
-4. If BioPython is not installed, the BioPython demo cell will print an install message — that is expected and does not affect the rest of the notebook.
-
-## Common stumbling points in this module
+## Pitfalls
 
 - **f-strings vs. `%` formatting:** f-strings (e.g., `f"GC = {gc:.2f}%"`) are the modern approach introduced in Python 3.6. Older code uses `"GC = %.2f%%" % gc` — both work, but f-strings are clearer.
 - **`print()` returns `None`:** Beginners sometimes write `result = print(...)` expecting to capture the output. `print()` sends text to the screen and returns `None`. To capture a value, use a variable assignment, not `print`.
 - **The kernel vs. the notebook:** The "kernel" is the running Python process. If you restart the kernel, all variables disappear — you have to re-run cells from the top.
 - **`!pip install` inside a notebook:** The `!` prefix runs a shell command. This installs the package into whichever Python the kernel uses. It is the standard way to install packages from inside a Jupyter notebook.
 
-## 1. Why Python for Bioinformatics?
+## Why Python for Bioinformatics?
 
 Python has become the language of choice in life-science research for several reasons:
 
@@ -75,7 +35,7 @@ Python has become the language of choice in life-science research for several re
 - **Systems biology**: network analysis, pathway modeling
 - **Machine learning in biology**: drug discovery, protein function prediction
 
-## 2. Jupyter Notebooks
+## Jupyter Notebooks
 
 You are reading this in a **Jupyter notebook** -- an interactive document that mixes text (Markdown cells) with executable code (Code cells).
 
@@ -98,14 +58,6 @@ You are reading this in a **Jupyter notebook** -- an interactive document that m
 | `Esc` then `Y` | Convert cell to Code |
 | `Esc` then `DD` | Delete cell |
 
-Try running the cell below.
-
-```python
-# This is a code cell. Press Shift+Enter to run it.
-print("Welcome to Bioinformatics with Python!")
-```python
-
-You should see the text printed directly below the cell. Congratulations -- you have just run your first Python command in this course!
 
 ### Markdown cells
 
@@ -117,22 +69,12 @@ Markdown lets you write:
 - `inline code`
 - Links, images, tables, and even LaTeX math: $E = mc^2$
 
-## 3. Your First Bioinformatics Program
-
-Let us write a program that counts the nucleotides in a DNA string. This is one of the most fundamental operations in bioinformatics -- it appears as the very first problem on the [Rosalind](http://rosalind.info/) bioinformatics platform.
+## Your First Bioinformatics Program
 
 ### The problem
 
 Given a DNA string like `"AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC"`, count how many times each nucleotide (A, C, G, T) appears.
 
-```python
-# Our DNA sequence (from Rosalind "Counting DNA Nucleotides")
-dna = "AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC"
-
-print("DNA sequence:")
-print(dna)
-print(f"\nLength: {len(dna)} nucleotides")
-```python
 
 ```python
 # Count each nucleotide using the built-in .count() method
@@ -151,14 +93,11 @@ print(f"  Total: {a_count + c_count + g_count + t_count}")
 
 ### Understanding the code
 
-Let us break down what just happened:
-
 1. `dna = "AGCTTTTC..."` -- we stored a DNA string in a **variable** called `dna`.
 2. `len(dna)` -- the built-in `len()` function returns the number of characters in a string.
 3. `dna.count("A")` -- the `.count()` method counts how many times a substring appears.
 4. `print(f"...")` -- **f-strings** (formatted string literals) let you embed variables directly inside text using `{variable_name}`.
 
-We will cover each of these concepts in depth in later modules.
 
 ### Alternative approach: using a loop
 
@@ -202,7 +141,7 @@ else:
     print("This is in the moderate GC range.")
 ```python
 
-## 4. The Python Ecosystem for Biology
+## The Python Ecosystem for Biology
 
 One of Python's greatest strengths is its library ecosystem. Here are the key packages you will encounter in this course and in bioinformatics work:
 
@@ -258,7 +197,7 @@ except ImportError:
     print("We will cover installation in Section 5 below.")
 ```python
 
-## 5. Installing Packages and Virtual Environments
+## Installing Packages and Virtual Environments
 
 ### pip -- the Python package installer
 
@@ -286,10 +225,6 @@ pip install --upgrade biopython
 
 Inside a Jupyter notebook, you can run shell commands by prefixing them with `!`:
 
-```python
-# Uncomment and run to install BioPython:
-# !pip install biopython
-```python
 
 ### Virtual environments -- keeping projects isolated
 
@@ -332,15 +267,13 @@ conda install -c bioconda blast samtools
 
 **Recommendation for this course**: use either `venv` or `conda` to create one environment for all Tier 1 notebooks.
 
-## 6. Python Basics: A Quick Tour
-
-Before we dive deep in the next modules, here is a rapid overview of the building blocks we will be using. Run each cell to see the output.
+## Python Basics: A Quick Tour
 
 ### Comments
 
 Comments explain your code to human readers. Python ignores everything after `#`.
 
-## Common Pitfalls
+## Pitfalls
 
 - **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
 - **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based

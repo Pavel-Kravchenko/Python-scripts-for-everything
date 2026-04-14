@@ -4,17 +4,6 @@ description: Oxford Nanopore and PacBio long-read sequencing — basecalling (Do
 primary_tool: Pandas
 ---
 
-## Version Compatibility
-
-Reference examples tested with: biopython 1.83+, pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Long-Read Sequencing
 
 ## When to Use
@@ -98,7 +87,7 @@ se <- bambu(reads='aligned.bam',
             annotations=gencode_gtf,
             genome=hg38_fa)
 writeBambuOutput(se, path='bambu_output/')
-# se@rowRanges contains isoform coordinates
+# serowRanges contains isoform coordinates
 # assay(se, 'CPM') contains isoform-level expression
 ```python
 
@@ -112,7 +101,7 @@ writeBambuOutput(se, path='bambu_output/')
 | Methylation | Direct (native DNA) | 5mC with Kinetics |
 | Cost per Gb | Low | Higher |
 
-## Common Pitfalls
+## Pitfalls
 
 - **Basecall model selection** — match model to flow cell (R9.4 vs R10.4) and kit chemistry
 - **Assembly genome size** — always provide `--genome-size` to Flye for ploidy-aware assembly

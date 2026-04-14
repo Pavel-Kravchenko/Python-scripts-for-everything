@@ -1,54 +1,13 @@
 ---
 name: algo-dijkstra
-description: "1. Understand weighted graphs and their biological applications 2. Implement Dijkstra's algorithm with a priority queue 3. Apply shortest path finding to confidence-weighted PPI networks"
+description: "Dijkstra's Algorithm: Shortest Paths in Weighted Graphs"
 tool_type: python
-source_notebook: "Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/03_dijkstra.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
+#  Dijkstra's Algorithm: Shortest Paths in Weighted Graphs
 
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# ⚡ Dijkstra's Algorithm: Shortest Paths in Weighted Graphs
-
-*Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/03_dijkstra.ipynb`*
-
-
-## Learning Objectives
-
-1. Understand weighted graphs and their biological applications
-2. Implement Dijkstra's algorithm with a priority queue
-3. Apply shortest path finding to confidence-weighted PPI networks
-
----
-
-```python
-import heapq
-from collections import defaultdict
-
-class WeightedGraph:
-    """Weighted graph using adjacency list."""
-    def __init__(self):
-        self.adj = defaultdict(list)  # vertex -> [(neighbor, weight), ...]
-    
-    def add_edge(self, u, v, weight, directed=False):
-        self.adj[u].append((v, weight))
-        if not directed:
-            self.adj[v].append((u, weight))
-    
-    def vertices(self):
-        return list(self.adj.keys())
-```python
-
-## 1. Dijkstra's Algorithm
+## Dijkstra's Algorithm
 
 Finds shortest paths from a source to all vertices in a graph with **non-negative** edge weights.
 
@@ -189,8 +148,8 @@ dijkstra_verbose(demo, 'A')
 ```python
 
 ```python
-# Build weighted PPI network (weights = interaction confidence)
-# Lower weight = higher confidence (we minimize distance)
+# Build weighted PPI network (weights  interaction confidence)
+# Lower weight  higher confidence (we minimize distance)
 ppi = WeightedGraph()
 interactions = [
     ('TP53', 'MDM2', 0.01),   # Very high confidence
@@ -240,11 +199,11 @@ def most_reliable_path(graph, start, end, confidences):
         for v, _ in neighbors:
             conf = confidences.get((u, v), confidences.get((v, u), 0.5))
             log_graph.add_edge(u, v, -math.log(conf), directed=True)
-    
+
     distances, preds = dijkstra(log_graph, start)
     path = reconstruct_path(preds, end)
     reliability = math.exp(-distances[end])
-    
+
     return path, reliability
 
 # Test with original confidence scores
@@ -282,13 +241,13 @@ def graph_diameter(graph):
     pass
 
 # Apply to the PPI network
-# result = graph_diameter(ppi)
-# print(f"PPI network diameter: {result[0]:.2f}")
-# print(f"Furthest pair: {result[1]} -> {result[2]}")
-# print(f"Path: {' -> '.join(result[3])}")
+# result  graph_diameter(ppi)
+# print(fPPI network diameter: result0:.2f)
+# print(fFurthest pair: result1 - result2)
+# print(fPath: ' - '.join(result3))
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

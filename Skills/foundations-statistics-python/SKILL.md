@@ -1,62 +1,21 @@
 ---
 name: foundations-statistics-python
-description: "**Tier 0 -- Computational Foundations | Module 7b**"
+description: Statistics with Python
 tool_type: python
-source_notebook: "Tier_0_Computational_Foundations/07_Probability_and_Statistics_Python/02_statistics_python.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
+# Statistics with Python
 
-Reference examples tested with: statsmodels 0.14+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# Module 0.7b: Statistics with Python
-
-*Source: Course notebook `Tier_0_Computational_Foundations/07_Probability_and_Statistics_Python/02_statistics_python.ipynb`*
-
-
-**Tier 0 -- Computational Foundations | Module 7b**
-
----
-
-### Learning Objectives
-
-By the end of this module, you will be able to:
-- Apply the correct hypothesis test for each study design (parametric vs. non-parametric, paired vs. independent)
-- Run t-tests, ANOVA, Mann-Whitney, chi-square, and Fisher's exact tests in Python
-- Apply multiple testing correction (Bonferroni and BH/FDR) to genomics-scale analyses
-- Fit simple and multiple linear regression models with `statsmodels`
-- Perform power analysis to determine required sample sizes
-
-**Prerequisites:** Python basics, numpy, Module 0.7a Probability
-
-**Estimated time:** 3-4 hours
-
----
-
-## How to use this notebook
-1. Run imports first, then cells top-to-bottom.
-2. For each test, read the "when to use" guidance before running the code — the wrong test on the wrong data is a common source of errors.
-3. The worked differential expression example in Section 10 connects every concept from this notebook into a complete analysis. Read it after studying the individual sections.
-4. Check the assumptions for each test. When data is simulated, we control the distribution; with real data, you must verify.
-
-## Common stumbling points
+## Pitfalls
 
 - **`ttest_ind` assumes equal or unequal variance**: By default, scipy uses Welch's t-test (unequal variance), which is appropriate for most bioinformatics comparisons. If you have reason to believe variances are equal, pass `equal_var=True`.
 - **`mannwhitneyu` requires the `alternative` argument**: Omitting it uses a two-sided test by default in newer scipy, but older versions behave differently. Always specify `alternative='two-sided'` or `'greater'` explicitly.
 - **Multiple testing correction input is an array**: `multipletests` from statsmodels takes an array of p-values and returns corrected p-values and boolean reject arrays. The order of returned values is `(reject, pvals_corrected, alphacSidak, alphacBonf)`.
 - **`pearsonr` returns (r, p) not just r**: A common mistake is to write `r = stats.pearsonr(x, y)` and then try to use `r` as a number. Unpack as `r, p = stats.pearsonr(x, y)`.
 
----
 
-## 1. The scipy.stats API
+## The scipy.stats API
 
 Before applying statistical tests, you need to know how to work with probability distributions in Python. `scipy.stats` provides every distribution through a consistent interface — once you learn it for one, you know it for all.
 
@@ -164,7 +123,7 @@ The number of somatic mutations observed in a gene across cancer samples approxi
 
 ```python
 # Poisson: somatic mutation count per gene across 100 tumor samples
-# Background rate: ~1 mutation per 1 Mb, gene = 3 kb => lambda = 0.3
+# Background rate: 1 mutation per 1 Mb, gene  3 kb  lambda  0.3
 # A driver gene will have higher observed counts
 lambda_background = 0.3
 lambda_driver     = 3.5   # 10x enrichment — likely driver gene
@@ -200,7 +159,7 @@ scipy.stats uses the `nbinom(n, p)` parameterisation. To convert from the bioinf
 
 ```python
 # Negative Binomial: RNA-seq count distribution
-# Typical low-expressed gene: mean=50, dispersion=0.1 (variance = 50 + 0.1*50^2 = 300)
+# Typical low-expressed gene: mean50, dispersion0.1 (variance  50 + 0.1*502  300)
 mu_rnaseq   = 50
 alpha_disp  = 0.1   # dispersion parameter
 
@@ -267,9 +226,8 @@ plt.tight_layout()
 plt.show()
 ```python
 
----
 
-## 2. Descriptive Statistics and Visualization
+## Descriptive Statistics and Visualization
 
 Before running any test, explore your data visually. The goal is to understand the distribution shape, spot outliers, and decide whether parametric or non-parametric methods are appropriate.
 
@@ -302,7 +260,7 @@ print("Summary statistics for gene_0 across tissues:")
 print(summary_df.describe().round(3))
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

@@ -1,46 +1,17 @@
 ---
 name: bio-applied-assembly-sv
-description: "*Prerequisites: Notebook 1 (ONT Processing), Module 17 (Genome Assembly)*"
+description: Long-Read Assembly  Structural Variants with NumPy
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/02_assembly_sv.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
+# Long-Read Assembly  Structural Variants
 
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# Long-Read Assembly & Structural Variants
-
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/02_assembly_sv.ipynb`*
-
-**Tier 3 — Applied Bioinformatics | Module 25 · Notebook 2**
-
-*Prerequisites: Notebook 1 (ONT Processing), Module 17 (Genome Assembly)*
-
----
-
-**By the end of this notebook you will be able to:**
-
-1. Assemble a genome or metagenome from ONT reads with Flye
-2. Assemble HiFi data with Hifiasm and understand the difference from ONT assembly
-3. Polish an ONT assembly with Medaka (neural-network polishing)
-4. Assess assembly quality with QUAST and BUSCO
-5. Detect structural variants (deletions, insertions, inversions) with Sniffles2
-
-**Key resources:**
 - [Flye documentation](https://github.com/fenderglass/Flye)
 - [Hifiasm documentation](https://github.com/chhylp123/hifiasm)
 - [Sniffles2 documentation](https://github.com/fritzsedlazeck/Sniffles)
 
-## 1. De Novo Assembly with Flye
+## De Novo Assembly with Flye
 
 Flye uses a **repeat graph** assembly algorithm. Unlike overlap-layout-consensus (OLC) assemblers, Flye constructs an assembly graph where repeated sequences are collapsed into shared nodes. This handles the complex repeat structure of eukaryotic genomes better than traditional OLC approaches, because repeats that would cause an OLC graph to collapse into a tangled hairball are instead represented as traversed-multiple-times edges. The underlying graph is iterative: Flye first builds an approximate repeat graph from a disjointig set, then resolves it by checking which paths through repeat nodes are supported by bridging reads.
 
@@ -56,23 +27,6 @@ The `--genome-size` flag is required (e.g., `5m` for 5 Mb bacterial, `3g` for 3 
 | Human (3 Gb) | PacBio HiFi, 30× | 500–1,500 contigs | ~80–150 Mb |
 | Metagenome | ONT R10.4.1, mixed | depends on diversity | 100 kb – 5 Mb (per species) |
 
-```python
-# Assemble ONT R10.4.1 reads (high quality mode)
-# !flye --nano-hq calls_filtered.fastq.gz \
-#       --genome-size 5m \
-#       --out-dir flye_assembly/ \
-#       --threads 8
-
-# For lower quality ONT reads (R9.4.1, Q < 15):
-# !flye --nano-raw calls_filtered.fastq.gz --genome-size 5m --out-dir flye_r9/ --threads 8
-
-# For PacBio HiFi reads:
-# !flye --pacbio-hifi hifi_reads.fastq.gz --genome-size 5m --out-dir flye_hifi/ --threads 8
-
-# View assembly statistics
-# !cat flye_assembly/assembly_info.txt
-# !grep -c ">" flye_assembly/assembly.fasta  # count contigs
-```python
 
 ```python
 import numpy as np
@@ -94,7 +48,7 @@ contig_lengths = (raw_lengths / raw_lengths.sum() * genome_size).astype(int)
 contig_lengths[-1] = genome_size - contig_lengths[:-1].sum()
 contig_lengths = np.sort(contig_lengths)[::-1]
 
-# Generate coverage (depth ~ 100x)
+# Generate coverage (depth  100x)
 mean_cov = 100.0
 coverages = rng.normal(mean_cov, mean_cov * 0.05, n_contigs)
 
@@ -128,7 +82,7 @@ n50 = compute_n50(contig_lengths)
 print(f"Assembly N50:      {n50:,} bp")
 ```python
 
-## 2. HiFi Assembly with Hifiasm
+## HiFi Assembly with Hifiasm
 
 Hifiasm is the leading assembler for PacBio HiFi reads and can also assemble Hi-C+HiFi or HiFi+ONT ultra-long combinations. It uses a **haplotype-resolved** assembly graph that produces **phased** assemblies by default. Rather than collapsing heterozygous loci into a consensus, Hifiasm preserves both haplotypes as separate paths through the graph, enabling downstream allele-specific analyses that are impossible with collapsed assemblers.
 
@@ -147,24 +101,6 @@ Compared to Flye, Hifiasm typically produces larger contigs (higher N50) and bet
 | Trio binning | No | Yes (with yak) |
 | Hi-C scaffolding | Via 3rd-party | Native support |
 
-```python
-# Standard HiFi assembly with Hifiasm
-# !hifiasm -o sample.asm -t 8 hifi_reads.fastq.gz
-
-# Convert primary assembly GFA to FASTA
-# !awk '/^S/{print ">"$2"\n"$3}' sample.asm.bp.p_ctg.gfa > assembly_primary.fasta
-
-# Trio-binned phased assembly (requires parental k-mer databases)
-# !yak count -b37 -t 8 -o pat.yak paternal_illumina.fastq.gz
-# !yak count -b37 -t 8 -o mat.yak maternal_illumina.fastq.gz
-# !hifiasm -o sample_trio.asm -t 8 -1 pat.yak -2 mat.yak hifi_reads.fastq.gz
-# !awk '/^S/{print ">"$2"\n"$3}' sample_trio.asm.dip.hap1.p_ctg.gfa > hap1.fasta
-# !awk '/^S/{print ">"$2"\n"$3}' sample_trio.asm.dip.hap2.p_ctg.gfa > hap2.fasta
-
-# Count and summarize contigs
-# !grep -c ">" assembly_primary.fasta
-# !awk '/^>/{next}{len+=length($0)} END{print "Total bases:", len}' assembly_primary.fasta
-```python
 
 ```python
 import numpy as np
@@ -215,7 +151,7 @@ plt.tight_layout()
 plt.show()
 ```python
 
-## 3. Assembly Polishing with Medaka
+## Assembly Polishing with Medaka
 
 Polishing corrects remaining systematic errors in the draft assembly. For ONT assemblies, Flye's draft typically has ~0.1–1% error rate, dominated by homopolymer indels — insertions or deletions within runs of the same base (e.g., AAAAAAA → AAAAAA). These are characteristic of nanopore sequencing because the electrical signal changes only when a new base enters the sensing region, making homopolymer runs inherently ambiguous. Short-read polishing tools like Pilon can also address these errors if Illumina data is available.
 
@@ -231,7 +167,7 @@ Medaka is specifically designed for ONT reads. For PacBio HiFi assemblies, polis
 | Homopolymer errors | ~0.5–1% | ~0.1–0.2% | ~5× |
 | Overall QV | ~QV30 | ~QV40–45 | significant |
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

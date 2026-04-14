@@ -1,42 +1,11 @@
 ---
 name: ai-science-geneformer-scgpt
-description: "**Tier 5 — Modern AI for Science | Module 07 · Notebook 1**"
+description: Geneformer and scGPT for Single-Cell Modeling
 tool_type: python
-source_notebook: "Tier_5_Modern_AI_for_Science/07_Foundation_Models_Single_Cell/01_geneformer_scgpt.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Geneformer and scGPT for Single-Cell Modeling
-
-*Source: Course notebook `Tier_5_Modern_AI_for_Science/07_Foundation_Models_Single_Cell/01_geneformer_scgpt.ipynb`*
-
-
-**Tier 5 — Modern AI for Science | Module 07 · Notebook 1**
-
-*Prerequisites: Single-cell preprocessing basics, transformer fundamentals*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Explain rank-based tokenization for single-cell profiles
-2. Build toy cell embeddings from expression matrices
-3. Perform simple cell-type annotation from embedding space
-4. Prototype perturbation-response prediction workflow
-
-## Why this notebook matters
-
-Single-cell RNA sequencing generates expression profiles for thousands of individual cells, but the data is extremely sparse (most genes are not detected per cell), and each cell is measured by a different set of captured molecules. Foundation models for single-cell biology learn representations that are robust to this sparsity and that generalize across tissues, datasets, and perturbations. They are now used for cell-type annotation, perturbation response prediction, and cross-dataset integration at atlas scale.
 
 ## How to work through this notebook
 
@@ -52,7 +21,7 @@ Single-cell RNA sequencing generates expression profiles for thousands of indivi
 - **scGPT's gene vocabulary**: scGPT uses a discrete token for each gene ID (from NCBI Entrez IDs). Expression levels are binned into discrete bins. The model then processes a sequence of (gene_token, expression_bin_token) pairs.
 - **Transfer learning**: both models are pretrained on millions of cells and fine-tuned on small task-specific datasets. Fine-tuning requires fewer labeled cells than training from scratch — but always check that the pretraining data overlaps with your tissue/cell type of interest.
 
-## 1. Geneformer and scGPT Architecture
+## Geneformer and scGPT Architecture
 
 ### 1a. Geneformer
 
@@ -64,7 +33,6 @@ Geneformer (Theodoris et al., Nature 2023) was pretrained on ~30 million human s
 3. Each gene is represented by a learned embedding vector (gene token)
 4. The ordered sequence of gene tokens encodes the entire cell state
 
-This is analogous to treating a cell as a "sentence" where the "words" are gene names and their "order" encodes relative expression.
 
 **Pretraining objective:** Masked language modeling — randomly mask a fraction of gene tokens and train to predict them from the remaining ranked genes.
 
@@ -105,7 +73,7 @@ scGPT (Cui et al., Nature Methods 2024) was pretrained on ~33 million cells from
 | Perturbation modeling | Via embedding shift | Via explicit perturbation tokens |
 | Output | CLS embedding, masked gene prediction | Expression profiles, perturbation responses |
 
-## 2. Toy expression matrix
+## Toy expression matrix
 
 We create a synthetic single-cell expression matrix (cells × genes) with three cell types and marker genes. This illustrates the rank-tokenization workflow from Section 1.
 
@@ -129,7 +97,7 @@ expr = pd.DataFrame(X, columns=genes)
 expr.head(3)
 ```python
 
-## 3. Rank-token style embedding
+## Rank-token style embedding
 
 Geneformer-style: represent each cell by ranked genes rather than raw count vectors. The `toy_cell_embedding` function below builds a weighted sum where earlier ranks (higher expressed genes) contribute more, using a 1/(rank+1) weight — a simplified version of Geneformer's positional encoding approach.
 
@@ -150,7 +118,7 @@ E = np.vstack([toy_cell_embedding(t, n_genes=len(genes)) for t in tokens])
 print('Embedding matrix:', E.shape)
 ```python
 
-## 4. Cell-type annotation via nearest centroid
+## Cell-type annotation via nearest centroid
 
 Using the rank-token embeddings, we train a nearest-centroid classifier to assign cell types. This is analogous to fine-tuning Geneformer's CLS token for classification — but simpler. The high accuracy (typically >95% here) reflects that our synthetic marker genes are strong discriminators.
 
@@ -172,9 +140,7 @@ acc = float((pred == y[test]).mean())
 print('Annotation accuracy:', round(acc, 3))
 ```python
 
-## 5. Perturbation prediction prototype
-
-This section illustrates the scGPT perturbation workflow conceptually. In real scGPT, a perturbation embedding (learned during pretraining on Perturb-seq datasets) is injected into the transformer, and the model predicts post-perturbation expression profiles. The rule-based modifications below are stand-ins for that learned prediction.
+## Perturbation prediction prototype
 
 ```python
 def perturb_predict(cell_vec: np.ndarray, pert: str) -> np.ndarray:
@@ -193,9 +159,7 @@ for p in ['KO_G02', 'KO_G09', 'CYTOKINE_X']:
     print(p, 'delta_mean=', round(float((pred_expr - cell0).mean()), 4))
 ```python
 
-## 6. Scaling to atlas data
-
-For real projects, use CellxGene Census and the official Geneformer/scGPT model APIs for million-cell scale workflows. The patterns demonstrated in this notebook — rank tokenization, centroid annotation, perturbation prediction — map directly to the real model APIs. Keep local prototypes like this for logic validation and QC before running at scale.
+## Scaling to atlas data
 
 ## Summary
 
@@ -216,7 +180,7 @@ Checked online during content expansion.
 - [scGPT paper (Nature Methods 2024)](https://www.nature.com/articles/s41592-024-02201-0)
 - [CellxGene Census documentation](https://chanzuckerberg.github.io/cellxgene-census/)
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

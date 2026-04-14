@@ -4,18 +4,7 @@ description: RNA-seq differential expression — DESeq2, edgeR, normalization st
 primary_tool: Matplotlib
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, pydeseq2 0.4+, scikit-learn 1.4+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# RNA-seq Analysis & Differential Expression
+# RNA-seq Analysis  Differential Expression
 
 ## When to Use
 - Differential gene expression from RNA-seq count data
@@ -24,7 +13,6 @@ package and adapt the example to match the actual API rather than retrying.
 - Exploratory analysis: PCA, hierarchical clustering of samples
 - Downstream interpretation: volcano plots, MA plots, GSEA / ORA
 
----
 
 ## Quick Reference
 
@@ -44,7 +32,7 @@ FASTQ → QC (FastQC/fastp) → Alignment (STAR/HISAT2) → Count (featureCounts
 | TPM | `(C/L) / Σ(Cⱼ/Lⱼ) × 10⁶` | Cross-sample comparison (sums to 1 M) |
 | DESeq2 size factor | `median(sample_counts / geo_mean_across_samples)` | DE testing |
 
-C = read count, L = gene length (bp), N = total mapped reads.  
+C = read count, L = gene length (bp), N = total mapped reads.
 **Use TPM for reporting/visualization; raw counts + DESeq2 for DE testing.**
 
 ### Aligner Comparison
@@ -63,7 +51,6 @@ C = read count, L = gene length (bp), N = total mapped reads.
 | limma-voom | Linear model on voom-transformed counts | Most flexible for complex designs |
 | PyDESeq2 | Python port of DESeq2 | Full Python workflow; compatible result format |
 
----
 
 ## Key Patterns
 
@@ -117,7 +104,6 @@ def simple_de(count_df, ctrl_samples, treat_samples):
     return df.sort_values('pvalue')
 ```python
 
----
 
 ## Code Templates
 
@@ -211,9 +197,8 @@ def volcano_plot(results_df: pd.DataFrame,
     plt.tight_layout(); plt.show()
 ```python
 
----
 
-## Common Pitfalls
+## Pitfalls
 
 - **Using RPKM/TPM for DE testing** — they introduce ratio-of-ratios artifacts. Always pass raw counts to DESeq2/edgeR.
 - **Not accounting for library composition** — a single highly-expressed gene can suppress apparent expression of all others. DESeq2 median-of-ratios is robust to this; CPM/TPM are not.
@@ -223,7 +208,6 @@ def volcano_plot(results_df: pd.DataFrame,
 - **Filtering after DE** — apply independent filtering before testing (DESeq2 does this automatically); hard count cut-offs can bias results.
 - **Multiple testing in ORA** — apply BH correction across all tested pathways; individual Fisher p-values alone inflate false discovery.
 
----
 
 ## Related Skills
 - `metagenomics-shotgun` — 16S amplicon diversity analysis, QIIME2, alpha/beta diversity

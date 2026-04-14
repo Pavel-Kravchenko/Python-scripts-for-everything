@@ -2,23 +2,10 @@
 name: bio-applied-screen-qc-normalization
 description: "CRISPR screen quality control and normalization: library distribution QC, Gini index, replicate correlation, and count normalization. Use when processing CRISPR screen count matrices."
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/33_CRISPR_Screen_Analysis/02_screen_qc_normalization.ipynb"
 primary_tool: MAGeCK
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+, pandas 2.1+, matplotlib 3.8+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
 # CRISPR Screen QC, Normalization, and Advanced Methods
-
-*Prerequisites: MAGeCK Gene Essentiality (Module 33, Notebook 1)*
 
 **By the end of this skill you will be able to:**
 1. Assess screen quality with Gini index, read depth distribution, and sgRNA evenness
@@ -26,7 +13,7 @@ package and adapt the example to match the actual API rather than retrying.
 3. Evaluate replicate concordance
 4. Detect and handle copy-number bias
 
-## 1. Screen Quality Metrics
+## Screen Quality Metrics
 
 **Goal:** Assess whether a CRISPR screen has sufficient quality for downstream analysis.
 
@@ -90,7 +77,7 @@ for sample, m in qc.items():
           f"median={m['median_count']:.0f}")
 ```
 
-## 2. Count Normalization
+## Count Normalization
 
 **Goal:** Remove technical variation (sequencing depth differences) while preserving biological signal.
 
@@ -124,7 +111,7 @@ norm_counts = median_ratio_normalize(count_matrix)
 print("Size factors:", (count_matrix.sum() / norm_counts.sum()).round(3).to_dict())
 ```
 
-## 3. Replicate Concordance
+## Replicate Concordance
 
 **Goal:** Verify that biological replicates agree before merging or averaging.
 
@@ -161,7 +148,7 @@ print(f"Replicate concordance: Pearson r={corr['pearson_r']:.3f}, "
       f"Spearman rho={corr['spearman_rho']:.3f}")
 ```
 
-## 4. Copy-Number Bias Detection
+## Copy-Number Bias Detection
 
 **Goal:** Identify and flag guides in amplified genomic regions where high copy number inflates dropout signal.
 
@@ -212,7 +199,7 @@ print(f"CN-biased segments: {cn_result['cn_biased'].sum()} / {len(cn_result)}")
 | Reads per guide (median) | > 300 | 100–300 | < 100 |
 | Essential gene depletion | > 5σ | 3–5σ | < 3σ |
 
-## Common Pitfalls
+## Pitfalls
 
 - **Low MOI violations**: If MOI > 0.3, multiple guides per cell corrupt phenotype-guide assignment
 - **Plasmid library bias**: Always compare to a plasmid control, not just between treatment groups

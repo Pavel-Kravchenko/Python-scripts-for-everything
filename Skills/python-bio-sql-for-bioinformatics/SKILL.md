@@ -1,45 +1,17 @@
 ---
 name: python-bio-sql-for-bioinformatics
-description: "Ensembl, UCSC Genome Browser, NCBI, and dbSNP are all backed by relational databases. Even locally, SQLite is a practical way to store and query gene annotations, variant tables, and expression result"
+description: Ensembl, UCSC Genome Browser, NCBI, and dbSNP are all backed by relational databases. Even locally, SQLite is a practical way to store and query gene annotations, variant tables, and expression result
 tool_type: python
-source_notebook: "Tier_1_Python_for_Bioinformatics/19_SQL_for_Bioinformatics/01_sql_for_bioinformatics.ipynb"
 primary_tool: Pandas
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+, pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # SQL for Bioinformatics
-
-*Source: Course notebook `Tier_1_Python_for_Bioinformatics/19_SQL_for_Bioinformatics/01_sql_for_bioinformatics.ipynb`*
-
-
-## Learning Objectives
-1. Write SQL queries to retrieve biological data
-2. Use JOINs to combine related tables
-3. Aggregate and filter data with GROUP BY and HAVING
-4. Integrate SQL with Python using sqlite3 and pandas
-
-## How to use this notebook
-
-Run cells from top to bottom on the first pass — later cells depend on functions and variables defined earlier. Once you have run through the notebook, feel free to modify parameters and re-run individual sections.
-
-Each section has runnable examples first, followed by exercises. Try the exercise before looking at the solution cell below it.
 
 ## Complicated moments explained
 
 **1. JOIN type determines which rows survive**
 - `INNER JOIN`: only rows with matches in both tables.
 - `LEFT JOIN`: all rows from the left table; NULL for unmatched right-side columns.
-In bioinformatics, a `LEFT JOIN` is usually what you want: keep all genes, add variant info where available.
 
 **2. `HAVING` is not the same as `WHERE`**
 `WHERE` filters rows *before* grouping. `HAVING` filters *after* grouping. To filter groups by aggregate values (e.g., "genes with more than 3 variants"), use `HAVING COUNT(*) > 3`.
@@ -59,7 +31,7 @@ import numpy as np
 conn = sqlite3.connect(":memory:")
 cursor = conn.cursor()
 
-# ---- Schema ----
+# Schema ----
 cursor.executescript("""
 CREATE TABLE genes (
     gene_id   INTEGER PRIMARY KEY,
@@ -98,7 +70,7 @@ CREATE TABLE gene_pathway (
 );
 """)
 
-# ---- Seed data ----
+# Seed data ----
 genes_data = [
     (1, 'BRCA1', 'chr17', 43044295, 43125483, 'protein_coding'),
     (2, 'TP53',  'chr17',  7661779,  7687538, 'protein_coding'),
@@ -138,7 +110,7 @@ gp_data = [(1,1),(2,1),(2,2),(4,2),(3,3),(2,3)]
 cursor.executemany("INSERT INTO gene_pathway VALUES (?,?)", gp_data)
 
 conn.commit()
-print("Database ready:", 
+print("Database ready:",
       len(pd.read_sql_query("SELECT * FROM genes", conn)), "genes,",
       len(pd.read_sql_query("SELECT * FROM variants", conn)), "variants,",
       len(pd.read_sql_query("SELECT * FROM expression", conn)), "expression rows")
@@ -225,8 +197,6 @@ print(df)
 
 ## Subqueries
 
-A subquery is a `SELECT` nested inside another query. Use them with `IN` to filter rows against a dynamically computed set — handy when you want to combine criteria from different tables without an explicit JOIN.
-
 ```python
 # Genes that are both highly expressed in tumors AND carry pathogenic variants
 df = pd.read_sql_query("""
@@ -283,11 +253,6 @@ df = pd.read_sql_query("""
 print(df)
 ```python
 
-## Exercises
-
-**Exercise 1** (★) — Write a query that returns all `protein_coding` genes on chromosome 7, showing their symbol, start position, end position, and strand.
-
-```python
 # Your query here
 df = pd.read_sql_query("""
     -- fill query
@@ -317,7 +282,7 @@ print(df)
 conn.close()
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
 - **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based

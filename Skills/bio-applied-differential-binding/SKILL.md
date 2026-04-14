@@ -2,40 +2,11 @@
 name: bio-applied-differential-binding
 description: "Differential binding analysis for ChIP-seq: DiffBind workflow, consensus peaks, normalization, and MA/volcano plots. Use when comparing ChIP-seq signal between conditions."
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/24_ChIP_seq_Epigenomics/02_differential_binding.ipynb"
 primary_tool: Matplotlib
 ---
 
-## Version Compatibility
+# Differential Binding  Peak Annotation
 
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# Differential Binding & Peak Annotation
-
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/24_ChIP_seq_Epigenomics/02_differential_binding.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 24 · Notebook 2**
-
-*Prerequisites: Notebook 1 (ChIP-seq Pipeline) — deduplicated BAMs and called peaks required.*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Run differential binding analysis with DiffBind across conditions
-2. Annotate peaks to nearest genomic features with ChIPseeker
-3. Visualize peak distribution across genomic regions (promoter, intron, intergenic)
-4. Run GO and pathway enrichment on genes associated with differential peaks
-5. Overlap ChIP-seq peaks with RNA-seq DEGs to identify regulatory targets
-
-**Key resources:**
 - [Bioconductor DiffBind vignette](https://bioconductor.org/packages/release/bioc/vignettes/DiffBind/inst/doc/DiffBind.pdf)
 - [Bioconductor ChIPseeker vignette](https://bioconductor.org/packages/release/bioc/vignettes/ChIPseeker/inst/doc/ChIPseeker.html)
 
@@ -60,7 +31,7 @@ plt.rcParams['font.size'] = 11
 print('Setup complete.')
 ```python
 
-## 1. Differential Binding with DiffBind (R)
+## Differential Binding with DiffBind (R)
 
 **DiffBind** quantifies reads in a consensus peak set across all samples and applies DESeq2 or edgeR to identify peaks that gain or lose binding between experimental conditions. The **consensus peak set** is constructed as the union of peaks called in at least 2 samples (default `minMembers = 2`), ensuring that only reproducible peaks are included in the analysis. This reduces noise from spurious peaks unique to a single replicate. The resulting matrix — samples × consensus peaks with read counts — is then processed identically to an RNA-seq count matrix.
 
@@ -68,56 +39,6 @@ The **DiffBind sample sheet** is a CSV file with one row per sample and columns 
 
 `dba.contrast()` defines the pairwise comparison, referencing the `DBA_CONDITION` metadata column. `dba.analyze()` runs DESeq2 by default (set `method = DBA_EDGER` to switch). `dba.report()` returns a GRanges object with log₂ fold change, p-value, and FDR for each consensus peak; the `th` and `fold` arguments filter to a significance threshold. Volcano plots from `dba.plotVolcano()` and PCA plots from `dba.plotPCA()` quickly reveal whether replicates cluster by condition and whether differential binding is driven by a small number of peaks or genome-wide.
 
-```python
-# ============================================================
-# DiffBind Differential Binding Analysis (R)
-# Run in R or via rpy2 — requires R + Bioconductor packages
-# ============================================================
-
-# --- Sample sheet (samplesheet.csv) format ---
-# SampleID,   Condition,  Replicate, bamReads,                   bamControl,
-#   Peaks,                              PeakCaller
-# CTCF_Ctrl1, Control,    1,  dedup/ctcf_ctrl1_dedup.bam, dedup/input1.bam,
-#   peaks/ctcf_ctrl1_peaks.narrowPeak,  macs
-# CTCF_Ctrl2, Control,    2,  dedup/ctcf_ctrl2_dedup.bam, dedup/input2.bam,
-#   peaks/ctcf_ctrl2_peaks.narrowPeak,  macs
-# CTCF_Trt1,  Treatment,  1,  dedup/ctcf_trt1_dedup.bam,  dedup/input3.bam,
-#   peaks/ctcf_trt1_peaks.narrowPeak,   macs
-# CTCF_Trt2,  Treatment,  2,  dedup/ctcf_trt2_dedup.bam,  dedup/input4.bam,
-#   peaks/ctcf_trt2_peaks.narrowPeak,   macs
-
-# library(DiffBind)
-#
-# # 1. Load sample sheet and build DBA object
-# dba_obj <- dba(sampleSheet = 'samplesheet.csv')
-# print(dba_obj)
-#
-# # 2. Count reads in consensus peak set (peaks in >= 2 samples)
-# dba_obj <- dba.count(dba_obj, bUseSummarizeOverlaps = TRUE)
-#
-# # 3. Normalize using RLE (same as DESeq2 default)
-# dba_obj <- dba.normalize(dba_obj, normalize = DBA_NORM_RLE)
-#
-# # 4. Define contrast: Treatment vs. Control
-# dba_obj <- dba.contrast(dba_obj, categories = DBA_CONDITION, minMembers = 2)
-#
-# # 5. Run differential analysis (DESeq2 by default)
-# dba_obj <- dba.analyze(dba_obj, method = DBA_DESEQ2)
-#
-# # 6. Report results (FDR < 0.05, |FC| > 1.5)
-# db_peaks <- dba.report(dba_obj, th = 0.05, fold = log2(1.5))
-# print(db_peaks)
-#
-# # 7. Volcano plot
-# dba.plotVolcano(dba_obj)
-#
-# # 8. PCA of binding affinity scores
-# dba.plotPCA(dba_obj, DBA_CONDITION, label = DBA_ID)
-#
-# # Export to BED
-# rtracklayer::export(db_peaks, 'diffbind_results.bed')
-print('R code shown as comments — run in an R environment or Rscript.')
-```python
 
 ```python
 import numpy as np
@@ -213,7 +134,7 @@ plt.tight_layout()
 plt.show()
 ```python
 
-## 2. Peak Annotation with ChIPseeker
+## Peak Annotation with ChIPseeker
 
 **ChIPseeker** annotates each ChIP-seq peak to the nearest genomic feature using a **TxDb** (transcript database) annotation package for the relevant genome assembly (e.g., `TxDb.Hsapiens.UCSC.hg38.knownGene`). It assigns each peak a feature category based on its position relative to annotated transcripts: **Promoter** (within the defined window upstream/downstream of TSS), 5′ UTR, 3′ UTR, Exon, Intron, Downstream, or Distal Intergenic. A peak is assigned to the nearest TSS by default, but multiple overlapping transcripts at the same locus may result in multiple annotations.
 
@@ -221,52 +142,6 @@ The `annotatePeak()` function accepts a GRanges object or a BED/narrowPeak file 
 
 Visualisation in ChIPseeker conveys biology directly: `plotAnnoPie()` and `plotAnnoBar()` show the proportion of peaks in each genomic category. TF ChIP-seq peaks for activating factors (CTCF, p53) are typically 25–50% promoter-associated. Enhancer marks such as H3K27ac skew strongly toward **intronic and intergenic** regions (> 60% non-promoter), reflecting their enrichment at distal enhancers. `plotDistToTSS()` plots the distribution of distances from each peak to its nearest TSS, distinguishing proximal (< 1 kb) from distal regulatory elements.
 
-```python
-# ============================================================
-# ChIPseeker Peak Annotation (R)
-# ============================================================
-
-# library(ChIPseeker)
-# library(TxDb.Hsapiens.UCSC.hg38.knownGene)
-# library(org.Hs.eg.db)
-# library(clusterProfiler)
-#
-# txdb <- TxDb.Hsapiens.UCSC.hg38.knownGene
-#
-# # --- Annotate narrowPeak file ---
-# peaks <- readPeakFile('peaks/tf_sample_peaks.narrowPeak', as = 'GRanges')
-#
-# anno <- annotatePeak(
-#     peaks,
-#     tssRegion     = c(-2000, 200),
-#     TxDb          = txdb,
-#     annoDb        = 'org.Hs.eg.db'
-# )
-#
-# # Summary table
-# print(anno)
-#
-# # Pie chart of genomic feature distribution
-# plotAnnoPie(anno)
-#
-# # Bar chart version
-# plotAnnoBar(anno)
-#
-# # Distance to nearest TSS histogram
-# plotDistToTSS(anno,
-#     title = 'Distribution of peaks relative to TSS',
-#     ylab  = 'Peaks (%)'
-# )
-#
-# # Extract annotated DataFrame
-# anno_df <- as.data.frame(anno)
-# head(anno_df[, c('seqnames','start','end','annotation','SYMBOL','distanceToTSS')])
-#
-# # Promoter peaks only (|TSS distance| < 2 kb)
-# promoter_peaks <- anno_df[abs(anno_df$distanceToTSS) < 2000, ]
-# cat('Promoter-associated peaks:', nrow(promoter_peaks), '\n')
-print('R code shown as comments — run in an R environment or Rscript.')
-```python
 
 ```python
 import numpy as np
@@ -342,7 +217,7 @@ plt.tight_layout()
 plt.show()
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

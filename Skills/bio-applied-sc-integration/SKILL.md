@@ -1,49 +1,18 @@
 ---
 name: bio-applied-sc-integration
-description: "**Tier 3 — Applied Bioinformatics | Module 31 · Notebook 3**"
+description: Single-Cell Batch Correction and Dataset Integration with NumPy
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/31_Single_Cell_Multi_Omics/03_sc_integration.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, scikit-learn 1.4+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Single-Cell Batch Correction and Dataset Integration
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/31_Single_Cell_Multi_Omics/03_sc_integration.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 31 · Notebook 3**
-
-*Prerequisites: Module 30 (scRNA-seq), Notebook 2 (CITE-seq)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Diagnose batch effects in scRNA-seq data using mixing metrics and kBET
-2. Apply Harmony, scVI, and Seurat CCA integration to correct batch effects
-3. Evaluate integration quality: cell type mixing vs biological signal preservation
-4. Perform label transfer between reference atlas and query datasets
-5. Map query cells onto a reference atlas (Azimuth / CELLxGENE Census)
-
-
-
-**Key resources:**
 - [scib benchmarking (Luecken et al. 2022)](https://www.nature.com/articles/s41592-021-01336-8)
 - [Harmony documentation](https://portals.broadinstitute.org/harmony/)
 - [scVI-tools documentation](https://docs.scvi-tools.org/)
 - [Azimuth reference mapping](https://azimuth.hubmapconsortium.org/)
 
-## 1. Diagnosing Batch Effects
+## Diagnosing Batch Effects
 
 ### What is a batch effect?
 A batch effect is any systematic technical variation that is correlated with a non-biological variable: different days of library preparation, different operators, different 10x kits, different sequencing runs, or different laboratories. Batch effects manifest as cells from different batches separating in UMAP space even when they should be the same cell type.
@@ -80,7 +49,7 @@ Simply looking at UMAP is subjective. Quantitative metrics give objective measur
 - For each cell, test whether batch composition in its k-NN matches the global batch composition (chi-square test)
 - Reports rejection rate: high = significant batch effect; low = well-integrated
 
-## 2. Harmony Integration
+## Harmony Integration
 
 ### How Harmony works (Korsunsky et al. 2019, *Nature Methods*)
 Harmony operates in PCA space and iteratively adjusts the PCA embedding to remove batch effects while preserving biological structure:
@@ -91,7 +60,6 @@ Harmony operates in PCA space and iteratively adjusts the PCA embedding to remov
 4. **Apply correction**: shift cells to remove the batch offset, merging cells from different batches that belong to the same cluster
 5. **Iterate** until convergence (typically 10 iterations)
 
-The result is a corrected PCA embedding (`adata.obsm['X_pca_harmony']`) that retains cell type structure while removing batch separation.
 
 ### Key properties of Harmony
 - **In-memory**: operates on the PCA matrix, not the full count matrix → very fast (seconds to minutes)
@@ -124,25 +92,25 @@ def harmony_correct(X_pca, batch_labels, n_clusters=20, max_iter=10, theta=2.0, 
     unique_batches = np.unique(batch_labels)
     n_batches = len(unique_batches)
     batch_matrix = np.column_stack([(batch_labels == b).astype(float) for b in unique_batches])
-    
+
     for iteration in range(max_iter):
         # --- Step 1: Soft cluster assignment (fuzzy k-means) ---
         kmeans = KMeans(n_clusters=n_clusters, random_state=iteration, n_init=1)
         hard_assign = kmeans.fit_predict(X)
         centroids = kmeans.cluster_centers_
-        
+
         # Soft assignment via inverse distance
         dists = np.array([np.linalg.norm(X - c, axis=1) for c in centroids]).T  # (n_cells, K)
         soft_assign = np.exp(-dists**2 / (2 * sigma**2))
         soft_assign /= soft_assign.sum(axis=1, keepdims=True) + 1e-10
-        
+
         # --- Step 2: Compute batch centroids per cluster ---
         # For each cluster k and batch b: mean position of cells from batch b in cluster k
         correction = np.zeros_like(X)
         for k in range(n_clusters):
             weights = soft_assign[:, k]  # per-cell weight for cluster k
             cluster_center = (X * weights[:, None]).sum(0) / (weights.sum() + 1e-10)
-            
+
             for b_idx, b in enumerate(unique_batches):
                 b_mask = batch_labels == b
                 b_weights = weights * b_mask
@@ -152,16 +120,16 @@ def harmony_correct(X_pca, batch_labels, n_clusters=20, max_iter=10, theta=2.0, 
                 # Correction: move cells toward cluster center, away from batch-specific center
                 offset = cluster_center - b_center
                 correction[b_mask] += (weights[b_mask, None] * offset[None, :] * theta / n_batches)
-        
+
         X = X + correction * 0.3  # learning rate
-    
+
     return X
 
 # Apply simplified Harmony
 print("Running simplified Harmony correction...")
 X_pca_harmony = harmony_correct(
-    adata.obsm['X_pca'][:, :20], 
-    batches_arr, 
+    adata.obsm['X_pca'][:, :20],
+    batches_arr,
     n_clusters=20, max_iter=8, theta=2.0
 )
 adata.obsm['X_pca_harmony'] = X_pca_harmony
@@ -176,23 +144,23 @@ try:
     fig, axes = plt.subplots(2, 2, figsize=(14, 11))
     batch_colors = {'Batch_A':'#e41a1c','Batch_B':'#377eb8','Batch_C':'#4daf4a'}
     ct_colors = {'T_cell':'#e41a1c','B_cell':'#377eb8','Monocyte':'#4daf4a','NK_cell':'#984ea3'}
-    
+
     X_umap_pre = adata.obsm['X_umap_uncorrected']
-    
+
     for batch in batch_effects:
         mask = batches_arr == batch
         axes[0,0].scatter(X_umap_pre[mask,0], X_umap_pre[mask,1],
                           c=batch_colors[batch], label=batch, s=6, alpha=0.6)
         axes[1,0].scatter(X_umap_post[mask,0], X_umap_post[mask,1],
                           c=batch_colors[batch], label=batch, s=6, alpha=0.6)
-    
+
     for ct in cell_types:
         mask = labels_arr == ct
         axes[0,1].scatter(X_umap_pre[mask,0], X_umap_pre[mask,1],
                           c=ct_colors[ct], label=ct, s=6, alpha=0.6)
         axes[1,1].scatter(X_umap_post[mask,0], X_umap_post[mask,1],
                           c=ct_colors[ct], label=ct, s=6, alpha=0.6)
-    
+
     axes[0,0].set_title('BEFORE correction: by batch'); axes[0,0].legend(fontsize=8)
     axes[0,1].set_title('BEFORE correction: by cell type'); axes[0,1].legend(fontsize=8)
     axes[1,0].set_title('AFTER Harmony: by batch (should be mixed)'); axes[1,0].legend(fontsize=8)
@@ -214,7 +182,7 @@ print(f"  -> LISI-batch increase = better batch mixing")
 print(f"  -> LISI-celltype should remain similar = cell types preserved")
 ```python
 
-## 3. scVI: Deep Generative Integration
+## scVI: Deep Generative Integration
 
 ### What is scVI? (Lopez et al. 2018, *Nature Methods*)
 scVI (Single-Cell Variational Inference) is a **variational autoencoder (VAE)** trained on raw count data. Unlike Harmony (which works in PCA space), scVI learns a probabilistic model directly from counts, using a negative binomial likelihood to account for overdispersion.
@@ -270,7 +238,7 @@ BBKNN (Batch Balanced k-NN, Polański et al. 2020) works differently:
 
 This ensures each cell has neighbors from all batches, forcing cross-batch connections. Very fast (faster than Harmony), works directly in PCA space.
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

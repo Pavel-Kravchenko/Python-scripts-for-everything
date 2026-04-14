@@ -1,495 +1,147 @@
 ---
 name: algo-hash-tables-bloom
-description: "This notebook covers hash-based data structures that provide **O(1) average-case** operations for insert, search, and delete."
+description: "Hash tables (chaining vs open addressing) and Bloom filters: complexity, trade-offs, and implementation patterns."
 tool_type: python
-source_notebook: "Tier_4_Algorithms_and_Data_Structures/06_Hash_Based_Structures/01_hash_tables_bloom.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Hash Tables and Bloom Filters
 
-*Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/06_Hash_Based_Structures/01_hash_tables_bloom.ipynb`*
+## Complexity
 
+| Operation | Average | Worst |
+|-----------|---------|-------|
+| Insert / Search / Delete | O(1) | O(n) |
+| Space | O(n) | O(n) |
 
-This notebook covers hash-based data structures that provide **O(1) average-case** operations for insert, search, and delete.
+Worst case occurs when all keys collide (pathological hash function or adversarial input).
 
-## Table of Contents
-1. [Hash Functions](#1-hash-functions)
-2. [Hash Tables - Direct Addressing](#2-hash-tables---direct-addressing)
-3. [Collision Resolution](#3-collision-resolution)
-4. [Load Factor & Rehashing](#4-load-factor--rehashing)
-5. [Bloom Filters](#5-bloom-filters)
-
----
-
-## 1. Hash Functions
-
-### What is a Hash Function?
-
-A **hash function** maps data of arbitrary size to fixed-size values (hash codes). It converts keys into array indices for fast lookups.
+## Hash Functions
 
 ```python
-key ──────► h(key) ──────► index
-"hello"      hash()        42
-"world"      hash()        17
-12345        hash()        85
-```python
+def mod_hash(key: int, size: int) -> int:
+    return key % size                      # size should be prime
 
-### Properties of a Good Hash Function
+def poly_hash(key: str, size: int) -> int:
+    h = 0
+    for ch in key:
+        h = h * 31 + ord(ch)
+    return h % size
 
-| Property | Description |
-|----------|-------------|
-| **Deterministic** | Same input always produces same output |
-| **Uniform Distribution** | Spreads keys evenly across the table |
-| **Fast Computation** | O(1) time to compute hash value |
-| **Minimizes Collisions** | Different keys rarely map to same index |
+def mult_hash(key: int, size: int) -> int:
+    A = 0.6180339887  # (sqrt(5)-1)/2
+    return int(size * ((key * A) % 1))
+```
 
-### Why O(1) Average Lookup?
+## Collision Resolution
 
-With a good hash function and proper table size:
-1. Computing `h(key)` takes O(1) time
-2. Direct array access at index `h(key)` takes O(1) time
-3. If load factor is kept low, collisions are rare → O(1) on average
-
-**Worst case O(n)** occurs when all keys hash to the same index (pathological case).
+### Chaining (Separate Chaining)
+Each bucket holds a linked list. Load factor can exceed 1.0.
 
 ```python
-# Simple Hash Function Examples
-
-def simple_mod_hash(key: int, table_size: int) -> int:
-    """
-    Basic modulo hash function for integers.
-    
-    Args:
-        key: Integer key to hash
-        table_size: Size of the hash table (preferably prime)
-    
-    Returns:
-        Hash index in range [0, table_size-1]
-    """
-    return key % table_size
-
-
-def string_hash(key: str, table_size: int) -> int:
-    """
-    Polynomial rolling hash for strings.
-    
-    Uses base 31 (common choice for lowercase strings).
-    h(s) = s[0] + s[1]*31 + s[2]*31^2 + ... + s[n]*31^n
-    
-    Args:
-        key: String key to hash
-        table_size: Size of the hash table
-    
-    Returns:
-        Hash index in range [0, table_size-1]
-    """
-    hash_value = 0
-    base = 31
-    for char in key:
-        hash_value = hash_value * base + ord(char)
-    return hash_value % table_size
-
-
-def multiplication_hash(key: int, table_size: int) -> int:
-    """
-    Multiplication method hash (Knuth's suggestion).
-    
-    h(k) = floor(m * (k * A mod 1))
-    where A = (√5 - 1) / 2 ≈ 0.6180339887 (golden ratio conjugate)
-    
-    Args:
-        key: Integer key to hash
-        table_size: Size of the hash table (m)
-    
-    Returns:
-        Hash index in range [0, table_size-1]
-    """
-    A = 0.6180339887  # (sqrt(5) - 1) / 2
-    return int(table_size * ((key * A) % 1))
-
-
-# Demonstrate hash functions
-print("=== Hash Function Examples ===")
-print(f"\nTable size: 7 (prime)")
-print(f"\nModulo hash:")
-for key in [15, 22, 8, 1, 29, 36]:
-    print(f"  h({key}) = {key} % 7 = {simple_mod_hash(key, 7)}")
-
-print(f"\nString hash (table size 10):")
-for word in ["hello", "world", "hash", "table"]:
-    print(f"  h('{word}') = {string_hash(word, 10)}")
-```python
-
----
-
-## 2. Hash Tables - Direct Addressing
-
-### Concept
-
-A hash table uses an array where elements are stored at indices determined by a hash function.
-
-```python
-Direct Addressing (no collisions):
-
-Keys: {15, 3, 22, 8}
-h(key) = key % 10
-
-Index:  0    1    2    3    4    5    6    7    8    9
-      ┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┐
-      │    │    │ 22 │  3 │    │ 15 │    │    │  8 │    │
-      └────┴────┴────┴────┴────┴────┴────┴────┴────┴────┘
-              ↑    ↑         ↑              ↑
-         22%10=2  3%10=3   15%10=5       8%10=8
-```python
-
-### Complexity Analysis
-
-| Operation | Average Case | Worst Case | Notes |
-|-----------|--------------|------------|-------|
-| Insert | O(1) | O(n) | Worst when all keys collide |
-| Search | O(1) | O(n) | Worst when searching collision chain |
-| Delete | O(1) | O(n) | Must handle collision structure |
-| Space | O(n) | O(n) | n = number of stored elements |
-
-```python
-class SimpleHashTable:
-    """
-    Simple hash table without collision handling.
-    
-    Demonstrates basic hash table concept - will overwrite on collision.
-    NOT suitable for production use.
-    """
-    
-    def __init__(self, size: int = 10):
-        """
-        Initialize hash table with given size.
-        
-        Args:
-            size: Number of slots in the table
-        """
+class HashTableChaining:
+    def __init__(self, size: int = 7):
         self.size = size
-        self.keys = [None] * size
-        self.values = [None] * size
-    
+        self.buckets: list[list] = [[] for _ in range(size)]
+        self.count = 0
+
     def _hash(self, key) -> int:
-        """Compute hash index for a key."""
         return hash(key) % self.size
-    
-    def put(self, key, value):
-        """Insert or update a key-value pair."""
-        index = self._hash(key)
-        self.keys[index] = key
-        self.values[index] = value
-    
+
+    def put(self, key, value) -> None:
+        i = self._hash(key)
+        for j, (k, _) in enumerate(self.buckets[i]):
+            if k == key:
+                self.buckets[i][j] = (key, value)
+                return
+        self.buckets[i].append((key, value))
+        self.count += 1
+
     def get(self, key):
-        """Retrieve value by key. Returns None if not found."""
-        index = self._hash(key)
-        if self.keys[index] == key:
-            return self.values[index]
+        for k, v in self.buckets[self._hash(key)]:
+            if k == key:
+                return v
         return None
-    
-    def display(self):
-        """Print the hash table contents."""
-        print("Index | Key    | Value")
-        print("-" * 25)
-        for i in range(self.size):
-            key_str = str(self.keys[i]) if self.keys[i] is not None else "empty"
-            val_str = str(self.values[i]) if self.values[i] is not None else "-"
-            print(f"  {i}   | {key_str:6} | {val_str}")
 
+    def delete(self, key) -> bool:
+        i = self._hash(key)
+        for j, (k, _) in enumerate(self.buckets[i]):
+            if k == key:
+                self.buckets[i].pop(j)
+                self.count -= 1
+                return True
+        return False
 
-# Demonstrate simple hash table
-print("=== Simple Hash Table Demo ===")
-ht = SimpleHashTable(7)
+    def load_factor(self) -> float:
+        return self.count / self.size
+```
 
-# Insert some values
-ht.put(15, "apple")
-ht.put(3, "banana")
-ht.put(8, "cherry")
-
-print("\nAfter inserting 15, 3, 8:")
-ht.display()
-
-print(f"\nget(15) = {ht.get(15)}")
-print(f"get(3) = {ht.get(3)}")
-print(f"get(99) = {ht.get(99)}")
-```python
-
----
-
-## 3. Collision Resolution
-
-A **collision** occurs when two different keys hash to the same index. There are two main strategies to handle collisions:
-
-### 3.1 Chaining (Closed Addressing)
-
-Each slot contains a linked list of all elements that hash to that index.
+### Open Addressing Probe Sequences
 
 ```python
-Hash function: h(key) = key % 7
-
-Insert: 15, 22, 8, 1, 29, 36
-
-Calculations:
-  15 % 7 = 1    22 % 7 = 1    8 % 7 = 1
-   1 % 7 = 1    29 % 7 = 1   36 % 7 = 1
-
-All hash to index 1! (pathological case for demonstration)
-
-Index:  0    1    2    3    4    5    6
-      ┌────┬────┬────┬────┬────┬────┬────┐
-      │    │ ●  │    │    │    │    │    │
-      └────┴─│──┴────┴────┴────┴────┴────┘
-             │
-             ↓
-           [15] → [22] → [8] → [1] → [29] → [36] → null
-
-Insert/Search: Walk the chain at index h(key)
-```python
-
-### 3.2 Open Addressing
-
-All elements are stored in the array itself. On collision, probe for next available slot.
-
-#### Linear Probing
-
-```python
+# Linear probing
 h(key, i) = (h(key) + i) % m
 
-Insert 15, 22, 29 (all hash to 1)
+# Quadratic probing
+h(key, i) = (h(key) + i*i) % m
 
-Step 1: h(15)=1, slot 1 empty → insert at 1
-Index:  0    1    2    3    4    5    6
-      ┌────┬────┬────┬────┬────┬────┬────┐
-      │    │ 15 │    │    │    │    │    │
-      └────┴────┴────┴────┴────┴────┴────┘
+# Double hashing (best distribution)
+h(key, i) = (h1(key) + i * h2(key)) % m
+# h2 must never return 0: h2(k) = 1 + (k % (m-1))
+```
 
-Step 2: h(22)=1, collision! probe i=1 → slot 2 empty → insert at 2
-Index:  0    1    2    3    4    5    6
-      ┌────┬────┬────┬────┬────┬────┬────┐
-      │    │ 15 │ 22 │    │    │    │    │
-      └────┴────┴────┴────┴────┴────┴────┘
-            ↑────↑
-            collision, move right
-
-Step 3: h(29)=1 → try 2 (full) → try 3 → insert at 3
-Index:  0    1    2    3    4    5    6
-      ┌────┬────┬────┬────┬────┬────┬────┐
-      │    │ 15 │ 22 │ 29 │    │    │    │
-      └────┴────┴────┴────┴────┴────┴────┘
-            ↑────↑────↑
-            probe sequence
-```python
-
-#### Quadratic Probing
-
-```python
-h(key, i) = (h(key) + c₁*i + c₂*i²) % m
-
-Typically: h(key, i) = (h(key) + i²) % m
-
-Probes: +0, +1, +4, +9, +16, ...
-Reduces primary clustering but may not visit all slots
-```python
-
-#### Double Hashing
-
-```python
-h(key, i) = (h₁(key) + i * h₂(key)) % m
-
-h₁(key) = key % m
-h₂(key) = 1 + (key % (m-1))  # must never return 0
-
-Best distribution but requires two hash functions
-```python
-
-### Comparison: Chaining vs Open Addressing
+### Chaining vs Open Addressing
 
 | Aspect | Chaining | Open Addressing |
 |--------|----------|----------------|
-| **Memory** | Extra for pointers | No extra (in-place) |
-| **Cache** | Poor (pointer chasing) | Better (contiguous) |
-| **Load factor** | Can exceed 1.0 | Must stay < 1.0 |
-| **Delete** | Easy | Needs tombstones |
-| **Clustering** | No clustering | Primary/secondary clustering |
+| Load factor | Can exceed 1.0 | Must stay < 1.0 |
+| Cache | Poor (pointer chasing) | Better (contiguous) |
+| Delete | Simple | Needs tombstones |
+| Clustering | None | Primary/secondary |
+
+## Load Factor & Rehashing
+
+- Rehash when load factor > 0.7 (chaining) or > 0.5 (open addressing)
+- Double the table size (use next prime) and reinsert all keys
+
+## Bloom Filter
+
+Probabilistic set: **no false negatives, possible false positives**.
 
 ```python
-# Linked List Node for Chaining
-class Node:
-    """
-    Node for linked list used in chaining collision resolution.
-    
-    Attributes:
-        key: The key stored in this node
-        value: The value associated with the key
-        next: Reference to the next node in the chain
-    """
-    
-    def __init__(self, key, value):
-        self.key = key
-        self.value = value
-        self.next = None
+import mmh3
+from bitarray import bitarray
 
+class BloomFilter:
+    def __init__(self, capacity: int, error_rate: float = 0.01):
+        self.size = self._optimal_size(capacity, error_rate)
+        self.hash_count = self._optimal_hashes(self.size, capacity)
+        self.bits = bitarray(self.size)
+        self.bits.setall(0)
 
-class HashTableChaining:
-    """
-    Hash table with separate chaining collision resolution.
-    
-    Each bucket contains a linked list of key-value pairs that
-    hash to the same index.
-    
-    Attributes:
-        size: Number of buckets in the table
-        buckets: Array of linked list heads (one per bucket)
-        count: Number of key-value pairs stored
-    """
-    
-    def __init__(self, size: int = 7):
-        """
-        Initialize hash table with given number of buckets.
-        
-        Args:
-            size: Number of buckets (preferably prime for better distribution)
-        """
-        self.size = size
-        self.buckets = [None] * size
-        self.count = 0
-    
-    def _hash(self, key) -> int:
-        """Compute bucket index for a key."""
-        return hash(key) % self.size
-    
-    def put(self, key, value) -> None:
-        """
-        Insert or update a key-value pair.
-        
-        Args:
-            key: Key to insert
-            value: Value associated with the key
-        """
-        index = self._hash(key)
-        
-        # Search for existing key in chain
-        current = self.buckets[index]
-        while current:
-            if current.key == key:
-                current.value = value  # Update existing
-                return
-            current = current.next
-        
-        # Key not found, insert at head of chain
-        new_node = Node(key, value)
-        new_node.next = self.buckets[index]
-        self.buckets[index] = new_node
-        self.count += 1
-    
-    def get(self, key):
-        """
-        Retrieve value by key.
-        
-        Args:
-            key: Key to search for
-        
-        Returns:
-            Value associated with key, or None if not found
-        """
-        index = self._hash(key)
-        current = self.buckets[index]
-        
-        while current:
-            if current.key == key:
-                return current.value
-            current = current.next
-        
-        return None
-    
-    def delete(self, key) -> bool:
-        """
-        Remove a key-value pair from the table.
-        
-        Args:
-            key: Key to remove
-        
-        Returns:
-            True if key was found and removed, False otherwise
-        """
-        index = self._hash(key)
-        current = self.buckets[index]
-        prev = None
-        
-        while current:
-            if current.key == key:
-                if prev:
-                    prev.next = current.next
-                else:
-                    self.buckets[index] = current.next
-                self.count -= 1
-                return True
-            prev = current
-            current = current.next
-        
-        return False
-    
-    def load_factor(self) -> float:
-        """Return current load factor (elements / buckets)."""
-        return self.count / self.size
-    
-    def display(self):
-        """Print visual representation of the hash table."""
-        print(f"Hash Table (size={self.size}, count={self.count}, load={self.load_factor():.2f})")
-        print("=" * 50)
-        for i in range(self.size):
-            chain = []
-            current = self.buckets[i]
-            while current:
-                chain.append(f"({current.key}: {current.value})")
-                current = current.next
-            chain_str = " → ".join(chain) if chain else "empty"
-            print(f"[{i}]: {chain_str}")
-    
-    def __getitem__(self, key):
-        return self.get(key)
-    
-    def __setitem__(self, key, value):
-        self.put(key, value)
+    def _optimal_size(self, n, p):
+        import math
+        return int(-n * math.log(p) / (math.log(2) ** 2))
 
+    def _optimal_hashes(self, m, n):
+        import math
+        return max(1, int((m / n) * math.log(2)))
 
-# Demonstrate chaining
-print("=== Hash Table with Chaining ===")
-ht = HashTableChaining(7)
+    def add(self, item: str) -> None:
+        for seed in range(self.hash_count):
+            self.bits[mmh3.hash(item, seed) % self.size] = 1
 
-# Insert values that will cause collisions
-data = [(15, "apple"), (22, "banana"), (8, "cherry"), 
-        (1, "date"), (29, "elderberry"), (36, "fig")]
+    def __contains__(self, item: str) -> bool:
+        return all(
+            self.bits[mmh3.hash(item, seed) % self.size]
+            for seed in range(self.hash_count)
+        )
+```
 
-print("\nInserting keys and their hash values (mod 7):")
-for key, value in data:
-    print(f"  {key} % 7 = {key % 7}")
-    ht.put(key, value)
+## Pitfalls
 
-print("\nResulting hash table:")
-ht.display()
-
-print(f"\nLookup examples:")
-print(f"  get(22) = {ht.get(22)}")
-print(f"  get(36) = {ht.get(36)}")
-print(f"  get(100) = {ht.get(100)}")
-```python
-
-## Common Pitfalls
-
-- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
-- **Batch effects**: Always check for batch confounding before interpreting biological signal
-- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously
+- **Table size should be prime**: reduces clustering in modular hash functions.
+- **Open addressing requires tombstones on delete**: simply clearing a slot breaks search chains for keys inserted after a collision at that slot.
+- **Never resize a Bloom filter**: it cannot be resized without rebuilding from scratch; pre-size using the capacity formula.
+- **Python `hash()` is randomized per-process**: do not persist Python's `hash()` across runs; use a stable hash (e.g., `mmh3`, `hashlib`) for on-disk or cross-process use.
+- **Load factor threshold matters**: at load 0.9 with linear probing, expected probe length exceeds 5; keep load < 0.7.

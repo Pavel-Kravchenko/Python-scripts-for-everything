@@ -4,17 +4,6 @@ description: Retrieval-augmented generation pipelines for document understanding
 primary_tool: HuggingFace Transformers
 ---
 
-## Version Compatibility
-
-Reference examples tested with: pytorch 2.2+, transformers 4.38+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 ## When to Use
 
 Use this atomic skill for focused work on **document-rag** without bundling unrelated topics.
@@ -29,10 +18,8 @@ Use the parent material below as the source reference, then keep implementations
 
 ## Source Reference (from merged skill)
 
----
 name: vision-rag
 description: Vision-language models (VLMs), ColPali late-interaction retrieval for documents, RAG pipeline construction, Qwen2-VL inference patterns
----
 
 ## When to Use
 
@@ -140,7 +127,7 @@ context_pages = [pages[i] for i in top_pages]
 answer = qwen_answer(context_pages, query)
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Memory:** Qwen2-VL-7B requires ~18 GB GPU RAM in 4-bit; use smaller variant (2B) for CPU
 - **DPI tradeoff:** higher DPI = better OCR quality but slower embedding; 150 DPI is a good default

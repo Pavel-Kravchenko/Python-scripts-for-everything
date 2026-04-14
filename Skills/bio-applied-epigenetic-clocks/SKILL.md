@@ -1,48 +1,17 @@
 ---
 name: bio-applied-epigenetic-clocks
-description: "**Tier 3 — Applied Bioinformatics | Module 32 · Notebook 3**"
+description: Epigenetic Clocks and Aging Analysis with Matplotlib
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/32_DNA_Methylation_Analysis/03_epigenetic_clocks.ipynb"
 primary_tool: Matplotlib
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scikit-learn 1.4+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Epigenetic Clocks and Aging Analysis
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/32_DNA_Methylation_Analysis/03_epigenetic_clocks.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 32 · Notebook 3**
-
-*Prerequisites: Notebook 2 (DMR Analysis)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Explain the concept of epigenetic age acceleration vs chronological age
-2. Implement Horvath's pan-tissue clock using EPIC/450K array data
-3. Compute GrimAge and PhenoAge biological age estimators
-4. Perform epigenetic age acceleration analysis in population cohorts
-5. Discuss implications for disease, lifestyle, and intervention studies
-
-
-
-**Key resources:**
 - [Horvath clock (2013, Genome Biology)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2013-14-10-r115)
 - [GrimAge (Lu et al. 2019)](https://www.aging-us.com/article/101414/)
 - [methylclock R package](https://bioconductor.org/packages/release/bioc/html/methylclock.html)
 
-## 1. Epigenetic Clock Theory
+## Epigenetic Clock Theory
 
 ### The core observation
 
@@ -77,7 +46,7 @@ $$\text{age\_transformed} = \begin{cases} \log(\text{age}+1) - \log(21) & \text{
 
 This transformation handles the rapid methylation changes in childhood differently from slower adult changes. The elastic net selected 353 non-zero CpGs from ~21,000 candidates.
 
-## 2. CpG Site Selection and Elastic Net Regression
+## CpG Site Selection and Elastic Net Regression
 
 ### Why elastic net for clock building?
 
@@ -110,11 +79,11 @@ from sklearn.model_selection import cross_val_predict
 
 np.random.seed(42)
 
-# -----------------------------------------------------------------------
+#
 # Simulate a methylation dataset:
-# 200 samples with ages 18-85; 500 CpG features
-# 50 "clock CpGs" have a real age effect; 450 are noise
-# -----------------------------------------------------------------------
+# 200 samples with ages 18-85 500 CpG features
+# 50 clock CpGs have a real age effect 450 are noise
+#
 N_SAMPLES   = 200
 N_CPGS      = 500
 N_CLOCK     = 50    # CpGs with true age association
@@ -153,7 +122,7 @@ print(f"Age range: {chronological_ages.min():.0f}–{chronological_ages.max():.0
 print(f"\nTransformed age range: {transformed_ages.min():.2f}–{transformed_ages.max():.2f}")
 ```python
 
-## 3. Age Acceleration Analysis
+## Age Acceleration Analysis
 
 **Epigenetic age acceleration** (EAA) is defined as the residual of DNAmAge regressed on chronological age:
 
@@ -186,7 +155,7 @@ Studies have found EAA (typically using GrimAge or PhenoAge) to be associated wi
 | GrimAge | Mortality risk (10-year survival) | Strongest |
 | DunedinPACE | Pace of aging (longitudinal) | Best for intervention studies |
 
-## 4. GrimAge and Mortality Prediction
+## GrimAge and Mortality Prediction
 
 ### From chronological to mortality-based clocks
 
@@ -285,7 +254,7 @@ for name, mae in mae_vals.items():
     print(f"  {name:<12}: {mae:.2f} years")
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

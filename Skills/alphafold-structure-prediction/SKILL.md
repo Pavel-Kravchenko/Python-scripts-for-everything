@@ -4,17 +4,6 @@ description: AlphaFold/ESMFold structure prediction and confidence interpretatio
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: biopython 1.83+, matplotlib 3.8+, numpy 1.26+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 ## When to Use
 
 Use this atomic skill for focused work on **alphafold-structure-prediction** without bundling unrelated topics.
@@ -29,12 +18,10 @@ Use the parent material below as the source reference, then keep implementations
 
 ## Source Reference (from merged skill)
 
----
 name: alphafold-protein-design
 description: AlphaFold2 structure prediction, pLDDT/PAE interpretation, ColabFold, ESMFold, RFdiffusion backbone design, ProteinMPNN inverse folding, structure quality evaluation
----
 
-# AlphaFold & Protein Design
+# AlphaFold  Protein Design
 
 ## When to Use
 
@@ -154,7 +141,7 @@ python ProteinMPNN/protein_mpnn_run.py \
 | 50–70 | Low | Could be disordered or flexible loop |
 | < 50 | Very low | Likely intrinsically disordered |
 
-## Common Pitfalls
+## Pitfalls
 
 - **pLDDT ≠ correctness** — high pLDDT only means the model is internally consistent; validate against experimental data
 - **PAE for multimers** — PAE between chains indicates confidence in relative domain/chain positioning

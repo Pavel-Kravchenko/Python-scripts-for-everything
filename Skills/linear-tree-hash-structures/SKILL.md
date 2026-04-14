@@ -4,18 +4,7 @@ description: Linked lists, stacks, queues, dynamic arrays, BST/AVL/Red-Black tre
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# Data Structures: Linear, Trees & Hash-Based
+# Data Structures: Linear, Trees  Hash-Based
 
 ## When to Use
 
@@ -247,7 +236,7 @@ class BloomFilter:
         return all(self.bits[i] for i in self._hashes(item))
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Linked list**: forgetting to update `tail` pointer on head insertion or delete-last
 - **Stack/Queue**: off-by-one when using array; need to handle empty-check before pop/dequeue

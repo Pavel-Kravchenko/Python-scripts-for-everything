@@ -1,32 +1,14 @@
 ---
 name: bio-applied-gwas
-description: "This module covers GWAS from study design through result interpretation."
+description: Genome-Wide Association Studies (GWAS) with NumPy
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/19_GWAS/19_gwas.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
+# Genome-Wide Association Studies (GWAS)
 
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scikit-learn 1.4+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# Module 19: Genome-Wide Association Studies (GWAS)
-
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/19_GWAS/19_gwas.ipynb`*
-
-**Tier 3 — Applied Bioinformatics | Module 19**
 Prerequisites: Modules 01–18. Module 15 (Population Genetics) strongly recommended.
 
----
-
-This module covers GWAS from study design through result interpretation.
 
 **By the end you will be able to:**
 - Apply SNP and sample QC filters
@@ -226,7 +208,6 @@ Significant SNPs are not independent — nearby SNPs in LD share the same signal
 2. For each lead SNP, remove all SNPs within window (e.g. ±250 kb) with r² > 0.1
 3. Remaining SNPs are independent signals
 
-In practice, clumping is done with PLINK (`--clump`) or PRSice. Below is a conceptual illustration.
 
 ```python
 # LD (r²) between adjacent SNPs on chr1 (illustrative)
@@ -259,7 +240,7 @@ After identifying a GWAS locus, **fine-mapping** narrows down which variant(s) a
 **GWAS Catalog lookup:** submit your lead SNP rsIDs to [https://www.ebi.ac.uk/gwas/](https://www.ebi.ac.uk/gwas/) or use the REST API to find prior associations with the same locus.
 
 ```python
-# Conceptual GWAS Catalog query (requires internet; shown as pattern)
+# Conceptual GWAS Catalog query (requires internet shown as pattern)
 import urllib.request, json
 
 def query_gwas_catalog(rsid):
@@ -273,7 +254,7 @@ def query_gwas_catalog(rsid):
     except Exception as e:
         return [("(offline)", ["GWAS Catalog requires internet access"])]
 
-# Example (rs429358 = APOE ε4, known Alzheimer's variant)
+# Example (rs429358  APOE ε4, known Alzheimer's variant)
 results = query_gwas_catalog("rs429358")
 for pval, traits in results:
     print(f"p={pval}: {', '.join(traits[:2])}")
@@ -294,19 +275,8 @@ for pval, traits in results:
 
 **Related skill:** `gwas-population-genetics.md`
 
-```python
-# Exercise 19
-# 1. Change the causal SNP betas to [0.3, 0.3, 0.3]. Rerun GWAS. How does power change?
-# 2. Double the sample size to 2000. How many genome-wide significant hits do you recover?
-# 3. Add a simulated population structure: divide samples into two subpopulations
-#    with different allele frequencies. Run GWAS without PC correction. What does λ look like?
-#    Then rerun with 10 PCs. How does λ change?
-# 4. Challenge: implement a simple LD clumping algorithm:
-#    given a list of significant SNPs and a window of ±10 SNPs,
-#    iteratively retain the top hit and remove SNPs with r² > 0.5 to it.
-```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

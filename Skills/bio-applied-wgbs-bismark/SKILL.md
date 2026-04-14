@@ -1,46 +1,17 @@
 ---
 name: bio-applied-wgbs-bismark
-description: "**Tier 3 — Applied Bioinformatics | Module 32 · Notebook 1**"
+description: WGBS/RRBS Processing with Bismark with Bismark
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/32_DNA_Methylation_Analysis/01_wgbs_bismark.ipynb"
 primary_tool: Bismark
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # WGBS/RRBS Processing with Bismark
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/32_DNA_Methylation_Analysis/01_wgbs_bismark.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 32 · Notebook 1**
-
-*Prerequisites: Module 01 (NGS Fundamentals), Module 24 (ChIP-seq & Epigenomics)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Describe 5-methylcytosine (5mC) biology and CpG island methylation patterns
-2. Explain bisulfite conversion chemistry and its effect on sequencing reads
-3. Run the Bismark pipeline: bisulfite index → trimming → alignment → methylation extraction
-4. Distinguish WGBS, RRBS, and EPIC array approaches
-5. Compute CpG methylation levels and visualize genome-wide methylation landscapes
-
-**Key resources:**
 - [Bismark documentation](https://felixkrueger.github.io/Bismark/)
 - [methylKit vignette](https://bioconductor.org/packages/release/bioc/vignettes/methylKit/)
 - [Encode WGBS pipeline](https://www.encodeproject.org/wgbs/)
 
-## 1. DNA Methylation Biology
+## DNA Methylation Biology
 
 **5-methylcytosine (5mC)** is the most studied epigenetic mark in mammals. A methyl group is added to the 5-carbon position of cytosine by DNA methyltransferases (DNMTs): DNMT3A and DNMT3B establish de novo methylation, while DNMT1 maintains methylation through replication. The reverse reaction is catalysed by TET enzymes (TET1/2/3), which oxidize 5mC to 5-hydroxymethylcytosine (5hmC) and beyond, ultimately leading to passive or active demethylation.
 
@@ -68,11 +39,11 @@ In mammals, methylation occurs almost exclusively at **CpG dinucleotides**. Roug
 
 Array-based methods (Illumina 450K/EPIC) measure 450,000–850,000 CpGs but miss most of the genome. **Whole-Genome Bisulfite Sequencing (WGBS)** provides base-resolution methylation across all ~28 million CpGs in the human genome, at the cost of sequencing depth (~30× per strand).
 
-## 2. Bisulfite Sequencing Chemistry
+## Bisulfite Sequencing Chemistry
 
 The key insight behind bisulfite sequencing is a simple chemical reaction:
 
-> **Unmethylated cytosine + sodium bisulfite → uracil → reads as T**  
+> **Unmethylated cytosine + sodium bisulfite → uracil → reads as T**
 > **Methylated cytosine + sodium bisulfite → protected → reads as C**
 
 This allows methylation status to be inferred at single-base resolution by comparing the bisulfite-treated sequence to the reference genome: a C in the read means the site was methylated; a T means it was unmethylated.
@@ -108,7 +79,7 @@ Incomplete conversion (unconverted unmethylated C) is a critical quality metric.
 
 Bisulfite treatment creates four distinct strands (OT, CTOT, OB, CTOB), each with a different C→T conversion pattern. Standard aligners cannot handle this complexity — specialized aligners like **Bismark** are required.
 
-## 3. Bismark Alignment Pipeline
+## Bismark Alignment Pipeline
 
 Bismark is the standard tool for aligning bisulfite-converted reads. It works by:
 
@@ -193,9 +164,9 @@ np.random.seed(42)
 # Simulate a Bismark coverage file: columns are chromosome, start, end,
 # pct_methylated, count_methylated, count_unmethylated
 # We model three genomic contexts with realistic methylation distributions:
-#   - CpG islands (promoters): low methylation (~10%)
-#   - Gene bodies: moderate methylation (~60%)
-#   - Intergenic / repeat regions: high methylation (~85%)
+# CpG islands (promoters): low methylation (10)
+# Gene bodies: moderate methylation (60)
+# Intergenic / repeat regions: high methylation (85)
 
 n_islands   = 3000   # CpG island CpGs
 n_genebody  = 8000   # gene body CpGs
@@ -208,17 +179,17 @@ def simulate_cpgs(n, mu_beta, sigma_beta, context_label, coverage_mean=20):
     beta_param = (1 - mu_beta) * ((mu_beta * (1 - mu_beta)) / sigma_beta**2 - 1)
     alpha = max(alpha, 0.5)
     beta_param = max(beta_param, 0.5)
-    
+
     betas = np.random.beta(alpha, beta_param, n)
     betas = np.clip(betas, 0, 1)
-    
+
     # Coverage: negative binomial (overdispersed counts typical of sequencing)
     coverage = np.random.negative_binomial(n=5, p=5/(5+coverage_mean), size=n)
     coverage = np.maximum(coverage, 1)   # at least 1 read
-    
+
     count_M = np.round(betas * coverage).astype(int)
     count_U = coverage - count_M
-    
+
     return pd.DataFrame({
         'beta': betas,
         'coverage': coverage,
@@ -242,7 +213,7 @@ print(cpg_data.groupby('context')['beta_from_counts'].describe().round(3))
 print(f"\nFormula:  beta = count_M / (count_M + count_U)")
 ```python
 
-## 4. The Beta Value: Quantifying Methylation
+## The Beta Value: Quantifying Methylation
 
 The **beta value** (β) is the fraction of methylated reads at a CpG site:
 
@@ -301,7 +272,7 @@ plt.show()
 print("Figure saved.")
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

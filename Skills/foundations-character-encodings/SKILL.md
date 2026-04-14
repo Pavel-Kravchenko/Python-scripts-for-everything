@@ -1,63 +1,26 @@
 ---
 name: foundations-character-encodings
-description: "Every bioinformatics pipeline starts with reading data from files. FASTA sequences, GenBank records, PDB coordinates, GFF annotations -- they all live as bytes on disk. When your Python script reads g"
+description: Every bioinformatics pipeline starts with reading data from files. FASTA sequences, GenBank records, PDB coordinates, GFF annotations -- they all live as bytes on disk. When your Python script reads g
 tool_type: python
-source_notebook: "Tier_0_Computational_Foundations/04_File_Encodings/01_character_encodings.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Character Encodings and Binary Data in Bioinformatics
-
-*Source: Course notebook `Tier_0_Computational_Foundations/04_File_Encodings/01_character_encodings.ipynb`*
-
-
-**Tier 0 -- Computational Foundations | Module 4**
-
----
 
 ## Why This Matters
 
 Every bioinformatics pipeline starts with reading data from files. FASTA sequences, GenBank records, PDB coordinates, GFF annotations -- they all live as bytes on disk. When your Python script reads garbled text, when special characters in gene names vanish, or when a collaborator's CSV from Windows looks wrong on your Linux server, the root cause is almost always an **encoding mismatch**.
 
-This module gives you a deep, practical understanding of character encodings so you can confidently handle any file you encounter.
 
-### Learning Objectives
-
-By the end of this module you will be able to:
-- Explain how text is stored as bytes (bits, bytes, hexadecimal)
-- Describe ASCII and why it matters for biological sequence data
-- Contrast UTF-8, Latin-1, and legacy Cyrillic encodings
-- Diagnose and fix common encoding problems in bioinformatics files
-- Write robust Python code that handles encodings correctly
-- Deal with special characters in gene names, FASTA headers, and database IDs
-
-## How to use this notebook
-1. Run all cells in order — later sections use the `hexdump` function defined earlier.
-2. The hex inspection cells are the core skill: when you see unexpected bytes, you need to read them in hex to understand what is happening.
-3. Try modifying the examples: change the encoding names, see what different bytes decode to.
-4. The exercises cover the most common real-world encoding problems you will encounter with biological data.
-
-## Common stumbling points
+## Pitfalls
 
 - **Latin-1 never fails — but that does not mean it is right**: Latin-1 decodes every byte 0–255 successfully, which is why it is used as a "safety" fallback. But it will silently produce wrong characters when the file is actually UTF-8 with multi-byte sequences.
 - **UTF-8 BOM confusion**: Some Windows editors save UTF-8 files with a 3-byte BOM prefix (`\xef\xbb\xbf`). Decoders that do not strip the BOM produce a garbage invisible character at position 0, which silently breaks FASTA header parsing.
 - **Windows line endings in sequences**: A `\r` at the end of a DNA sequence line is a legal base in no alphabet, but it is invisible in most text editors and terminal output.
 - **Non-breaking space vs. regular space**: They have the same visual width, different byte values. Database lookups, regex matches, and split operations treat them as different characters.
 
----
 
-## 1. From Bits to Bytes
+## From Bits to Bytes
 
 Computers store everything as sequences of 0s and 1s. Eight binary digits form one **byte**, which can represent 256 distinct values (0--255).
 
@@ -82,18 +45,8 @@ for value in [0, 10, 32, 48, 65, 90, 97, 122, 127, 200, 255]:
     print(f"{value:7d}  {binary:>10}  0x{hexadecimal}  '{char}'")
 ```python
 
-```python
-# Python's built-in functions for conversions
-print("ord('A') =", ord('A'))        # Character -> integer code point
-print("chr(65)  =", chr(65))         # Integer code point -> character
-print("hex(65)  =", hex(65))         # Integer -> hex string
-print("bin(65)  =", bin(65))         # Integer -> binary string
-print("int('41', 16) =", int('41', 16))  # Hex string -> integer
-```python
 
----
-
-## 2. ASCII -- The Universal Foundation
+## ASCII -- The Universal Foundation
 
 ASCII (American Standard Code for Information Interchange, 1963) defines meanings for byte values 0--127. Every modern encoding is backward-compatible with ASCII.
 
@@ -136,17 +89,16 @@ for char in quality_string[:10]:  # Show first 10
     print(f"  '{char}' -> ASCII {ord(char)} -> Phred {phred} -> error rate {error_prob:.6f}")
 ```python
 
----
 
-## 3. Beyond ASCII: The Encoding Zoo
+## Beyond ASCII: The Encoding Zoo
 
 Byte values 128--255 are where encodings diverge. Different systems historically assigned different characters to these values.
 
-### 3.1 Latin-1 (ISO 8859-1)
+### Latin-1 (ISO 8859-1)
 
 Covers Western European languages. Used in many older databases and some BioPython parsers as a fallback. Key property: **every byte value 0--255 is valid**, so decoding *never fails*. This makes it a useful "safety net" encoding, but it may produce wrong characters.
 
-### 3.2 Legacy Cyrillic Encodings
+### Legacy Cyrillic Encodings
 
 If you work with Russian-language annotations or databases:
 - **CP1251** (Windows-1251): Windows standard for Cyrillic
@@ -155,7 +107,7 @@ If you work with Russian-language annotations or databases:
 
 These are all single-byte, meaning one byte = one character. But the same byte maps to different characters in each!
 
-### 3.3 UTF-8 -- The Modern Standard
+### UTF-8 -- The Modern Standard
 
 UTF-8 is a variable-length encoding for Unicode:
 - ASCII characters (0--127): 1 byte (identical to ASCII)
@@ -166,7 +118,7 @@ UTF-8 is a variable-length encoding for Unicode:
 **UTF-8 is the default for virtually all modern bioinformatics tools, databases, and file formats.**
 
 ```python
-# Same text, different encodings = different bytes
+# Same text, different encodings  different bytes
 text = "alpha-helix"
 greek_text = "\u03b1-helix"  # Using actual Greek alpha: alpha-helix
 
@@ -221,9 +173,8 @@ for char, context in examples:
     print(f"{char:<5} {hex_repr:<20} {len(encoded):<8} {context}")
 ```python
 
----
 
-## 4. Examining Raw File Bytes
+## Examining Raw File Bytes
 
 When you suspect an encoding issue, the first step is to look at the raw bytes. Open the file in **binary mode** (`'rb'`) to see exactly what is stored on disk, without any decoding.
 
@@ -264,11 +215,10 @@ print(f"With 'utf-8-sig': starts with '{decoded_without_bom[0]}' (BOM stripped)"
 print(f"\nThe BOM character has code point: U+{ord(decoded_with_bom[0]):04X} (FEFF = ZERO WIDTH NO-BREAK SPACE)")
 ```python
 
----
 
-## 5. Common Encoding Problems in Bioinformatics
+## Common Encoding Problems in Bioinformatics
 
-### 5.1 Windows vs. Unix Line Endings
+### Windows vs. Unix Line Endings
 
 | System | Line ending | Bytes |
 |--------|------------|-------|
@@ -304,11 +254,11 @@ def parse_fasta_robust(raw_bytes):
     """Parse FASTA from raw bytes, handling any line ending style."""
     # Decode as UTF-8, replace \r\n with \n, then also replace lone \r
     text = raw_bytes.decode('utf-8').replace('\r\n', '\n').replace('\r', '\n')
-    
+
     sequences = {}
     current_header = None
     current_seq = []
-    
+
     for line in text.strip().split('\n'):
         line = line.strip()
         if line.startswith('>'):
@@ -318,10 +268,10 @@ def parse_fasta_robust(raw_bytes):
             current_seq = []
         elif line:
             current_seq.append(line)
-    
+
     if current_header is not None:
         sequences[current_header] = ''.join(current_seq)
-    
+
     return sequences
 
 
@@ -333,7 +283,7 @@ for header, seq in result.items():
     print(f"Length: {len(seq)} (no extra characters)")
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

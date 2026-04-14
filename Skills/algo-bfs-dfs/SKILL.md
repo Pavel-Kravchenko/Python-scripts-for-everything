@@ -1,66 +1,19 @@
 ---
 name: algo-bfs-dfs
-description: "1. Implement Breadth-First Search (BFS) and Depth-First Search (DFS) 2. Understand when to use each traversal algorithm 3. Apply graph traversals to biological network analysis 4. Find connected compo"
+description: "Graph Traversals: BFS and DFS with Matplotlib"
 tool_type: python
-source_notebook: "Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/02_bfs_dfs.ipynb"
 primary_tool: Matplotlib
 ---
 
-## Version Compatibility
+#  Graph Traversals: BFS and DFS
 
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# 🔍 Graph Traversals: BFS and DFS
-
-*Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/09_Graph_Algorithms/02_bfs_dfs.ipynb`*
-
-
-## Learning Objectives
-
-By the end of this notebook, you will be able to:
-
-1. Implement Breadth-First Search (BFS) and Depth-First Search (DFS)
-2. Understand when to use each traversal algorithm
-3. Apply graph traversals to biological network analysis
-4. Find connected components and shortest paths
-
----
-
-```python
-from collections import defaultdict, deque
-import matplotlib.pyplot as plt
-import numpy as np
-
-class Graph:
-    """Simple undirected graph using adjacency list."""
-    def __init__(self):
-        self.adj = defaultdict(set)
-    
-    def add_edge(self, u, v):
-        self.adj[u].add(v)
-        self.adj[v].add(u)
-    
-    def neighbors(self, v):
-        return self.adj[v]
-    
-    def vertices(self):
-        return list(self.adj.keys())
-```python
-
-## 1. Breadth-First Search (BFS)
+## Breadth-First Search (BFS)
 
 BFS explores vertices level by level, using a **queue** (FIFO).
 
 ```python
        A           Level 0: A
-      /|\ 
+      /|\
      B C D         Level 1: B, C, D
     /|   |
    E F   G         Level 2: E, F, G
@@ -82,17 +35,17 @@ def bfs(graph, start):
     queue = deque([start])
     order = []
     distances = {start: 0}
-    
+
     while queue:
         vertex = queue.popleft()
         order.append(vertex)
-        
+
         for neighbor in graph.neighbors(vertex):
             if neighbor not in visited:
                 visited.add(neighbor)
                 queue.append(neighbor)
                 distances[neighbor] = distances[vertex] + 1
-    
+
     return order, distances
 
 # Build a sample PPI network
@@ -123,7 +76,7 @@ neighborhood = find_neighbors_within_k(ppi, 'TP53', 2)
 print(f"Genes within 2 hops of TP53: {neighborhood}")
 ```python
 
-## 2. Depth-First Search (DFS)
+## Depth-First Search (DFS)
 
 DFS explores as far as possible along each branch before backtracking, using a **stack** (LIFO) or recursion.
 
@@ -142,7 +95,7 @@ def dfs_iterative(graph, start):
     visited = set()
     stack = [start]
     order = []
-    
+
     while stack:
         vertex = stack.pop()
         if vertex not in visited:
@@ -152,28 +105,28 @@ def dfs_iterative(graph, start):
             for neighbor in sorted(graph.neighbors(vertex), reverse=True):
                 if neighbor not in visited:
                     stack.append(neighbor)
-    
+
     return order
 
 def dfs_recursive(graph, start, visited=None):
     """DFS using recursion."""
     if visited is None:
         visited = set()
-    
+
     visited.add(start)
     order = [start]
-    
+
     for neighbor in sorted(graph.neighbors(start)):
         if neighbor not in visited:
             order.extend(dfs_recursive(graph, neighbor, visited))
-    
+
     return order
 
 print("DFS iterative from TP53:", dfs_iterative(ppi, 'TP53'))
 print("DFS recursive from TP53:", dfs_recursive(ppi, 'TP53'))
 ```python
 
-## 3. Finding Connected Components
+## Finding Connected Components
 
 In biological networks, connected components represent functional modules or pathways.
 
@@ -182,13 +135,13 @@ def find_connected_components(graph):
     """Find all connected components using DFS."""
     visited = set()
     components = []
-    
+
     for vertex in graph.vertices():
         if vertex not in visited:
             # Start new component
             component = []
             stack = [vertex]
-            
+
             while stack:
                 v = stack.pop()
                 if v not in visited:
@@ -197,9 +150,9 @@ def find_connected_components(graph):
                     for neighbor in graph.neighbors(v):
                         if neighbor not in visited:
                             stack.append(neighbor)
-            
+
             components.append(component)
-    
+
     return components
 
 # Add a disconnected component
@@ -212,7 +165,7 @@ for i, comp in enumerate(components, 1):
     print(f"  Component {i}: {comp}")
 ```python
 
-## 4. BFS vs DFS Comparison
+## BFS vs DFS Comparison
 
 | Feature | BFS | DFS |
 |---------|-----|-----|
@@ -232,20 +185,20 @@ def shortest_path(graph, start, end):
     """Find shortest path from start to end using BFS."""
     if start == end:
         return [start]
-    
+
     visited = {start}
     queue = deque([(start, [start])])
-    
+
     while queue:
         vertex, path = queue.popleft()
-        
+
         for neighbor in graph.neighbors(vertex):
             if neighbor == end:
                 return path + [neighbor]
             if neighbor not in visited:
                 visited.add(neighbor)
                 queue.append((neighbor, path + [neighbor]))
-    
+
     return None  # No path exists
 
 # Test: Find path from E2F1 to ATM
@@ -261,7 +214,7 @@ Implement cycle detection using DFS. In biological networks, cycles can indicate
 def has_cycle(graph):
     """Detect if undirected graph has a cycle using DFS."""
     visited = set()
-    
+
     def dfs(vertex, parent):
         visited.add(vertex)
         for neighbor in graph.neighbors(vertex):
@@ -271,7 +224,7 @@ def has_cycle(graph):
             elif neighbor != parent:
                 return True  # Found cycle
         return False
-    
+
     for v in graph.vertices():
         if v not in visited:
             if dfs(v, None):
@@ -283,18 +236,17 @@ ppi.add_edge('ATM', 'BRCA1')  # Creates TP53-ATM-BRCA1-TP53 cycle
 print(f"Network has cycle: {has_cycle(ppi)}")
 ```python
 
----
 
 ## Summary
 
-✅ BFS uses a queue, explores level-by-level, finds shortest paths  
-✅ DFS uses a stack/recursion, explores depth-first, good for cycles  
-✅ Both have O(V + E) time complexity  
+✅ BFS uses a queue, explores level-by-level, finds shortest paths
+✅ DFS uses a stack/recursion, explores depth-first, good for cycles
+✅ Both have O(V + E) time complexity
 ✅ Connected components reveal network modules
 
 **Next:** [03_dijkstra.ipynb](03_dijkstra.ipynb) - Shortest paths with weighted edges
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

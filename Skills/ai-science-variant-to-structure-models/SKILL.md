@@ -1,42 +1,11 @@
 ---
 name: ai-science-variant-to-structure-models
-description: "**Tier 5 — Modern AI for Science | Module 05 · Notebook 5**"
+description: "From DNA Variants to Protein Structure: AlphaFold2, AlphaFold3, RoseTTAFold with NumPy"
 tool_type: python
-source_notebook: "Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/05_variant_to_structure_models.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+, pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # From DNA Variants to Protein Structure: AlphaFold2, AlphaFold3, RoseTTAFold
-
-*Source: Course notebook `Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/05_variant_to_structure_models.ipynb`*
-
-
-**Tier 5 — Modern AI for Science | Module 05 · Notebook 5**
-
-*Prerequisites: Module 04 (AlphaFold & Protein Design), Notebook 3 (Splicing Models)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Build a practical genomics-to-structure triage workflow
-2. Prioritize coding variants for structural follow-up
-3. Select AF2 vs AF3 vs RoseTTAFold by use-case
-4. Integrate sequence-level and structure-level evidence for interpretation
-
-## Why this notebook matters
-
-Computational variant interpretation is a multi-step triage pipeline: first you identify which variants exist (variant calling), then which are biologically plausible (genomic model scores), then which ones are worth spending experimental effort on (structural follow-up). This notebook covers the final stage: how to decide which variants deserve structural modeling, which model to use, and how to integrate structural confidence with genomic scores into an interpretable ranking.
 
 ## How to work through this notebook
 
@@ -52,7 +21,7 @@ Computational variant interpretation is a multi-step triage pipeline: first you 
 - **AF3 access**: as of 2024–2025, AlphaFold3 is available through the AlphaFold Server (alphafoldserver.com) with rate limits, and as open-source code for non-commercial use. There is no pip install — you run it via the provided scripts.
 - **Confidence thresholds for decision-making**: for clinical/experimental decision-making, require pLDDT ≥ 70 AND interface PAE ≤ 15 Å before using a structural prediction to guide hypothesis generation.
 
-## 1. Decision Framework
+## Decision Framework
 
 A common path in variant interpretation:
 1. Prioritize variants from genomic models (splice/expression/regulatory)
@@ -69,7 +38,7 @@ import pandas as pd
 np.random.seed(23)
 ```python
 
-## 2. Variant Triage Table
+## Variant Triage Table
 
 We combine mock scores from multiple model families:
 - splice (`max_ds`)
@@ -101,7 +70,7 @@ variants["structure_priority"] = variants.apply(structure_priority, axis=1)
 variants.sort_values("structure_priority", ascending=False)
 ```python
 
-## 3. Which Structure Model to Use?
+## Which Structure Model to Use?
 
 | Scenario | Prefer |
 |---|---|
@@ -127,7 +96,7 @@ print(choose_structure_model(False, True, False))
 print(choose_structure_model(False, False, True))
 ```python
 
-## 4. Integrating Confidence with Variant Priority
+## Integrating Confidence with Variant Priority
 
 After structure prediction, integrate confidence metrics (e.g., pLDDT/PAE-like proxies) to avoid overinterpreting weak models.
 
@@ -147,21 +116,13 @@ merged["final_priority"] = merged["structure_priority"] * merged["confidence_fac
 merged.sort_values("final_priority", ascending=False)[["var", "gene", "structure_priority", "confidence_factor", "final_priority"]]
 ```python
 
-## 5. Practical Notes
+## Practical Notes
 
 - Structure prediction is strongest for generating hypotheses, not final proof.
 - Keep uncertainty explicit; low-confidence regions should not drive high-stakes decisions.
 - Pair structural predictions with orthogonal evidence (functional assays, literature, patient context).
 
 ## Optional CLI References (commented)
-
-```python
-# !docker run ... alphafold2
-# !docker run ... alphafold3
-# !python RoseTTAFold/run_e2e_ver.sh input.fa out_dir
-```python
-
-These steps are intentionally commented to keep this notebook portable.
 
 ## Summary
 
@@ -182,7 +143,7 @@ Checked online during content expansion.
 - [AlphaFold3 paper](https://www.nature.com/articles/s41586-024-07487-w)
 - [RoseTTAFold repository](https://github.com/RosettaCommons/RoseTTAFold)
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

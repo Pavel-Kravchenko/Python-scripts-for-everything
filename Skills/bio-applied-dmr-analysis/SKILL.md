@@ -1,71 +1,17 @@
 ---
 name: bio-applied-dmr-analysis
-description: "**Tier 3 — Applied Bioinformatics | Module 32 · Notebook 2**"
+description: Differentially Methylated Regions (DMRs)
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/32_DNA_Methylation_Analysis/02_dmr_analysis.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Differentially Methylated Regions (DMRs)
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/32_DNA_Methylation_Analysis/02_dmr_analysis.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 32 · Notebook 2**
-
-*Prerequisites: Notebook 1 (WGBS Processing)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Define differentially methylated positions (DMPs) and regions (DMRs)
-2. Use methylKit to perform logistic regression testing for DMPs
-3. Identify DMRs by smoothing and regional summarization (BSmooth, DMRfinder)
-4. Annotate DMRs to genomic features: promoters, gene bodies, enhancers
-5. Integrate DMR data with gene expression for multi-omics interpretation
-
-
-
-**Key resources:**
 - [methylKit vignette](https://bioconductor.org/packages/release/bioc/vignettes/methylKit/)
 - [DSS (Dispersion Shrinkage for Sequencing)](https://bioconductor.org/packages/release/bioc/html/DSS.html)
 - [DMRfinder documentation](https://github.com/jmschrei/dmrfinder)
 
-## 1. From Individual CpGs to Regions: Why DMRs?
-
-Testing each CpG independently (differentially methylated positions, **DMPs**) suffers from a multiple-testing burden of ~25 million hypotheses for WGBS. More importantly, biologically meaningful methylation changes tend to span **multiple consecutive CpGs** — a "region" effect. This is because:
-
-1. **Methylation is locally correlated**: neighbouring CpGs within ~1–2 kb share similar methylation states due to shared regulatory elements and processive DNMT/TET activity.
-2. **Single-CpG tests are noisy**: at typical WGBS coverage (20–30×), beta values have substantial sampling variance. Aggregating information across a region increases statistical power.
-3. **Biological interpretability**: a DMR that spans an entire promoter CpG island is easier to connect to gene regulation than a single CpG hit.
-
-### DMPs vs DMRs
-
-| Concept | Definition | Tool |
-|---|---|---|
-| DMP | Single CpG with statistically significant differential methylation | methylKit, limma |
-| DMR | Contiguous set of CpGs showing consistent differential methylation | BSmooth, DSS, dmrseq |
-
-### The smoothing rationale
-
-**BSmooth** (from the bsseq R package) estimates methylation at each CpG by local averaging of neighbouring CpGs, weighted by their coverage. This dramatically reduces variance at low-coverage sites by borrowing strength from neighbours. After smoothing, a t-statistic is computed at each CpG; runs of CpGs with |t| > threshold define candidate DMRs.
-
-**DSS** (Dispersion Shrinkage for Sequencing) uses a beta-binomial model to account for biological overdispersion, then applies smoothing and tests regions with a Wald test. It is considered more statistically rigorous for low-coverage WGBS data.
-
-**dmrseq** extends this further by modelling the within-region correlation structure using a generalized least-squares framework with a region-level test statistic.
-
-## 3. Genome-Wide DMR Calling and Multiple Testing
+## Genome-Wide DMR Calling and Multiple Testing
 
 When running BSmooth, DSS, or dmrseq on whole-genome data, the pipeline extends to:
 
@@ -106,7 +52,7 @@ For genome-wide DMR calling, individual p-values are not directly interpretable 
 - **Permutation testing**: condition labels are permuted to generate a null distribution of DMR statistics
 - **FDR estimation**: by comparing observed DMR statistics to the permutation null
 
-## 4. DMR Annotation to Genomic Features
+## DMR Annotation to Genomic Features
 
 Calling DMRs is only the first step. To understand their functional significance, each DMR must be annotated against:
 
@@ -124,7 +70,7 @@ Tools for annotation:
 
 Promoter methylation at CpG islands blocks transcription factor binding and recruits methyl-CpG-binding domain (MBD) proteins (MBD1, MeCP2), which in turn recruit histone deacetylases (HDACs). This creates a self-reinforcing silencing loop: methylation → deacetylation → compact chromatin → no transcription.
 
-## 5. Integrating DMRs with Gene Expression
+## Integrating DMRs with Gene Expression
 
 One of the most powerful validations for DMR findings is to ask: do hypermethylated promoter DMRs correlate with reduced gene expression in matched RNA-seq data? The classic "methylation–expression anti-correlation" is the hallmark of epigenetic silencing.
 
@@ -208,14 +154,14 @@ print(f"Strongly silenced genes (Δβ > 0.25 AND log2FC < -1): "
       f"{((is_hyper) & (rna_log2fc < -1)).sum()}")
 ```python
 
-## 6. Methylation Heatmap Across Samples
+## Methylation Heatmap Across Samples
 
 A common visualization in DMR papers is a **heatmap of beta values** at the top DMRs across all samples. This shows: (a) which samples cluster together, (b) whether the methylation difference is consistent across replicates, and (c) which DMRs have the most distinct patterns.
 
 ```python
 np.random.seed(5)
 
-# Build a beta matrix: 50 top DMRs × 6 samples (3 ctrl, 3 treat)
+# Build a beta matrix: 50 top DMRs  6 samples (3 ctrl, 3 treat)
 n_dmrs_heat = 50
 n_samples   = 6
 sample_names = [f'Ctrl_{i+1}' for i in range(3)] + [f'Treat_{i+1}' for i in range(3)]
@@ -223,7 +169,7 @@ sample_names = [f'Ctrl_{i+1}' for i in range(3)] + [f'Treat_{i+1}' for i in rang
 # DMR base methylation
 dmr_base = np.random.beta(2, 2, n_dmrs_heat)  # random baseline
 
-# Build matrix: control gets baseline; treatment gets shifted betas
+# Build matrix: control gets baseline treatment gets shifted betas
 ctrl_matrix  = dmr_base[:, None] + np.random.normal(0, 0.05, (n_dmrs_heat, 3))
 delta_each   = np.random.uniform(-0.6, 0.6, n_dmrs_heat)   # per-DMR delta
 treat_matrix = dmr_base[:, None] + delta_each[:, None] + np.random.normal(0, 0.05, (n_dmrs_heat, 3))
@@ -258,9 +204,7 @@ plt.savefig('dmr_heatmap.png', dpi=120, bbox_inches='tight')
 plt.show()
 ```python
 
-## 7. Summary and Key Takeaways
-
-This notebook walked through the complete DMR analysis workflow:
+## Summary and Key Takeaways
 
 1. **Why DMRs over DMPs**: Neighbouring CpGs are correlated; regional testing increases power and biological interpretability. The multiple-testing burden (~25M CpGs) makes genome-wide single-CpG FDR correction very stringent.
 
@@ -274,7 +218,7 @@ This notebook walked through the complete DMR analysis workflow:
 
 **Next**: Notebook 3 covers **epigenetic clocks** — how methylation at specific CpG sites predicts biological age.
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

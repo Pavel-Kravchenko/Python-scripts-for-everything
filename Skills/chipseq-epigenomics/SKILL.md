@@ -4,18 +4,7 @@ description: ChIP-seq processing pipeline, peak calling with MACS3, differential
 primary_tool: Pandas
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+, pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# ChIP-seq & Epigenomics
+# ChIP-seq  Epigenomics
 
 ## When to Use
 
@@ -65,7 +54,7 @@ macs3 callpeak -t sample_dedup.bam -c input_dedup.bam \
 # Normalize to BigWig
 bamCoverage -b sample_dedup.bam -o sample.bw --normalizeUsing RPKM --binSize 10
 
-# Heatmap at TSS (±3 kb)
+# Heatmap at TSS (3 kb)
 computeMatrix reference-point -S sample.bw -R genes.bed \
     --referencePoint TSS -b 3000 -a 3000 -o matrix.gz
 plotHeatmap -m matrix.gz -out heatmap.png --colorMap RdYlBu_r
@@ -109,7 +98,7 @@ promo_peaks <- as.data.frame(anno)[abs(as.data.frame(anno)$distanceToTSS) < 2000
 | RSC (relative strand correlation) | > 0.8 | SPP |
 | % duplicates | < 30% (for TF) | Picard metrics |
 
-## Common Pitfalls
+## Pitfalls
 
 - **Input control is mandatory** — always subtract input for peak calling; IgG is an alternative
 - **Paired-end vs single-end** — use `-f BAMPE` for PE and `-f BAM` for SE in MACS3
@@ -141,7 +130,7 @@ def read_narrowpeak(path):
     return df
 
 peaks = read_narrowpeak('sample_peaks.narrowPeak')
-# Filter by q-value (column is -log10 q-value; 1.3 ≈ q<0.05)
+# Filter by q-value (column is -log10 q-value 1.3  q0.05)
 sig_peaks = peaks[peaks['qvalue'] >= 1.3]
 print(f"{len(sig_peaks)} significant peaks")
 ```python
@@ -153,7 +142,7 @@ import pybedtools
 a = pybedtools.BedTool('condition_A.narrowPeak')
 b = pybedtools.BedTool('condition_B.narrowPeak')
 
-# Peaks shared in both conditions (reciprocal 50% overlap)
+# Peaks shared in both conditions (reciprocal 50 overlap)
 shared = a.intersect(b, f=0.5, r=True)
 a_only  = a.intersect(b, f=0.5, r=True, v=True)
 b_only  = b.intersect(a, f=0.5, r=True, v=True)

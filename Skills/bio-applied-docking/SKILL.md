@@ -2,29 +2,10 @@
 name: bio-applied-docking
 description: "Molecular docking: ligand preparation, receptor setup, AutoDock Vina workflow, scoring functions, and binding pose analysis. Use when predicting protein-ligand interactions."
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/09_Molecular_Modeling_and_Docking/02_docking.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Molecular Docking and Chemoinformatics
-
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/09_Molecular_Modeling_and_Docking/02_docking.ipynb`*
-
-
-**Tier 3 — Module 09, Part 2** | [← Molecular Modeling](./01_molecular_modeling.ipynb)
-
-This notebook covers **molecular docking**, **molecular dynamics**, and **chemoinformatics** — the computational techniques used in drug discovery to predict how small molecules bind proteins and to explore chemical space.
 
 **Note:** This notebook contains the complete material. If you are following the split structure, start with [01_molecular_modeling.ipynb](./01_molecular_modeling.ipynb) for force fields and homology modeling theory before proceeding to the docking and MD sections here.
 
@@ -39,10 +20,9 @@ plt.rcParams['font.size'] = 12
 np.random.seed(42)
 ```python
 
----
-## 1. Introduction to Molecular Modeling
+## Introduction to Molecular Modeling
 
-### 1.1 Why Model Biomolecules?
+### Why Model Biomolecules?
 
 Experimental structure determination (X-ray crystallography, cryo-EM, NMR) provides snapshots, but biomolecules are dynamic. Molecular modeling lets us:
 
@@ -54,27 +34,14 @@ Experimental structure determination (X-ray crystallography, cryo-EM, NMR) provi
 | **Structure prediction** | Build models when no crystal structure exists | Homology models for uncharacterized proteins |
 | **Materials design** | Predict properties of biomaterials | Self-assembling peptide nanostructures |
 
-### 1.2 Levels of Theory
+### Levels of Theory
 
 Molecular modeling spans multiple levels of approximation. The choice depends on the system size and the question being asked.
 
-```python
-Accuracy ▲                                    System size ▲
-         │  Quantum Mechanics (QM)                       │  Coarse-Grained (CG)
-         │  ├─ Ab initio (HF, DFT, MP2)                 │  ├─ MARTINI
-         │  ├─ Semi-empirical (AM1, PM3)                 │  ├─ 4:1 mapping (4 atoms → 1 bead)
-         │  └─ ~100 atoms max                            │  └─ Millions of particles, μs timescales
-         │                                               │
-         │  Molecular Mechanics (MM)                     │  Continuum / Implicit solvent
-         │  ├─ Classical force fields                    │  ├─ Poisson-Boltzmann
-         │  ├─ AMBER, CHARMM, OPLS                      │  ├─ Generalized Born
-         │  └─ ~10⁵–10⁶ atoms, ns timescales            │  └─ Entire organelles
-         ▼                                               ▼
-```python
 
 **Key insight:** There is always a tradeoff between accuracy and computational cost. Quantum mechanics treats electrons explicitly but is limited to small systems. Molecular mechanics uses parametrized potentials (force fields) and can handle entire proteins in explicit solvent. Coarse-grained models sacrifice atomic detail for access to longer timescales.
 
-### 1.3 Quantum Mechanics in Brief
+### Quantum Mechanics in Brief
 
 Quantum mechanical methods solve (approximately) the Schrödinger equation:
 
@@ -123,16 +90,15 @@ plt.tight_layout()
 plt.show()
 ```python
 
----
-## 2. Force Fields and Molecular Mechanics
+## Force Fields and Molecular Mechanics
 
-### 2.1 The Force Field Concept
+### The Force Field Concept
 
 A **force field** is a mathematical function and associated parameter set that describes the potential energy of a molecular system. In molecular mechanics, the total energy is decomposed into bonded and non-bonded terms:
 
 $$E_{\text{total}} = E_{\text{bonds}} + E_{\text{angles}} + E_{\text{dihedrals}} + E_{\text{electrostatic}} + E_{\text{van der Waals}}$$
 
-### 2.2 Bonded Interactions
+### Bonded Interactions
 
 **Bond stretching** (harmonic approximation):
 $$E_{\text{bond}} = \frac{1}{2} k_b (r - r_0)^2$$
@@ -210,7 +176,7 @@ plt.tight_layout()
 plt.show()
 ```python
 
-### 2.3 Common Force Fields
+### Common Force Fields
 
 | Force Field | Developers | Typical Use | Key Features |
 |------------|-----------|-------------|---------------|
@@ -222,7 +188,7 @@ plt.show()
 
 **Important:** A force field is only as good as its parametrization. Never mix parameters from different force fields. Always validate your system setup.
 
-### 2.4 Energy Minimization
+### Energy Minimization
 
 Before any simulation, we need to remove bad contacts (steric clashes) by minimizing the potential energy. Common algorithms:
 
@@ -281,10 +247,9 @@ print(f"Final energy:    {rosenbrock(path_sd[-1, 0], path_sd[-1, 1]):.6f}")
 print(f"True minimum:    (1.0, 1.0) with energy 0.0")
 ```python
 
----
-## 3. Homology Modeling
+## Homology Modeling
 
-### 3.1 The Principle
+### The Principle
 
 Proteins with similar sequences tend to adopt similar 3D structures. **Homology modeling** (or comparative modeling) exploits this to predict the structure of a protein (target) using a known structure (template) as a scaffold.
 
@@ -318,7 +283,7 @@ Target sequence
 └─────────────────┘
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **SMILES canonicalization**: Different SMILES can represent the same molecule; always canonicalize before comparison
 - **Stereochemistry**: Ignoring chirality in fingerprints can merge enantiomers with different bioactivity

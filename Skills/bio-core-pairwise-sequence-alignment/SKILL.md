@@ -1,52 +1,11 @@
 ---
 name: bio-core-pairwise-sequence-alignment
-description: "1. Explain **why** biologists align sequences and what an alignment represents biologically 2. Construct and interpret **dot plots** as a visual alignment tool 3. Describe substitution matrices (PAM, "
+description: Pairwise Sequence Alignment with NumPy
 tool_type: python
-source_notebook: "Tier_2_Core_Bioinformatics/03_Pairwise_Sequence_Alignment/01_pairwise_sequence_alignment.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: biopython 1.83+, matplotlib 3.8+, numpy 1.26+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Pairwise Sequence Alignment
-
-*Source: Course notebook `Tier_2_Core_Bioinformatics/03_Pairwise_Sequence_Alignment/01_pairwise_sequence_alignment.ipynb`*
-
-
-**Tier 2 -- Core Bioinformatics**
-
----
-
-## Learning Objectives
-
-By the end of this notebook you will be able to:
-
-1. Explain **why** biologists align sequences and what an alignment represents biologically
-2. Construct and interpret **dot plots** as a visual alignment tool
-3. Describe substitution matrices (PAM, BLOSUM) and gap penalty schemes (linear, affine)
-4. Implement the **Needleman-Wunsch** (global) algorithm from scratch with dynamic programming
-5. Implement the **Smith-Waterman** (local) algorithm from scratch
-6. Use BioPython's alignment tools for practical work
-7. Interpret alignment statistics: scores, E-values, and percent identity
-
----
-
-## How to use this notebook
-
-1. Run cells top-to-bottom in order — later cells depend on earlier ones
-2. Run the environment check cell first to confirm all imports work
-3. Read the explanatory text before each code cell — the context matters
-4. The exercises at the end are designed to be done after reading each section
-5. If a code cell requires internet access (Entrez, PDB download), it is marked — these can be skipped if offline
 
 ## Complicated moments explained
 
@@ -87,7 +46,7 @@ The strong diagonal indicates high similarity between the two hemoglobin sequenc
 ```python
 def windowed_dot_plot(seq1, seq2, window=3, threshold=2, title="Windowed Dot Plot"):
     """Dot plot with a sliding window to reduce noise.
-    
+
     A dot is placed at (i,j) if at least `threshold` of the `window`
     residues starting at (i,j) match.
     """
@@ -117,8 +76,6 @@ The windowed version dramatically reduces noise: only regions where several cons
 
 ### Dot Plots Reveal Structural Features
 
-Let us compare a sequence to itself to reveal internal repeats.
-
 ```python
 # A sequence with an internal repeat
 repeat_seq = "ACGTACGTACGTNNNNACGTACGTACGT"
@@ -128,9 +85,8 @@ windowed_dot_plot(repeat_seq, repeat_seq, window=4, threshold=4,
 
 The parallel diagonals in a self-comparison reveal repeated elements within the sequence.
 
----
 
-## 3. Scoring Alignments
+## Scoring Alignments
 
 To decide which alignment is best, we need a **scoring system** with three components:
 
@@ -138,7 +94,7 @@ To decide which alignment is best, we need a **scoring system** with three compo
 2. **Substitution matrices** -- position-specific scores for amino acid pairs
 3. **Gap penalties** -- the cost of introducing gaps (indels)
 
-### 3.1 Simple Match/Mismatch Scoring
+### Simple Match/Mismatch Scoring
 
 For DNA, a simple scheme often suffices:
 - Match: +1 (or +2)
@@ -147,7 +103,7 @@ For DNA, a simple scheme often suffices:
 
 This works because there are only 4 nucleotides and transitions vs. transversions can be handled separately if needed.
 
-### 3.2 Substitution Matrices for Proteins
+### Substitution Matrices for Proteins
 
 For proteins, not all substitutions are equal. Replacing leucine (L) with isoleucine (I) -- both hydrophobic, branched-chain amino acids -- is far more likely in evolution than replacing leucine with aspartate (D), a negatively charged residue.
 
@@ -161,7 +117,7 @@ where $q_{ab}$ is the observed frequency of substitution and $p_a, p_b$ are back
 - **Negative score**: substitution observed less often than expected (disruptive)
 - **Zero**: observed at expected frequency
 
-### 3.2 Amino Acid Substitution Matrices
+### Amino Acid Substitution Matrices
 
 For protein sequences, a simple +1/-1 match/mismatch scoring is too crude because:
 - Some amino acid substitutions are chemically conservative (e.g., Leu↔Ile, Asp↔Glu) and should be penalized less
@@ -188,7 +144,7 @@ For protein sequences, a simple +1/-1 match/mismatch scoring is too crude becaus
 
 The two main matrix families — PAM and BLOSUM — differ in how they were derived (see Section 3.3).
 
-### 3.3 PAM vs BLOSUM Matrices
+### PAM vs BLOSUM Matrices
 
 | Feature | PAM | BLOSUM |
 |---|---|---|
@@ -261,7 +217,7 @@ plt.show()
 - Tryptophan (W) has the highest self-score (11) -- it is the rarest amino acid, so seeing it conserved is very informative
 - Clusters of positive off-diagonal scores reflect chemical similarity groups (e.g., I/L/M/V, D/E, K/R)
 
-### 3.4 Gap Penalties
+### Gap Penalties
 
 Gaps represent insertions or deletions (indels). Two common penalty schemes:
 
@@ -307,9 +263,8 @@ print("With affine penalties, short gaps are penalized MORE than linear,")
 print("but long gaps are penalized LESS -- favouring fewer, longer gaps.")
 ```python
 
----
 
-## 4. Global Alignment: The Needleman-Wunsch Algorithm
+## Global Alignment: The Needleman-Wunsch Algorithm
 
 Published in 1970 by Saul Needleman and Christian Wunsch, this was one of the first applications of **dynamic programming** to biology.
 
@@ -335,7 +290,7 @@ where $s(x_j, y_i)$ is the substitution score and $d$ is the gap penalty.
 - **Time**: $O(m \times n)$ -- we fill every cell in the matrix
 - **Space**: $O(m \times n)$ -- we store the full matrix for traceback
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

@@ -1,42 +1,11 @@
 ---
 name: ai-science-splicing-models
-description: "**Tier 5 — Modern AI for Science | Module 05 · Notebook 3**"
+description: "Splicing Models: SpliceAI and AlphaGenome with NumPy"
 tool_type: python
-source_notebook: "Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/03_splicing_models.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Splicing Models: SpliceAI and AlphaGenome
-
-*Source: Course notebook `Tier_5_Modern_AI_for_Science/05_Genomic_Foundation_Models/03_splicing_models.ipynb`*
-
-
-**Tier 5 — Modern AI for Science | Module 05 · Notebook 3**
-
-*Prerequisites: Notebook 2 (Enformer)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Explain donor and acceptor splice-site logic
-2. Compute toy splice delta scores for SNVs
-3. Prioritize splice-disrupting variants from candidate lists
-4. Contrast splice-specialized vs multi-task interpretation
-
-## Why this notebook matters
-
-Splicing mutations are responsible for ~10–15% of all pathogenic variants causing human disease. Many of these variants do not disrupt the canonical GT/AG dinucleotides — instead they weaken splice site recognition, create cryptic splice sites, or disrupt splicing regulatory elements. SpliceAI (Jaganathan et al., Cell 2019) was the first deep learning model to predict these effects from raw sequence with near-clinical accuracy. Understanding the delta score framework is essential for rare disease variant triage.
 
 ## How to work through this notebook
 
@@ -51,7 +20,7 @@ Splicing mutations are responsible for ~10–15% of all pathogenic variants caus
 - **Cryptic splice sites**: DS_DG and DS_AG > 0 mean the variant creates a NEW splice site that didn't exist before. These are harder to interpret than losses (which simply weaken an existing site) and require evaluating the new exon/intron structure.
 - **SpliceAI vs Pangolin**: Pangolin extends SpliceAI to predict tissue-specific splicing, important for diseases where splicing patterns differ between tissues (e.g., brain vs liver isoforms).
 
-## 1. Splice Signals Refresher
+## Splice Signals Refresher
 
 Canonical motifs:
 - **Donor (5' splice site)**: usually `GT`
@@ -76,7 +45,7 @@ def acceptor_score(window: str) -> float:
     return min(score, 1.0)
 ```python
 
-## 2. Compute Splice Delta Scores (DS)
+## Compute Splice Delta Scores (DS)
 
 We mimic SpliceAI-style deltas:
 - `DS_DG`: donor gain
@@ -117,7 +86,7 @@ for alt in "ACGT":
     print(example[pos], ">", alt, splice_deltas(example, pos, alt))
 ```python
 
-## 3. Rank Candidate Variants
+## Rank Candidate Variants
 
 A practical heuristic is to rank by `max(DS_*)`.
 
@@ -140,12 +109,11 @@ for r in ranked:
     print(f"pos={r[0]} {r[1]}>{r[2]} maxDS={r[3]:.3f} details={r[4]}")
 ```python
 
-## 4. Splice-Specialized vs Multi-Task Outputs
+## Splice-Specialized vs Multi-Task Outputs
 
 - **SpliceAI-style**: best for splice disruption prioritization with explicit splice deltas.
 - **AlphaGenome-style multi-task**: adds expression/chromatin/contact signals for broader interpretation.
 
-In practice, many teams use both: splice model for high-sensitivity filtering, multi-task model for mechanism context.
 
 ```python
 def integrated_priority(max_ds: float, expr_delta: float, chrom_delta: float) -> float:
@@ -184,7 +152,7 @@ Checked online during content expansion.
 - [AlphaGenome paper (Nature 2026)](https://www.nature.com/articles/s41586-025-10014-0)
 - [AlphaGenome research repository](https://github.com/google-deepmind/alphagenome_research)
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

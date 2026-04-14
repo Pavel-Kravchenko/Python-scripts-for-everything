@@ -2,35 +2,11 @@
 name: bio-applied-bayesian-statistics-python
 description: "Bayesian statistics with PyMC: prior specification, MCMC sampling, posterior analysis, and hierarchical models for biological data. Use when applying Bayesian inference to experiments."
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/22_Bayesian_Statistics_Python/22_bayesian_statistics_python.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
+# Bayesian Statistics in Python
 
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+, statsmodels 0.14+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# Module 22: Bayesian Statistics in Python
-
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/22_Bayesian_Statistics_Python/22_bayesian_statistics_python.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 22**
-
-*Prerequisites: Modules 06 (Statistics), 07 (ML). Familiarity with linear regression.*
-
----
-
-Bayesian statistical modeling in Python using PyMC, Bambi, and ArviZ. This module covers frequentist vs. Bayesian framing, prior specification, multiple regression, model comparison, mixed-effects models, and GLMs — applied to ecological and biological datasets.
-
-**By the end of this module you will be able to:**
 - Contrast frequentist and Bayesian inference
 - Specify priors and run prior predictive checks
 - Fit Bayesian linear and generalized linear models with PyMC
@@ -80,7 +56,7 @@ print(f"Dataset: {penguins.shape}, species: {penguins['species'].unique()}")
 penguins.head()
 ```python
 
-## 1. Frequentist vs Bayesian Framing
+## Frequentist vs Bayesian Framing
 
 **Frequentist:** Parameters are fixed unknowns. Confidence intervals describe the procedure, not the parameter. p-values test H₀.
 
@@ -130,7 +106,7 @@ except Exception as e:
     print("(PyMC requires correct installation; showing structure only)")
 ```python
 
-## 2. Prior Specification
+## Prior Specification
 
 Choosing priors is the most distinctive Bayesian skill. Priors encode what we know *before* seeing the data.
 
@@ -180,7 +156,7 @@ except Exception as e:
     print(f"Prior predictive check skipped: {e}")
 ```python
 
-## 3. Multiple Regression and Collinearity
+## Multiple Regression and Collinearity
 
 Adding multiple predictors can improve model fit — but collinearity (predictors correlated with each other) inflates uncertainty and makes interpretation difficult.
 
@@ -210,7 +186,7 @@ print(vif.to_string(index=False))
 print("\nVIF > 5 suggests collinearity; > 10 is problematic")
 ```python
 
-## 4. Model Comparison: LOO-CV and WAIC
+## Model Comparison: LOO-CV and WAIC
 
 In Bayesian statistics, we compare models by their **expected log predictive density (ELPD)** — how well each model predicts new data.
 
@@ -253,7 +229,7 @@ except Exception as e:
     print("Pattern: az.compare({'m1': idata_m1, 'm2': idata_m2}, ic='loo')")
 ```python
 
-## 5. Linear Mixed-Effects Models
+## Linear Mixed-Effects Models
 
 When data has a grouped structure (measurements nested within individuals, sites, or species), **mixed-effects models** partition variance into fixed effects (population-level) and random effects (group-level).
 
@@ -290,7 +266,7 @@ except Exception as e:
     print("Pattern: bmb.Model('y ~ x + (1|group)', data=df).fit(draws=1000)")
 ```python
 
-## 6. Generalized Linear Models (GLMs)
+## Generalized Linear Models (GLMs)
 
 Not all outcomes are normally distributed. GLMs extend linear models with:
 1. A **link function** connecting the linear predictor to the mean
@@ -304,7 +280,7 @@ Not all outcomes are normally distributed. GLMs extend linear models with:
 | Negative Binomial | log | Count data with overdispersion | `pm.NegativeBinomial` |
 | Zero-Inflated Poisson | log | Excess zeros | `pm.ZeroInflatedPoisson` |
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

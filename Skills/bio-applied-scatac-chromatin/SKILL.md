@@ -1,43 +1,12 @@
 ---
 name: bio-applied-scatac-chromatin
-description: "**Tier 3 — Applied Bioinformatics | Module 31 · Notebook 1**"
+description: "Single-Cell ATAC-seq: Chromatin Accessibility with NumPy"
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/31_Single_Cell_Multi_Omics/01_scatac_chromatin.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: anndata 0.10+, matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scikit-learn 1.4+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Single-Cell ATAC-seq: Chromatin Accessibility
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/31_Single_Cell_Multi_Omics/01_scatac_chromatin.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 31 · Notebook 1**
-
-*Prerequisites: Module 23 (TF Footprinting & ATAC-seq), Module 30 (scRNA-seq)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Explain scATAC-seq experimental workflow and fragment-level data format
-2. Process scATAC-seq with ArchR or Signac: peak calling and TF-IDF normalization
-3. Perform LSI dimensionality reduction and UMAP visualization of chromatin states
-4. Link peaks to putative target genes using co-accessibility
-5. Compute per-cell TF motif activity scores with chromVAR
-
-
-
-**Key resources:**
 - [Signac documentation](https://stuartlab.org/signac/)
 - [ArchR documentation](https://www.archrproject.com/)
 - [chromVAR (Schep et al. 2017)](https://www.nature.com/articles/nmeth.4401)
@@ -46,7 +15,7 @@ package and adapt the example to match the actual API rather than retrying.
 
 scRNA-seq measures gene expression, but expression is downstream of chromatin accessibility. Accessible chromatin (open regions) is where transcription factors bind and where regulatory decisions are made. scATAC-seq provides direct measurement of chromatin accessibility at single-cell resolution, revealing enhancer activity, TF binding landscapes, and regulatory states that precede changes in gene expression — making it essential for understanding gene regulation and cell fate decisions.
 
-## 1. scATAC-seq Technology
+## scATAC-seq Technology
 
 ### Tn5 tagmentation
 ATAC-seq (Assay for Transposase-Accessible Chromatin with sequencing) uses a hyperactive Tn5 transposase loaded with sequencing adapters. Tn5 preferentially inserts into accessible (nucleosome-free) regions of chromatin, simultaneously fragmenting the DNA and ligating sequencing adapters. Closed chromatin (wrapped around nucleosomes) is protected from Tn5 access.
@@ -77,7 +46,7 @@ Columns: chromosome, start, end, cell barcode, read count for this fragment.
 | Sensitivity | High | Lower per cell |
 | Peak quality | Sharp, clear | Requires pseudo-bulk for calling |
 
-## 2. Peak Calling and Count Matrix
+## Peak Calling and Count Matrix
 
 ### Why you can't just call peaks per cell
 Single-cell ATAC data is extremely sparse — each cell has only 0 or 1 reads at any given position. Peak callers like MACS3 require sufficient read depth to distinguish signal from noise, which a single cell cannot provide.
@@ -108,7 +77,7 @@ SnapATAC2 (Python) and ArchR (R) differ here:
 - ArchR uses a binary accessibility score (0/1) as default
 Both approaches work; binary is more robust to PCR duplicate issues.
 
-## 3. LSI Dimensionality Reduction
+## LSI Dimensionality Reduction
 
 ### Why PCA fails for scATAC data
 PCA assumes variables follow a multivariate normal distribution and looks for linear combinations that maximize variance. scATAC count matrices are:
@@ -154,7 +123,7 @@ seurat_obj <- CreateSeuratObject(counts = chrom_assay)
 seurat_obj <- RunTFIDF(seurat_obj)
 # Feature selection: select top variable peaks
 seurat_obj <- FindTopFeatures(seurat_obj, min.cutoff = 'q75')
-# LSI  
+# LSI
 seurat_obj <- RunSVD(seurat_obj)
 # Plot: check that LSI1 is not correlated with depth
 DepthCor(seurat_obj)  # should show high correlation for LSI1, low for others
@@ -205,7 +174,7 @@ print(f"scATAC-seq matrix: {n_cells} cells x {n_peaks} peaks")
 print(f"Sparsity: {1 - counts_noisy.mean():.3f} ({(counts_noisy == 0).mean()*100:.1f}% zeros)")
 print(f"Mean accessible peaks per cell: {counts_noisy.sum(axis=1).mean():.0f}")
 
-# ---- TF-IDF normalization ----
+# TF-IDF normalization ----
 # TF: normalize each cell by its total fragment count (depth normalization)
 cell_totals = counts_noisy.sum(axis=1, keepdims=True) + 1e-6  # avoid division by zero
 TF = counts_noisy / cell_totals
@@ -217,7 +186,7 @@ IDF = np.log1p(n_cells / cells_with_peak)
 TFIDF = TF * IDF[np.newaxis, :]
 print(f"\nTF-IDF matrix range: [{TFIDF.min():.4f}, {TFIDF.max():.4f}]")
 
-# ---- LSI via SVD ----
+# LSI via SVD ----
 n_components = 30
 svd = TruncatedSVD(n_components=n_components, random_state=42)
 X_lsi = svd.fit_transform(TFIDF)
@@ -279,7 +248,7 @@ plt.savefig('scatac_lsi.png', dpi=100, bbox_inches='tight')
 plt.show()
 ```python
 
-## 4. Co-accessibility and Peak-Gene Links
+## Co-accessibility and Peak-Gene Links
 
 ### Cicero co-accessibility
 Cicero (Pliner et al. 2018) identifies co-accessible peak pairs — peaks that tend to be accessible in the same cells. This reveals regulatory interactions: a distal enhancer that co-activates with a gene's promoter peak is likely a functional regulatory element for that gene.
@@ -309,7 +278,7 @@ seurat_obj <- LinkPeaks(
 - Correlation ≠ causation: co-accessible peaks may both respond to a third regulatory factor
 - Cell type mixing can create spurious co-accessibility if not properly controlled
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

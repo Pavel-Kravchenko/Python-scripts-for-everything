@@ -4,73 +4,52 @@ description: Tries, Aho-Corasick multi-pattern matching, suffix arrays with LCP,
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Advanced String Structures
 
 ## When to Use
-- **Trie**: prefix search, autocomplete, k-mer membership testing, IP longest-prefix match
-- **Aho-Corasick**: find all occurrences of k patterns simultaneously in one O(n) pass — restriction enzyme sites, primer binding, motif scanning
-- **Suffix Array + LCP**: genome-wide pattern search, longest repeated substring/motif, k-mer frequency counting, de Bruijn graph construction
-- **Suffix Tree**: O(m) pattern match, longest common substring of two sequences, tandem repeat detection, LZ compression
+- **Trie**: prefix search, autocomplete, k-mer membership testing
+- **Aho-Corasick**: find all occurrences of k patterns in one O(n) pass
+- **Suffix Array + LCP**: genome-wide pattern search, longest repeated substring, k-mer counting
+- **Suffix Tree**: O(m) pattern match, longest common substring, tandem repeat detection
 
----
+## Complexity Table
 
-## Quick Reference
-
-### Complexity Table
-
-| Structure | Build | Pattern Search | Space | Notes |
-|-----------|-------|---------------|-------|-------|
-| Trie | O(n·m) | O(m) | O(n·m) | n words, m avg length |
-| Aho-Corasick | O(M) | O(n + M + z) | O(M) | M = total pattern len, z = matches |
-| Suffix Array (naive) | O(n² log n) | O(m log n) | O(n) | |
-| Suffix Array (Manber-Myers) | O(n log n) | O(m log n) | O(n) | doubling trick |
-| Suffix Array (DC3/SA-IS) | O(n) | O(m log n) | O(n) | optimal |
-| LCP Array (Kasai) | O(n) | — | O(n) | after SA |
-| Suffix Tree (naive) | O(n²) | O(m) | O(n) | |
-| Suffix Tree (Ukkonen) | O(n) | O(m + k) | O(n) | k = occurrences |
-
----
+| Structure | Build | Pattern Search | Space |
+|-----------|-------|---------------|-------|
+| Trie | O(n·m) | O(m) | O(n·m) |
+| Aho-Corasick | O(M) | O(n + M + z) | O(M) |
+| Suffix Array (naive) | O(n² log n) | O(m log n) | O(n) |
+| Suffix Array (Manber-Myers) | O(n log n) | O(m log n) | O(n) |
+| Suffix Array (DC3/SA-IS) | O(n) | O(m log n) | O(n) |
+| LCP Array (Kasai) | O(n) | — | O(n) |
+| Suffix Tree (Ukkonen) | O(n) | O(m + k) | O(n) |
 
 ## Key Patterns
 
 ### Trie
 - Each node = one character; path root→node = prefix
-- `is_end` flag marks word boundaries; prefix queries need only reach a node (not `is_end`)
+- `is_end` flag marks word boundaries
 - Delete: unset `is_end`; remove node only if it has no children
 
 ### Aho-Corasick
-- Build trie over all patterns; then BFS to attach **failure links** (suffix links)
-- `fail[v]` = node for the longest proper suffix of `str(v)` that is a trie prefix
+- Build trie over all patterns; BFS to attach **failure links**
+- `fail[v]` = node for longest proper suffix of `str(v)` that is a trie prefix
 - Depth-1 nodes always fail to root
-- **Output (dictionary) links**: `out[v] = direct_patterns + out[fail[v]]` — propagated during BFS so search only checks `node.patterns`
-- Search: walk text character by character; on mismatch follow `fail` links until match or root
+- **Output links**: `out[v] = direct_patterns + out[fail[v]]` — propagated during BFS
+- Search: walk text char by char; on mismatch follow `fail` links
 
 ### Suffix Array
-- `SA[i]` = start index of the i-th lexicographically smallest suffix
-- Append sentinel `$` (lexicographically smallest) to force all suffixes to be distinct and leaf-terminated
-- Pattern search: binary search for leftmost and rightmost position where suffix starts with pattern → O(m log n)
-- **LCP[i]** = length of longest common prefix between `SA[i-1]` and `SA[i]`; Kasai's algorithm builds it in O(n)
+- `SA[i]` = start index of i-th lexicographically smallest suffix
+- Append sentinel `$` (smallest char) to force distinct suffixes
+- Pattern search: binary search for leftmost/rightmost match → O(m log n)
+- **LCP[i]** = LCP length between `SA[i-1]` and `SA[i]`; Kasai builds in O(n)
 - Longest repeated substring = `S[SA[k] : SA[k] + max(LCP)]`
 - Distinct substrings = n(n+1)/2 − sum(LCP)
 
 ### Suffix Tree
 - Compressed trie of all suffixes: n leaves, ≤ n−1 internal nodes, O(n) total
-- Edge labels are substrings (store as index pairs, not copies)
-- Ukkonen's algorithm builds it online in O(n) using suffix links + active point + remainder
-- LCS of two strings: concatenate as `S1$S2#`, build generalized suffix tree, find deepest internal node whose subtree has leaves from both strings
-
----
+- Edge labels stored as `(start, end)` index pairs, not copies
+- LCS of two strings: concatenate as `S1$S2#`, find deepest internal node with leaves from both
 
 ## Code Templates
 
@@ -79,7 +58,7 @@ package and adapt the example to match the actual API rather than retrying.
 ```python
 class TrieNode:
     def __init__(self):
-        self.children = {}   # char -> TrieNode
+        self.children = {}
         self.is_end = False
 
 class Trie:
@@ -121,12 +100,12 @@ class Trie:
             results.append(word)
         for ch, child in sorted(node.children.items()):
             self._dfs(child, word + ch, results)
-```python
+```
 
-### Aho-Corasick (reference implementation)
+### Aho-Corasick
 
 ```python
-from collections import defaultdict
+from collections import defaultdict, deque
 
 class AhoNode:
     def __init__(self):
@@ -136,7 +115,7 @@ class AhoNode:
 
 def build_automaton(patterns: list[str]) -> AhoNode:
     root = AhoNode()
-    for pat in patterns:                      # build trie
+    for pat in patterns:
         node = root
         for ch in pat:
             if ch not in node.out:
@@ -144,13 +123,12 @@ def build_automaton(patterns: list[str]) -> AhoNode:
             node = node.out[ch]
         node.patterns.append(pat)
 
-    from collections import deque
     queue = deque()
-    for child in root.out.values():           # depth-1 → root
+    for child in root.out.values():
         child.fail = root
         queue.append(child)
 
-    while queue:                              # BFS failure links
+    while queue:
         cur = queue.popleft()
         for ch, child in cur.out.items():
             queue.append(child)
@@ -175,15 +153,14 @@ def find(text: str, patterns: list[str]) -> dict[str, list[int]]:
         for pat in node.patterns:
             results[pat].append(i - len(pat) + 1)
     return dict(results)
-```python
+```
 
-### Suffix Array (naive O(n² log n) + Kasai LCP)
+### Suffix Array (naive + Kasai LCP)
 
 ```python
 def build_suffix_array(text: str) -> list[int]:
     """Naive O(n² log n). Append '$' before calling."""
-    n = len(text)
-    return sorted(range(n), key=lambda i: text[i:])
+    return sorted(range(len(text)), key=lambda i: text[i:])
 
 def build_lcp_array(text: str, sa: list[int]) -> list[int]:
     """Kasai's algorithm, O(n)."""
@@ -206,7 +183,7 @@ def build_lcp_array(text: str, sa: list[int]) -> list[int]:
     return lcp
 
 def search_suffix_array(text: str, sa: list[int], pattern: str) -> list[int]:
-    """Binary search, O(m log n). Returns sorted list of start positions."""
+    """Binary search, O(m log n)."""
     n, m = len(text), len(pattern)
     left, right = 0, n
     while left < right:
@@ -219,12 +196,12 @@ def search_suffix_array(text: str, sa: list[int], pattern: str) -> list[int]:
     left, right = lo, n
     while left < right:
         mid = (left + right) // 2
-        if text[sa[mid]:sa[mid]+m] <= pattern:   # note <=
+        if text[sa[mid]:sa[mid]+m] <= pattern:
             left = mid + 1
         else:
             right = mid
     return sorted(sa[lo:left])
-```python
+```
 
 ### Suffix Array Manber-Myers (O(n log n))
 
@@ -247,35 +224,26 @@ def build_suffix_array_mm(text: str) -> list[int]:
             break
         k *= 2
     return sa
-```python
+```
 
----
-
-## Common Pitfalls
+## Pitfalls
 
 - **Sentinel character**: suffix arrays/trees require a unique terminator (`$`) smaller than all alphabet characters; omitting it causes ties and incorrect sort order
-- **Aho-Corasick output links**: forgetting to propagate `out[fail[v]]` patterns to `out[v]` during BFS causes missed matches for shorter patterns embedded in longer ones (e.g., "he" inside "she")
-- **Trie delete**: unmarking `is_end` is correct only if the node still has children; remove the node only when it becomes childless and is not `is_end` anywhere up the chain
-- **LCP array indexing**: `LCP[0]` is undefined (set to 0); LCP values are between consecutive entries in sorted order, not consecutive positions in text
+- **Aho-Corasick output links**: forgetting to propagate `out[fail[v]]` patterns during BFS causes missed matches for shorter patterns embedded in longer ones (e.g., "he" inside "she")
+- **Trie delete**: unmarking `is_end` is correct only if the node still has children; remove the node only when it becomes childless
+- **LCP array indexing**: `LCP[0]` is undefined (set to 0); values are between consecutive SA entries, not consecutive text positions
 - **Suffix tree edge labels**: store `(start, end)` index pairs, not substrings — copying creates O(n²) space
-
----
 
 ## Bioinformatics Connections
 
 | Application | Structure | Detail |
 |-------------|-----------|--------|
-| Short-read alignment (BWA, Bowtie) | Suffix Array + BWT/FM-index | BWT = `text[SA[i]-1]`; FM-index enables O(m) backward search with compressed SA |
-| Multi-motif scanning (restriction sites, TF binding) | Aho-Corasick | One pass over genome finds all k patterns simultaneously |
-| K-mer counting / genome assembly | Trie or Suffix Array | Binary search on SA counts k-mer occurrences; de Bruijn graph nodes are (k−1)-mers stored in trie |
-| Longest repeated motif / tandem repeats | Suffix Array + LCP | `max(LCP)` gives LRS length; LCP runs of length ≥ k find tandem candidates |
-| Longest common substring of two sequences | Suffix Tree (generalized) | Concatenate `seq1 $ seq2 #`; deepest internal node with leaves from both strings |
-| Distinct k-mer enumeration | Suffix Array | Walk SA with LCP; adjacent entries sharing k-prefix belong to same k-mer |
-| Sequence compression | Suffix Tree | Backbone of LZ77/LZ78; edge labels encode repeated factors |
-
----
+| Short-read alignment (BWA, Bowtie) | Suffix Array + BWT/FM-index | BWT = `text[SA[i]-1]`; FM-index enables O(m) backward search |
+| Multi-motif scanning | Aho-Corasick | One pass over genome finds all k patterns |
+| K-mer counting / assembly | Trie or Suffix Array | Binary search on SA counts k-mer occurrences |
+| Longest repeated motif | Suffix Array + LCP | `max(LCP)` gives LRS length |
+| LCS of two sequences | Suffix Tree (generalized) | Concatenate `seq1$seq2#`; deepest internal node with leaves from both |
 
 ## Related Skills
-- `string-algorithms` — KMP/Rabin-Karp/DFA prerequisite patterns used in trie and Aho-Corasick construction
+- `string-algorithms` — KMP/Rabin-Karp/DFA prerequisite patterns
 - `linux-git-bash` — indexing tools (bwa index, samtools faidx) that use these structures internally
-- `python-advanced-sql` — implementing trie/SA-based k-mer tables backed by SQLite for large datasets

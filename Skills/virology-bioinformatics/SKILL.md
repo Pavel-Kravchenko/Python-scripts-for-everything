@@ -1,20 +1,9 @@
 ---
 name: virology-bioinformatics
-description: "Viral genome assembly, intra-host variant calling, phylodynamics, and real-time surveillance."
+description: Viral genome assembly, intra-host variant calling, phylodynamics, and real-time surveillance.
 tool_type: cli
 primary_tool: Pandas
 ---
-
-## Version Compatibility
-
-Reference examples tested with: pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
 
 # virology-bioinformatics
 
@@ -45,7 +34,7 @@ ivar trim -i sample.bam -b nCoV-2019.primer.bed -p sample_trimmed -e
 samtools sort -o sample_trimmed.sorted.bam sample_trimmed.bam
 samtools index sample_trimmed.sorted.bam
 
-# 3. Generate consensus (N masking at < 20x coverage)
+# 3. Generate consensus (N masking at  20x coverage)
 samtools mpileup -A -d 0 -Q 0 sample_trimmed.sorted.bam \
     | ivar consensus -p consensus -n N -m 20 -t 0.5
 
@@ -60,14 +49,14 @@ samtools depth sample_trimmed.sorted.bam | awk '{sum+=$3; count++} END {print su
 # Recalibrate base qualities (optional but recommended)
 samtools calmd -b sample_trimmed.sorted.bam NC_045512.2.fa > sample_calmd.bam
 
-# Call variants at >= 1% frequency
+# Call variants at  1 frequency
 lofreq call-parallel --pp-threads 8 \
     -f NC_045512.2.fa \
     -o sample_lofreq.vcf \
     --sig 0.01 --bonf dynamic \
     sample_calmd.bam
 
-# Filter: min AF 1%, min depth 100x
+# Filter: min AF 1, min depth 100x
 lofreq filter -i sample_lofreq.vcf -o sample_filtered.vcf \
     --af-min 0.01 --cov-min 100
 ```python
@@ -144,7 +133,7 @@ freyja aggregate output_dir/ --output aggregated.tsv
 freyja plot aggregated.tsv --output wastewater_variants.pdf --lineages
 ```python
 
-## Common Pitfalls
+## Pitfalls
 - **Amplicon dropout**: some ARTIC amplicons fail; expect gaps at pool boundaries
 - **Consensus masking**: use N (not random base) at low coverage positions
 - **Non-conversion**: for amplicon data, primers must be trimmed BEFORE variant calling

@@ -1,34 +1,14 @@
 ---
 name: ai-science-vision-rag
-description: "*Prerequisites: Module T5-01 (LLM Fine-tuning), Tier 3 Module 10 (Deep Learning).*"
+description: "Module T5-02: Vision RAG with NumPy"
 tool_type: python
-source_notebook: "Tier_5_Modern_AI_for_Science/02_Vision_RAG/02_Vision_RAG.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pytorch 2.2+, transformers 4.38+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Module T5-02: Vision RAG
-
-*Source: Course notebook `Tier_5_Modern_AI_for_Science/02_Vision_RAG/02_Vision_RAG.ipynb`*
-
-
-**Tier 5 — Modern AI for Science | Module 02**
-
-*Prerequisites: Module T5-01 (LLM Fine-tuning), Tier 3 Module 10 (Deep Learning).*
 
 GPU optional for inference patterns. Theory cells run on CPU.
 
----
 
 **By the end you will be able to:**
 - Explain VLM architecture (encoder + LLM decoder)
@@ -38,10 +18,6 @@ GPU optional for inference patterns. Theory cells run on CPU.
 - Evaluate retrieval recall and generation faithfulness
 
 **Attribution:** *Patterns inspired by Unsloth AI and Manuel Faysse Vision RAG tutorials. Uses public PDF documents (arXiv papers).*
-
-## Why this notebook matters
-
-Scientific literature is increasingly stored in PDF format — papers, clinical reports, supplemental materials — where critical content lives in figures, tables, and complex layouts that text extraction breaks. Vision RAG replaces the fragile OCR → text chunking pipeline with a direct image-level retrieval and VLM-based generation pipeline. This is now the standard approach for document-level question answering in research settings.
 
 ## How to work through this notebook
 
@@ -56,7 +32,7 @@ Scientific literature is increasingly stored in PDF format — papers, clinical 
 - **Why 14×14 patches?** A 224×224 image divided into 16×16 pixel patches gives 196 patches (14×14 grid). Qwen2-VL uses dynamic resolution, so the patch count scales with image size.
 - **MaxSim is not symmetric**: the query side sums over all query tokens finding their best patch; this is directional (query→page), not bidirectional.
 
-## 1. Vision-Language Model Architecture
+## Vision-Language Model Architecture
 
 A VLM (Vision-Language Model) combines:
 1. **Visual encoder** — processes image patches (ViT: Vision Transformer)
@@ -73,7 +49,7 @@ A VLM (Vision-Language Model) combines:
 
 **Document understanding challenge:** PDF pages have complex layouts (multi-column, tables, figures). Standard text OCR loses layout information. VLMs process the page as an image, preserving layout.
 
-## 2. RAG Pipeline: Retrieval + Generation
+## RAG Pipeline: Retrieval + Generation
 
 **Standard text RAG:**
 1. Split document into chunks (sentences/paragraphs)
@@ -122,7 +98,7 @@ def create_synthetic_page(text_content, page_num, width=595, height=842):
 
     return img
 
-# Create synthetic "document" pages
+# Create synthetic document pages
 pages_content = [
     "Introduction to RNA-seq\n\nRNA sequencing is a transcriptomic technique\nthat quantifies gene expression genome-wide.\n\nThe standard pipeline involves:\n1. Library preparation\n2. Sequencing (Illumina)\n3. Quality control (FastQC)\n4. Alignment (STAR, HISAT2)\n5. Quantification (featureCounts)\n6. Differential expression (DESeq2)",
     "Methods: Differential Expression\n\nWe used DESeq2 for differential expression.\nNormalization: median of ratios method.\nStatistical model: negative binomial GLM.\n\nFDR threshold: 0.05 (Benjamini-Hochberg)\nLog2 fold-change threshold: 1.0\n\nTotal genes analyzed: 25,000\nDE genes identified: 1,247",
@@ -144,7 +120,7 @@ plt.suptitle("Synthetic document pages (simulating PDF rendering)", y=1.02)
 plt.tight_layout(); plt.show()
 ```python
 
-## 3. ColPali: Late-Interaction Retrieval
+## ColPali: Late-Interaction Retrieval
 
 **Single-vector retrieval (CLIP-style):**
 ```python
@@ -191,7 +167,7 @@ def maxsim_score(query_emb, page_emb):
     scores = query_emb @ page_emb.T  # (n_q, n_p)
     return scores.max(axis=1).sum()  # sum of per-token maxima
 
-# Simulate relevance: page 2 is relevant to "differential expression" query
+# Simulate relevance: page 2 is relevant to differential expression query
 page_embeddings = [simulate_page_embedding(i) for i in range(5)]
 
 # Boost page 2 (DESeq2) to be relevant to DE query
@@ -213,7 +189,7 @@ print(f"\nTop-1 page: {ranked[0]+1} (correct answer: Page 2)")
 print(f"Recall@1: {int(ranked[0] == 1)}")
 ```python
 
-## 4. Full RAG Pipeline
+## Full RAG Pipeline
 
 ```python
 def simple_rag_pipeline(query, pages, page_embeddings, top_k=2, verbose=True):
@@ -258,14 +234,14 @@ for q in queries:
     print()
 ```python
 
-## 5. Qwen2-VL Inference Pattern
+## Qwen2-VL Inference Pattern
 
 Qwen2-VL supports multiple images in a single prompt, making it ideal for multi-page document understanding. It uses a dynamic resolution approach — patches scale with image size.
 
 ```python
 QWEN_PATTERN = """
-# ━━━ Install (Colab) ━━━
-# !pip install -q transformers accelerate qwen-vl-utils
+#  Install (Colab)
+# pip install -q transformers accelerate qwen-vl-utils
 
 from transformers import Qwen2VLForConditionalGeneration, AutoProcessor
 from qwen_vl_utils import process_vision_info
@@ -307,7 +283,7 @@ print("Qwen2-VL inference pattern:")
 print(QWEN_PATTERN)
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

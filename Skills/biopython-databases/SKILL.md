@@ -4,18 +4,7 @@ description: BioPython Seq/SeqRecord/SeqIO, NCBI Entrez API, UniProt queries, an
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: biopython 1.83+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# BioPython & Biological Databases
+# BioPython  Biological Databases
 
 ## When to Use
 - Fetching sequences, annotations, or cross-references from NCBI, UniProt, PDB, or Ensembl
@@ -157,7 +146,7 @@ SeqIO.write(records, "batch.fasta", "fasta")
 
 ### elink: cross-database navigation
 ```python
-# Nucleotide -> Protein
+# Nucleotide - Protein
 handle = Entrez.elink(dbfrom="nucleotide", db="protein", id="NM_000207.3")
 link_results = Entrez.read(handle)
 handle.close()
@@ -165,7 +154,7 @@ protein_ids = [link["Id"] for linkset in link_results
                for linkdb in linkset["LinkSetDb"]
                for link in linkdb["Link"]]
 
-# Gene -> PubMed (gene ID 7157 = TP53)
+# Gene - PubMed (gene ID 7157  TP53)
 handle = Entrez.elink(dbfrom="gene", db="pubmed", id="7157")
 ```python
 
@@ -244,7 +233,7 @@ def ensembl_get(endpoint):
 # Gene info by Ensembl ID
 info = ensembl_get("/lookup/id/ENSG00000254647?expand=1")
 
-# Sequence (seq_type: genomic | cds | cdna | protein)
+# Sequence (seq_type: genomic  cds  cdna  protein)
 def ensembl_sequence(ensembl_id, seq_type="cds"):
     url = f"https://rest.ensembl.org/sequence/id/{ensembl_id}?type={seq_type}"
     req = urllib.request.Request(url, headers={"Content-Type": "application/json"})
@@ -282,7 +271,7 @@ def find_orfs(seq, min_length=100):
     return orfs
 ```python
 
-## Common Pitfalls
+## Pitfalls
 - **Always set `Entrez.email`** before any E-utility call; NCBI will block unidentified clients.
 - `SeqIO.parse()` returns an **iterator**, not a list — iterating it twice yields nothing. Wrap in `list()` if you need to reuse.
 - `SeqIO.read()` raises if the file has 0 or >1 records — use `parse()` for multi-record files.

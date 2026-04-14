@@ -1,53 +1,13 @@
 ---
 name: foundations-probability
-description: "**Tier 0 -- Computational Foundations | Module 7a**"
+description: Probability for Bioinformatics with NumPy
 tool_type: python
-source_notebook: "Tier_0_Computational_Foundations/07_Probability_and_Statistics_Python/01_probability.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
+# Probability for Bioinformatics
 
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+, statsmodels 0.14+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# Module 0.7a: Probability for Bioinformatics
-
-*Source: Course notebook `Tier_0_Computational_Foundations/07_Probability_and_Statistics_Python/01_probability.ipynb`*
-
-
-**Tier 0 -- Computational Foundations | Module 7a**
-
----
-
-### Learning Objectives
-
-By the end of this module, you will be able to:
-- Use the `scipy.stats` API to compute probabilities and generate random samples from any distribution
-- Recognize which probability distributions model common biological phenomena
-- Calculate p-values by hand using distribution functions
-- Apply Bayesian reasoning to interpret diagnostic tests
-- Understand why the Negative Binomial distribution is used for RNA-seq data
-
-**Prerequisites:** Python basics, numpy, matplotlib
-
-**Estimated time:** 2-3 hours
-
----
-
-## How to use this notebook
-1. Run cells top-to-bottom; imports are at the top.
-2. The distribution visualization cells are the most important — run them and study the shapes before reading the explanations below them.
-3. The bioinformatics application examples show the same distributions you will encounter in real data (Poisson for read counts, Normal for log-expression, Negative Binomial for RNA-seq).
-4. At the end of each section, pause and think: "Where have I seen this distribution in bioinformatics?"
-
-## Common stumbling points
+## Pitfalls
 
 - **PDF vs. PMF vs. CDF**: For continuous distributions, `pdf(x)` is NOT a probability — it is a density. The probability is the area under the curve. For discrete distributions, `pmf(k)` IS a probability. The CDF `P(X ≤ x)` is always a probability.
 - **`scipy.stats` uses `loc` and `scale`, not `mean` and `std`**: For the normal distribution these happen to coincide, but for others (like exponential), `scale` = 1/rate, not the standard deviation.
@@ -75,9 +35,8 @@ plt.rcParams['axes.spines.top'] = False
 plt.rcParams['axes.spines.right'] = False
 ```python
 
----
 
-## 1. Probability Distributions in Python
+## Probability Distributions in Python
 
 ### The scipy.stats Unified API
 
@@ -185,7 +144,7 @@ The number of somatic mutations observed in a gene across cancer samples approxi
 
 ```python
 # Poisson: somatic mutation count per gene across 100 tumor samples
-# Background rate: ~1 mutation per 1 Mb, gene = 3 kb => lambda = 0.3
+# Background rate: 1 mutation per 1 Mb, gene  3 kb  lambda  0.3
 # A driver gene will have higher observed counts
 lambda_background = 0.3
 lambda_driver     = 3.5   # 10x enrichment — likely driver gene
@@ -221,7 +180,7 @@ scipy.stats uses the `nbinom(n, p)` parameterisation. To convert from the bioinf
 
 ```python
 # Negative Binomial: RNA-seq count distribution
-# Typical low-expressed gene: mean=50, dispersion=0.1 (variance = 50 + 0.1*50^2 = 300)
+# Typical low-expressed gene: mean50, dispersion0.1 (variance  50 + 0.1*502  300)
 mu_rnaseq   = 50
 alpha_disp  = 0.1   # dispersion parameter
 
@@ -288,9 +247,8 @@ plt.tight_layout()
 plt.show()
 ```python
 
----
 
-## 2. Descriptive Statistics and Visualization
+## Descriptive Statistics and Visualization
 
 Before running any test, explore your data visually. The goal is to understand the distribution shape, spot outliers, and decide whether parametric or non-parametric methods are appropriate.
 
@@ -323,7 +281,7 @@ print("Summary statistics for gene_0 across tissues:")
 print(summary_df.describe().round(3))
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

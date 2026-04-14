@@ -4,51 +4,15 @@ description: Graph algorithms (BFS, DFS, Dijkstra, MST, topological sort) and dy
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Graph Algorithms & Dynamic Programming
 
 ## When to Use
 
-**Graphs:**
-- Network traversal, reachability, connected components → BFS/DFS
-- Shortest path in unweighted graph → BFS
-- Shortest path with non-negative weights → Dijkstra
-- Minimum spanning tree (clustering, phylogeny) → Kruskal or Prim
-- Ordering tasks with dependencies → Topological sort
-- PPI, metabolic networks, gene regulatory networks → adjacency list
+**Graphs:** BFS/DFS for traversal/reachability. Dijkstra for weighted shortest path. Kruskal/Prim for MST. Topological sort for DAG ordering. Adjacency list for sparse bio networks.
 
-**Dynamic Programming:**
-- Problem has overlapping subproblems + optimal substructure → DP
-- Counting paths/alignments, minimum edits → tabulation
-- Sequence alignment (Needleman-Wunsch, Smith-Waterman) → 2D DP table
-- Resource selection under constraint → knapsack
+**DP:** Overlapping subproblems + optimal substructure. NW/SW for sequence alignment. Knapsack for resource selection under constraint.
 
----
-
-## Quick Reference
-
-### Graph Representation Trade-offs
-
-| | Adjacency Matrix | Adjacency List | Edge List |
-|---|---|---|---|
-| Space | O(V²) | O(V+E) | O(E) |
-| Edge lookup | O(1) | O(degree) | O(E) |
-| Neighbors | O(V) | O(degree) | O(E) |
-| Best for | Dense, frequent lookups | Sparse (bio networks) | MST, I/O |
-
-Biological networks (PPI ~20k proteins, ~300k edges) are sparse → adjacency list saves ~170x memory.
-
-### Algorithm Complexities
+## Complexity Reference
 
 | Algorithm | Time | Space | Notes |
 |---|---|---|---|
@@ -58,49 +22,35 @@ Biological networks (PPI ~20k proteins, ~300k edges) are sparse → adjacency li
 | Prim | O((V+E) log V) | O(V) | Better for dense |
 | Topo sort (Kahn) | O(V+E) | O(V) | Detects cycles |
 | Knapsack 0/1 | O(nW) | O(W) | Rolling array |
-| Edit distance / NW | O(mn) | O(mn) | O(min(m,n)) with rolling row |
+| NW / Edit distance | O(mn) | O(mn) | O(min(m,n)) with rolling row |
 
----
+**Graph representations:** Adjacency matrix O(V^2) space for dense + frequent lookups. Adjacency list O(V+E) for sparse (bio networks: PPI ~20k nodes, ~300k edges -- list saves ~170x memory). Edge list for MST/I/O.
 
-## Key Patterns
+## DP Framework
 
-### DP Framework (4 questions)
-1. **State:** What does `dp[i]` or `dp[i][j]` represent?
+1. **State:** What does `dp[i][j]` represent?
 2. **Base case:** Smallest subproblem with known answer
 3. **Recurrence:** How does `dp[i]` depend on smaller states?
-4. **Answer extraction:** Where is the final answer? (corner, max cell, traceback)
+4. **Answer extraction:** Corner, max cell, or traceback?
 
-### Memoization vs Tabulation
+**Memoization vs tabulation:** Memoization (top-down, `@lru_cache`) computes only needed subproblems but risks stack overflow. Tabulation (bottom-up) enables rolling-array space optimization.
 
-| | Memoization (top-down) | Tabulation (bottom-up) |
-|---|---|---|
-| Style | Recursion + cache | Iteration + table |
-| Subproblems | Only needed | All |
-| Stack overflow | Possible | No |
-| Space opt | Harder | Easier (rolling array) |
+## Sequence Alignment Notes
 
-Use `@functools.lru_cache(maxsize=None)` to add memoization with one line.
-
-### Sequence Alignment (DP)
 - **NW (global):** Init borders with gap penalties; traceback from bottom-right
-- **SW (local):** Floor cells at 0; traceback from max cell
+- **SW (local):** Floor cells at 0; traceback from max cell (stops at 0)
 - **Affine gaps:** Three matrices M/X/Y; open cost once, extend per extra base
-- Use log-space for max-product paths: `min(-log(conf))` via Dijkstra
-
----
+- Log-space for max-product paths: `min(-log(conf))` via Dijkstra
 
 ## Code Templates
 
-### Adjacency List (weighted, undirected)
+### Adjacency List + BFS + DFS
 ```python
-from collections import defaultdict
+from collections import defaultdict, deque
+
 graph = defaultdict(list)  # {node: [(neighbor, weight), ...]}
 graph[u].append((v, w)); graph[v].append((u, w))
-```python
 
-### BFS — level order, shortest hops
-```python
-from collections import deque
 def bfs(graph, start):
     dist = {start: 0}
     queue = deque([start])
@@ -111,10 +61,7 @@ def bfs(graph, start):
                 dist[v] = dist[u] + 1
                 queue.append(v)
     return dist
-```python
 
-### DFS — iterative
-```python
 def dfs(graph, start):
     visited, stack, order = set(), [start], []
     while stack:
@@ -123,16 +70,13 @@ def dfs(graph, start):
             visited.add(u); order.append(u)
             stack.extend(v for v in graph[u] if v not in visited)
     return order
-```python
+```
 
 ### Dijkstra
 ```python
 import heapq
 def dijkstra(graph, start):
-    dist = {start: 0}
-    heap = [(0, start)]
-    visited = set()
-    pred = {start: None}
+    dist, heap, visited, pred = {start: 0}, [(0, start)], set(), {start: None}
     while heap:
         d, u = heapq.heappop(heap)
         if u in visited: continue
@@ -142,14 +86,9 @@ def dijkstra(graph, start):
                 dist[v] = d + w; pred[v] = u
                 heapq.heappush(heap, (dist[v], v))
     return dist, pred
+```
 
-def path(pred, end):
-    p = []; v = end
-    while v is not None: p.append(v); v = pred.get(v)
-    return p[::-1]
-```python
-
-### Union-Find (for Kruskal)
+### Union-Find + Kruskal MST
 ```python
 class UF:
     def __init__(self, n): self.p = list(range(n)); self.rank = [0]*n
@@ -163,39 +102,20 @@ class UF:
         self.p[py] = px
         if self.rank[px] == self.rank[py]: self.rank[px] += 1
         return True
-```python
 
-### Kruskal's MST
-```python
-def kruskal(vertices, edges):  # edges: [(u, v, w)]
+def kruskal(vertices, edges):
     idx = {v: i for i, v in enumerate(vertices)}
-    uf = UF(len(vertices))
-    mst, total = [], 0
+    uf = UF(len(vertices)); mst, total = [], 0
     for u, v, w in sorted(edges, key=lambda e: e[2]):
         if uf.union(idx[u], idx[v]):
             mst.append((u, v, w)); total += w
             if len(mst) == len(vertices) - 1: break
     return mst, total
-```python
+```
 
-### Prim's MST
+### Topological Sort (Kahn)
 ```python
-def prim(vertices, adj):  # adj: {v: [(neighbor, w)]}
-    start = vertices[0]; visited = {start}; heap = []; mst = []; total = 0
-    for v, w in adj[start]: heapq.heappush(heap, (w, start, v))
-    while heap and len(visited) < len(vertices):
-        w, u, v = heapq.heappop(heap)
-        if v in visited: continue
-        visited.add(v); mst.append((u, v, w)); total += w
-        for nb, nw in adj[v]:
-            if nb not in visited: heapq.heappush(heap, (nw, v, nb))
-    return mst, total
-```python
-
-### Topological Sort — Kahn's Algorithm
-```python
-from collections import defaultdict, deque
-def topo_kahn(vertices, adj):  # adj: {u: [v, ...]}
+def topo_kahn(vertices, adj):
     in_deg = {v: 0 for v in vertices}
     for u in adj:
         for v in adj[u]: in_deg[v] += 1
@@ -207,9 +127,9 @@ def topo_kahn(vertices, adj):  # adj: {u: [v, ...]}
             in_deg[v] -= 1
             if in_deg[v] == 0: queue.append(v)
     return result if len(result) == len(vertices) else None  # None = cycle
-```python
+```
 
-### 0/1 Knapsack (space-optimized)
+### 0/1 Knapsack (space-optimized + traceback variant)
 ```python
 def knapsack(weights, values, capacity):
     dp = [0] * (capacity + 1)
@@ -217,21 +137,7 @@ def knapsack(weights, values, capacity):
         for c in range(capacity, w - 1, -1):  # backwards prevents reuse
             dp[c] = max(dp[c], dp[c - w] + v)
     return dp[capacity]
-
-def knapsack_items(weights, values, names, capacity):
-    n = len(weights)
-    dp = [[0]*(capacity+1) for _ in range(n+1)]
-    for i in range(1, n+1):
-        for c in range(capacity+1):
-            dp[i][c] = dp[i-1][c]
-            if weights[i-1] <= c:
-                dp[i][c] = max(dp[i][c], dp[i-1][c-weights[i-1]] + values[i-1])
-    selected = []; c = capacity
-    for i in range(n, 0, -1):
-        if dp[i][c] != dp[i-1][c]:
-            selected.append(names[i-1]); c -= weights[i-1]
-    return dp[n][capacity], selected[::-1]
-```python
+```
 
 ### Needleman-Wunsch (global alignment)
 ```python
@@ -257,7 +163,7 @@ def needleman_wunsch(s1, s2, match=1, mismatch=-1, gap=-2):
         else:
             a1.append('-'); a2.append(s2[j-1]); j-=1
     return dp[m][n], ''.join(reversed(a1)), ''.join(reversed(a2))
-```python
+```
 
 ### Smith-Waterman (local alignment)
 ```python
@@ -277,45 +183,28 @@ def smith_waterman(s1, s2, match=2, mismatch=-1, gap=-1):
         elif dp[i][j]==dp[i-1][j]+gap: a1.append(s1[i-1]); a2.append('-'); i-=1
         else: a1.append('-'); a2.append(s2[j-1]); j-=1
     return best, ''.join(reversed(a1)), ''.join(reversed(a2))
-```python
+```
 
----
+## Pitfalls
 
-## Common Pitfalls
+- **Dijkstra with negative weights** fails silently -- use Bellman-Ford
+- **Topo sort on cyclic graph:** Kahn returns partial list; check `len(result) == len(vertices)`
+- **DFS cycle detection (undirected):** track parent to avoid false positives
+- **Knapsack iterate order:** 0/1 backwards; unbounded forwards
+- **Knapsack traceback** requires full 2D table, not space-optimized 1D
+- **SW traceback** stops at 0, not at corner -- do not reuse NW traceback logic
+- **Affine gap alignment** needs 3 matrices (M/X/Y); single matrix gives wrong gap-run scores
+- **MST on disconnected graph** produces a spanning forest, not a single tree
 
-- **Dijkstra with negative weights:** fails silently — use Bellman-Ford instead
-- **Topological sort on cyclic graph:** Kahn returns partial list; check `len(result) == len(vertices)`
-- **DFS cycle detection (undirected):** track parent to avoid false positives from the edge you came from
-- **Knapsack iterate order:** 0/1 → backwards; unbounded → forwards
-- **Knapsack traceback:** requires full 2D table, not the space-optimized 1D version
-- **SW traceback:** stops at 0, not at corner — don't use NW traceback logic
-- **Affine gap alignment:** needs 3 matrices (M/X/Y); single matrix gives wrong scores for gap runs
-- **MST on disconnected graph:** Kruskal will produce a spanning forest, not a single tree
-
----
-
-## Bioinformatics Connections
+## Bioinformatics Applications
 
 | Algorithm | Application |
 |---|---|
-| BFS k-hop neighborhood | Find all proteins within 2 interactions of a hub gene (PPI network) |
-| Dijkstra (log-space) | Most reliable signaling path: `min(-log(confidence))` |
-| Kruskal MST | Simplified phylogenetic tree from pairwise evolutionary distances |
-| MST clustering | Single-linkage hierarchical clustering; cut k-1 longest edges → k clusters |
-| Topological sort | Gene regulatory cascade order; RNA-seq pipeline scheduling |
-| Critical path (DAG) | Minimum bioinformatics pipeline runtime with unlimited parallelism |
-| Needleman-Wunsch | Global alignment of same-length orthologs |
-| Smith-Waterman | Local alignment — domain search, short-read mapping |
-| Edit distance | Sequence divergence metric; traceback gives exact mutation operations |
-| LCS | Conservation score: `LCS_len / max(len(s1), len(s2))` — fast pre-filter before full alignment |
+| BFS k-hop | Proteins within 2 interactions of a hub (PPI) |
+| Dijkstra log-space | Most reliable signaling path: `min(-log(conf))` |
+| Kruskal MST | Simplified phylogenetic tree from pairwise distances |
+| MST clustering | Single-linkage: cut k-1 longest edges for k clusters |
+| Topo sort | Gene regulatory cascade order; pipeline scheduling |
+| NW | Global alignment of same-length orthologs |
+| SW | Domain search, short-read mapping |
 | 0/1 Knapsack | Gene panel selection within sequencing budget |
-| Subset sum | Check if exact sequencing cost target is achievable |
-
----
-
-## Related Skills
-
-- `biopython-databases` — BioPython pairwise aligner (wraps NW/SW), BLAST
-- `numpy-pandas-wrangling` — NumPy arrays for DP matrices
-- `python-collections-regex` — `heapq`, `defaultdict`, `functools.lru_cache`
-- `complexity-sorting-searching` — complexity classes, Big-O analysis for graph/DP algorithms

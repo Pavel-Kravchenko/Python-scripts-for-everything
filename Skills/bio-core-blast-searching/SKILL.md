@@ -1,52 +1,11 @@
 ---
 name: bio-core-blast-searching
-description: "1. Explain how BLAST works (the seed-and-extend heuristic) and why it is needed 2. Choose the correct BLAST variant for your data (blastn, blastp, blastx, tblastn, tblastx) 3. Run BLAST searches via t"
+description: "BLAST: Sequence Similarity Searching with BLAST+"
 tool_type: python
-source_notebook: "Tier_2_Core_Bioinformatics/04_BLAST_Searching/01_blast_searching.ipynb"
 primary_tool: BLAST+
 ---
 
-## Version Compatibility
-
-Reference examples tested with: biopython 1.83+, matplotlib 3.8+, numpy 1.26+, pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # BLAST: Sequence Similarity Searching
-
-*Source: Course notebook `Tier_2_Core_Bioinformatics/04_BLAST_Searching/01_blast_searching.ipynb`*
-
-
-**Tier 2 -- Core Bioinformatics**
-
----
-
-## Learning Objectives
-
-By the end of this notebook you will be able to:
-
-1. Explain how BLAST works (the seed-and-extend heuristic) and why it is needed
-2. Choose the correct BLAST variant for your data (blastn, blastp, blastx, tblastn, tblastx)
-3. Run BLAST searches via the NCBI web interface and programmatically with BioPython
-4. Parse BLAST results in both XML and tabular formats
-5. Interpret E-values, bit scores, percent identity, and query coverage
-6. Use PSI-BLAST for detecting remote homologs
-7. Apply best practices for database selection, filtering, and parameter tuning
-
----
-
-## How to use this notebook
-
-1. Run cells top-to-bottom in order — later cells depend on earlier ones
-2. Run the environment check cell first to confirm all imports work
-3. Read the explanatory text before each code cell — the context matters
-4. The exercises at the end are designed to be done after reading each section
-5. If a code cell requires internet access (Entrez, PDB download), it is marked — these can be skipped if offline
 
 ## Complicated moments explained
 
@@ -85,9 +44,8 @@ for prog, (query, db, use) in programs.items():
 print("\nProceed to Section 1.")
 ```python
 
----
 
-## 2. How BLAST Works: The Seed-and-Extend Heuristic
+## How BLAST Works: The Seed-and-Extend Heuristic
 
 BLAST achieves its speed by **not** performing full Smith-Waterman on every query-database pair. Instead, it uses a three-phase heuristic:
 
@@ -111,14 +69,6 @@ This allows BLAST to find seeds even when the database sequence differs slightly
 
 When a seed is found, BLAST extends it in both directions **without allowing gaps**. Extension continues as long as the score does not drop more than $X$ below the best score seen so far (the **X-drop** heuristic). This produces a **high-scoring pair (HSP)**.
 
-```python
-Query:    ...MVLSPADKTNVKAAWGKVGAHAG...
-               |||||||||||||||||||||||
-Database: ...MVLSGEDKSNIKAAWGKIGGHGAE...
-                    ^ seed ^
-              <-- extend left   extend right -->
-              Stop when cumulative score drops X below maximum
-```python
 
 ### Phase 3: Gapped Extension (Full Alignment)
 
@@ -130,7 +80,6 @@ BLAST may **miss** true homologs because:
 1. No seed is found (query and target diverged too much in all word-length regions)
 2. The X-drop terminates extension early
 
-This is the sensitivity/speed tradeoff. PSI-BLAST and slower tools (e.g., SW search via SSEARCH) are more sensitive but slower.
 
 ### Summary of Key Parameters
 
@@ -154,7 +103,7 @@ def word_neighborhood(query_word, matrix, threshold=11):
     """
     Find all 3-letter amino acid words whose BLOSUM62 score with
     query_word exceeds the threshold T.
-    
+
     This is what blastp does during the seeding phase.
     """
     amino_acids = "ACDEFGHIKLMNPQRSTVWY"
@@ -175,13 +124,13 @@ def xdrop_extend(seq1, seq2, match=2, mismatch=-1, x_drop=5):
     """
     Ungapped X-drop extension from the center of two sequences.
     Returns the score of the highest-scoring ungapped alignment.
-    
+
     In real BLAST, this starts from a seed position and extends
     in both directions.
     """
     best_score = 0
     score = 0
-    
+
     for i in range(min(len(seq1), len(seq2))):
         score += match if seq1[i] == seq2[i] else mismatch
         if score > best_score:
@@ -191,7 +140,7 @@ def xdrop_extend(seq1, seq2, match=2, mismatch=-1, x_drop=5):
     return best_score
 
 
-# Example 1: show word neighborhoods for "LEW"
+# Example 1: show word neighborhoods for LEW
 print("=== BLAST Word Neighborhood (threshold T=11) ===")
 query_word = "LEW"
 neighbors = word_neighborhood(query_word, blosum62, threshold=11)
@@ -229,9 +178,8 @@ print("than X below the best score seen — avoiding wasted computation")
 print("on sequences that diverge after a good seed.")
 ```python
 
----
 
-## 3. BLAST Program Variants
+## BLAST Program Variants
 
 Different BLAST programs handle different combinations of query and database types:
 
@@ -244,22 +192,6 @@ Different BLAST programs handle different combinations of query and database typ
 | **tblastx** | Nucleotide | Nucleotide | Both in 6 frames | Comparing unannotated genomes |
 
 ### Decision Guide
-
-```python
-What is your QUERY?                 What is your DATABASE?
-
-   DNA/RNA ----+----> DNA/RNA DB ---------> blastn (or megablast)
-               |
-               +----> Protein DB ---------> blastx (translate query)
-
-   Protein ----+----> Protein DB ---------> blastp
-               |
-               +----> DNA/RNA DB ---------> tblastn (translate DB)
-
-   DNA/RNA ----------> DNA/RNA DB ---------> tblastx (translate both)
-   (when you suspect     (slow but most sensitive for
-    distant homology)     distant nucleotide comparisons)
-```python
 
 ### Nucleotide BLAST Sub-variants
 
@@ -291,17 +223,17 @@ def recommend_blast(query_type, db_type, sensitivity="standard"):
             "standard": ("tblastn", "Translates DB in 6 frames"),
         },
     }
-    
+
     key = (query_type, db_type)
     if key not in recommendations:
         return "Invalid combination"
-    
+
     options = recommendations[key]
     if sensitivity in options:
         prog, desc = options[sensitivity]
     else:
         prog, desc = options["standard"]
-    
+
     return f"{prog}: {desc}"
 
 
@@ -322,7 +254,7 @@ for qt, dt, sens, task in scenarios:
     print(f"{task:<35} {rec}")
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

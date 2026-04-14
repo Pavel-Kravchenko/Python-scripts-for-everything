@@ -1,47 +1,11 @@
 ---
 name: bio-core-computational-genetics
-description: "- Build the standard genetic code programmatically and translate DNA to protein - Understand codon degeneracy and compute codon usage statistics (RSCU, CAI) - Perform virtual restriction enzyme digest"
+description: - Build the standard genetic code programmatically and translate DNA to protein - Understand codon degeneracy and compute codon usage statistics (RSCU, CAI) - Perform virtual restriction enzyme digest
 tool_type: python
-source_notebook: "Tier_2_Core_Bioinformatics/13_Computational_Genetics/01_computational_genetics.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Computational Genetics
-
-*Source: Course notebook `Tier_2_Core_Bioinformatics/13_Computational_Genetics/01_computational_genetics.ipynb`*
-
-
----
-
-## Learning Objectives
-
-By the end of this notebook you will be able to:
-
-- Build the standard genetic code programmatically and translate DNA to protein
-- Understand codon degeneracy and compute codon usage statistics (RSCU, CAI)
-- Perform virtual restriction enzyme digests and simulate gel electrophoresis
-- Find open reading frames in all 6 reading frames of a nucleotide sequence
-- Construct genetic maps from two-point and three-point cross data
-- Compute Ts/Tv ratios and characterize mutation spectra
-- Test genotype frequencies against Hardy-Weinberg expectations
-
-## How to use this notebook
-
-1. Run cells top-to-bottom in order — later cells depend on earlier ones
-2. Run the environment check cell first to confirm all imports work
-3. Read the explanatory text before each code cell — the context matters
-4. The exercises at the end are designed to be done after reading each section
 
 ## Complicated moments explained
 
@@ -91,7 +55,7 @@ for fold in sorted(by_fold):
     print(f"  {fold}-fold degenerate: {', '.join(sorted(by_fold[fold]))}")
 ```python
 
-### 1.2 Codon Degeneracy
+### Codon Degeneracy
 
 Not all codon positions contribute equally to amino acid identity:
 
@@ -131,7 +95,7 @@ for aa, codons in sorted(aa_to_codons.items()):
         print(f'  {aa}: {codons}')
 ```python
 
-### 1.3 Start and Stop Codons
+### Start and Stop Codons
 
 - **Standard start codon**: `ATG` (Met) — universal across domains of life
 - **Alternative starts**: `TTG`, `GTG`, `CTG` used in bacteria (still incorporate Met)
@@ -164,12 +128,6 @@ Extend the `translate()` function to accept a `frame` parameter (0, 1, or 2)
 that shifts the reading frame before searching for the start codon.
 Then translate the sequence below in all three forward frames.
 
-```python
-test_seq = 'TAATGCCCGAATTTGCCTAAATGGGCAAATAG'
-# Frame 0: starts at position 0
-# Frame 1: starts at position 1
-# Frame 2: starts at position 2
-```python
 
 ```python
 # Solution
@@ -186,9 +144,8 @@ for frame in range(3):
     print(f'Frame {frame}: {protein if protein else "(no ORF found)"}')
 ```python
 
----
 
-## 2. Codon Usage Bias
+## Codon Usage Bias
 
 Even though synonymous codons encode the same amino acid, organisms do not use them equally.
 This **codon usage bias** arises from:
@@ -219,7 +176,7 @@ def count_codons(coding_sequence):
 import random
 random.seed(42)
 
-# E. coli strongly prefers certain Leu codons: CTG >> others
+# E. coli strongly prefers certain Leu codons: CTG  others
 ecoli_codon_weights = {
     # Leu
     'CTG': 0.50, 'CTT': 0.10, 'CTC': 0.10, 'CTA': 0.04, 'TTA': 0.13, 'TTG': 0.13,
@@ -275,7 +232,7 @@ for codon, count in ecoli_counts.most_common(10):
     print(f'  {codon} ({aa}): {count}')
 ```python
 
-### 2.1 Relative Synonymous Codon Usage (RSCU)
+### Relative Synonymous Codon Usage (RSCU)
 
 RSCU normalises codon counts by the expected frequency if all synonymous codons
 were used equally:
@@ -323,7 +280,7 @@ for codon in leu_codons:
     print(f'{codon:8} {count:8} {rscu_val:8.2f}  {bar}')
 ```python
 
-### 2.2 Codon Adaptation Index (CAI)
+### Codon Adaptation Index (CAI)
 
 The **CAI** (Sharp & Li, 1987) measures how well a gene's codon usage matches the organism's
 highly expressed reference gene set. It uses the **Relative Adaptiveness** ($w_{ij}$):
@@ -336,7 +293,7 @@ $$\text{CAI} = \left(\prod_{k=1}^{L} w_k\right)^{1/L}$$
 
 CAI ranges from 0 (poorly adapted) to 1.0 (perfectly adapted to the reference).
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

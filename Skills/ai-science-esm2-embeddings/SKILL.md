@@ -1,42 +1,11 @@
 ---
 name: ai-science-esm2-embeddings
-description: "**Tier 5 — Modern AI for Science | Module 06 · Notebook 1**"
+description: ESM2 Embeddings and ESMFold with NumPy
 tool_type: python
-source_notebook: "Tier_5_Modern_AI_for_Science/06_Protein_Language_Models/01_esm2_embeddings.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+, pytorch 2.2+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # ESM2 Embeddings and ESMFold
-
-*Source: Course notebook `Tier_5_Modern_AI_for_Science/06_Protein_Language_Models/01_esm2_embeddings.ipynb`*
-
-
-**Tier 5 — Modern AI for Science | Module 06 · Notebook 1**
-
-*Prerequisites: Module 04 (AlphaFold), basic PyTorch/transformers familiarity*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Generate protein sequence embeddings
-2. Build a simple downstream function probe
-3. Understand ESMFold usage and confidence outputs
-4. Compare embedding and structure-centric workflows
-
-## Why this notebook matters
-
-Protein language models trained on millions of evolutionary sequences learn a rich representation of protein sequence space without any structural supervision. ESM2 embeddings encode information about protein function, secondary structure, solvent accessibility, and evolutionary conservation — all derived from sequence alone. These embeddings are the foundation of zero-shot variant scoring, fast structure prediction (ESMFold), and function annotation at scale.
 
 ## How to work through this notebook
 
@@ -57,7 +26,7 @@ import numpy as np
 np.random.seed(9)
 ```python
 
-## 1. ESM2 Architecture
+## ESM2 Architecture
 
 ESM2 (Lin et al., 2023, Science) is a family of transformer-based protein language models trained on UniRef50 (~250M sequences). It uses the standard **masked language model (MLM)** pretraining objective — randomly masking ~15% of amino acids and training the model to predict them from context.
 
@@ -118,7 +87,7 @@ with torch.no_grad():
 # Per-residue embeddings: shape (batch, seq_len, 1280)
 token_representations = results["representations"][33]
 
-# Mean-pool over sequence positions (exclude <cls> and <eos>)
+# Mean-pool over sequence positions (exclude cls and eos)
 sequence_representations = []
 for i, (_, seq) in enumerate(data):
     seq_emb = token_representations[i, 1 : len(seq) + 1].mean(0)
@@ -168,7 +137,7 @@ print('Embedding shape:', emb.shape)
 print('Top composition entries:', np.argsort(emb[:20])[-5:][::-1])
 ```python
 
-## 2. Amino Acid Composition Baseline
+## Amino Acid Composition Baseline
 
 Before using ESM2, it is always worth benchmarking against simple baselines. The `toy_embed` function below computes normalized amino acid composition — a 20-dimensional vector that captures global sequence statistics but ignores position and context.
 
@@ -203,15 +172,15 @@ pred = (((X[test]-c1)**2).sum(axis=1) < ((X[test]-c0)**2).sum(axis=1)).astype(in
 print('Probe accuracy:', float((pred == y[test]).mean()))
 ```python
 
-## 3. ESMFold Confidence Interpretation
+## ESMFold Confidence Interpretation
 
 The pLDDT thresholds for ESMFold output are the same as for AlphaFold2. The confidence_bucket function below encodes the standard interpretation:
 
 ```python
 # Optional real API usage (network required)
 # import requests
-# sequence = 'MKTAYIAKQRQISFVKSHFSRQLEERLGLIEVQ'
-# r = requests.post('https://api.esmatlas.com/foldSequence/v1/pdb/', data=sequence)
+# sequence  'MKTAYIAKQRQISFVKSHFSRQLEERLGLIEVQ'
+# r  requests.post('https://api.esmatlas.com/foldSequence/v1/pdb/', datasequence)
 # with open('esmfold_prediction.pdb', 'w') as f:
 #     f.write(r.text)
 
@@ -228,7 +197,7 @@ for v in [96, 82, 63, 41]:
     print(v, confidence_bucket(v))
 ```python
 
-## 4. Practical Guidance
+## Practical Guidance
 
 - Use embeddings for large-scale screening and annotation tasks.
 - Use structure prediction when mechanism likely depends on 3D context.
@@ -252,7 +221,7 @@ Checked online during content expansion.
 - [ESM official repository](https://github.com/facebookresearch/esm)
 - [ESM Atlas](https://esmatlas.com)
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

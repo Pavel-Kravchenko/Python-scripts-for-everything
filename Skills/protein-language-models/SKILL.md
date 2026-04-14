@@ -1,20 +1,9 @@
 ---
 name: protein-language-models
-description: "ESM2 embeddings, ESMFold structure prediction, zero-shot mutation scoring, and protein design."
+description: ESM2 embeddings, ESMFold structure prediction, zero-shot mutation scoring, and protein design.
 tool_type: python
 primary_tool: NumPy
 ---
-
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pytorch 2.2+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
 
 # protein-language-models
 
@@ -69,7 +58,7 @@ print(seq_embeddings.shape)  # (2, 1280)
 import esm
 import torch
 
-# Load ESMFold (requires ~16GB RAM, GPU recommended)
+# Load ESMFold (requires 16GB RAM, GPU recommended)
 model = esm.pretrained.esmfold_v1()
 model = model.eval().to('cuda')
 
@@ -108,19 +97,19 @@ def score_mutation(wt_seq, position, wt_aa, mut_aa):
     """
     data = [('protein', wt_seq)]
     _, _, batch_tokens = batch_converter(data)
-    
+
     # Mask the target position
     masked_tokens = batch_tokens.clone()
     masked_tokens[0, position + 1] = alphabet.mask_idx  # +1 for BOS token
-    
+
     with torch.no_grad():
         logits = model(masked_tokens)['logits']
-    
+
     log_probs = torch.nn.functional.log_softmax(logits[0, position + 1], dim=-1)
-    
+
     wt_idx = alphabet.get_idx(wt_aa)
     mut_idx = alphabet.get_idx(mut_aa)
-    
+
     return (log_probs[mut_idx] - log_probs[wt_idx]).item()
 
 # Example: score effect of A2G mutation in BRCA1
@@ -168,10 +157,10 @@ coords, seq = esm.inverse_folding.util.extract_coords_from_structure(structure)
 
 # Sample diverse sequences for the given backbone
 sampled_seqs = model.sample(coords, temperature=1.0, partial_seq=None)
-# temperature: 1.0=diverse, 0.1=conservative (close to native)
+# temperature: 1.0diverse, 0.1conservative (close to native)
 ```python
 
-## Common Pitfalls
+## Pitfalls
 - **Padding**: ESM pads to max_len in batch; use attention mask for accurate mean-pooling
 - **Token offset**: ESM adds `<cls>` at position 0; residue i is at token index i+1
 - **ESMFold speed**: ~0.5s per sequence on GPU vs hours for AlphaFold2; accuracy slightly lower

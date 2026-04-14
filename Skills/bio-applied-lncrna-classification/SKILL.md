@@ -1,49 +1,18 @@
 ---
 name: bio-applied-lncrna-classification
-description: "**Tier 3 — Applied Bioinformatics | Module 35 · Notebook 2**"
+description: "Long Non-Coding RNA: Discovery and Classification"
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/35_Small_RNA_and_ncRNA/02_lncrna_classification.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Long Non-Coding RNA: Discovery and Classification
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/35_Small_RNA_and_ncRNA/02_lncrna_classification.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 35 · Notebook 2**
-
-*Prerequisites: Notebook 1 (miRNA-seq), Module 03 (RNA-seq Analysis)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Classify ncRNA types: lncRNA, circRNA, piRNA, snoRNA, snRNA, and their functions
-2. Identify novel lncRNAs from RNA-seq using StringTie / TACO assembly
-3. Distinguish lncRNA from protein-coding transcripts using coding potential calculators
-4. Predict lncRNA functions via co-expression, guilt-by-association
-5. Analyze circular RNA (circRNA) from back-splice junctions with CIRI2
-
-
-
-**Key resources:**
 - [LNCipedia database](https://lncipedia.org/)
 - [GENCODE lncRNA annotation](https://www.gencodegenes.org/)
 - [CIRI2 for circRNA](https://github.com/bioinfo-biols/CIRI2)
 - [CPC2 coding potential](https://cpc2.gao-lab.org/)
 
-## 1. The ncRNA Universe
+## The ncRNA Universe
 
 Non-coding RNAs make up >98% of the human transcriptome by sequence count. They span a huge range in size, biogenesis, and function.
 
@@ -89,33 +58,10 @@ Gene A  ████    Gene B  ████
 | **MALAT1** | Alternative splicing | Regulates SR proteins |
 | **H19** | Imprinting | Regulates IGF2 expression |
 
-## 2. lncRNA Discovery from RNA-seq
+## lncRNA Discovery from RNA-seq
 
 ### StringTie De Novo Assembly
 StringTie assembles transcripts from aligned RNA-seq reads and produces GTF files:
-```bash
-# Step 1: Align with STAR or HISAT2
-STAR --genomeDir hg38_index/ --readFilesIn R1.fastq.gz R2.fastq.gz \
-     --outSAMtype BAM SortedByCoordinate --outFileNamePrefix sample_
-
-# Step 2: StringTie assembly (each sample)
-stringtie sample_Aligned.sortedByCoord.out.bam \
-  -G gencode.v44.annotation.gtf \
-  -o sample.gtf \
-  -p 8 \
-  --conservative  # reduces spurious assembly
-
-# Step 3: Merge all samples
-stringtie --merge \
-  -G gencode.v44.annotation.gtf \
-  -o merged.gtf \
-  sample1.gtf sample2.gtf sample3.gtf ...
-
-# Step 4: Compare to reference with gffcompare
-gffcompare -r gencode.v44.annotation.gtf \
-           -G merged.gtf \
-           -o comparison
-```python
 
 ### gffcompare Class Codes for Novel Transcripts
 
@@ -215,7 +161,7 @@ plt.savefig('lncrna_discovery.png', dpi=120, bbox_inches='tight')
 plt.show()
 ```python
 
-## 3. Coding Potential Assessment
+## Coding Potential Assessment
 
 The key challenge in lncRNA identification is confidently distinguishing non-coding transcripts from unannotated or short protein-coding genes.
 
@@ -244,7 +190,7 @@ Tests whether a region evolves under protein-coding constraints by comparing cod
 ### Ribosome Profiling (gold standard)
 Ribo-seq shows ribosome occupancy in 3-nt periodicity for translated ORFs. Most lncRNAs show no 3-nt periodicity → confirm non-coding status.
 
-## 4. Conservation Analysis and circRNA
+## Conservation Analysis and circRNA
 
 ### lncRNA Conservation
 lncRNAs show much lower sequence conservation than protein-coding genes:
@@ -257,10 +203,6 @@ lncRNAs show much lower sequence conservation than protein-coding genes:
 **Circular RNAs** are formed by **back-splicing**: the 5' end of a downstream exon joins to the 3' end of an upstream exon, creating a covalently closed loop.
 
 Detection signature: reads spanning the **back-splice junction (BSJ)**:
-```python
-Linear:  ...Exon2–Exon3–Exon4...
-Circular: ...Exon4–Exon2... (back-splice)
-```python
 
 CIRI2 algorithm:
 ```bash
@@ -284,28 +226,20 @@ circRNA quantification: reads per circRNA / total mapped reads × 10⁶ (= CPM)
 3. **Guide**: directs chromatin remodeling complexes (HOTAIR → PRC2)
 4. **Scaffold**: assembles protein complexes (NEAT1 → paraspeckle)
 
-```python
-# Example: StringTie assembly
-# !stringtie sample.bam -o sample.gtf -p 8
-# # Merge samples
-# !stringtie --merge -G gencode.v44.gtf sample1.gtf sample2.gtf -o merged.gtf
-# # Filter for lncRNAs
-# !gffcompare -r gencode.v44.gtf merged.gtf
-```python
 
-## 3. Coding Potential Assessment
+## Coding Potential Assessment
 
 > CPC2 (Coding Potential Calculator). CPAT (Fickett score + hexamer bias). PhyloCSF for evolutionary constraint. Riboseq footprint analysis to confirm non-coding status.
 
-## 4. circRNA Analysis with CIRI2
+## circRNA Analysis with CIRI2
 
 > Back-splice junction reads as evidence for circularization. CIRI2 alignment to detect BSJ. Quantification with CIRI-quant. circRNA database (circBase) for known entries. Expression relative to linear counterpart.
 
-## 5. lncRNA Co-expression Networks
+## lncRNA Co-expression Networks
 
 > WGCNA co-expression modules including lncRNAs. Guilt-by-association: assign lncRNA function from co-expressed protein-coding genes. Identify lncRNA-disease associations (LncDisease, Lnc2Cancer).
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

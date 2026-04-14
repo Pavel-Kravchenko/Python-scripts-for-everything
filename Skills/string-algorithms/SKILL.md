@@ -4,17 +4,6 @@ description: Pattern matching algorithms — naive, KMP (failure function), Rabi
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # String Matching Algorithms
 
 ## When to Use
@@ -23,7 +12,6 @@ package and adapt the example to match the actual API rather than retrying.
 - **Rabin-Karp**: multiple patterns of same length (hash all, scan once), plagiarism/duplicate detection
 - **DFA**: small fixed alphabet (DNA: |Σ|=4), many texts with the same pattern, need O(1) per character with no backtracking
 
----
 
 ## Quick Reference
 
@@ -45,7 +33,6 @@ package and adapt the example to match the actual API rather than retrying.
 | DNA/binary alphabet, many texts | DFA |
 | Short pattern, large alphabet | Naive (first-char mismatch kills cost) |
 
----
 
 ## Key Patterns
 
@@ -76,7 +63,6 @@ transition[i][c] = len(longest prefix of pattern that is a suffix of pattern[:i]
 ```python
 Uses `prefix_length(pattern, pattern[:i] + c)` — same KMP prefix trick.
 
----
 
 ## Code Templates
 
@@ -217,9 +203,8 @@ dfa = build_automaton(pattern, alphabet)
 hits = dfa_search("AATGCCGTATTCTATTCTGATTTCTGAATTCTGATTTTTAGT", dfa)
 ```python
 
----
 
-## Common Pitfalls
+## Pitfalls
 
 - **KMP overlapping matches**: after a full match, set `j = f[m-1]`, not `j = 0` — otherwise overlapping occurrences like `AA` in `AAAA` are missed.
 - **Rabin-Karp spurious hits**: a hash match is not a guarantee; always verify with `text[i:i+m] == pattern`. Skip verification only if collision probability is provably negligible.
@@ -229,7 +214,6 @@ hits = dfa_search("AATGCCGTATTCTATTCTGATTTCTGAATTCTGATTTTTAGT", dfa)
 - **Naive with `text[i:i+m]`**: creates a new string object per position (O(m) space each); use explicit char comparison for truly O(1) space.
 - **KMP `j = -1` sentinel**: the reference implementation uses `j = -1` as a signal to advance without matching, equivalent to the "no prefix" state. Don't confuse with array indexing.
 
----
 
 ## Bioinformatics Connections
 
@@ -243,12 +227,7 @@ hits = dfa_search("AATGCCGTATTCTATTCTGATTTCTGAATTCTGATTTTTAGT", dfa)
 | Long-read mapping seeds | DFA | Fixed seed pattern, millions of reads |
 
 **KMP prefix function reveals period:**
-```python
-# If sp[m-1] > 0 and m % (m - sp[m-1]) == 0, pattern has period (m - sp[m-1])
-# "ATGATGATG" -> period 3
-```python
 
----
 
 ## Related Skills
 - `graphs-dynamic-programming` — edit distance, Smith-Waterman use DP on character grids

@@ -2,47 +2,16 @@
 name: bio-applied-qiime2-16s
 description: "16S rRNA amplicon analysis with QIIME2: DADA2 denoising, taxonomy assignment, alpha/beta diversity, and differential abundance. Use when analyzing 16S microbiome data."
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/04_qiime2_16s.ipynb"
 primary_tool: QIIME2
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # QIIME2 16S Amplicon Workflow
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/04_qiime2_16s.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 26 · Notebook 4**
-
-*Prerequisites: Module 04 (Microbial Diversity), Notebook 1 (Taxonomic Profiling)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Import paired-end 16S amplicon reads into QIIME2 artifacts
-2. Denoise reads with DADA2 to produce an ASV feature table
-3. Assign taxonomy to ASVs using a pre-trained classifier
-4. Compute alpha and beta diversity metrics
-5. Identify differentially abundant taxa with ANCOM-BC
-
-
-
-**Key resources:**
 - [QIIME2 Moving Pictures tutorial](https://docs.qiime2.org/2024.10/tutorials/moving-pictures/)
 - [QIIME2 documentation](https://docs.qiime2.org/)
 - [Galaxy Training — 16S Metagenomics](https://training.galaxyproject.org/training-material/topics/metagenomics/)
 
-## 1. Import Reads into QIIME2
+## Import Reads into QIIME2
 
 **QIIME2** (Quantitative Insights Into Microbial Ecology 2) is a comprehensive amplicon sequencing analysis framework. All data in QIIME2 is stored as **artifacts** (`.qza` files) with provenance tracking, or **visualizations** (`.qzv` files) viewable at https://view.qiime2.org.
 
@@ -87,7 +56,7 @@ read_length = 250  # V3-V4 region, 250 bp paired-end
 n_reads_vis = 5000
 positions = np.arange(1, read_length + 1)
 
-# Forward reads: quality drops in last ~30 bp
+# Forward reads: quality drops in last 30 bp
 qual_mean_fwd = 37 - 0.03 * positions - 3 * np.exp(-(read_length - positions) / 30)
 qual_q25_fwd  = qual_mean_fwd - 2 - 0.01 * positions
 qual_q75_fwd  = qual_mean_fwd + 1.5
@@ -124,7 +93,7 @@ plt.show()
 print('Recommended DADA2 truncation: --p-trunc-len-f 220 --p-trunc-len-r 200')
 ```python
 
-## 2. Denoising with DADA2
+## Denoising with DADA2
 
 **DADA2** (Divisive Amplicon Denoising Algorithm 2) corrects sequencing errors and produces **Amplicon Sequence Variants (ASVs)** — exact sequence variants at single-nucleotide resolution — rather than the traditional OTUs (Operational Taxonomic Units) clustered at 97% similarity.
 
@@ -201,7 +170,7 @@ axes[0].set_title('DADA2 read retention pipeline')
 for i, (step, val) in enumerate(zip(steps, step_means)):
     axes[0].text(i, val + 500, f'{val:,.0f}', ha='center', fontsize=9)
 
-# Retention % distribution
+# Retention  distribution
 axes[1].hist(stats_df['Retention_%'], bins=10, color='steelblue', edgecolor='white', alpha=0.85)
 axes[1].axvline(75, color='red', linestyle='--', lw=1.5, label='75% threshold')
 axes[1].set_xlabel('Overall read retention (%)')
@@ -213,7 +182,7 @@ plt.tight_layout()
 plt.show()
 ```python
 
-## 3. Taxonomic Classification with SILVA
+## Taxonomic Classification with SILVA
 
 **SILVA** (silva.nr_v138) is the standard reference database for 16S rRNA classification in QIIME2. Pre-trained Naive Bayes classifiers are available from the QIIME2 data resources page — use the classifier trained for your specific primer pair and read length.
 
@@ -323,7 +292,7 @@ plt.tight_layout()
 plt.show()
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

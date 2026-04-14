@@ -1,218 +1,55 @@
 ---
 name: bio-applied-population-genetics
-description: "Split from `01_population_genetics_and_molecular_evolution.ipynb` to keep this topic self-contained."
+description: Population genetics — Hardy-Weinberg equilibrium, Wright-Fisher drift simulation, selection models, molecular clock, dN/dS, Tajima's D, Fst, and linkage disequilibrium
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/15_Population_Genetics_and_Molecular_Evolution/01_population_genetics.ipynb"
 primary_tool: Matplotlib
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# Population Genetics
-
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/15_Population_Genetics_and_Molecular_Evolution/01_population_genetics.ipynb`*
-
-
-Split from `01_population_genetics_and_molecular_evolution.ipynb` to keep this topic self-contained.
-
-**Navigation:** [Topic overview](./01_population_genetics_and_molecular_evolution.ipynb) · [Next: Molecular Evolution](./02_molecular_evolution.ipynb)
-
 # Population Genetics and Molecular Evolution
 
-**Tier 3 -- Applied Bioinformatics**
+## Core Evolutionary Forces
 
-Population genetics explains how allele frequencies shift across generations under the competing forces of mutation, genetic drift, natural selection, and gene flow. Molecular evolution extends these ideas to DNA sequences, asking which substitutions are neutral, purifying, or adaptive.
-
-**Learning objectives:**
-- Compute allele frequencies and test Hardy-Weinberg equilibrium with chi-squared
-- Simulate Wright-Fisher genetic drift and understand the effect of population size
-- Model directional, balancing, purifying, and frequency-dependent selection
-- Apply the molecular clock and Jukes-Cantor correction to estimate divergence times
-- Calculate dN/dS ratios with the Nei-Gojobori method and interpret selection pressure
-- Compute Tajima's D, McDonald-Kreitman neutrality index, Fst, and linkage disequilibrium
-
-**Prerequisites:** Tier 2 Python, NumPy, basic probability  
-**Libraries:** `numpy`, `pandas`, `matplotlib`, `scipy`
-
-```python
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
-from scipy import stats
-from itertools import combinations
-
-%matplotlib inline
-plt.rcParams['figure.figsize'] = (12, 5)
-plt.rcParams['font.size'] = 12
-np.random.seed(42)
-```python
-
----
-
-## 1. Allele Frequencies and Hardy-Weinberg Equilibrium
-
-The **Hardy-Weinberg principle** (1908) states that, in an infinitely large, randomly mating population with no mutation, selection, or migration, allele frequencies remain constant across generations and genotype frequencies satisfy:
-
-$$p^2 + 2pq + q^2 = 1$$
-
-where *p* = frequency of allele A and *q* = 1 − *p* = frequency of allele a.
-
-HWE is a null model: departures signal interesting biology.
-
-```python
-# Observed genotype counts from a sample of 500 individuals
-# Locus: MN blood group (codominant: MM, MN, NN)
-observed_MM = 233
-observed_MN = 200
-observed_NN = 67
-n_individuals = observed_MM + observed_MN + observed_NN
-
-# Allele frequencies
-n_M_alleles = 2 * observed_MM + observed_MN
-n_N_alleles = 2 * observed_NN + observed_MN
-total_alleles = 2 * n_individuals
-
-p_M = n_M_alleles / total_alleles   # frequency of M
-q_N = n_N_alleles / total_alleles   # frequency of N
-
-print(f"Sample size (n): {n_individuals} individuals")
-print(f"Allele counts  -- M: {n_M_alleles}, N: {n_N_alleles}")
-print(f"Allele frequencies -- p(M) = {p_M:.4f}, q(N) = {q_N:.4f}")
-print(f"p + q = {p_M + q_N:.4f}  (must equal 1)")
-```python
-
-```python
-# HWE expected genotype frequencies and bar chart comparison
-expected_MM = p_M**2 * n_individuals
-expected_MN = 2 * p_M * q_N * n_individuals
-expected_NN = q_N**2 * n_individuals
-
-genotypes  = ['MM', 'MN', 'NN']
-obs_counts = [observed_MM, observed_MN, observed_NN]
-exp_counts = [expected_MM, expected_MN, expected_NN]
-
-x = np.arange(len(genotypes))
-width = 0.35
-fig, ax = plt.subplots(figsize=(7, 4))
-ax.bar(x - width/2, obs_counts, width, label='Observed', color='steelblue')
-ax.bar(x + width/2, exp_counts, width, label='HWE Expected', color='coral', alpha=0.8)
-ax.set_xticks(x)
-ax.set_xticklabels(genotypes)
-ax.set_ylabel('Count')
-ax.set_title('MN Blood Group: Observed vs HWE Expected')
-ax.legend()
-plt.tight_layout()
-plt.show()
-
-print(f"  MM: observed={observed_MM}, expected={expected_MM:.1f}")
-print(f"  MN: observed={observed_MN}, expected={expected_MN:.1f}")
-print(f"  NN: observed={observed_NN}, expected={expected_NN:.1f}")
-```python
-
-```python
-# Chi-squared test for HWE departure
-# df = (number of genotype classes - 1) - (independent allele freqs estimated)
-# For biallelic locus: df = 3 - 1 - 1 = 1
-observed_arr = np.array([observed_MM, observed_MN, observed_NN], dtype=float)
-expected_arr = np.array([expected_MM, expected_MN, expected_NN], dtype=float)
-
-chi2_stat = np.sum((observed_arr - expected_arr)**2 / expected_arr)
-df = 1
-p_value = stats.chi2.sf(chi2_stat, df)   # survival function = 1 - CDF
-
-print(f"Chi-squared statistic: {chi2_stat:.4f}")
-print(f"Degrees of freedom:    {df}")
-print(f"p-value:               {p_value:.4f}")
-print()
-if p_value > 0.05:
-    print("Conclusion: No significant departure from HWE (p > 0.05).")
-else:
-    print("Conclusion: Significant departure from HWE (p <= 0.05).")
-```python
-
-### Causes of HWE Departure
-
-| Force | Effect on allele freq | Effect on genotype freq |
-|---|---|---|
-| Natural selection | Changes p and q | Excess/deficit of certain genotypes |
-| Genetic drift | Changes p and q (random) | Excess homozygotes (inbreeding-like) |
-| Gene flow (migration) | Introduces new alleles | Shifts all genotype freqs |
-| Mutation | Slow, negligible per generation | Tiny shift toward new alleles |
-| Non-random mating | No direct effect on p, q | Excess homozygotes (inbreeding) or excess heterozygotes |
+| Force | Effect on allele freq | Effect on diversity |
+|-------|-----------------------|--------------------|
+| Genetic drift | Random walk (stronger in small N) | Reduces diversity |
+| Natural selection | Directional shift | Reduces (purifying/directional) or maintains (balancing) |
+| Mutation | Slow increase of new alleles | Increases diversity |
+| Gene flow (migration) | Homogenizes populations | Increases local diversity |
+| Non-random mating | No direct effect on p/q | Excess homozygotes (inbreeding) |
 | Population stratification | No effect within strata | Wahlund effect: excess homozygotes in pooled sample |
 
-The **inbreeding coefficient F** measures the fractional reduction in heterozygosity:
-$$F = 1 - \frac{H_{\text{obs}}}{2pq}$$
+## Hardy-Weinberg Equilibrium
+
+HWE predicts genotype frequencies from allele frequencies in an ideal population:
+p² (AA) + 2pq (Aa) + q² (aa) = 1
 
 ```python
-# Inbreeding coefficient F and multi-allelic HWE extension
-H_obs = observed_MN / n_individuals
-H_exp = 2 * p_M * q_N
-F_inbreeding = 1 - H_obs / H_exp
+from scipy import stats
+import numpy as np
 
-print(f"Inbreeding coefficient F = {F_inbreeding:.4f}")
-print(f"  H_obs={H_obs:.4f}, H_exp={H_exp:.4f}")
-print("  F ≈ 0: no evidence of inbreeding or outbreeding.")
-print()
+# Allele frequencies from genotype counts
+n = obs_MM + obs_MN + obs_NN
+p = (2 * obs_MM + obs_MN) / (2 * n)
+q = 1 - p
 
-# Multi-allelic HWE for a 3-allele ABO-like locus
-p_A, p_B, p_O = 0.28, 0.06, 0.66
-allele_freqs = {'A': p_A, 'B': p_B, 'O': p_O}
-alleles = list(allele_freqs.keys())
+# Expected counts
+exp_MM, exp_MN, exp_NN = p**2 * n, 2*p*q * n, q**2 * n
 
-print("Expected genotype frequencies under HWE (3-allele ABO-like locus):")
-total = 0.0
-for i, a1 in enumerate(alleles):
-    for a2 in alleles[i:]:
-        freq = allele_freqs[a1]**2 if a1 == a2 else 2*allele_freqs[a1]*allele_freqs[a2]
-        total += freq
-        print(f"  {a1}{a2}: {freq:.4f}")
-print(f"  Sum: {total:.4f}")
-```python
+# Chi-squared test (df=1 for biallelic locus)
+chi2 = sum((o - e)**2 / e for o, e in
+           zip([obs_MM, obs_MN, obs_NN], [exp_MM, exp_MN, exp_NN]))
+p_val = stats.chi2.sf(chi2, df=1)
 
----
+# Inbreeding coefficient
+F = 1 - (obs_MN / n) / (2 * p * q)
+# F > 0: excess homozygotes; F < 0: excess heterozygotes
+```
 
-## 2. Genetic Drift
-
-**Genetic drift** is the random change in allele frequency caused by sampling a finite number of gametes each generation. It is the dominant evolutionary force in small populations.
-
-### Wright-Fisher Model
-
-In a diploid population of size *N*, the next generation's count of allele A is drawn from a binomial distribution:
-
-$$k_{t+1} \sim \text{Binomial}(2N,\; p_t)$$
-
-Variance per generation: $\text{Var}(p_{t+1}) = p_t(1-p_t)/(2N)$
-
-The allele frequency performs a random walk bounded by absorbing states at 0 (loss) and 1 (fixation). Smaller N means larger variance and faster drift.
-
-### Absorbing States: Fixation and Loss
-
-Once an allele reaches frequency 0 or 1, it stays there forever (in the absence of mutation).
-These are called **absorbing states** of the Wright-Fisher Markov chain.
-
-- **Fixation** (p = 1): the allele has replaced all others — it is now the only allele at this locus
-- **Loss** (p = 0): the allele has been eliminated from the population
-
-For a neutral allele starting at frequency p₀ in a population of size N:
-- P(fixation) = p₀
-- P(loss) = 1 − p₀
-- Expected time to fixation (given fixation) ≈ −4N × [p₀ ln(p₀) + (1-p₀) ln(1-p₀)] / p₀
+## Wright-Fisher Drift Simulation
 
 ```python
 def wright_fisher_trajectory(N, p0, n_generations, rng):
-    """Simulate one Wright-Fisher trajectory.
-    Returns array of allele frequencies, length n_generations+1."""
+    """Simulate one WF trajectory. Returns allele frequency array."""
     freq = np.empty(n_generations + 1)
     freq[0] = p0
     p = p0
@@ -221,144 +58,88 @@ def wright_fisher_trajectory(N, p0, n_generations, rng):
         p = k / (2 * N)
         freq[g + 1] = p
         if p == 0.0 or p == 1.0:
-            freq[g + 2:] = p   # absorbing state: stay at 0 or 1
+            freq[g + 2:] = p   # absorbing state
             break
     return freq
 
 rng = np.random.default_rng(42)
+# P(fixation) of neutral allele = p0 (Kimura 1962)
+# Mean time to fixation/loss ~ -4N[p*ln(p) + q*ln(q)] generations
+```
 
-# Single trajectory for three different population sizes
-n_gen = 200
-p_initial = 0.5
-pop_sizes = [20, 100, 1000]
-colors = ['firebrick', 'steelblue', 'seagreen']
+### Population Size Effects
 
-fig, axes = plt.subplots(1, 3, figsize=(15, 4), sharey=True)
-for ax, N, color in zip(axes, pop_sizes, colors):
-    traj = wright_fisher_trajectory(N, p_initial, n_gen, rng)
-    ax.plot(traj, color=color, lw=1.5)
-    ax.axhline(0.0, ls='--', color='black', lw=0.8)
-    ax.axhline(1.0, ls='--', color='black', lw=0.8)
-    ax.set_title(f'N = {N}')
-    ax.set_xlabel('Generation')
-    ax.set_ylim(-0.05, 1.05)
-axes[0].set_ylabel('Allele frequency (p)')
-fig.suptitle('Wright-Fisher Drift: Single Trajectory per Population Size')
-plt.tight_layout()
-plt.show()
-```python
+| N | Drift strength | Time to fixation |
+|---|---------------|-----------------|
+| Small (10–50) | Strong | Few generations |
+| Large (1000+) | Weak | ~4N generations |
+| Bottleneck | Extreme during event | Permanent diversity loss |
+
+## Selection Models
 
 ```python
-# Many replicates: visualise spread, fixation, and loss
-# Under neutral drift, P(fixation) = p0 (Kimura 1962)
-n_replicates = 50
-n_gen = 150
-N_small = 50
-p0 = 0.3
-
-trajectories = np.array([
-    wright_fisher_trajectory(N_small, p0, n_gen, rng)
-    for _ in range(n_replicates)
-])
-
-n_fixed = np.sum(trajectories[:, -1] == 1.0)
-n_lost  = np.sum(trajectories[:, -1] == 0.0)
-n_poly  = n_replicates - n_fixed - n_lost
-
-fig, ax = plt.subplots(figsize=(12, 5))
-for traj in trajectories:
-    final = traj[-1]
-    col = 'steelblue' if final == 1.0 else ('tomato' if final == 0.0 else 'lightgray')
-    ax.plot(traj, color=col, alpha=0.6, lw=0.9)
-
-ax.axhline(p0, ls=':', color='black', lw=1.2, label=f'Initial p = {p0}')
-ax.set_xlabel('Generation')
-ax.set_ylabel('Allele frequency')
-ax.set_title(f'N={N_small}, p0={p0}: {n_replicates} replicates | '
-             f'Fixed={n_fixed} (blue), Lost={n_lost} (red), Polymorphic={n_poly} (gray)')
-ax.legend()
-plt.tight_layout()
-plt.show()
-print(f"Theoretical P(fixation) = p0 = {p0:.2f}")
-print(f"Observed fixation fraction   = {n_fixed/n_replicates:.2f}")
-```python
-
-```python
-# Time to fixation or loss as a function of N
-# Theory: E[T_fix or loss] ≈ -4N[p*ln(p) + (1-p)*ln(1-p)]
-
-def mean_time_to_fixation_loss(N, p0, n_replicates, rng, max_gen=10_000):
-    times = []
-    for _ in range(n_replicates):
-        p = p0
-        for g in range(1, max_gen + 1):
-            p = rng.binomial(2 * N, p) / (2 * N)
-            if p == 0.0 or p == 1.0:
-                times.append(g)
-                break
-    return np.mean(times) if times else np.nan
-
-pop_sizes_test = [10, 25, 50, 100, 200]
-mean_times = [mean_time_to_fixation_loss(N, 0.5, 200, rng) for N in pop_sizes_test]
-
-fig, ax = plt.subplots(figsize=(7, 4))
-ax.plot(pop_sizes_test, mean_times, 'o-', color='steelblue', lw=2, label='Simulated')
-theory_x = np.linspace(10, 200, 100)
-theory_y = -4 * theory_x * (0.5 * np.log(0.5) + 0.5 * np.log(0.5))
-ax.plot(theory_x, theory_y, '--', color='coral', label='Theory: −4N[p ln p + q ln q]')
-ax.set_xlabel('Population size (N)')
-ax.set_ylabel('Mean generations to fixation/loss')
-ax.set_title('Time to Fixation or Loss vs Population Size (p₀ = 0.5)')
-ax.legend()
-plt.tight_layout()
-plt.show()
-```python
-
-```python
-# Bottleneck: simulating a transient reduction in Ne
-
-def wf_with_bottleneck(N_normal, N_bottleneck, bottleneck_start, bottleneck_duration,
-                        p0, n_gen, rng):
-    """Wright-Fisher drift with a population size bottleneck."""
-    freq = np.empty(n_gen + 1)
-    freq[0] = p0
+# Directional selection (additive): one allele increases fitness
+def selection_trajectory(N, p0, s, h, n_gen, rng):
+    """s = selection coeff; h = dominance (0.5 = additive, 1 = dominant)."""
     p = p0
-    for g in range(n_gen):
-        in_bottleneck = bottleneck_start <= g < bottleneck_start + bottleneck_duration
-        N = N_bottleneck if in_bottleneck else N_normal
-        p = rng.binomial(2 * N, p) / (2 * N)
-        freq[g + 1] = p
-        if p == 0.0 or p == 1.0:
-            freq[g + 2:] = p
-            break
-    return freq
+    traj = [p]
+    for _ in range(n_gen):
+        # Mean fitness
+        w_bar = p**2*(1+s) + 2*p*(1-p)*(1+h*s) + (1-p)**2
+        # Allele freq after selection
+        p_sel = (p**2*(1+s) + p*(1-p)*(1+h*s)) / w_bar
+        # Drift
+        p = rng.binomial(2*N, p_sel) / (2*N)
+        traj.append(p)
+        if p in (0.0, 1.0): break
+    return traj
+```
 
-n_gen = 200
-n_reps = 30
-bottle_trajs = [wf_with_bottleneck(500, 5, 50, 10, 0.5, n_gen, rng) for _ in range(n_reps)]
-normal_trajs = [wright_fisher_trajectory(500, 0.5, n_gen, rng) for _ in range(n_reps)]
+## Molecular Clock and dN/dS
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5), sharey=True)
-for traj in normal_trajs:
-    ax1.plot(traj, color='steelblue', alpha=0.4, lw=0.8)
-ax1.set_title('No bottleneck (N=500 throughout)')
-
-for traj in bottle_trajs:
-    ax2.plot(traj, color='tomato', alpha=0.4, lw=0.8)
-ax2.axvspan(50, 60, color='orange', alpha=0.2, label='Bottleneck (N=5, 10 gen)')
-ax2.set_title('Bottleneck at generation 50-60 (N drops to 5)')
-ax2.legend()
-
-for ax in (ax1, ax2):
-    ax.set_xlabel('Generation')
-    ax.set_ylabel('Allele frequency')
-plt.suptitle('Bottleneck Effects on Drift', y=1.01)
-plt.tight_layout()
-plt.show()
 ```python
+# Jukes-Cantor correction for multiple hits
+def jukes_cantor(p_diff):
+    """Correct observed proportion of differences for multiple hits."""
+    if p_diff >= 0.75: return float('inf')
+    return -0.75 * np.log(1 - 4 * p_diff / 3)
 
-## Common Pitfalls
+# Divergence time estimate
+# t = d / (2 * rate)  where d = JC-corrected distance, rate = subs/site/year
 
-- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
-- **Batch effects**: Always check for batch confounding before interpreting biological signal
-- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously
+# dN/dS (Nei-Gojobori method)
+# dN/dS < 1 = purifying selection (most genes)
+# dN/dS ≈ 1 = neutral evolution
+# dN/dS > 1 = positive/adaptive selection (rare)
+```
+
+## Summary Statistics
+
+```python
+# Tajima's D (neutrality test)
+# D > 0: excess intermediate-frequency variants (balancing selection / population contraction)
+# D < 0: excess rare variants (selective sweep / population expansion)
+# |D| > 2 is typically significant
+
+# Fst (population differentiation)
+# Fst = (Ht - Hs) / Ht
+# Fst = 0: no differentiation; Fst = 1: complete differentiation
+def fst(p1, p2, n1, n2):
+    p_bar = (n1*p1 + n2*p2) / (n1 + n2)
+    ht = 2 * p_bar * (1 - p_bar)
+    hs = (2*p1*(1-p1)*n1 + 2*p2*(1-p2)*n2) / (n1 + n2)
+    return (ht - hs) / ht if ht > 0 else 0.0
+
+# Linkage disequilibrium (D')
+# r² = D² / (p_A * q_A * p_B * q_B)
+# r² > 0.8 = strong LD (blocks)
+```
+
+## Pitfalls
+
+- **HWE departure does not identify the cause**: chi-squared only flags departure; genotyping errors, selection, inbreeding, and stratification all produce the same test result — need additional tests to distinguish
+- **Wahlund effect**: pooling samples from differentiated subpopulations creates apparent HWE departure (excess homozygotes) without any selection or inbreeding — always stratify by population before HWE testing
+- **Wright-Fisher assumes non-overlapping generations**: does not model age structure; use coalescent models or continuous-time approximations for organisms with overlapping generations
+- **Jukes-Cantor correction breaks down at p > 0.5**: multiple substitutions per site saturate; use more sophisticated models (HKY, GTR) for highly diverged sequences
+- **dN/dS > 1 requires averaging over many sites**: a single gene rarely achieves dN/dS > 1 genome-wide; use codon-level tests (PAML codeml, HyPhy) to detect episodic selection at specific sites
+- **Tajima's D is sensitive to demographic history**: population expansion gives D < 0 (mimics sweeps); always interpret with a demographic null model

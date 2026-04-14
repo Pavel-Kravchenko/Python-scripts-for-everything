@@ -4,18 +4,7 @@ description: Cheminformatics and drug discovery — RDKit molecular representati
 primary_tool: RDKit
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+, pandas 2.1+, rdkit 2024.03+, scikit-learn 1.4+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
-# Cheminformatics & Drug Discovery
+# Cheminformatics  Drug Discovery
 
 ## When to Use
 
@@ -71,7 +60,7 @@ ro5_pass = (descriptors['MW'] <= 500 and descriptors['LogP'] <= 5 and
 from rdkit.Chem import AllChem
 from rdkit import DataStructs
 
-# ECFP4 fingerprint (radius=2, 2048 bits)
+# ECFP4 fingerprint (radius2, 2048 bits)
 fp = AllChem.GetMorganFingerprintAsBitVect(mol, radius=2, nBits=2048)
 
 # Tanimoto similarity between two molecules
@@ -136,14 +125,13 @@ vina --receptor receptor.pdbqt --ligand ligand.pdbqt \
 
 ## Lipinski's Rule of Five
 
-A compound is predicted orally bioavailable if it satisfies ≥4 of:
 - MW ≤ 500 Da
 - LogP ≤ 5
 - H-bond donors ≤ 5
 - H-bond acceptors ≤ 10
 - TPSA ≤ 140 Å²
 
-## Common Pitfalls
+## Pitfalls
 
 - **SMILES validation** — always check `Chem.MolFromSmiles() is not None` before processing
 - **Scaffold split** — use scaffold-based train/test splits (not random) to avoid data leakage in QSAR

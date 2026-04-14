@@ -1,48 +1,17 @@
 ---
 name: bio-applied-functional-annotation
-description: "**Tier 3 — Applied Bioinformatics | Module 26 · Notebook 2**"
+description: Functional Annotation of Metagenomes with NumPy
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/02_functional_annotation.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+, seaborn 0.13+, statsmodels 0.14+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Functional Annotation of Metagenomes
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/26_Metagenomics_Shotgun/02_functional_annotation.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 26 · Notebook 2**
-
-*Prerequisites: Notebook 1 (Taxonomic Profiling)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Run HUMAnN3 to profile functional pathway abundance from metagenomic reads
-2. Interpret UniRef90 gene families and MetaCyc pathway tables
-3. Normalize pathway abundances (copies per million, relative)
-4. Perform differential pathway analysis between sample groups
-5. Visualize community functional profiles with heatmaps
-
-
-
-**Key resources:**
 - [HUMAnN3 documentation](https://github.com/biobakery/humann)
 - [bioBakery tutorials](https://github.com/biobakery/biobakery/wiki)
 - [MetaCyc pathway database](https://metacyc.org/)
 
-## 1. HUMAnN3 Overview
+## HUMAnN3 Overview
 
 **HUMAnN3** (HMP Unified Metabolic Analysis Network 3) profiles functional gene families and metabolic pathways in metagenomic samples. Its three-stage workflow:
 
@@ -61,7 +30,7 @@ package and adapt the example to match the actual API rather than retrying.
 # Merge paired reads (HUMAnN3 takes single FASTQ)
 cat decontam_1.fastq.gz decontam_2.fastq.gz > merged.fastq.gz
 
-# Run HUMAnN3 (requires ~15-50 GB RAM; runtime ~1-4 hours per sample)
+# Run HUMAnN3 (requires 15-50 GB RAM runtime 1-4 hours per sample)
 humann \
     --input merged.fastq.gz \
     --output humann3_out/ \
@@ -77,7 +46,7 @@ humann_renorm_table \
     --units cpm
 ```python
 
-## 2. Output Interpretation and Normalization
+## Output Interpretation and Normalization
 
 **Gene family units (RPK):** reads per kilobase of gene length. This accounts for the fact that longer genes attract more reads by chance. After normalization with `humann_renorm_table --units cpm`, values are copies per million (CPM) — proportional to the fraction of reads mapping to that gene family.
 
@@ -103,7 +72,7 @@ humann_join_tables \
 humann_split_stratified_table \
     --input all_samples_pathabundance.tsv \
     --output humann3_stratified/
-# Creates: ..._unstratified.tsv (pathways × samples) and ..._stratified.tsv
+# Creates: ..._unstratified.tsv (pathways  samples) and ..._stratified.tsv
 ```python
 
 ```python
@@ -180,7 +149,7 @@ plt.tight_layout()
 plt.show()
 ```python
 
-## 3. Differential Pathway Analysis with MaAsLin2
+## Differential Pathway Analysis with MaAsLin2
 
 **MaAsLin2** (Multivariate Association with Linear Models) is designed for microbiome compositional data. It applies log transformation and arc-sine-square-root transformation options, and fits a **generalized linear model** with random effects to each feature (pathway, gene family, or taxon) against metadata variables. It handles:
 - Continuous and categorical metadata
@@ -292,7 +261,7 @@ plt.tight_layout()
 plt.show()
 ```python
 
-## 4. Gene Family Analysis and AMR Detection
+## Gene Family Analysis and AMR Detection
 
 Beyond pathways, HUMAnN3 produces **gene family** abundances (UniRef90 clusters). These can be used to:
 - Detect **antimicrobial resistance (AMR) genes** by mapping to CARD, ResFinder, or ARG-ANNOT databases
@@ -317,7 +286,7 @@ amrfinder \
 
 AMR prevalence from shotgun data is expressed as **RPKM** (reads per kilobase per million mapped reads) or as presence/absence per sample.
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

@@ -1,60 +1,19 @@
 ---
 name: bio-applied-numerical-methods-for-bioinformatics
-description: "- Implement Lagrange and Newton interpolation polynomials and explain the Runge phenomenon - Apply cubic spline interpolation to reconstruct missing time points in biological time series - Compute num"
+description: - Implement Lagrange and Newton interpolation polynomials and explain the Runge phenomenon - Apply cubic spline interpolation to reconstruct missing time points in biological time series - Compute num
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/16_Numerical_Methods_for_Bioinformatics/01_numerical_methods_for_bioinformatics.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Numerical Methods for Bioinformatics
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/16_Numerical_Methods_for_Bioinformatics/01_numerical_methods_for_bioinformatics.ipynb`*
-
-
-## Learning Objectives
-
-By the end of this module you will be able to:
-
-- Implement Lagrange and Newton interpolation polynomials and explain the Runge phenomenon
-- Apply cubic spline interpolation to reconstruct missing time points in biological time series
-- Compute numerical derivatives (forward, backward, central differences) and understand their error properties
-- Use the trapezoidal rule and Simpson's rule to approximate definite integrals; compute area under biological curves
-- Solve linear and nonlinear curve-fitting problems with numpy.linalg.lstsq and scipy.optimize.curve_fit
-- Fit Michaelis-Menten, Hill, and four-parameter logistic (4PL) models and assess goodness-of-fit with R², AIC, and chi-squared
-- Implement gradient descent from scratch and use scipy.optimize.minimize for maximum likelihood estimation
-- Apply the Fast Fourier Transform to detect periodic signals in gene expression and spectral data
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.interpolate import CubicSpline, interp1d
-from scipy.integrate import quad, trapezoid, simpson
-from scipy.optimize import curve_fit, minimize
-from scipy.stats import chi2
-
-rng = np.random.default_rng(42)
-plt.rcParams.update({'figure.dpi': 110, 'axes.grid': True, 'grid.alpha': 0.3})
-```python
-
----
 ## Part 1: Interpolation
 
 Interpolation builds a function that passes exactly through a set of data points (x_1, y_1), ..., (x_n, y_n). This is different from curve fitting, where the function is allowed to deviate from the data to avoid overfitting noise.
 
 **Key theoretical result (Weierstrass, 1885):** Any continuous function on [a, b] can be approximated to arbitrary precision by a polynomial. However, *which* polynomial matters enormously.
 
-### 1.1 Lagrange Interpolation
+### Lagrange Interpolation
 
 Given n distinct nodes x_1, ..., x_n, the **Lagrange interpolation polynomial** of degree n-1 is:
 
@@ -102,11 +61,10 @@ plt.show()
 print(f'Interpolated solubility at 40 C: {lagrange_interpolate(T_data, S_data, [40])[0]:.1f} g')
 ```python
 
-### 1.2 The Runge Phenomenon and Chebyshev Nodes
+### The Runge Phenomenon and Chebyshev Nodes
 
 High-degree Lagrange interpolation on a **uniform grid** suffers from the **Runge phenomenon**: oscillations near the interval endpoints grow exponentially with the polynomial degree. Runge (1901) demonstrated this on f(x) = 1/(1+25x^2) with a degree-20 polynomial.
 
-The fix is to use **Chebyshev nodes** which cluster near the endpoints:
 
     x_k = (b+a)/2 + (b-a)/2 * cos(pi*(2k-1)/(2n)),   k = 1, ..., n
 
@@ -147,7 +105,7 @@ plt.tight_layout()
 plt.show()
 ```python
 
-### 1.3 Newton's Divided Differences
+### Newton's Divided Differences
 
 The same unique interpolation polynomial can be written in **Newton's form**, which makes adding a new data point cheap (just one extra term):
 
@@ -207,7 +165,7 @@ plt.show()
 print(f'Predicted at t=6h: {expr_pred[0]:.2f},  t=18h: {expr_pred[1]:.2f}')
 ```python
 
-### 1.4 Cubic Spline Interpolation
+### Cubic Spline Interpolation
 
 High-degree polynomial interpolants are unstable. **Splines** avoid this by using low-degree polynomials on each sub-interval, stitched together with continuity conditions.
 
@@ -215,13 +173,12 @@ A **cubic spline** s(x) in S_{3,1}(X, I) is a piecewise cubic with continuous fi
 
     min_f  integral_a^b [f''(x)]^2 dx   subject to f(x_i) = y_i
 
-This is the mathematical model of a physical *spline* — a flexible elastic strip bent to pass through fixed points, historically used by shipbuilders.
 
 **Error bound:** For f in W^4[M_4, I]:  ||s - f||_inf <= (5/364) * h^4 * M_4,  where h = max(x_{i+1} - x_i).
 
 ```python
 # Bio application: reconstruct a full circadian time course
-# Measured at irregular intervals; cubic spline gives a smooth biological curve
+# Measured at irregular intervals cubic spline gives a smooth biological curve
 t_sampled = np.array([0, 3, 6, 9, 12, 15, 18, 21, 24], dtype=float)  # hours ZT
 per1_expr = np.array([1.0, 3.2, 7.1, 9.4, 6.8, 2.9, 1.1, 0.8, 1.0])  # Per1 (AU)
 
@@ -253,10 +210,9 @@ peak_t = t_fine[np.argmax(cs(t_fine))]
 print(f'Estimated peak expression at ZT {peak_t:.1f}h')
 ```python
 
----
 ## Part 2: Numerical Differentiation and Integration
 
-### 2.1 Finite Difference Formulas
+### Finite Difference Formulas
 
 We approximate derivatives by replacing the limiting process with finite differences. Derived from Taylor series:
 
@@ -279,7 +235,7 @@ def central_diff(f, x, h=1e-5):
     return (f(x + h) - f(x - h)) / (2*h)
 
 
-# Error vs step size: central difference is O(h^2), much better
+# Error vs step size: central difference is O(h2), much better
 f_test       = np.sin
 f_prime_true = np.cos(1.0)
 h_vals = np.logspace(-8, 0, 200)
@@ -308,7 +264,7 @@ for i in range(1, len(t_pk)-1):
     print(f'  t={t_pk[i]:4.0f}h: dC/dt = {dCdt:6.2f} ng/mL/h')
 ```python
 
-### 2.2 Numerical Integration: Trapezoidal Rule and Simpson's Rule
+### Numerical Integration: Trapezoidal Rule and Simpson's Rule
 
 Numerical integration is a **stable** operation (unlike differentiation): measurement errors average out over the interval.
 
@@ -328,9 +284,8 @@ where M_4 = max|f''''(x)| on [a,b].
 
 Simpson's rule converges as O(h^4) vs the trapezoidal O(h^2) — two orders faster.
 The factor of 180 (not 12) comes from the derivation: for a single panel of width 2h,
-the error is -(h^5/90)*f''''(ξ), which over N panels on [a,b] gives -(b-a)^5/(180*N^4)*f''''(ξ).
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

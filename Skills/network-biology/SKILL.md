@@ -4,17 +4,6 @@ description: Biological network analysis — PPI networks from STRING, NetworkX 
 primary_tool: NetworkX
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, networkx 3.2+, numpy 1.26+, pandas 2.1+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Network Biology
 
 ## When to Use
@@ -78,7 +67,7 @@ metrics = pd.DataFrame({
     'closeness': closeness,
     'clustering': clustering
 })
-# Hub genes: top 10% by degree
+# Hub genes: top 10 by degree
 hubs = metrics[metrics['degree'] >= metrics['degree'].quantile(0.9)]
 ```python
 
@@ -115,12 +104,12 @@ for mod_id, genes in modules.items():
 ```r
 library(GENIE3)
 
-# exprMatrix: genes × samples, rows = genes
+# exprMatrix: genes  samples, rows  genes
 tfs <- c('TP53', 'MYC', 'E2F1', 'FOXM1')
 weight_matrix <- GENIE3(exprMatrix=expr_matrix, regulators=tfs,
                          nTrees=1000, nCores=8)
 link_list <- getLinkList(weight_matrix, reportMax=20000)
-# link_list: regulatoryGene | targetGene | weight
+# link_list: regulatoryGene  targetGene  weight
 ```python
 
 ## Biological Network Properties
@@ -133,7 +122,7 @@ link_list <- getLinkList(weight_matrix, reportMax=20000)
 | Clustering | Low | High (modular) |
 | Path length | √N | log(N) |
 
-## Common Pitfalls
+## Pitfalls
 
 - **Literature bias** — STRING PPI data is biased toward well-studied genes; hub genes may reflect research attention, not true biology
 - **Directionality** — PPI networks are undirected (physical); GRNs are directed (regulatory); do not mix
@@ -155,14 +144,14 @@ def plot_degree_distribution(G, title='Degree Distribution'):
     counts = Counter(degrees)
     k = sorted(counts.keys())
     pk = [counts[ki] / len(degrees) for ki in k]
-    
+
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
     ax1.bar(k, pk, color='steelblue', alpha=0.7)
     ax1.set(xlabel='Degree k', ylabel='P(k)', title='Linear scale')
-    
+
     ax2.loglog(k, pk, 'o', color='steelblue', alpha=0.7)
     ax2.set(xlabel='Degree k', ylabel='P(k)', title='Log-log (power law check)')
-    
+
     plt.suptitle(title)
     plt.tight_layout()
     return degrees

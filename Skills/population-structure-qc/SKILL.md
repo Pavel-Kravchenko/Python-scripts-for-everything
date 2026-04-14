@@ -4,17 +4,6 @@ description: Population structure correction and stratification-aware QC for ass
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scikit-learn 1.4+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 ## When to Use
 
 Use this atomic skill for focused work on **population-structure-qc** without bundling unrelated topics.
@@ -29,10 +18,8 @@ Use the parent material below as the source reference, then keep implementations
 
 ## Source Reference (from merged skill)
 
----
 name: gwas-population-genetics
 description: GWAS study design, genotype QC, PCA for population stratification, per-SNP association testing, Manhattan and QQ plots, LD clumping, fine-mapping concepts
----
 
 ## When to Use
 
@@ -169,7 +156,7 @@ pcs, _ = pca_stratification(G_qc)
 pvals = gwas_logistic(G_qc[:, :200], phenotype, covariates=pcs[:, :5])
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Population stratification ignored:** always include PC covariates; use QQ plot λ (genomic inflation) to diagnose
 - **Multiple testing threshold:** 5×10⁻⁸ is not always correct; depends on number of independent tests

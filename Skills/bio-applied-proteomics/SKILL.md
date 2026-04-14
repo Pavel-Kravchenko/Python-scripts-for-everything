@@ -1,41 +1,15 @@
 ---
 name: bio-applied-proteomics
-description: "Split from `01_proteomics_and_structural_methods.ipynb` to keep this topic self-contained."
+description: package and adapt the example to match the actual API rather than retrying.
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/18_Proteomics_and_Structural_Methods/01_proteomics.ipynb"
 primary_tool: Matplotlib
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Proteomics
-
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/18_Proteomics_and_Structural_Methods/01_proteomics.ipynb`*
-
-
-Split from `01_proteomics_and_structural_methods.ipynb` to keep this topic self-contained.
-
-**Navigation:** [Topic overview](./01_proteomics_and_structural_methods.ipynb) · [Next: Structural Methods](./02_structural_methods.ipynb)
 
 # Proteomics and Structural Methods
 
-**Tier 3 -- Applied Bioinformatics**
-
-This notebook covers mass spectrometry-based proteomics, from raw data to protein identification and quantification, together with computational protein engineering and the structural determination methods that underpin it all. These topics are genuinely complementary: you need structural data to engineer proteins rationally, and you need proteomics to validate your engineered variants at scale.
-
-The material is grounded in the Физико-химические методы and Белковая инженерия courses taught at the Faculty of Bioengineering and Bioinformatics (ФББ), Moscow State University.
-
-**Prerequisites:** Tier 2.07 (PDB format, Bio.PDB, Ramachandran, DSSP), Tier 3.09 (force fields, MD concepts, docking)  
-**Libraries:** `numpy`, `matplotlib`, `pandas`, `collections`  
+**Libraries:** `numpy`, `matplotlib`, `pandas`, `collections`
 **Topics NOT repeated from earlier modules:** PDB parsing, RMSD, DSSP, py3Dmol, force fields, energy minimization, AutoDock Vina
 
 ```python
@@ -51,10 +25,9 @@ plt.rcParams['font.size'] = 12
 np.random.seed(42)
 ```python
 
----
 ## Part 1: Mass Spectrometry for Proteomics
 
-### 1.1 Ionization Methods
+### Ionization Methods
 
 Mass spectrometry measures the **mass-to-charge ratio (m/z)** of gas-phase ions. To get proteins and peptides into the gas phase without destroying them, two "soft" ionization methods are used:
 
@@ -73,7 +46,7 @@ $$m/z = \frac{M + z \cdot m_H}{z}$$
 
 where $M$ is the neutral molecular mass, $z$ is the charge state, and $m_H = 1.00728$ Da (proton mass). A 50 kDa protein ionized to $z=20$ appears at $m/z \approx 2502$.
 
-### 1.2 Mass Analyzers
+### Mass Analyzers
 
 | Analyzer | Principle | Mass accuracy | Resolution | Typical use |
 |----------|-----------|--------------|------------|-------------|
@@ -85,7 +58,7 @@ where $M$ is the neutral molecular mass, $z$ is the charge state, and $m_H = 1.0
 
 Modern instruments like the Orbitrap Fusion combine multiple analyzers: the Orbitrap provides high-resolution survey scans, while the ion trap simultaneously acquires MS/MS spectra for identified precursors — a strategy called **data-dependent acquisition (DDA)**.
 
-### 1.3 MS/MS Fragmentation: b and y Ion Series
+### MS/MS Fragmentation: b and y Ion Series
 
 In tandem mass spectrometry (MS/MS), a selected peptide precursor ion is fragmented by **CID** (collision-induced dissociation) or **HCD** (higher-energy collisional dissociation). Fragmentation primarily breaks the peptide backbone at amide bonds, generating two complementary series:
 
@@ -179,7 +152,7 @@ for i, mass in enumerate(reversed(y_ions), 1):
     ax.text(mass, 100 * (0.4 + 0.6 * np.random.random()) + 3,
             f'y{i}', ha='center', fontsize=8, color='tomato')
 
-# Precursor [M+2H]2+
+# Precursor M+2H2+
 precursor_mz = (peptide_mass(peptide) + 2 * H) / 2
 ax.axvline(precursor_mz, color='gray', linestyle='--', alpha=0.5, label=f'[M+2H]²⁺ = {precursor_mz:.1f}')
 
@@ -194,10 +167,9 @@ plt.tight_layout()
 plt.show()
 ```python
 
----
 ## Part 2: Protein Identification and Database Searching
 
-### 2.1 Bottom-Up Proteomics Workflow
+### Bottom-Up Proteomics Workflow
 
 The dominant proteomics strategy is **bottom-up (shotgun) proteomics**:
 
@@ -271,7 +243,7 @@ for pep, mass in sorted(masses, key=lambda x: -x[1]):
     print(f"{pep:<30} {mass:<12.2f} {len(pep):<8}")
 ```python
 
-### 2.2 Peptide Mass Fingerprinting (PMF)
+### Peptide Mass Fingerprinting (PMF)
 
 **PMF** (originally used with MALDI-TOF) identifies a protein by matching the observed set of tryptic peptide masses to theoretical masses from a database. No MS/MS is required — the pattern of masses is the "fingerprint".
 
@@ -283,7 +255,7 @@ Steps:
 
 PMF works well for simple mixtures (single protein from a gel band). For complex mixtures, **LC-MS/MS database searching** (Mascot, X!Tandem, MaxQuant) is required.
 
-### 2.3 Database Search Engines
+### Database Search Engines
 
 | Engine | Algorithm | Key feature |
 |--------|-----------|-------------|
@@ -295,7 +267,7 @@ PMF works well for simple mixtures (single protein from a gel band). For complex
 
 All engines compare observed MS/MS spectra against **theoretical spectra** predicted for every peptide in the database at the given precursor mass (±10–20 ppm for Orbitrap).
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

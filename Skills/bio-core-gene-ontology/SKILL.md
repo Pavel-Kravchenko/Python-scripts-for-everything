@@ -1,37 +1,11 @@
 ---
 name: bio-core-gene-ontology
-description: "Split from `01_gene_ontology_and_pathways.ipynb` to keep this topic self-contained."
+description: package and adapt the example to match the actual API rather than retrying.
 tool_type: python
-source_notebook: "Tier_2_Core_Bioinformatics/11_Gene_Ontology_and_Pathways/01_gene_ontology.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Gene Ontology
-
-*Source: Course notebook `Tier_2_Core_Bioinformatics/11_Gene_Ontology_and_Pathways/01_gene_ontology.ipynb`*
-
-
-Split from `01_gene_ontology_and_pathways.ipynb` to keep this topic self-contained.
-
-**Navigation:** [Topic overview](./01_gene_ontology_and_pathways.ipynb) · [Next: Pathways](./02_pathways.ipynb)
-
-## How to use this notebook
-
-1. Run cells top-to-bottom in order — later cells depend on earlier ones
-2. Run the environment check cell first to confirm all imports work
-3. Read the explanatory text before each code cell — the context matters
-4. The exercises at the end are designed to be done after reading each section
 
 ## Complicated moments explained
 
@@ -71,9 +45,8 @@ print("  ISS, ISO, ISA, ISM, IGC, IBA -> Computational (inferred)")
 print("  IEA -> Inferred from Electronic Annotation (automated, lowest confidence)")
 ```python
 
----
 
-### 1.2 GO Annotations and Evidence Codes
+### GO Annotations and Evidence Codes
 
 A **GO annotation** links a gene product to a GO term, supported by an **evidence code** indicating how the annotation was determined.
 
@@ -165,13 +138,12 @@ for gene in sorted(high_quality):
     print(f"  {gene}: {len(terms)} annotations")
 ```python
 
----
 
-## 2. GO Enrichment Analysis
+## GO Enrichment Analysis
 
 Given a list of interesting genes (e.g., differentially expressed genes from an RNA-seq experiment), we ask: **are any GO terms over-represented in this list compared to the background?**
 
-### 2.1 The Hypergeometric Test
+### The Hypergeometric Test
 
 The statistical model is the **hypergeometric distribution** (equivalent to Fisher's exact test for a 2x2 contingency table).
 
@@ -303,7 +275,7 @@ for r in enrichment_results[:12]:
     print(f"{'':>14} Genes: {', '.join(r['genes'])}")
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

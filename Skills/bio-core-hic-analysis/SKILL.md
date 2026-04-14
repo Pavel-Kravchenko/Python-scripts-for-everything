@@ -1,34 +1,11 @@
 ---
 name: bio-core-hic-analysis
-description: "*Prerequisites: Tier 2 Modules 1–13. Familiarity with numpy arrays and matplotlib.*"
+description: "Hi-C Analysis: 3D Genome Organization with Matplotlib"
 tool_type: python
-source_notebook: "Tier_2_Core_Bioinformatics/14_Hi-C_Analysis/14_hic_analysis.ipynb"
 primary_tool: Matplotlib
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Hi-C Analysis: 3D Genome Organization
-
-*Source: Course notebook `Tier_2_Core_Bioinformatics/14_Hi-C_Analysis/14_hic_analysis.ipynb`*
-
-
-**Tier 2 — Core Bioinformatics | Module 14**
-
-*Prerequisites: Tier 2 Modules 1–13. Familiarity with numpy arrays and matplotlib.*
-
----
-
-This module covers 3D genome organization analysis using Hi-C sequencing data. You will learn to:
 
 1. Load and inspect Hi-C contact matrices in cooler format
 2. Visualize contact matrices and identify TADs visually
@@ -38,10 +15,6 @@ This module covers 3D genome organization analysis using Hi-C sequencing data. Y
 6. Build aggregate pileup plots for weak signal detection
 
 **Tools covered:** `cooler`, `cooltools`, `numpy`, `pandas`, `matplotlib`
-
-## Why this notebook matters
-
-Hi-C (chromosome conformation capture followed by high-throughput sequencing) reveals the 3D organization of the genome inside the nucleus. The genome is not a linear string of DNA — it folds into a hierarchy of structures (compartments, TADs, loops) that directly control gene expression. Enhancers can act over megabases of linear distance by looping to their target promoters. TAD disruption is a mechanism of oncogene activation in cancer. Understanding how to load, visualize, normalize, and analyze Hi-C contact matrices is increasingly essential for understanding regulatory genomics and chromatin biology.
 
 ## Complicated moments explained
 
@@ -90,9 +63,7 @@ import urllib.request, os
 plt.rcParams.update({"figure.dpi": 120, "axes.spines.top": False, "axes.spines.right": False})
 ```python
 
-## 1. Loading Hi-C Data with cooler
-
-We use a small public Hi-C dataset from the 4DN Data Portal. The cell below downloads a `.cool` file at 25 kb resolution (chromosome 1 only, ~10 MB) for demonstration.
+## Loading Hi-C Data with cooler
 
 **Note:** In a real analysis you would use `.mcool` files containing multiple resolutions. Access a specific resolution with `cooler.Cooler("file.mcool::resolutions/25000")`.
 
@@ -143,7 +114,7 @@ print(f"\nBin table (first 5 rows):")
 print(clr.bins()[:5])
 ```python
 
-## 2. Visualizing the Contact Matrix
+## Visualizing the Contact Matrix
 
 A contact matrix is a symmetric 2D array. Entries near the diagonal = short-range contacts (always high); off-diagonal blocks = long-range contacts, which reveal compartments and TADs.
 
@@ -174,7 +145,7 @@ plt.show()
 print(f"Matrix shape: {mat.shape} | Max: {np.nanmax(mat):.0f} | NaN bins: {np.isnan(mat).sum()}")
 ```python
 
-## 3. Contact Decay Curve (P(s) Curve)
+## Contact Decay Curve (P(s) Curve)
 
 The *contact probability as a function of genomic distance* (P(s) curve) is a fundamental Hi-C quality metric and normalization anchor. Contacts decay roughly as a power law with distance: P(s) ~ s^α.
 
@@ -212,7 +183,7 @@ plt.tight_layout()
 plt.show()
 ```python
 
-## 4. A/B Compartment Detection
+## A/B Compartment Detection
 
 Chromatin segregates into two compartments:
 - **A compartment** — transcriptionally active, gene-dense, open chromatin (positive E1)
@@ -250,7 +221,7 @@ except Exception as e:
     print("In real data: cooltools.eigs_cis(clr, view_df=view_df, n_eigs=3)")
 ```python
 
-## 5. Insulation Score and TAD Boundary Detection
+## Insulation Score and TAD Boundary Detection
 
 Topologically Associating Domains (TADs) are genomic intervals within which contacts are enriched. TAD boundaries are detected as local minima of the *insulation score*.
 
@@ -288,7 +259,7 @@ except Exception as e:
     print("In real data: cooltools.insulation(clr, window_bp=[200_000], view_df=view_df)")
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

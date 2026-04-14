@@ -1,489 +1,107 @@
 ---
 name: algo-dfa-matching
-description: "This notebook covers **Deterministic Finite Automaton (DFA)** based string pattern matching - a technique that preprocesses the pattern to build a state machine enabling O(n) search time with no backt"
+description: "DFA-based exact pattern matching: O(m|Σ|) build via prefix function, O(n) search with no backtracking."
 tool_type: python
-source_notebook: "Tier_4_Algorithms_and_Data_Structures/07_String_Algorithms/04_dfa_matching.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # DFA-Based Pattern Matching
 
-*Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/07_String_Algorithms/04_dfa_matching.ipynb`*
+## How It Works
 
+Build a DFA with m+1 states where **state i** = "matched first i chars of pattern".
+Accepting state = m. Transition function: `δ(state, char)` = longest prefix of pattern
+that is a suffix of `pattern[:state] + char`.
 
-This notebook covers **Deterministic Finite Automaton (DFA)** based string pattern matching - a technique that preprocesses the pattern to build a state machine enabling O(n) search time with no backtracking.
+## vs KMP
 
-## Table of Contents
-1. [Finite Automaton Basics](#1-finite-automaton-basics)
-2. [DFA for Pattern Matching](#2-dfa-for-pattern-matching)
-3. [Building the Transition Table](#3-building-the-transition-table)
-4. [Searching with DFA](#4-searching-with-dfa)
-5. [Implementation](#5-implementation)
-6. [Examples](#6-examples)
-7. [DFA vs KMP Comparison](#7-dfa-vs-kmp-comparison)
+| | DFA | KMP |
+|--|-----|-----|
+| Build | O(m \| Σ \|) | O(m) |
+| Search | O(n) | O(n) |
+| Space | O(m \| Σ \|) | O(m) |
+| Backtracking | None (table lookup) | Via failure links |
+| Multi-text reuse | Ideal (precomputed) | Rebuild failure links per pattern |
 
----
-## 1. Finite Automaton Basics
+Use DFA when you search one pattern against many texts. Use KMP to save memory.
 
-A **Deterministic Finite Automaton (DFA)** is formally defined as a 5-tuple:
-
-$$\text{DFA} = (Q, \Sigma, \delta, q_0, F)$$
-
-where:
-- **Q** = finite set of states
-- **Σ** (Sigma) = input alphabet (finite set of symbols)
-- **δ** (delta) = transition function: Q × Σ → Q
-- **q₀** = start state (q₀ ∈ Q)
-- **F** = set of accepting (final) states (F ⊆ Q)
-
-### Key Properties
-
-1. **Deterministic**: For each state and input symbol, there is exactly ONE next state
-2. **Complete**: Every state has a transition defined for every symbol in Σ
-3. **No ε-transitions**: Only transitions on actual input symbols
-
-### DFA Operation
+## Build Transition Table
 
 ```python
-Given input string w = a₁a₂...aₙ:
-
-1. Start at state q₀
-2. For each character aᵢ:
-   current_state = δ(current_state, aᵢ)
-3. Accept if final state ∈ F
-```python
-
----
-## 2. DFA for Pattern Matching
-
-For pattern matching, we construct a DFA where:
-
-- **State i** means "we have matched the first i characters of the pattern"
-- **State 0** = no characters matched (start state)
-- **State m** = all m characters matched (accepting state)
-
-### Formal Definition for Pattern P[0..m-1]
-
-$$\text{DFA} = (Q, \Sigma, \delta, 0, \{m\})$$
-
-- **Q** = {0, 1, 2, ..., m} — (m + 1) states
-- **Σ** = alphabet of the text
-- **q₀** = 0 (no match)
-- **F** = {m} (complete match)
-
-### State Meaning
-
-```python
-Pattern: "ABABC" (m = 5)
-
-State 0: No characters matched     → matched ""
-State 1: Matched P[0]              → matched "A"
-State 2: Matched P[0..1]           → matched "AB"
-State 3: Matched P[0..2]           → matched "ABA"
-State 4: Matched P[0..3]           → matched "ABAB"
-State 5: Matched P[0..4]           → matched "ABABC" ✓ ACCEPTING
-```python
-
-### ASCII Art: DFA for Pattern "ABABC"
-
-```python
-States: 0, 1, 2, 3, 4, 5 (5 = accepting state)
-
-      A       B       A       B       C
-→(0)────→(1)────→(2)────→(3)────→(4)────→((5))
-   ↑           │       │
-   │     B     │   A   │
-   └───────────┘       │
-         │             │
-         └─────────────┘
-              B
-
-Legend:
-  →(0)   = Start state
-  ((5))  = Accepting (double circle)
-  ────→  = Transition on matching character
-```python
-
-### Complete Transition Table
-
-```python
-┌─────────────────────────────────────────────┐
-│ State │  A  │  B  │  C  │ (other)           │
-├───────┼─────┼─────┼─────┼───────────────────┤
-│   0   │  1  │  0  │  0  │    0              │
-│   1   │  1  │  2  │  0  │    0              │
-│   2   │  3  │  0  │  0  │    0              │
-│   3   │  1  │  4  │  0  │    0              │
-│   4   │  3  │  0  │  5  │    0              │
-│   5   │  -  │  -  │  -  │    - (accepting)  │
-└───────┴─────┴─────┴─────┴───────────────────┘
-
-Reading the table:
-- Row = current state
-- Column = input character
-- Cell value = next state
-```python
-
----
-## 3. Building the Transition Table
-
-The key insight is computing δ(state, char) for ALL combinations:
-
-### Transition Function Logic
-
-For state `q` and character `c`:
-
-```python
-δ(q, c) = length of LONGEST prefix of P that is also
-          a suffix of (P[0..q-1] + c)
-```python
-
-In other words:
-- We've matched P[0..q-1]
-- We see character c
-- What's the longest prefix of P that ends with this new state?
-
-### Two Cases
-
-**Case 1: Character matches next pattern character**
-```python
-If c == P[q], then δ(q, c) = q + 1
-(We extend the match by one character)
-```python
-
-**Case 2: Character doesn't match (mismatch)**
-```python
-Find the longest proper prefix of P[0..q-1] + c
-that is also a suffix of the pattern.
-
-This is where we use the PREFIX FUNCTION!
-```python
-
-### Building Transitions Using Prefix Function
-
-```python
-Pattern: "ABABC"
-Prefix function π: [0, 0, 1, 2, 0]
-
-═══════════════════════════════════════════════════════
-Example 1: δ(2, 'A')  — state=2 (matched "AB"), char='A'
-═══════════════════════════════════════════════════════
-
-  Does 'A' match P[2]? P[2]='A' → YES!
-  δ(2, 'A') = 2 + 1 = 3
-
-  Meaning: "AB" + "A" = "ABA" = P[0..2] ✓
-
-═══════════════════════════════════════════════════════
-Example 2: δ(2, 'C')  — state=2 (matched "AB"), char='C'
-═══════════════════════════════════════════════════════
-
-  Does 'C' match P[2]? P[2]='A' → NO
-  
-  We need to find: longest prefix of P that is suffix of "ABC"
-  
-  Method: Use prefix function recursively
-  - We had matched "AB" (state 2)
-  - Fall back to π[1] = 0 (longest proper prefix-suffix of "A")
-  - From state 0, check: does 'C' match P[0]? P[0]='A' → NO
-  - δ(2, 'C') = 0
-
-═══════════════════════════════════════════════════════
-Example 3: δ(4, 'A')  — state=4 (matched "ABAB"), char='A'
-═══════════════════════════════════════════════════════
-
-  Does 'A' match P[4]? P[4]='C' → NO
-  
-  Fall back using prefix function:
-  - π[3] = 2 ("ABAB" has prefix-suffix "AB" of length 2)
-  - From state 2, check: does 'A' match P[2]? P[2]='A' → YES!
-  - δ(4, 'A') = 2 + 1 = 3
-
-  Meaning: "ABAB" + "A" → keep suffix "ABA" = P[0..2]
-```python
-
-### Naive vs Optimized Construction
-
-**Naive Approach: O(m³|Σ|)**
-```python
-for state in range(m + 1):
-    for char in alphabet:
-        # Try all possible prefix lengths
-        for k in range(min(m, state + 1), 0, -1):
-            if pattern[:k] == (pattern[:state] + char)[-k:]:
-                delta[state][char] = k
-                break
-```python
-
-**Optimized Approach: O(m|Σ|)** using prefix function
-```python
-for state in range(m + 1):
-    for char in alphabet:
-        # Use prefix function for O(1) amortized lookup
-        k = state
-        while k > 0 and pattern[k] != char:
-            k = prefix[k - 1]
-        if pattern[k] == char:
-            k += 1
-        delta[state][char] = k
-```python
-
----
-## 4. Searching with DFA
-
-Once the DFA is built, searching is simple and fast:
-
-```python
-DFA_SEARCH(text, dfa):
-    state = 0
-    for i = 0 to len(text) - 1:
-        state = dfa[state][text[i]]
-        if state == m:           # Accepting state
-            report match at position (i - m + 1)
-```python
-
-### Search Example
-
-```python
-Pattern: "ABABC" (m = 5)
-Text:    "ABABABC"
-
-Step-by-step state transitions:
-
-Position:  0    1    2    3    4    5    6
-Character: A    B    A    B    A    B    C
-           ↓    ↓    ↓    ↓    ↓    ↓    ↓
-State:  0→ 1 → 2 → 3 → 4 → 3 → 4 → 5
-                          │         ↑
-                          │    FOUND! ✓
-                          │
-                    Mismatch at state 4:
-                    Expected 'C', got 'A'
-                    δ(4,'A') = 3 (fall back)
-
-Match found at position: 6 - 5 + 1 = 2
-
-Verification: text[2:7] = "ABABC" ✓
-```python
-
-### Finding All Occurrences
-
-For overlapping matches, continue searching after finding a match:
-
-```python
-Pattern: "ABA"
-Text:    "ABABABA"
-
-Char:  A  B  A  B  A  B  A
-       ↓  ↓  ↓  ↓  ↓  ↓  ↓
-State: 0→1→2→3→2→3→2→3
-             ↑     ↑     ↑
-          Match  Match  Match
-          pos=0  pos=2  pos=4
-
-Note: After reaching accepting state 3,
-      we transition using dfa[3][next_char]
-      to continue finding overlapping matches.
-```python
-
----
-## 5. Implementation
-
-```python
-def compute_prefix_function(pattern: str) -> list:
-    """
-    Compute the prefix function (failure function) for the pattern.
-    
-    The prefix function π[i] is the length of the longest proper prefix
-    of pattern[0..i] that is also a suffix of pattern[0..i].
-    
-    Parameters
-    ----------
-    pattern : str
-        The pattern to compute the prefix function for.
-    
-    Returns
-    -------
-    list
-        Prefix function array of length m.
-    
-    Time Complexity: O(m) where m = len(pattern)
-    Space Complexity: O(m)
-    
-    Example
-    -------
-    >>> compute_prefix_function("ABABC")
-    [0, 0, 1, 2, 0]
-    """
+def compute_prefix_function(pattern: str) -> list[int]:
     m = len(pattern)
-    if m == 0:
-        return []
-    
-    prefix = [0] * m
-    k = 0  # length of previous longest prefix-suffix
-    
+    pi = [0] * m
+    k = 0
     for i in range(1, m):
-        # Fall back using prefix function until we find a match or reach start
         while k > 0 and pattern[i] != pattern[k]:
-            k = prefix[k - 1]
-        
+            k = pi[k - 1]
         if pattern[i] == pattern[k]:
             k += 1
-        
-        prefix[i] = k
-    
-    return prefix
+        pi[i] = k
+    return pi
 
 
-# Test the prefix function
-print("Prefix function examples:")
-for pattern in ["ABABC", "AAAA", "ABCABC", "ATTCTGATTT"]:
-    print(f"  π('{pattern}') = {compute_prefix_function(pattern)}")
-```python
-
-```python
-def build_dfa(pattern: str, alphabet: str) -> dict:
-    """
-    Build a DFA transition table for pattern matching.
-    
-    Constructs a deterministic finite automaton where state i represents
-    having matched the first i characters of the pattern.
-    
-    Parameters
-    ----------
-    pattern : str
-        The pattern to search for.
-    alphabet : str
-        String containing all possible characters in the text.
-    
-    Returns
-    -------
-    dict
-        Nested dictionary: dfa[state][char] -> next_state
-        States range from 0 to m (inclusive).
-    
-    Time Complexity: O(m × |Σ|) where m = len(pattern), |Σ| = len(alphabet)
-    Space Complexity: O(m × |Σ|)
-    
-    Example
-    -------
-    >>> dfa = build_dfa("AB", "ABC")
-    >>> dfa[0]['A']  # From state 0, reading 'A'
-    1
-    >>> dfa[1]['B']  # From state 1, reading 'B'
-    2  # Accepting state
-    """
+def build_dfa(pattern: str, alphabet: str) -> dict[int, dict[str, int]]:
+    """Build DFA transition table. O(m * |alphabet|)."""
     m = len(pattern)
-    
-    # Handle empty pattern
-    if m == 0:
-        return {0: {c: 0 for c in alphabet}}
-    
-    # Compute prefix function for the pattern
-    prefix = compute_prefix_function(pattern)
-    
-    # Build transition table for states 0 to m
-    dfa = {}
-    
+    pi = compute_prefix_function(pattern)
+    dfa: dict[int, dict[str, int]] = {}
+
     for state in range(m + 1):
         dfa[state] = {}
-        
-        for char in alphabet:
-            if state < m and char == pattern[state]:
-                # Character matches: advance to next state
-                dfa[state][char] = state + 1
+        for ch in alphabet:
+            if state < m and ch == pattern[state]:
+                dfa[state][ch] = state + 1
             else:
-                # Mismatch: use prefix function to find fallback state
-                # Find longest prefix of pattern that is suffix of (pattern[0..state-1] + char)
+                # fall back using prefix function
                 k = state
                 while k > 0:
-                    k = prefix[k - 1]
-                    if k < m and char == pattern[k]:
+                    k = pi[k - 1]
+                    if k < m and ch == pattern[k]:
                         k += 1
                         break
                     if k == 0:
-                        if char == pattern[0]:
-                            k = 1
+                        k = 1 if ch == pattern[0] else 0
                         break
-                dfa[state][char] = k
-    
+                dfa[state][ch] = k
+
     return dfa
+```
 
-
-# Test DFA construction
-test_dfa = build_dfa("AB", "ABC")
-print("DFA for pattern 'AB':")
-for state in test_dfa:
-    print(f"  State {state}: {test_dfa[state]}")
-```python
+## Search
 
 ```python
-def build_dfa_via_suffix_check(pattern: str, alphabet: str) -> dict:
-    """
-    Build DFA using direct suffix matching (alternative implementation).
-    
-    For each state and character, computes the longest prefix of pattern
-    that matches a suffix of (pattern[0:state] + char).
-    
-    Parameters
-    ----------
-    pattern : str
-        The pattern to search for.
-    alphabet : str
-        String containing all possible characters in the text.
-    
-    Returns
-    -------
-    dict
-        Nested dictionary: dfa[state][char] -> next_state
-    
-    Time Complexity: O(m² × |Σ|) - less efficient but more intuitive
-    Space Complexity: O(m × |Σ|)
-    """
+def dfa_search(text: str, pattern: str, alphabet: str) -> list[int]:
+    """Return list of start positions (0-based) of all occurrences."""
+    if not pattern:
+        return []
     m = len(pattern)
-    dfa = {}
-    
-    for state in range(m + 1):
-        dfa[state] = {}
-        current_matched = pattern[:state]  # What we've matched so far
-        
-        for char in alphabet:
-            # After reading char, what's the longest prefix of pattern
-            # that is a suffix of (current_matched + char)?
-            test_string = current_matched + char
-            
-            # Try all possible prefix lengths, from longest to shortest
-            for k in range(min(m, len(test_string)), -1, -1):
-                if test_string.endswith(pattern[:k]):
-                    dfa[state][char] = k
-                    break
-    
-    return dfa
+    dfa = build_dfa(pattern, alphabet)
+    state = 0
+    results = []
+    for i, ch in enumerate(text):
+        state = dfa[state].get(ch, 0)   # unknown chars go to state 0
+        if state == m:
+            results.append(i - m + 1)
+    return results
+```
 
+## Example
 
-# Verify both implementations give same results
-pattern = "ABABC"
-alphabet = "ABC"
+```
+Pattern: "ABABC"   Text: "ABABABC"
 
-dfa1 = build_dfa(pattern, alphabet)
-dfa2 = build_dfa_via_suffix_check(pattern, alphabet)
+State: 0→1→2→3→4→3→4→5
+                  ↑
+          δ(4,'A')=3 (fell back; "ABAB"+"A" → suffix "ABA" = pattern[:3])
 
-print(f"Both implementations match: {dfa1 == dfa2}")
-```python
+Match at position 2: text[2:7] = "ABABC"
+```
 
-## Common Pitfalls
+## Pitfalls
 
-- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
-- **Batch effects**: Always check for batch confounding before interpreting biological signal
-- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously
+- **Alphabet must cover all text characters**: characters not in `alphabet` get no entry in `dfa[state]`; handle via `.get(ch, 0)` or enumerate the actual text to build the alphabet.
+- **Build is O(m × |Σ|), not O(m)**: for large alphabets (Unicode), this is expensive — prefer KMP or Aho-Corasick.
+- **State m is accepting but search continues**: after reaching state m, the DFA naturally transitions to the correct fallback state to find overlapping matches — do not reset to 0.
+- **Empty pattern edge case**: `m=0` means every position matches; handle before building the DFA.
+- **Fallback loop in build**: the while loop mirrors KMP's failure-link traversal; an off-by-one in the `pi` index (`pi[k-1]` vs `pi[k]`) silently produces wrong transitions.

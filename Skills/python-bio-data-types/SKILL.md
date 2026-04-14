@@ -2,41 +2,12 @@
 name: python-bio-data-types
 description: "Python data types for bioinformatics: int, float, str, bool, None, and type conversions with biological examples. Use when learning how Python represents biological data."
 tool_type: python
-source_notebook: "Tier_1_Python_for_Bioinformatics/02_Variables_and_Data_Types/02_data_types.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: Python 3.10+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Data Types
 
-*Source: Course notebook `Tier_1_Python_for_Bioinformatics/02_Variables_and_Data_Types/02_data_types.ipynb`*
-
-
-Split from `01_variables_and_data_types.ipynb` to keep this topic self-contained.
-
-**Navigation:** [Topic overview](./01_variables_and_data_types.ipynb) · [Previous: Variables](./01_variables.ipynb)
-
-## Why this notebook matters
-
-The five core types — `int`, `float`, `str`, `bool`, `None` — are the building blocks of all Python programs. In bioinformatics, knowing which type to use matters: a sequence length is an `int` (never a `float`), GC content is a `float`, a DNA sequence is a `str`, and a gene annotation that has not been loaded yet should be `None`, not an empty string. Getting types right prevents silent errors when doing arithmetic or writing output files.
-
-## How to use this notebook
-
-1. Run cells in order. Sections 3–7 each cover one type; Section 8 covers conversions between them.
-2. The string section is the longest — strings are the most important type for bioinformatics work. Do not skip it.
-3. The exercises at the end (Section 10) are designed to be run and verified — try them before looking at the hints.
-
-## Common stumbling points
+## Pitfalls
 
 - **Floating-point arithmetic is not exact:** `0.1 + 0.2` is `0.30000000000000004`, not `0.3`. This is not a Python bug — it affects every language that uses IEEE 754 doubles. Always compare floats with a tolerance (`abs(a - b) < 1e-9`), not `==`.
 - **`int()` truncates, it does not round:** `int(3.9)` is `3`. Use `round(3.9)` to get `4`. This distinction matters when converting a read depth fraction to an integer.
@@ -44,49 +15,14 @@ The five core types — `int`, `float`, `str`, `bool`, `None` — are the buildi
 - **`None` vs. empty string:** `None` means "this value does not exist". An empty string `""` means "this value exists but has zero length". These are different and should not be used interchangeably — especially when parsing FASTA or VCF files where a missing field is semantically different from an empty field.
 - **`is None` not `== None`:** Always check for None with `is`: `if result is None`. The `==` check can sometimes give surprising results if a class defines custom equality.
 
-# Module 2: Variables and Data Types
+# Variables and Data Types
 
----
-
-## Learning Objectives
-
-By the end of this notebook you will be able to:
-
-1. Create variables and follow Python naming conventions
-2. Work with all basic data types: `int`, `float`, `str`, `bool`, `None`
-3. Convert between types safely
-4. Use strings to represent and manipulate biological sequences
-5. Apply these skills to real bioinformatics calculations
-
----
-
-## 1. Variables
-
-A **variable** is a name that refers to a value stored in memory. In Python you create a variable simply by assigning a value to a name.
+## Variables
 
 ```python
 variable_name = value
 ```python
 
-Think of it as labeling a container:
-
-```python
-gene_name -----> "BRCA1"     (the label points to the value)
-seq_length ----> 5590        (another label, another value)
-```python
-
-```python
-# Assigning values to variables
-gene_name = "BRCA1"
-chromosome = 17
-gc_content = 0.423
-is_tumor_suppressor = True
-
-print(gene_name)
-print(chromosome)
-print(gc_content)
-print(is_tumor_suppressor)
-```python
 
 ### Naming rules and conventions
 
@@ -101,20 +37,6 @@ print(is_tumor_suppressor)
 - Use `UPPER_CASE` for constants: `AVOGADRO = 6.022e23`
 - Choose descriptive names: `gc_content` is better than `gc` or `x`
 
-```python
-# Good variable names
-sequence_length = 1500
-gene_name = "TP53"
-melting_temperature = 65.5
-
-# Bad variable names (but technically valid)
-x = 1500              # meaningless
-seqLen = 1500         # not snake_case (this is camelCase)
-three = 1             # misleading!
-
-# This will cause a SyntaxError:
-# 2nd_gene = "EGFR"  # cannot start with a digit
-```python
 
 ### Multiple assignment
 
@@ -135,8 +57,6 @@ print(f"After swap -- sense: {sense_strand}, antisense: {antisense_strand}")
 
 ### Variables are references, not boxes
 
-In Python, a variable does not *contain* a value -- it *points to* an object in memory. The built-in `id()` function shows the memory address of an object.
-
 ```python
 sequence = "ATGCGATCG"
 print(f"id of sequence: {id(sequence)}")
@@ -147,11 +67,8 @@ print(f"id after concatenation: {id(sequence)}")
 print(f"New value: {sequence}")
 ```python
 
----
 
-## 2. Data Types Overview
-
-Every value in Python has a **type** that determines what operations are allowed.
+## Data Types Overview
 
 ```python
 Type        Example                    Bioinformatics use
@@ -165,22 +82,8 @@ NoneType    None                       Missing data, function with no return
 
 Use `type()` to check a value's type.
 
-```python
-# Check types of bioinformatics values
-read_count = 15000000
-gc_fraction = 0.52
-organism = "Escherichia coli"
-is_model_organism = True
-annotation = None
 
-values = [read_count, gc_fraction, organism, is_model_organism, annotation]
-for v in values:
-    print(f"{str(v):25s} -> {type(v).__name__}")
-```python
-
----
-
-## 3. Integers (`int`)
+## Integers (`int`)
 
 Integers are whole numbers with no decimal point. In bioinformatics, you use them for counts, positions, and indices.
 
@@ -198,17 +101,8 @@ print(f"Protein-coding genes: ~{num_genes:,}")
 print(f"Target coverage: {read_depth}x")
 ```python
 
-```python
-# Integers have unlimited precision in Python
-huge_number = 2 ** 100
-print(f"2^100 = {huge_number}")
-print(f"Number of digits: {len(str(huge_number))}")
-print(f"Type: {type(huge_number)}")
-```python
 
----
-
-## 4. Floating-Point Numbers (`float`)
+## Floating-Point Numbers (`float`)
 
 Floats represent decimal numbers. They are used for measurements, percentages, scores, and probabilities.
 
@@ -231,22 +125,8 @@ print(f"p-value: {p_value}")
 
 Floats are stored in binary, which means some decimal numbers cannot be represented exactly. This is a fundamental limitation of floating-point arithmetic, not a Python bug.
 
-```python
-# Floating-point surprise
-print(0.1 + 0.2)          # not exactly 0.3!
-print(0.1 + 0.2 == 0.3)   # False!
 
-# In practice, compare floats with a tolerance
-result = 0.1 + 0.2
-expected = 0.3
-tolerance = 1e-9
-
-print(f"Close enough? {abs(result - expected) < tolerance}")  # True
-```python
-
----
-
-## 5. Strings (`str`)
+## Strings (`str`)
 
 Strings are sequences of characters. They are the **most important data type in bioinformatics** because DNA, RNA, and protein sequences are all represented as strings.
 
@@ -268,25 +148,12 @@ print(fasta_entry[:80] + "...")
 
 ### String indexing
 
-Each character in a string has an **index** (position number). Python uses zero-based indexing.
-
 ```python
 Index:    0   1   2   3   4   5   6   7
 Seq:      A   T   G   C   G   A   T   C
 Neg idx: -8  -7  -6  -5  -4  -3  -2  -1
 ```python
 
-```python
-dna = "ATGCGATC"
-
-# Positive indexing (from the left)
-print(f"First nucleotide:  dna[0]  = {dna[0]}")
-print(f"Third nucleotide:  dna[2]  = {dna[2]}")
-
-# Negative indexing (from the right)
-print(f"Last nucleotide:   dna[-1] = {dna[-1]}")
-print(f"Second to last:    dna[-2] = {dna[-2]}")
-```python
 
 ### String slicing
 
@@ -324,44 +191,11 @@ print(f"Reversed: {reversed_dna}")         # AATGGGCCCAAAGTA
 
 Strings in Python are **immutable** -- you cannot change individual characters. Instead, you create a new string.
 
-```python
-dna = "ATGCGA"
-
-# This will raise a TypeError:
-# dna[0] = "G"  # TypeError: 'str' object does not support item assignment
-
-# Instead, create a new string
-mutated = "G" + dna[1:]   # point mutation: A -> G at position 0
-print(f"Original: {dna}")
-print(f"Mutated:  {mutated}")
-```python
 
 ### Essential string methods for bioinformatics
 
 Methods are functions that belong to a string. Call them with `string.method()`.
 
-```python
-dna = "atgcGATCgatc"
-
-# Case conversion -- important when sequences come in mixed case
-print(f"Upper: {dna.upper()}")       # ATGCGATCGATC
-print(f"Lower: {dna.lower()}")       # atgcgatcgatc
-```python
-
-```python
-dna = "ATGCGATCGATCGTAGC"
-
-# count() -- count occurrences of a substring
-print(f"Number of G's: {dna.count('G')}")
-print(f"Number of 'ATC' motifs: {dna.count('ATC')}")
-```python
-
-```python
-# find() -- find the position of a substring (-1 if not found)
-dna = "ATGAAACCCGGGTAA"
-print(f"Position of 'GGG': {dna.find('GGG')}")   # 9
-print(f"Position of 'TTT': {dna.find('TTT')}")   # -1 (not found)
-```python
 
 ```python
 # replace() -- replace all occurrences of a substring
@@ -398,7 +232,7 @@ formatted = " - ".join(codons)
 print(f"\nCodons: {formatted}")
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Mutable default arguments**: Never use `def f(x=[])` — use `def f(x=None)` and set inside the function
 - **Off-by-one errors**: Python ranges are half-open `[start, stop)` — bioinformatics coordinates are often 1-based

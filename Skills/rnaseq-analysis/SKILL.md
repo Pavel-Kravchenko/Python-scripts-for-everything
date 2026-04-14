@@ -4,17 +4,6 @@ description: RNA-seq differential expression analysis and normalization workflow
 primary_tool: Python
 ---
 
-## Version Compatibility
-
-Reference examples tested with: pydeseq2 0.4+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 ## When to Use
 
 Use this atomic skill for focused work on **rnaseq-analysis** without bundling unrelated topics.
@@ -29,12 +18,10 @@ Use the parent material below as the source reference, then keep implementations
 
 ## Source Reference (from merged skill)
 
----
 name: rnaseq-metagenomics
 description: RNA-seq differential expression (DESeq2, normalization), 16S amplicon metagenomics, and promoter/transcription factor analysis
----
 
-# RNA-seq, Metagenomics & Regulatory Analysis
+# RNA-seq, Metagenomics  Regulatory Analysis
 
 ## When to Use
 - Differential gene expression from RNA-seq count data
@@ -42,7 +29,6 @@ description: RNA-seq differential expression (DESeq2, normalization), 16S amplic
 - 16S rRNA amplicon microbiome studies (OTU/ASV, alpha/beta diversity)
 - Promoter scanning: TATA box detection, CpG island calling, PWM/TFBS scanning
 
----
 
 ## Quick Reference
 
@@ -90,7 +76,6 @@ C = read count, L = gene length (bp), N = total mapped reads. **Use TPM for repo
 
 CpG O/E formula: `(N_CpG × L) / (N_C × N_G)`
 
----
 
 ## Key Patterns
 
@@ -188,7 +173,6 @@ def scan_pwm(seq, pwm, threshold=0.0):
     return hits
 ```python
 
----
 
 ## Code Templates
 
@@ -283,9 +267,8 @@ def find_tata_boxes(seq, strict=True):
     return [(m.start(), m.group()) for m in re.finditer(pat, seq.upper())]
 ```python
 
----
 
-## Common Pitfalls
+## Pitfalls
 
 - **Using RPKM/TPM for DE testing** — they introduce ratio-of-ratios artifacts. Always pass raw counts to DESeq2/edgeR.
 - **Not accounting for library composition** — a single highly-expressed gene can suppress apparent expression of all others. DESeq2 median-of-ratios is robust to this; CPM/TPM are not.
@@ -298,9 +281,6 @@ def find_tata_boxes(seq, strict=True):
 - **PWM scanning threshold** — setting threshold too low produces many false positives. Use the 80–90th percentile of scores from random sequence as a baseline.
 - **Multiple testing in ORA** — apply BH correction across all tested pathways; Fisher p-values alone inflate false discovery.
 
----
-
----
 
 ## Related Skills
 - `biostatistics-r` — hypothesis testing, BH correction, power analysis

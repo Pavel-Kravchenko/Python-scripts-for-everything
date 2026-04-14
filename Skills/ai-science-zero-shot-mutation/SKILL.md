@@ -1,42 +1,11 @@
 ---
 name: ai-science-zero-shot-mutation
-description: "**Tier 5 — Modern AI for Science | Module 06 · Notebook 2**"
+description: Zero-Shot Mutation Effect Prediction with NumPy
 tool_type: python
-source_notebook: "Tier_5_Modern_AI_for_Science/06_Protein_Language_Models/02_zero_shot_mutation.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+, pandas 2.1+, pytorch 2.2+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Zero-Shot Mutation Effect Prediction
-
-*Source: Course notebook `Tier_5_Modern_AI_for_Science/06_Protein_Language_Models/02_zero_shot_mutation.ipynb`*
-
-
-**Tier 5 — Modern AI for Science | Module 06 · Notebook 2**
-
-*Prerequisites: Notebook 1 (ESM2 embeddings)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Compute mutation effect scores from sequence likelihood proxies
-2. Rank variants without supervised task labels
-3. Compare predicted mutation effects against synthetic truth
-4. Build confidence-aware mutation triage tables
-
-## Why this notebook matters
-
-Deep mutational scanning (DMS) experiments — where thousands of protein variants are systematically measured — are expensive and slow. Zero-shot mutation scoring lets you rank all possible single amino acid substitutions using a pretrained protein language model, without any variant-specific training data. This approach is now standard for variant effect prediction in clinical genetics and protein engineering.
 
 ## How to work through this notebook
 
@@ -60,7 +29,7 @@ np.random.seed(13)
 AA = list('ACDEFGHIKLMNPQRSTVWY')
 ```python
 
-## 1. Zero-Shot Scoring: Theory and Real Implementation
+## Zero-Shot Scoring: Theory and Real Implementation
 
 ### The Core Formula
 
@@ -79,7 +48,7 @@ import esm
 import torch
 import torch.nn.functional as F
 
-# Load ESM-1v (5 ensemble members available; use model 1 as default)
+# Load ESM-1v (5 ensemble members available use model 1 as default)
 model, alphabet = esm.pretrained.esm1v_t33_650M_UR90S_1()
 batch_converter = alphabet.get_batch_converter()
 model.eval()
@@ -91,20 +60,20 @@ def score_mutations(sequence: str, positions: list[int]) -> dict:
     \"\"\"
     data = [("seq", sequence)]
     _, _, tokens = batch_converter(data)
-    
+
     scores = {}
     with torch.no_grad():
         for pos in positions:  # pos is 1-indexed
             # Mask position i (tokens are 1-indexed due to <cls>)
             masked_tokens = tokens.clone()
             masked_tokens[0, pos] = alphabet.mask_idx  # pos+1 for <cls> offset
-            
+
             logits = model(masked_tokens, repr_layers=[])["logits"]  # (1, L, vocab)
             log_probs = F.log_softmax(logits[0, pos], dim=-1)
-            
+
             wt_aa = sequence[pos - 1]
             wt_idx = alphabet.get_idx(wt_aa)
-            
+
             pos_scores = {}
             for mut_aa in "ACDEFGHIKLMNPQRSTVWY":
                 mut_idx = alphabet.get_idx(mut_aa)
@@ -149,7 +118,7 @@ def toy_zero_shot_delta(wt: str, mut: str) -> float:
     return 0.25 if aa_group(wt) == aa_group(mut) else -0.55
 ```python
 
-## 2. Score all single substitutions in a region
+## Score all single substitutions in a region
 
 ```python
 wt_seq = 'MKTAYIAKQRQISFVKSHFSRQLEERLGLIEVQ'
@@ -166,7 +135,7 @@ df = pd.DataFrame(records)
 df.sort_values('delta_ll').head(8)
 ```python
 
-## 3. Synthetic benchmark against pseudo-fitness
+## Synthetic benchmark against pseudo-fitness
 
 We generate pseudo-fitness scores correlated with delta values and check rank correlation.
 
@@ -178,7 +147,7 @@ corr = df[['delta_ll', 'fitness']].corr(method='spearman').iloc[0, 1]
 print('Spearman correlation (delta vs fitness):', round(float(corr), 3))
 ```python
 
-## 4. Clinically oriented triage table
+## Clinically oriented triage table
 
 Combine zero-shot effect with rarity and structural confidence proxies.
 
@@ -214,7 +183,7 @@ Checked online during content expansion.
 - [ESM repository (ESM-1v/ESM-2 variants)](https://github.com/facebookresearch/esm)
 - [ProteinGym benchmark](https://proteingym.org/)
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

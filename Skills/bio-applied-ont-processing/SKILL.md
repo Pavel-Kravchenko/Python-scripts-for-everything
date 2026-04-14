@@ -1,46 +1,17 @@
 ---
 name: bio-applied-ont-processing
-description: "**Tier 3 — Applied Bioinformatics | Module 25 · Notebook 1**"
+description: ONT Data Processing with NumPy
 tool_type: python
-source_notebook: "Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/01_ont_processing.ipynb"
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # ONT Data Processing
 
-*Source: Course notebook `Tier_3_Applied_Bioinformatics/25_Long_Read_Sequencing/01_ont_processing.ipynb`*
-
-
-**Tier 3 — Applied Bioinformatics | Module 25 · Notebook 1**
-
-*Prerequisites: Module 01 (NGS Fundamentals), Module 17 (Genome Assembly)*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Explain ONT sequencing chemistry and FAST5/POD5 raw signal format
-2. Run basecalling with Dorado and assess read quality with NanoStat/NanoPlot
-3. Align long reads to a reference with Minimap2
-4. Detect base modifications (5mC methylation) from ONT signal
-5. Compare long-read vs short-read alignment statistics
-
-**Key resources:**
 - [Oxford Nanopore community tutorials](https://community.nanoporetech.com/)
 - [Awesome Nanopore training](https://github.com/GenomicsAotearoa/Genomics-Aotearoa-Nanopore-training)
 - [Minimap2 documentation](https://github.com/lh3/minimap2)
 
-## 1. ONT Technology Overview
+## ONT Technology Overview
 
 Oxford Nanopore Technology (ONT) sequences DNA by threading a single strand through a protein nanopore embedded in an electrically resistive membrane. A constant voltage drives ionic current through the pore; as each k-mer of bases occupies the constriction zone, it causes a characteristic disruption to that current. The resulting time-series of picoampere values — often called a "squiggle" — encodes the sequence. The R9.4.1 chemistry uses a 5-mer sensing region, while the newer R10.4.1 dual-reader pore uses a 9-mer sensing window, dramatically improving homopolymer resolution and raw-read accuracy.
 
@@ -59,7 +30,7 @@ Oxford Nanopore Technology (ONT) sequences DNA by threading a single strand thro
 | Instrument | MinION / PromethION | MinION R10 / P2 / PromethION | Revio |
 | Typical N50 (human WGS) | 15–25 kb | 20–40 kb | 15–20 kb |
 
-## 2. Basecalling with Dorado
+## Basecalling with Dorado
 
 **Dorado** is ONT's current GPU-accelerated basecaller, replacing the older Guppy. It uses a convolutional + recurrent neural network trained to translate raw squiggle signals into nucleotide sequences and per-base quality scores. Dorado is open-source and supports both NVIDIA CUDA and Apple Silicon (Metal) backends, making it usable on workstations as well as HPC clusters.
 
@@ -67,35 +38,8 @@ Dorado offers three model accuracy tiers for each chemistry. The **`fast`** mode
 
 Output from Dorado is an **unaligned BAM** by default — this is the recommended format because it preserves all per-read metadata (move tables, basecalling model version, sequencing summary statistics) as BAM tags. FASTQ can be obtained by piping through `samtools fastq`. For modification-aware basecalling, append the modification code to the model name (e.g. `hac,5mCG_5hmCG`); probabilities are stored in the MM and ML BAM tags per the SAM specification. **Duplex mode** pairs the template and complement strands from the same DNA molecule, achieving ~Q30 (99.9%) accuracy on the duplex fraction of reads.
 
-```bash
-# Quick reference: Dorado model tiers
-# fast  → ~95-97% accuracy, highest throughput
-# hac   → ~97-99% accuracy, standard choice
-# sup   → ~99%+  accuracy, 5-10x slower than hac
-```python
 
-```python
-# Dorado basecalling — simplex HAC model
-# !dorado basecaller hac pod5_data/ > calls.bam
-# Explanation: 'hac' = high-accuracy model; output is unaligned BAM
-
-# Convert to FASTQ if needed
-# !samtools fastq calls.bam | gzip > calls.fastq.gz
-
-# Duplex basecalling (pairs complementary strands, ~Q30)
-# !dorado duplex hac pod5_data/ > calls_duplex.bam
-
-# Methylation-aware: add modification tag to model name
-# !dorado basecaller hac,5mCG_5hmCG pod5_data/ > calls_modcall.bam
-
-# Check basecalling summary stats
-# !dorado summary calls.bam | head -5
-
-# List available models (requires internet or local model cache)
-# !dorado download --list
-```python
-
-## 3. Read Quality Assessment
+## Read Quality Assessment
 
 **NanoStat** produces a concise text summary of key run metrics: total reads, total bases sequenced, mean and median read length, N50 read length (the length at which 50% of all sequenced bases are in reads of that length or longer), mean and median Phred quality score, and the percentage of reads passing Q10, Q15, and Q20 thresholds. This is the first QC step after basecalling — a healthy R10.4.1 run typically shows N50 > 15 kb and median quality > Q15.
 
@@ -111,20 +55,6 @@ Output from Dorado is an **unaligned BAM** by default — this is the recommende
 | Q20 | 99.0% | R10.4.1 sup / duplex |
 | Q30 | 99.9% | ONT duplex / PacBio CCS |
 
-```python
-# Run NanoStat on raw FASTQ
-# !NanoStat --fastq calls.fastq.gz --outdir nanostat_out/ --threads 4
-
-# NanoPlot (produces interactive HTML)
-# !NanoPlot --fastq calls.fastq.gz --outdir nanoplot_out/ --plots dot --N50
-
-# Filter reads: min quality Q10, min length 1000 bp
-# !NanoFilt -q 10 -l 1000 calls.fastq.gz | gzip > calls_filtered.fastq.gz
-
-# Check number of reads before/after filtering
-# !echo "Before: $(zcat calls.fastq.gz | wc -l | awk '{print $1/4}') reads"
-# !echo "After:  $(zcat calls_filtered.fastq.gz | wc -l | awk '{print $1/4}') reads"
-```python
 
 ```python
 import numpy as np
@@ -135,7 +65,7 @@ rng = np.random.default_rng(42)
 
 # Simulate ONT R10.4.1 read length distribution (log-normal) and quality
 n_reads = 5000
-# Read lengths: log-normal with mean ~15 kb
+# Read lengths: log-normal with mean 15 kb
 lengths = rng.lognormal(mean=9.6, sigma=0.9, size=n_reads).astype(int)
 lengths = np.clip(lengths, 200, 500_000)
 
@@ -145,7 +75,7 @@ mean_q = np.clip(mean_q, 5, 30)
 
 df_reads = pd.DataFrame({"length_bp": lengths, "mean_q": mean_q})
 
-# --- compute NanoStat-style summary ---
+# compute NanoStat-style summary ---
 sorted_len = np.sort(lengths)[::-1]
 cumsum = np.cumsum(sorted_len)
 n50_val = sorted_len[np.searchsorted(cumsum, cumsum[-1] / 2)]
@@ -194,7 +124,7 @@ plt.tight_layout()
 plt.show()
 ```python
 
-## 4. Alignment with Minimap2
+## Alignment with Minimap2
 
 **Minimap2** is the standard aligner for long reads. Rather than aligning every position like short-read aligners (BWA, Bowtie2), Minimap2 uses **minimizer-based seeding**: it extracts a sparse set of representative k-mers (minimizers) from both query and reference, finds collinear chains of matching minimizers, then performs banded dynamic programming only in the seed-chain regions. This makes alignment of 10–100 kb reads orders of magnitude faster than classical approaches.
 
@@ -210,21 +140,8 @@ Key samtools flagstat fields for long-read BAMs:
   - paired-in-sequencing   → always 0 for long reads (single-end)
 ```python
 
-```python
-# Align ONT reads (map-ont preset)
-# !minimap2 -ax map-ont -t 8 hg38.fa calls_filtered.fastq.gz \
-#     | samtools sort -o ont_aligned.bam -@ 8
-# !samtools index ont_aligned.bam
 
-# Check alignment statistics
-# !samtools flagstat ont_aligned.bam
-
-# For PacBio HiFi reads use map-hifi preset:
-# !minimap2 -ax map-hifi -t 8 hg38.fa hifi_reads.fastq.gz \
-#     | samtools sort -o hifi_aligned.bam
-```python
-
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

@@ -4,17 +4,6 @@ description: ATAC-seq quality control and accessibility analysis.
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pysam 0.22+, scipy 1.12+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 ## When to Use
 
 Use this atomic skill for focused work on **atac-seq-analysis** without bundling unrelated topics.
@@ -29,10 +18,8 @@ Use the parent material below as the source reference, then keep implementations
 
 ## Source Reference (from merged skill)
 
----
 name: tf-footprinting-atac
 description: ATAC-seq analysis and TF footprinting — fragment size QC, Tn5 insertion profiles, footprint score, pybedtools interval operations, accumulation/meta-profile plots, NFR fraction
----
 
 ## When to Use
 
@@ -168,7 +155,7 @@ motifs = pybedtools.BedTool("ctcf_motifs.bed")
 # Motif sites overlapping ATAC peaks
 motifs_in_peaks = motifs.intersect(peaks, u=True)
 
-# Extend motif sites by ±200 bp for footprint window
+# Extend motif sites by 200 bp for footprint window
 motif_windows = motifs_in_peaks.slop(b=200, genome="hg38")
 
 # Remove blacklisted regions
@@ -176,7 +163,7 @@ blacklist = pybedtools.BedTool("hg38_blacklist.bed")
 clean = motif_windows.subtract(blacklist)
 
 # Save as FASTA for motif scanning
-# clean.sequence(fi="hg38.fa", fo="windows.fa")
+# clean.sequence(fihg38.fa, fowindows.fa)
 print(f"Motifs in peaks: {len(motifs_in_peaks)}")
 ```python
 
@@ -243,10 +230,10 @@ def footprinting_pipeline(bam_file, peaks_bed, motifs_bed, window=200):
     score  = footprint_score(mean_p)
     return mean_p, score
 
-# mean_profile, fp_score = footprinting_pipeline("sample.bam", "peaks.bed", "ctcf.bed")
+# mean_profile, fp_score  footprinting_pipeline(sample.bam, peaks.bed, ctcf.bed)
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Missing Tn5 offset:** uncorrected reads shift the apparent footprint ±4–5 bp; always apply +4/-5 before aggregating
 - **Not filtering NFR vs. nucleosomal reads:** footprinting uses only NFR (< 150 bp) fragments — nucleosomal reads dilute the signal

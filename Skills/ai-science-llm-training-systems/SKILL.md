@@ -1,50 +1,13 @@
 ---
 name: ai-science-llm-training-systems
-description: "**Tier 5 — Modern AI for Science | Module 01 · Notebook 2**"
+description: "Module T5-01B: LLM Training Systems (Tracking, Epochs, and Ablations) with Pandas"
 tool_type: python
-source_notebook: "Tier_5_Modern_AI_for_Science/01_LLM_Finetuning/02_llm_training_systems.ipynb"
 primary_tool: Pandas
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+, pandas 2.1+, pytorch 2.2+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # Module T5-01B: LLM Training Systems (Tracking, Epochs, and Ablations)
 
-*Source: Course notebook `Tier_5_Modern_AI_for_Science/01_LLM_Finetuning/02_llm_training_systems.ipynb`*
-
-
-**Tier 5 — Modern AI for Science | Module 01 · Notebook 2**
-
-*Prerequisites: 01_LLM_Finetuning.ipynb*
-
----
-
-**By the end of this notebook you will be able to:**
-1. Set up an experiment system for LLM fine-tuning
-2. Track training/validation metrics per epoch and step
-3. Design and analyze ablation studies
-4. Build a reproducible run registry with configs and results
-5. Create a practical decision loop for choosing the next experiment
-
-## Why this notebook matters
-
-Reproducibility in LLM fine-tuning is harder than in classical ML — runs are expensive, non-deterministic at scale, and results depend on subtle interactions between dataset, template, learning rate schedule, and rank. A proper experiment system (config tracking, ablation matrix, run registry) is what separates a one-off fine-tune from a repeatable research or production pipeline.
-
 ## How to work through this notebook
-
-1. All cells are CPU-friendly — this notebook is about infrastructure, not training.
-2. Run sections in order; each section builds on the `TrainConfig` dataclass from Section 1.
-3. The tracking backend templates (W&B, MLflow, TensorBoard) are shown as code comments — uncomment and adapt for your environment.
-4. Focus on the ablation study design pattern in Section 4 before trying to optimize any hyperparameter.
 
 ## Common sticking points
 
@@ -53,7 +16,7 @@ Reproducibility in LLM fine-tuning is harder than in classical ML — runs are e
 - **Random seed discipline**: fix seeds for dataset splits, weight initialization, and data shuffling before starting a run. Adding seeds retroactively breaks reproducibility.
 - **Primary vs secondary metrics**: pick one primary metric (e.g., eval_loss) before running. Cherry-picking secondary metrics post-hoc is p-hacking for LLMs.
 
-## 1. What an LLM training system includes
+## What an LLM training system includes
 
 A robust setup has five parts:
 1. **Config management** (all hyperparameters captured)
@@ -100,38 +63,17 @@ cfg = TrainConfig(
 pd.Series(asdict(cfg))
 ```python
 
-## 2. Tracking setup templates
+## Tracking setup templates
 
 Use one tracker consistently across all runs in a project.
 
 ### Weights & Biases template
-```python
-# import wandb
-# wandb.init(project='llm-finetuning', name=cfg.run_name, config=asdict(cfg))
-# wandb.log({'train/loss': loss, 'eval/loss': eval_loss, 'eval/accuracy': acc}, step=global_step)
-# wandb.finish()
-```python
 
 ### MLflow template
-```python
-# import mlflow
-# mlflow.set_experiment('llm-finetuning')
-# with mlflow.start_run(run_name=cfg.run_name):
-#     mlflow.log_params(asdict(cfg))
-#     mlflow.log_metric('train_loss', float(loss), step=global_step)
-#     mlflow.log_metric('eval_loss', float(eval_loss), step=global_step)
-```python
 
 ### TensorBoard template
-```python
-# from torch.utils.tensorboard import SummaryWriter
-# writer = SummaryWriter(log_dir=f'runs/{cfg.run_name}')
-# writer.add_scalar('train/loss', loss, global_step)
-# writer.add_scalar('eval/loss', eval_loss, global_step)
-# writer.close()
-```python
 
-## 3. Epoch-level tracking and early stopping logic
+## Epoch-level tracking and early stopping logic
 
 ```python
 def simulate_training(epochs=5, base_train=2.2, base_eval=2.4, noise=0.03):
@@ -158,7 +100,7 @@ ep, loss, acc = best_epoch(history)
 print(f'Best epoch = {ep}, eval_loss = {loss:.4f}, eval_acc = {acc:.4f}')
 ```python
 
-## 4. Ablation study design
+## Ablation study design
 
 Good ablations change **one factor at a time**.
 
@@ -195,7 +137,7 @@ summary = ablation_df.groupby('lora_rank', as_index=False)['eval_score'].mean().
 summary
 ```python
 
-## 5. Run registry and experiment memory
+## Run registry and experiment memory
 
 Save minimal metadata for every run:
 - run_id, date, git commit, dataset version
@@ -212,7 +154,7 @@ registry = pd.DataFrame([
 registry.sort_values('best_eval_loss')
 ```python
 
-## 6. Practical checklist for real training
+## Practical checklist for real training
 
 Before launching:
 1. Freeze data splits and seed
@@ -226,7 +168,7 @@ After run:
 2. Record interpretation (why change helped/hurt)
 3. Decide next run from evidence, not intuition alone
 
-## 7. Suggested stack for big-LLM training
+## Suggested stack for big-LLM training
 
 - **Trainer/runtime**: Hugging Face `transformers` + `trl` + `accelerate`
 - **Scaling**: DeepSpeed or FSDP for multi-GPU/multi-node
@@ -247,7 +189,7 @@ Start with one-node reproducible runs, then scale out.
 - [MLflow docs](https://mlflow.org/docs/latest/index.html)
 - [TensorBoard docs](https://www.tensorflow.org/tensorboard)
 
-## Common Pitfalls
+## Pitfalls
 
 - **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
 - **Batch effects**: Always check for batch confounding before interpreting biological signal

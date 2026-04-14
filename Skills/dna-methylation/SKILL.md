@@ -5,17 +5,6 @@ tool_type: mixed
 primary_tool: Pandas
 ---
 
-## Version Compatibility
-
-Reference examples tested with: matplotlib 3.8+, numpy 1.26+, pandas 2.1+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 # dna-methylation
 
 Bisulfite sequencing analysis: WGBS/RRBS processing, DMR calling, and epigenetic clock estimation.
@@ -72,7 +61,6 @@ cpg['coverage'] = cpg['count_M'] + cpg['count_U']
 # Filter by coverage
 cpg_filtered = cpg[cpg['coverage'] >= 10]
 
-# Methylation distribution
 plt.hist(cpg_filtered['methylation'], bins=50, edgecolor='black')
 plt.xlabel('Methylation level'); plt.ylabel('Count')
 plt.title('CpG methylation distribution')
@@ -128,7 +116,7 @@ dnam_age = beta_clock.T.dot(clock.set_index('CpGmarker')['CoefficientTraining'])
 predicted_age = dnam_age.apply(anti_trafo)
 ```python
 
-## Common Pitfalls
+## Pitfalls
 - **Non-conversion rate > 1%**: poor bisulfite conversion; check lambda spike-in
 - **Coverage asymmetry**: RRBS enriches CpG-dense regions (islands); WGBS is genome-wide
 - **Strand merging**: use `destrand=TRUE` in methylKit for symmetric CpG analysis

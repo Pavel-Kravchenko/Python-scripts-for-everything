@@ -1,474 +1,120 @@
 ---
 name: algo-complexity-analysis
-description: "This notebook provides a comprehensive introduction to analyzing algorithm efficiency using Big O notation and related concepts."
+description: Big O notation, complexity classes, space vs time trade-offs, and complexity analysis rules.
 tool_type: python
-source_notebook: "Tier_4_Algorithms_and_Data_Structures/01_Complexity_Analysis/01_complexity_analysis.ipynb"
 primary_tool: Python
 ---
 
-## Version Compatibility
+## Complexity Classes (fastest to slowest)
 
-Reference examples tested with: Python 3.10+
+| Class | Name | Example |
+|-------|------|---------|
+| O(1) | Constant | Dict lookup, array index |
+| O(log n) | Logarithmic | Binary search |
+| O(n) | Linear | Linear scan, single pass |
+| O(n log n) | Linearithmic | Merge sort, heap sort |
+| O(n²) | Quadratic | Nested loops, bubble sort |
+| O(2ⁿ) | Exponential | Brute-force subset enumeration |
+| O(n!) | Factorial | Permutation enumeration |
 
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
+## Simplification Rules
 
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
+```
+O(2n + 5)    →  O(n)      # drop constants
+O(n² + n)    →  O(n²)     # drop lower-order terms
+O(500)       →  O(1)
+O(n² + n³)   →  O(n³)
+```
 
+## At Scale (n = 1,000,000)
 
-# 📊 Algorithmic Complexity Analysis & Big O Notation
+| Complexity | Operations | Feasible? |
+|------------|-----------|-----------|
+| O(1) | 1 | Yes |
+| O(log n) | ~20 | Yes |
+| O(n) | 1,000,000 | Yes |
+| O(n log n) | ~20,000,000 | Yes |
+| O(n²) | 10¹² | No |
+| O(2ⁿ) | ∞ | Never |
 
-*Source: Course notebook `Tier_4_Algorithms_and_Data_Structures/01_Complexity_Analysis/01_complexity_analysis.ipynb`*
-
-
-This notebook provides a comprehensive introduction to analyzing algorithm efficiency using Big O notation and related concepts.
-
----
-
-## Table of Contents
-1. [Theory: What is Algorithmic Complexity?](#1-theory-section)
-2. [Growth Rate Visualizations](#2-growth-rate-visualizations)
-3. [Code Examples by Complexity Class](#3-code-examples-by-complexity-class)
-4. [Complexity Analysis Practice](#4-complexity-analysis-practice)
-5. [Space Complexity](#5-space-complexity)
-6. [Key Takeaways](#6-key-takeaways)
-
----
-
-# 1. Theory Section
-
-## What is Algorithmic Complexity?
-
-**Algorithmic complexity** measures the resources (time and space) an algorithm requires as a function of the input size. It helps us:
-
-- **Compare algorithms** independently of hardware
-- **Predict performance** at scale
-- **Make informed decisions** about which algorithm to use
-
-### Why Do We Care About Efficiency?
-
-Consider searching through a dataset:
+## Analysis Patterns
 
 ```python
-┌─────────────────────────────────────────────────────────────────┐
-│  Input Size (n)  │  O(n) Linear  │  O(n²) Quadratic           │
-├─────────────────────────────────────────────────────────────────┤
-│       10         │    10 ops     │      100 ops               │
-│      100         │   100 ops     │    10,000 ops              │
-│    1,000         │ 1,000 ops     │ 1,000,000 ops              │
-│  1,000,000       │   1M ops      │ 1,000,000,000,000 ops  ⚠️  │
-└─────────────────────────────────────────────────────────────────┘
-```python
+# O(1): direct access
+return arr[0]
+return hash_table.get(key)
 
-**At scale, algorithm choice matters more than hardware speed!**
+# O(log n): halving the search space each step
+while left <= right:
+    mid = (left + right) // 2
+    ...
 
-## Big O, Big Ω, and Big Θ Notation
+# O(n): single traversal
+for item in arr:
+    ...
 
-These mathematical notations describe algorithm behavior:
+# O(n log n): divide-and-conquer
+# merge sort, heapq.nlargest(), sorted()
 
-```python
-╔═══════════════════════════════════════════════════════════════════════╗
-║  Notation   │  Name         │  Meaning                               ║
-╠═══════════════════════════════════════════════════════════════════════╣
-║  O(f(n))    │  Big O        │  Upper bound (worst case)              ║
-║             │               │  "grows no faster than f(n)"           ║
-╠═══════════════════════════════════════════════════════════════════════╣
-║  Ω(f(n))    │  Big Omega    │  Lower bound (best case)               ║
-║             │               │  "grows at least as fast as f(n)"      ║
-╠═══════════════════════════════════════════════════════════════════════╣
-║  Θ(f(n))    │  Big Theta    │  Tight bound (average case)            ║
-║             │               │  "grows exactly as fast as f(n)"       ║
-╚═══════════════════════════════════════════════════════════════════════╝
-```python
+# O(n²): nested loops over same collection
+for i in range(n):
+    for j in range(n):   # or range(i, n) — still O(n²)
+        ...
 
-### Visual Representation
+# O(n²) disguised: string concatenation in a loop
+result = ""
+for s in items:
+    result += s    # creates new string each time → O(n²) total
+# Fix: ''.join(items)  → O(n)
+```
 
-```python
-    Time │
-         │         ╱ O(f(n)) - Upper bound
-         │        ╱
-         │       ╱
-         │    ══╱══ Θ(f(n)) - Tight bound (actual growth)
-         │     ╱
-         │    ╱
-         │   ╱_____ Ω(f(n)) - Lower bound
-         │  ╱
-         └────────────────────── n
-```python
+## Space Complexity
 
-### In Practice
-
-We typically use **Big O** because:
-1. We want to know the **worst-case** scenario
-2. It gives us an **upper bound guarantee**
-3. It's the most commonly discussed in interviews and documentation
-
-## Common Complexity Classes
-
-From fastest to slowest:
+| Pattern | Space |
+|---------|-------|
+| Fixed variables | O(1) |
+| Single copy of input | O(n) |
+| Recursion depth d | O(d) stack frames |
+| 2D DP table | O(n²) or O(n) with rolling array |
 
 ```python
-╔════════════════════════════════════════════════════════════════════════════╗
-║  Complexity   │  Name           │  Example Operations                     ║
-╠════════════════════════════════════════════════════════════════════════════╣
-║  O(1)         │  Constant       │  Array access, hash lookup              ║
-║  O(log n)     │  Logarithmic    │  Binary search                          ║
-║  O(n)         │  Linear         │  Simple loop, linear search             ║
-║  O(n log n)   │  Linearithmic   │  Efficient sorting (merge, heap)        ║
-║  O(n²)        │  Quadratic      │  Nested loops, bubble sort              ║
-║  O(n³)        │  Cubic          │  Triple nested loops                    ║
-║  O(2ⁿ)        │  Exponential    │  Recursive Fibonacci, subsets           ║
-║  O(n!)        │  Factorial      │  Permutations, traveling salesman       ║
-╚════════════════════════════════════════════════════════════════════════════╝
-```python
+# O(1) space: iterative with fixed variables
+def find_max(arr):
+    m = arr[0]
+    for x in arr[1:]:
+        m = max(m, x)
+    return m
 
-### Rule: Drop Constants and Lower-Order Terms
+# O(n) space: storing results
+def cumsum(arr):
+    result = []          # grows with n
+    total = 0
+    for x in arr:
+        total += x
+        result.append(total)
+    return result
+```
 
-```python
-O(2n + 5)       →  O(n)
-O(n² + n)       →  O(n²)
-O(500)          →  O(1)
-O(n/2)          →  O(n)
-O(n² + n³)      →  O(n³)
-```python
+## Amortized Complexity
 
-**Why?** At large n, only the dominant term matters.
+- Python `list.append()`: O(1) amortized (occasional O(n) resize, but rare)
+- Python `dict` lookup: O(1) average; O(n) worst case (all keys collide — rare with good hash)
 
----
+## Best / Average / Worst
 
-# 2. Growth Rate Visualizations
+| Algorithm | Best | Average | Worst |
+|-----------|------|---------|-------|
+| Binary search | O(1) | O(log n) | O(log n) |
+| Quicksort | O(n log n) | O(n log n) | O(n²) |
+| Merge sort | O(n log n) | O(n log n) | O(n log n) |
+| Hash table lookup | O(1) | O(1) | O(n) |
+| BFS/DFS | O(V+E) | O(V+E) | O(V+E) |
 
-## ASCII Chart: Comparing Growth Rates
+## Pitfalls
 
-```python
-Time │
-     │                                              ⁂ O(2ⁿ)
-     │                                         ⁂
-     │                                    ⁂
-     │                               ⁂
-     │                          ⁂
-     │                                          ★ O(n²)
-     │                     ⁂               ★
-     │                               ★
-     │                ⁂        ★
-     │                    ★           ──────── O(n log n)
-     │           ⁂   ★      ──────
-     │       ⁂  ★  ─────
-     │    ⁂ ★ ────              ═══════════ O(n)
-     │  ⁂★────      ═══════════
-     │ ★──   ═══════
-     │──═════               ················ O(log n)
-     │═·············
-     │·                     ________________ O(1)
-     └───────────────────────────────────────────── n
-            10    20    30    40    50    60
-```python
-
-## Relative Growth Comparison
-
-```python
-For n = 64:
-
-O(1)        │█                                        = 1
-O(log n)    │██████                                   = 6
-O(n)        │████████████████████████████████████████ = 64
-O(n log n)  │████████████████████████████████████████████████████████████ ≈ 384
-O(n²)       │████████████████████████████████████████ ×100 MORE... = 4,096
-O(2ⁿ)       │ WOULD NOT FIT ON ANY SCREEN! ≈ 18 quintillion
-```python
-
-```python
-import math
-
-def visualize_growth_rates(n_values=None):
-    """
-    Print a table showing how different complexity classes scale.
-    
-    Time Complexity: O(k) where k is len(n_values)
-    Space Complexity: O(1)
-    """
-    if n_values is None:
-        n_values = [1, 10, 100, 1000, 10000]
-    
-    print("\n" + "="*80)
-    print(f"{'n':>8} | {'O(1)':>10} | {'O(log n)':>10} | {'O(n)':>10} | {'O(n log n)':>12} | {'O(n²)':>15}")
-    print("="*80)
-    
-    for n in n_values:
-        o_1 = 1
-        o_log_n = round(math.log2(n), 2) if n > 0 else 0
-        o_n = n
-        o_n_log_n = round(n * math.log2(n), 2) if n > 0 else 0
-        o_n2 = n * n
-        
-        print(f"{n:>8} | {o_1:>10} | {o_log_n:>10} | {o_n:>10,} | {o_n_log_n:>12,.0f} | {o_n2:>15,}")
-    
-    print("="*80)
-
-visualize_growth_rates()
-```python
-
----
-
-# 3. Code Examples by Complexity Class
-
-Each example includes:
-- Function implementation
-- Detailed comments explaining the complexity
-- Docstring with time and space complexity
-
-## O(1) - Constant Time
-
-The operation takes the same time regardless of input size.
-
-```python
-Time │
-     │ ________________________________
-     │
-     └────────────────────────────────── n
-```python
-
-```python
-def get_first_element(arr):
-    """
-    Return the first element of an array.
-    
-    Time Complexity: O(1) - Direct index access is constant time
-    Space Complexity: O(1) - No additional space used
-    
-    Args:
-        arr: List of elements
-    Returns:
-        First element or None if empty
-    """
-    # Array index access is O(1) because:
-    # - Arrays store elements in contiguous memory
-    # - Address calculation: base_address + (index * element_size)
-    # - This calculation is constant regardless of array size
-    if len(arr) == 0:
-        return None
-    return arr[0]  # O(1) - same time for array of 10 or 10 million elements
-
-
-def is_even(number):
-    """
-    Check if a number is even.
-    
-    Time Complexity: O(1) - Single arithmetic operation
-    Space Complexity: O(1) - No additional space used
-    """
-    # Modulo operation is O(1) - it's a single CPU instruction
-    # The size of the number doesn't affect the operation time
-    # (for fixed-width integers)
-    return number % 2 == 0
-
-
-def hash_table_lookup(hash_table, key):
-    """
-    Look up a value in a hash table.
-    
-    Time Complexity: O(1) average - Hash computation + direct access
-    Space Complexity: O(1) - No additional space used
-    
-    Note: Worst case is O(n) if all keys hash to the same bucket,
-    but with good hash functions this is extremely rare.
-    """
-    # 1. Compute hash of key - O(1)
-    # 2. Access bucket at computed index - O(1)
-    # Total: O(1) average case
-    return hash_table.get(key)  # Python dict uses hash table internally
-
-
-# Demonstration
-test_array = list(range(1000000))  # 1 million elements
-print(f"First element of million-item array: {get_first_element(test_array)}")
-print(f"Is 42 even? {is_even(42)}")
-```python
-
-## O(log n) - Logarithmic Time
-
-Each step eliminates half (or a constant fraction) of the remaining elements.
-
-```python
-Time │
-     │        ·········
-     │   ·····
-     │  ·
-     │ ·
-     │·
-     └────────────────────────────────── n
-```python
-
-```python
-def binary_search(arr, target):
-    """
-    Find target in a sorted array using binary search.
-    
-    Time Complexity: O(log n)
-        - Each iteration cuts the search space in half
-        - For n elements: log₂(n) iterations maximum
-        - Example: 1 million elements → ~20 comparisons max
-    
-    Space Complexity: O(1) - Only uses a few variables
-    
-    Args:
-        arr: Sorted list of comparable elements
-        target: Value to find
-    Returns:
-        Index of target, or -1 if not found
-    """
-    left, right = 0, len(arr) - 1
-    
-    # Loop runs O(log n) times
-    # Why? Each iteration: search_space = search_space / 2
-    # Starting with n, after k iterations: n / 2^k
-    # Stops when n / 2^k = 1, solving: k = log₂(n)
-    iterations = 0
-    while left <= right:
-        iterations += 1
-        mid = (left + right) // 2  # O(1) - arithmetic
-        
-        if arr[mid] == target:      # O(1) - comparison
-            print(f"Found in {iterations} iterations (log₂({len(arr)}) ≈ {math.log2(len(arr)):.1f})")
-            return mid
-        elif arr[mid] < target:
-            left = mid + 1  # Eliminate left half
-        else:
-            right = mid - 1  # Eliminate right half
-    
-    print(f"Not found after {iterations} iterations")
-    return -1
-
-
-def count_digits(n):
-    """
-    Count the number of digits in a positive integer.
-    
-    Time Complexity: O(log n)
-        - We divide by 10 each iteration
-        - Number of digits ≈ log₁₀(n)
-    
-    Space Complexity: O(1)
-    """
-    if n == 0:
-        return 1
-    
-    count = 0
-    n = abs(n)
-    
-    # Each iteration removes one digit (divides by 10)
-    # For n with d digits: d = ⌊log₁₀(n)⌋ + 1 iterations
-    while n > 0:
-        count += 1
-        n //= 10  # Remove last digit
-    
-    return count
-
-
-# Demonstration
-import math
-sorted_array = list(range(0, 1000000, 2))  # 500,000 even numbers
-print("Binary search for 424242:")
-binary_search(sorted_array, 424242)
-
-print(f"\nDigits in 12345678: {count_digits(12345678)}")
-```python
-
-## O(n) - Linear Time
-
-Time grows directly proportional to input size.
-
-```python
-Time │
-     │                    ╱
-     │                  ╱
-     │                ╱
-     │              ╱
-     │            ╱
-     │          ╱
-     │        ╱
-     │      ╱
-     │    ╱
-     │  ╱
-     │╱
-     └────────────────────────────────── n
-```python
-
-```python
-def find_maximum(arr):
-    """
-    Find the maximum element in an unsorted array.
-    
-    Time Complexity: O(n)
-        - Must check every element (could be anywhere)
-        - Exactly n comparisons for n elements
-    
-    Space Complexity: O(1) - Single variable for tracking max
-    
-    Args:
-        arr: Non-empty list of comparable elements
-    Returns:
-        Maximum element
-    """
-    if not arr:
-        return None
-    
-    maximum = arr[0]  # O(1)
-    
-    # Loop executes n-1 times (once per element after first)
-    # Each iteration does O(1) work (comparison, possible assignment)
-    # Total: O(n)
-    for element in arr[1:]:
-        if element > maximum:  # O(1) comparison
-            maximum = element  # O(1) assignment
-    
-    return maximum
-
-
-def linear_search(arr, target):
-    """
-    Search for target by checking each element.
-    
-    Time Complexity: O(n)
-        - Best case: O(1) - target is first element
-        - Worst case: O(n) - target is last or not present
-        - Average case: O(n/2) = O(n) - target is in middle
-    
-    Space Complexity: O(1)
-    """
-    # In worst case, we examine all n elements
-    for i, element in enumerate(arr):
-        if element == target:  # O(1) comparison
-            return i
-    return -1
-
-
-def sum_array(arr):
-    """
-    Calculate sum of all elements.
-    
-    Time Complexity: O(n) - Must visit each element exactly once
-    Space Complexity: O(1) - Single accumulator variable
-    """
-    total = 0  # O(1) space
-    
-    # n iterations, O(1) work each
-    for num in arr:
-        total += num  # O(1)
-    
-    return total
-
-
-# Demonstration
-test_data = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
-print(f"Maximum: {find_maximum(test_data)}")
-print(f"Sum: {sum_array(test_data)}")
-print(f"Index of 9: {linear_search(test_data, 9)}")
-```python
-
-## Common Pitfalls
-
-- **Coordinate systems**: BED uses 0-based half-open; VCF/GFF use 1-based inclusive — mixing them causes off-by-one errors
-- **Batch effects**: Always check for batch confounding before interpreting biological signal
-- **Multiple testing**: Apply FDR correction (Benjamini-Hochberg) when testing thousands of features simultaneously
+- **Hidden O(n) inside a loop**: `in` on a list is O(n); inside an O(n) loop = O(n²). Use a `set` for O(1) membership.
+- **String concatenation**: `s += x` in a loop is O(n²) total. Use `''.join(parts)` or `io.StringIO`.
+- **`sorted()` is O(n log n)**: calling it inside a loop makes the loop O(n² log n).
+- **Recursion depth**: unbounded recursion on large n hits Python's default 1000-frame limit. Use iterative approach or `sys.setrecursionlimit`.
+- **Space vs time trade-off**: memoization trades O(n) space for O(n) → O(1) repeated lookups.
+- **Worst-case vs average-case**: quicksort is O(n²) on sorted input; always use random pivot or `timsort` for general data.

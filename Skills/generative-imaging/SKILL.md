@@ -4,17 +4,6 @@ description: Generative imaging and inverse-problem restoration workflows.
 primary_tool: NumPy
 ---
 
-## Version Compatibility
-
-Reference examples tested with: numpy 1.26+
-
-Before using code patterns, verify installed versions match. If versions differ:
-- Python: `pip show <package>` then `help(module.function)` to check signatures
-
-If code throws ImportError, AttributeError, or TypeError, introspect the installed
-package and adapt the example to match the actual API rather than retrying.
-
-
 ## When to Use
 
 Use this atomic skill for focused work on **generative-imaging** without bundling unrelated topics.
@@ -29,10 +18,8 @@ Use the parent material below as the source reference, then keep implementations
 
 ## Source Reference (from merged skill)
 
----
 name: diffusion-generative
 description: Score-based generative models, DDIM sampling, linear and cosine noise schedules, inverse imaging problems (DDRM), SVD degradation operators, scientific image restoration
----
 
 ## When to Use
 
@@ -142,7 +129,7 @@ def ddim_sample(oracle_denoiser, shape, T=100, T_sample=20, schedule="cosine"):
     return xt
 ```python
 
-## Common Pitfalls
+## Pitfalls
 
 - **Tensor shape:** always use explicit shapes; `betas` must be (T,), not (T, 1) — broadcasting errors are silent
 - **alpha_bar indexing:** alpha_bars[T-1] → most noisy; alpha_bars[0] → least noisy; check your indexing convention
