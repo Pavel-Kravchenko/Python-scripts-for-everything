@@ -41,7 +41,7 @@ spec = ms1_spectra[0]
 mz, intensity = spec.get_peaks()
 rt = spec.getRT()
 print(f'RT: {rt:.2f} s, Peaks: {len(mz)}')
-```python
+```
 
 ## Feature Table Processing (pandas)
 
@@ -82,7 +82,7 @@ for g in groups.unique():
 plt.xlabel(f'PC1 ({pca.explained_variance_ratio_[0]*100:.1f}%)')
 plt.ylabel(f'PC2 ({pca.explained_variance_ratio_[1]*100:.1f}%)')
 plt.legend(); plt.title('PCA of metabolomics data')
-```python
+```
 
 ## Exact Mass Matching
 
@@ -102,7 +102,7 @@ def match_exact_mass(observed_mz, adduct='[M+H]+', ppm_tol=5):
     matches = hmdb[ppm_error <= ppm_tol].copy()
     matches['ppm_error'] = ppm_error[ppm_error <= ppm_tol]
     return matches.sort_values('ppm_error')
-```python
+```
 
 ## COBRApy Flux Balance Analysis
 
@@ -133,7 +133,7 @@ print(f'Essential genes: {len(essential_genes)}')
 from cobra.flux_analysis import flux_variability_analysis
 fva = flux_variability_analysis(model, fraction_of_optimum=0.9)
 print(fva.sort_values('maximum', ascending=False).head(10))
-```python
+```
 
 ## MSI Identification Levels
 

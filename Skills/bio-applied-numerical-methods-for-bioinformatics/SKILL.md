@@ -59,7 +59,7 @@ ax.legend()
 plt.tight_layout()
 plt.show()
 print(f'Interpolated solubility at 40 C: {lagrange_interpolate(T_data, S_data, [40])[0]:.1f} g')
-```python
+```
 
 ### The Runge Phenomenon and Chebyshev Nodes
 
@@ -103,7 +103,7 @@ for ax, y_interp, nodes, title in zip(
     ax.legend()
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ### Newton's Divided Differences
 
@@ -163,7 +163,7 @@ ax.legend()
 plt.tight_layout()
 plt.show()
 print(f'Predicted at t=6h: {expr_pred[0]:.2f},  t=18h: {expr_pred[1]:.2f}')
-```python
+```
 
 ### Cubic Spline Interpolation
 
@@ -208,7 +208,7 @@ plt.show()
 
 peak_t = t_fine[np.argmax(cs(t_fine))]
 print(f'Estimated peak expression at ZT {peak_t:.1f}h')
-```python
+```
 
 ## Part 2: Numerical Differentiation and Integration
 
@@ -262,7 +262,7 @@ C_pk = np.array([100, 72, 52, 27, 14, 7.4, 2.0, 0.1])      # ng/mL
 for i in range(1, len(t_pk)-1):
     dCdt = (C_pk[i+1] - C_pk[i-1]) / (t_pk[i+1] - t_pk[i-1])
     print(f'  t={t_pk[i]:4.0f}h: dC/dt = {dCdt:6.2f} ng/mL/h')
-```python
+```
 
 ### Numerical Integration: Trapezoidal Rule and Simpson's Rule
 

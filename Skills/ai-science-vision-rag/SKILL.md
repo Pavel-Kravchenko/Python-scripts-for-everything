@@ -118,7 +118,7 @@ for ax, page, i in zip(axes, pages, range(len(pages))):
     ax.axis("off")
 plt.suptitle("Synthetic document pages (simulating PDF rendering)", y=1.02)
 plt.tight_layout(); plt.show()
-```python
+```
 
 ## ColPali: Late-Interaction Retrieval
 
@@ -127,7 +127,7 @@ plt.tight_layout(); plt.show()
 query → q_emb (512d)
 page  → p_emb (512d)
 score = cosine(q_emb, p_emb)
-```python
+```
 Problem: compresses complex page into one vector → loses spatial detail.
 
 **Late interaction (ColPali/ColBERT-style):**
@@ -135,7 +135,7 @@ Problem: compresses complex page into one vector → loses spatial detail.
 query → Q matrix (n_tokens × dim)
 page  → P matrix (n_patches × dim)
 score = Σ_i max_j(Q[i] · P[j])    ← MaxSim
-```python
+```
 Each query token finds its best matching page patch independently → preserves spatial detail.
 
 **ColPali training:** A PaliGemma-2 backbone fine-tuned contrastively on (query, relevant page) pairs from document retrieval benchmarks (ViDoRe).
@@ -187,7 +187,7 @@ for rank, page_idx in enumerate(ranked):
     print(f"  Rank {rank+1}: Page {page_idx+1} (score = {scores[page_idx]:.3f})")
 print(f"\nTop-1 page: {ranked[0]+1} (correct answer: Page 2)")
 print(f"Recall@1: {int(ranked[0] == 1)}")
-```python
+```
 
 ## Full RAG Pipeline
 
@@ -232,7 +232,7 @@ queries = [
 for q in queries:
     result = simple_rag_pipeline(q, pages, page_embeddings, top_k=2)
     print()
-```python
+```
 
 ## Qwen2-VL Inference Pattern
 
@@ -281,7 +281,7 @@ def answer_from_pages(pages, question):
 
 print("Qwen2-VL inference pattern:")
 print(QWEN_PATTERN)
-```python
+```
 
 ## Pitfalls
 

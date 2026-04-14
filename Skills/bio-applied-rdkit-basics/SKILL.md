@@ -36,7 +36,7 @@ import numpy as np
 # Example: Validate (None  invalid SMILES)
 # for name, mol in mols.items():
 #     print(f'name: valid if mol else INVALID')
-```python
+```
 
 ## Structure Visualization
 
@@ -49,7 +49,7 @@ from IPython.display import display
 # img  Draw.MolsToGridImage(list(mols.values()), legendslist(mols.keys()),
 #                            molsPerRow3, subImgSize(300, 250))
 # display(img)
-```python
+```
 
 ## Molecular Descriptors & Lipinski's Rule of Five
 
@@ -71,7 +71,7 @@ from rdkit import DataStructs
 # Example: MACCS keys
 # from rdkit.Chem.MACCSkeys import GenMACCSKeys
 # maccs_fps  name: GenMACCSKeys(mol) for name, mol in mols.items()
-```python
+```
 
 ## Tanimoto Similarity Search
 
@@ -91,7 +91,7 @@ import matplotlib.pyplot as plt
 # sns.heatmap(sim_matrix.astype(float), annotTrue, cmap'Blues', vmin0, vmax1)
 # plt.title('Tanimoto Similarity (ECFP4)')
 # plt.show()
-```python
+```
 
 ## Summary
 

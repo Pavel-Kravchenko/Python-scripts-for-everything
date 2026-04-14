@@ -69,7 +69,7 @@ HLA-mapped reads only
 Best-fitting allele pair per locus
     ↓
 Output: sample_result.tsv  →  A*02:01,A*03:01,B*07:02,B*44:02,C*05:01,C*07:02
-```python
+```
 
 ### arcasHLA (from RNA-seq)
 More practical for studies with existing RNA-seq data:
@@ -79,7 +79,7 @@ arcasHLA genotype hla_reads/sample.extracted.1.fq.gz \
                   hla_reads/sample.extracted.2.fq.gz \
                   -g A,B,C,DPB1,DQB1,DQA1,DRB1 \
                   -o hla_typing/
-```python
+```
 
 ### Homozygosity and Loss of Heterozygosity (LOH)
 - Tumor cells can lose one HLA allele (LOH) to escape T-cell recognition
@@ -149,7 +149,7 @@ print(f"\nHLA-A allele counts in cohort:\n{all_a.to_string()}")
 State-of-the-art predictor using pan-allele neural network:
 ```bash
 netMHCpan -p peptides.txt -a HLA-A02:01 -l 9 -BA > predictions.txt
-```python
+```
 
 Output columns: `Pos | Peptide | Allele | 1-log50k(aff) | Affinity(nM) | %Rank_EL | BindLevel`
 
@@ -168,7 +168,7 @@ Tumor somatic SNVs (VCF)
 Rank by binding affinity (%Rank_EL < 0.5)
     ↓  Filter for expression, clonal fraction, foreignness
 Ranked neoantigen candidates for vaccine/TCR therapy
-```python
+```
 
 ## HLA Disease Associations
 
@@ -244,7 +244,7 @@ plt.show()
 print("\nKey clinical message:")
 print("• Pharmacogenomics: Screen for HLA-B*57:01 BEFORE prescribing abacavir")
 print("  European patients: ~3.6% carry this allele → pre-treatment HLA testing is standard of care")
-```python
+```
 
 ## Neoantigen Prediction Pipeline
 

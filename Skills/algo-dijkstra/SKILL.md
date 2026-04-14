@@ -99,7 +99,7 @@ def reconstruct_path(predecessors, end):
         path.append(current)
         current = predecessors.get(current)
     return path[::-1]
-```python
+```
 
 ## Step-by-Step Walkthrough
 
@@ -145,7 +145,7 @@ for u, v, w in [('A', 'B', 1.0), ('A', 'C', 4.0), ('B', 'C', 2.0), ('B', 'D', 5.
 
 print("Dijkstra walkthrough from A:")
 dijkstra_verbose(demo, 'A')
-```python
+```
 
 ```python
 # Build weighted PPI network (weights  interaction confidence)
@@ -173,7 +173,7 @@ print("Shortest path distances from TP53:")
 for gene, dist in sorted(distances.items(), key=lambda x: x[1]):
     path = reconstruct_path(predecessors, gene)
     print(f"  {gene}: {dist:.2f} via {' -> '.join(path)}")
-```python
+```
 
 ## Why Non-Negative Weights?
 
@@ -214,7 +214,7 @@ conf_scores = {('TP53', 'MDM2'): 0.99, ('TP53', 'BRCA1'): 0.85, ('TP53', 'ATM'):
 path, rel = most_reliable_path(ppi, 'TP53', 'CDC25A', conf_scores)
 print(f"Most reliable path to CDC25A: {' -> '.join(path)}")
 print(f"Path reliability: {rel:.4f}")
-```python
+```
 
 ## Exercise 2 (2 stars): Network Diameter
 
@@ -245,7 +245,7 @@ def graph_diameter(graph):
 # print(fPPI network diameter: result0:.2f)
 # print(fFurthest pair: result1 - result2)
 # print(fPath: ' - '.join(result3))
-```python
+```
 
 ## Pitfalls
 

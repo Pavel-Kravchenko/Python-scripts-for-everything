@@ -48,7 +48,7 @@ import pandas as pd
 # hits_filtered'composite'  -hits_filtered'vina_score' + hits_filtered'qsar_pIC50'
 # top10  hits_filtered.nlargest(10, 'composite')
 # print(top10'SMILES', 'vina_score', 'qsar_pIC50', 'composite')
-```python
+```
 
 ## Summary
 

@@ -80,7 +80,7 @@ def compute_n50(lengths):
 
 n50 = compute_n50(contig_lengths)
 print(f"Assembly N50:      {n50:,} bp")
-```python
+```
 
 ## HiFi Assembly with Hifiasm
 
@@ -149,7 +149,7 @@ ax.set_xlim(0, 100)
 ax.set_ylim(0)
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ## Assembly Polishing with Medaka
 

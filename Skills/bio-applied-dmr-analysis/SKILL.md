@@ -28,7 +28,7 @@ dml_test  <- DMLtest(bs_ctrl, bs_treat, smoothing=TRUE, smoothing.span=500)
 
 # Call DMRs from DML results
 dmrs <- callDMR(dml_test, p.threshold=0.001, delta=0.1, minlen=50, minCG=3)
-```python
+```
 
 **Key parameters:**
 - `smoothing.span`: bandwidth in bp for local smoothing (200–500 bp is typical)
@@ -152,7 +152,7 @@ plt.show()
 print(f"Pearson r = {r:.3f}  (p = {p_val:.2e})")
 print(f"Strongly silenced genes (Δβ > 0.25 AND log2FC < -1): "
       f"{((is_hyper) & (rna_log2fc < -1)).sum()}")
-```python
+```
 
 ## Methylation Heatmap Across Samples
 
@@ -202,7 +202,7 @@ ax.text(3.75, -2.5, 'Treatment', ha='center', va='top', fontsize=9,
 plt.tight_layout()
 plt.savefig('dmr_heatmap.png', dpi=120, bbox_inches='tight')
 plt.show()
-```python
+```
 
 ## Summary and Key Takeaways
 

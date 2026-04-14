@@ -43,7 +43,7 @@ primary_tool: Python
 Pattern:  A  T  G  C  A  T  G
 Index:    0  1  2  3  4  5  6
 sp:       0  0  0  0  1  2  3
-```python
+```
 
 After a mismatch at position `j`, jump to `sp[j-1]` — skip re-examining what we already know matched.
 
@@ -51,7 +51,7 @@ After a mismatch at position `j`, jump to `sp[j-1]` — skip re-examining what w
 ```python
 hash(s[i:i+m]) = (s[i]·b^(m-1) + s[i+1]·b^(m-2) + ... + s[i+m-1]) mod q
 roll:  hash(s[i+1:i+m+1]) = (hash(s[i:i+m]) - s[i]·b^(m-1)) · b + s[i+m]  mod q
-```python
+```
 - `b` = base (e.g., 256 for ASCII, 4 for DNA)
 - `q` = large prime (e.g., 101, 1_000_000_007)
 - Precompute `b^(m-1) mod q` once; each roll is O(1)
@@ -60,7 +60,7 @@ roll:  hash(s[i+1:i+m+1]) = (hash(s[i:i+m]) - s[i]·b^(m-1)) · b + s[i+m]  mod 
 For each state `i` (representing matched `pattern[:i]`) and each character `c`:
 ```python
 transition[i][c] = len(longest prefix of pattern that is a suffix of pattern[:i] + c)
-```python
+```
 Uses `prefix_length(pattern, pattern[:i] + c)` — same KMP prefix trick.
 
 
@@ -71,7 +71,7 @@ Uses `prefix_length(pattern, pattern[:i] + c)` — same KMP prefix trick.
 def naive_search(text: str, pattern: str) -> list[int]:
     n, m = len(text), len(pattern)
     return [i for i in range(n - m + 1) if text[i:i+m] == pattern]
-```python
+```
 
 ### KMP — Failure Function + Search
 ```python
@@ -98,7 +98,7 @@ def kmp_search(text: str, pattern: str) -> list[int]:
             matches.append(i - m + 1)
             j = f[m - 1]   # allow overlapping matches
     return matches
-```python
+```
 
 **Alternate (prefix_search on concatenated string):**
 ```python
@@ -117,7 +117,7 @@ def prefix_search(text: str, pattern: str) -> list[int]:
     # match at combined index i means text index i - (m + 1) - m + 1 = i - 2m
     # but combined[m+1+k] corresponds to text[k], so text index = i - m - 1 - m + 1 = i - 2m
     return [i - 2 * m for i in range(len(combined)) if sp[i] == m]
-```python
+```
 
 ### Rabin-Karp (polynomial rolling hash)
 ```python
@@ -163,7 +163,7 @@ def rabin_karp_multi(text: str, patterns: list[str], base: int = 256, mod: int =
         if i < len(text) - m:
             th = (base * (th - ord(text[i]) * h) + ord(text[i + m])) % mod
     return results
-```python
+```
 
 ### DFA Matching
 ```python
@@ -201,7 +201,7 @@ alphabet = "ATGC"
 pattern  = "ATTCTGATTT"
 dfa = build_automaton(pattern, alphabet)
 hits = dfa_search("AATGCCGTATTCTATTCTGATTTCTGAATTCTGATTTTTAGT", dfa)
-```python
+```
 
 
 ## Pitfalls

@@ -37,7 +37,7 @@ import numpy as np
 #     edge_index  torch.tensor(edges, dtypetorch.long).t()
 #     x  torch.tensor(node_features, dtypetorch.float)
 #     return Data(xx, edge_indexedge_index)
-```python
+```
 
 ## MPNN Architecture
 
@@ -62,7 +62,7 @@ from torch_geometric.nn import GCNConv, global_mean_pool
 #         x  self.conv3(x, edge_index).relu()
 #         x  global_mean_pool(x, batch)
 #         return self.lin(x)
-```python
+```
 
 ## Training on MoleculeNet BBBP Dataset
 
@@ -88,7 +88,7 @@ import torch.optim as optim
 #         total_loss + loss.item()
 #     if epoch  10  0:
 #         print(f'Epoch epoch:3d, Loss: total_loss/len(train_loader):.4f')
-```python
+```
 
 ## GNN vs Fingerprint Baseline
 
@@ -111,7 +111,7 @@ from sklearn.metrics import roc_auc_score
 # gnn_auc  roc_auc_score(gnn_labels, gnn_preds)
 # print(f'GNN AUC: gnn_auc:.3f')
 # # Example: RF baseline AUC for comparison
-```python
+```
 
 ## Summary
 

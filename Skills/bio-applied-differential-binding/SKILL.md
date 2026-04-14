@@ -29,7 +29,7 @@ except ImportError:
 plt.rcParams['figure.dpi'] = 100
 plt.rcParams['font.size'] = 11
 print('Setup complete.')
-```python
+```
 
 ## Differential Binding with DiffBind (R)
 
@@ -132,7 +132,7 @@ axes[1].legend(markerscale=2)
 
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ## Peak Annotation with ChIPseeker
 
@@ -215,7 +215,7 @@ axes[1].set_xlim(-50000, 50000)
 
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ## Pitfalls
 

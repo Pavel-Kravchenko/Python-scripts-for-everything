@@ -89,7 +89,7 @@ print(f"  C: {c_count}")
 print(f"  G: {g_count}")
 print(f"  T: {t_count}")
 print(f"  Total: {a_count + c_count + g_count + t_count}")
-```python
+```
 
 ### Understanding the code
 
@@ -115,7 +115,7 @@ print("Nucleotide counts (loop method):")
 for nuc, count in counts.items():
     percentage = count / len(dna) * 100
     print(f"  {nuc}: {count:>3}  ({percentage:.1f}%)")
-```python
+```
 
 ### GC content -- a biologically meaningful statistic
 
@@ -139,7 +139,7 @@ elif gc_content > 60:
     print("This is relatively GC-rich.")
 else:
     print("This is in the moderate GC range.")
-```python
+```
 
 ## The Python Ecosystem for Biology
 
@@ -195,7 +195,7 @@ except ImportError:
     print("BioPython is not installed yet.")
     print("Run: pip install biopython")
     print("We will cover installation in Section 5 below.")
-```python
+```
 
 ## Installing Packages and Virtual Environments
 
@@ -221,7 +221,7 @@ pip list
 
 # Upgrade a package
 pip install --upgrade biopython
-```python
+```
 
 Inside a Jupyter notebook, you can run shell commands by prefixing them with `!`:
 
@@ -245,7 +245,7 @@ pip install biopython pandas matplotlib
 
 # Deactivate when done
 deactivate
-```python
+```
 
 ### conda -- an alternative for scientific computing
 
@@ -263,7 +263,7 @@ conda install -c conda-forge biopython pandas matplotlib
 
 # Install bioinformatics tools from bioconda
 conda install -c bioconda blast samtools
-```python
+```
 
 **Recommendation for this course**: use either `venv` or `conda` to create one environment for all Tier 1 notebooks.
 

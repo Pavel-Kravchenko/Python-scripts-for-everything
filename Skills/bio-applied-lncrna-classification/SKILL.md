@@ -41,7 +41,7 @@ Exon1   Intron  Exon2
 
 Gene A  ████    Gene B  ████
         ████████████████    lincRNA (long intergenic ncRNA)
-```python
+```
 
 - **lincRNA**: between protein-coding genes (intergenic); most common type
 - **Antisense lncRNA**: transcribed from opposite strand, overlapping a coding gene
@@ -159,7 +159,7 @@ plt.suptitle('lncRNA Discovery: Assembly Statistics', fontsize=12, fontweight='b
 plt.tight_layout()
 plt.savefig('lncrna_discovery.png', dpi=120, bbox_inches='tight')
 plt.show()
-```python
+```
 
 ## Coding Potential Assessment
 
@@ -216,7 +216,7 @@ perl CIRI2.pl \
   -F hg38.fa \
   -A gencode.v44.gtf \
   -T 8
-```python
+```
 
 circRNA quantification: reads per circRNA / total mapped reads × 10⁶ (= CPM)
 

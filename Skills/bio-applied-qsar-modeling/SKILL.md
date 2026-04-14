@@ -31,7 +31,7 @@ import numpy as np
 # ).only('molecule_chembl_id', 'standard_value', 'standard_units', 'canonical_smiles')
 # df  pd.DataFrame(list(egfr_activities))
 # print(df.shape)
-```python
+```
 
 ## Data Curation
 
@@ -57,7 +57,7 @@ from rdkit.ML.Descriptors import MoleculeDescriptors
 #     features.append(fp + desc)
 # X  np.array(features)
 # y  df'active'.values
-```python
+```
 
 ## Model Training and Evaluation
 
@@ -76,7 +76,7 @@ from sklearn.metrics import roc_auc_score, matthews_corrcoef, classification_rep
 # y_prob  rf.predict_proba(X_test):, 1
 # print(f'AUC: roc_auc_score(y_test, y_prob):.3f')
 # print(f'MCC: matthews_corrcoef(y_test, y_pred):.3f')
-```python
+```
 
 ## Applicability Domain
 
@@ -93,7 +93,7 @@ from sklearn.neighbors import NearestNeighbors
 # ad_threshold  avg_distances.mean() + 3 * avg_distances.std()
 # in_ad  avg_distances  ad_threshold
 # print(f'Compounds in AD: in_ad.sum()/len(in_ad)')
-```python
+```
 
 ## Summary
 

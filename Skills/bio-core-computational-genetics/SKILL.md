@@ -53,7 +53,7 @@ for aa, count in aa_counts.items():
     by_fold[count].append(aa)
 for fold in sorted(by_fold):
     print(f"  {fold}-fold degenerate: {', '.join(sorted(by_fold[fold]))}")
-```python
+```
 
 ### Codon Degeneracy
 
@@ -93,7 +93,7 @@ print('4-fold degenerate amino acids (any nucleotide at position 3):')
 for aa, codons in sorted(aa_to_codons.items()):
     if len(codons) == 4 and aa != '*':
         print(f'  {aa}: {codons}')
-```python
+```
 
 ### Start and Stop Codons
 
@@ -120,7 +120,7 @@ print('Stop codons (traditional names):')
 stop_names = {'TAA': 'ochre', 'TAG': 'amber', 'TGA': 'opal'}
 for codon in stop_codons:
     print(f'  {codon} ({stop_names[codon]})')
-```python
+```
 
 ### Exercise 1.1: Implement `translate()` with Frame Support
 
@@ -142,7 +142,7 @@ print()
 for frame in range(3):
     protein = translate_frame(test_seq, codon_table, frame)
     print(f'Frame {frame}: {protein if protein else "(no ORF found)"}')
-```python
+```
 
 
 ## Codon Usage Bias
@@ -230,7 +230,7 @@ print('Top 10 most frequent codons:')
 for codon, count in ecoli_counts.most_common(10):
     aa = codon_table.get(codon, '?')
     print(f'  {codon} ({aa}): {count}')
-```python
+```
 
 ### Relative Synonymous Codon Usage (RSCU)
 
@@ -278,7 +278,7 @@ for codon in leu_codons:
     rscu_val = ecoli_rscu.get(codon, 0)
     bar = '*' * int(rscu_val * 5)
     print(f'{codon:8} {count:8} {rscu_val:8.2f}  {bar}')
-```python
+```
 
 ### Codon Adaptation Index (CAI)
 

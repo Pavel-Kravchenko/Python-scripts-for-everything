@@ -24,7 +24,7 @@ primary_tool: NumPy
 import numpy as np
 
 np.random.seed(9)
-```python
+```
 
 ## ESM2 Architecture
 
@@ -92,7 +92,7 @@ sequence_representations = []
 for i, (_, seq) in enumerate(data):
     seq_emb = token_representations[i, 1 : len(seq) + 1].mean(0)
     sequence_representations.append(seq_emb)
-```python
+```
 
 ### ESMFold: structure from sequence without MSA
 
@@ -112,7 +112,7 @@ with torch.no_grad():
 # output is a PDB string
 with open("predicted.pdb", "w") as f:
     f.write(output)
-```python
+```
 
 The output PDB B-factor column contains pLDDT values (0–100), interpreted identically to AlphaFold2.
 
@@ -135,7 +135,7 @@ seq = 'MKTAYIAKQRQISFVKSHFSRQLEERLGLIEVQ'
 emb = toy_embed(seq)
 print('Embedding shape:', emb.shape)
 print('Top composition entries:', np.argsort(emb[:20])[-5:][::-1])
-```python
+```
 
 ## Amino Acid Composition Baseline
 
@@ -170,7 +170,7 @@ c0 = X[train][y[train] == 0].mean(axis=0)
 c1 = X[train][y[train] == 1].mean(axis=0)
 pred = (((X[test]-c1)**2).sum(axis=1) < ((X[test]-c0)**2).sum(axis=1)).astype(int)
 print('Probe accuracy:', float((pred == y[test]).mean()))
-```python
+```
 
 ## ESMFold Confidence Interpretation
 
@@ -195,7 +195,7 @@ def confidence_bucket(mean_plddt: float) -> str:
 
 for v in [96, 82, 63, 41]:
     print(v, confidence_bucket(v))
-```python
+```
 
 ## Practical Guidance
 

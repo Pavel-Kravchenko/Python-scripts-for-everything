@@ -114,7 +114,7 @@ print("Database ready:",
       len(pd.read_sql_query("SELECT * FROM genes", conn)), "genes,",
       len(pd.read_sql_query("SELECT * FROM variants", conn)), "variants,",
       len(pd.read_sql_query("SELECT * FROM expression", conn)), "expression rows")
-```python
+```
 
 ## Basic Queries: SELECT, WHERE, ORDER BY
 
@@ -136,7 +136,7 @@ df = pd.read_sql_query("""
     ORDER BY length DESC
 """, conn)
 print(df)
-```python
+```
 
 ## Aggregate Functions and GROUP BY
 
@@ -163,7 +163,7 @@ df = pd.read_sql_query("""
     ORDER BY avg_tumor_tpm DESC
 """, conn)
 print(df)
-```python
+```
 
 ## JOIN Operations
 
@@ -193,7 +193,7 @@ df = pd.read_sql_query("""
     ORDER BY n_variants DESC
 """, conn)
 print(df)
-```python
+```
 
 ## Subqueries
 
@@ -214,7 +214,7 @@ df = pd.read_sql_query("""
 """, conn)
 print('Highly expressed tumor genes with pathogenic variants:')
 print(df)
-```python
+```
 
 ## CREATE, INSERT, UPDATE, DELETE
 
@@ -251,7 +251,7 @@ df = pd.read_sql_query("""
     ORDER BY d.padj
 """, conn)
 print(df)
-```python
+```
 
 # Your query here
 df = pd.read_sql_query("""
@@ -262,7 +262,7 @@ print(df)
 
 **Exercise 2** (★★) — Calculate the fold change (tumor AVG TPM / normal AVG TPM) for each gene in breast tissue. Return gene symbol and fold change, ordered by fold change descending.
 
-```python
+```
 # Your query here
 df = pd.read_sql_query("""
     -- fill query
@@ -272,7 +272,7 @@ print(df)
 
 **Exercise 3** (★★) — Find genes that have more than one pathogenic variant. Return gene symbol and the count of pathogenic variants, ordered by count descending.
 
-```python
+```
 # Your query here
 df = pd.read_sql_query("""
     -- fill query
@@ -280,7 +280,7 @@ df = pd.read_sql_query("""
 print(df)
 
 conn.close()
-```python
+```
 
 ## Pitfalls
 

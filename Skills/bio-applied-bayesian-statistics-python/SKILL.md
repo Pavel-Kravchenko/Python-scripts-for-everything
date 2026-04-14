@@ -54,7 +54,7 @@ except ImportError:
 
 print(f"Dataset: {penguins.shape}, species: {penguins['species'].unique()}")
 penguins.head()
-```python
+```
 
 ## Frequentist vs Bayesian Framing
 
@@ -104,7 +104,7 @@ try:
 except Exception as e:
     print(f"PyMC sampling: {e}")
     print("(PyMC requires correct installation; showing structure only)")
-```python
+```
 
 ## Prior Specification
 
@@ -154,7 +154,7 @@ try:
     print("Weakly informative priors keep predicted values near the data range.")
 except Exception as e:
     print(f"Prior predictive check skipped: {e}")
-```python
+```
 
 ## Multiple Regression and Collinearity
 
@@ -184,7 +184,7 @@ vif = pd.DataFrame({
 print("\nVariance Inflation Factors:")
 print(vif.to_string(index=False))
 print("\nVIF > 5 suggests collinearity; > 10 is problematic")
-```python
+```
 
 ## Model Comparison: LOO-CV and WAIC
 
@@ -227,7 +227,7 @@ try:
 except Exception as e:
     print(f"Model comparison skipped: {e}")
     print("Pattern: az.compare({'m1': idata_m1, 'm2': idata_m2}, ic='loo')")
-```python
+```
 
 ## Linear Mixed-Effects Models
 
@@ -264,7 +264,7 @@ try:
 except Exception as e:
     print(f"Mixed-effects skipped: {e}")
     print("Pattern: bmb.Model('y ~ x + (1|group)', data=df).fit(draws=1000)")
-```python
+```
 
 ## Generalized Linear Models (GLMs)
 

@@ -154,7 +154,7 @@ print(f"Total reads: {total_reads:,}")
 print(f"Top clone frequency: {clonotype_table['frequency'].max():.1%}")
 print()
 print(clonotype_table[['clone_id', 'v_call', 'j_call', 'junction_aa', 'duplicate_count', 'frequency']].head(10).to_string(index=False))
-```python
+```
 
 ## Clonotype Diversity Metrics
 
@@ -259,7 +259,7 @@ plt.tight_layout()
 plt.savefig('tcr_repertoire_analysis.png', dpi=120, bbox_inches='tight')
 plt.show()
 print("Figure saved.")
-```python
+```
 
 
 ## Clonotype Diversity Metrics

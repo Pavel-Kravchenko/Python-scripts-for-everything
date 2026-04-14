@@ -44,7 +44,7 @@ humann_renorm_table \
     --input humann3_out/sample_pathabundance.tsv \
     --output humann3_out/sample_pathabundance_cpm.tsv \
     --units cpm
-```python
+```
 
 ## Output Interpretation and Normalization
 
@@ -55,7 +55,7 @@ humann_renorm_table \
 PYRUVATE-FERMENTATION-PWY: PWY|unclassified     152.3
 PYRUVATE-FERMENTATION-PWY: Bacteroides vulgatus  89.1
 PYRUVATE-FERMENTATION-PWY: Faecalibacterium      43.7
-```python
+```
 
 **Pathway coverage vs abundance:** A pathway can have high coverage (most reactions present) but low abundance (few reads). Coverage > 1 is not possible — it is capped at 1 (all reactions represented).
 
@@ -73,7 +73,7 @@ humann_split_stratified_table \
     --input all_samples_pathabundance.tsv \
     --output humann3_stratified/
 # Creates: ..._unstratified.tsv (pathways  samples) and ..._stratified.tsv
-```python
+```
 
 ```python
 import numpy as np
@@ -147,7 +147,7 @@ axes[1].legend()
 
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ## Differential Pathway Analysis with MaAsLin2
 
@@ -177,7 +177,7 @@ fit <- Maaslin2(
   min_prevalence = 0.1,                # exclude pathways absent in > 90% of samples
   min_abundance  = 0.0001
 )
-```python
+```
 
 **Output:** `significant_results.tsv` with columns:
 - `feature`: pathway name
@@ -259,7 +259,7 @@ axes[1].set_title('Significant differential pathways')
 
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ## Gene Family Analysis and AMR Detection
 
@@ -277,7 +277,7 @@ amrfinder \
     --output amr_report.txt \
     --threads 8 \
     --plus                    # include virulence, stress resistance genes
-```python
+```
 
 **Resistance gene categories in CARD (Comprehensive Antibiotic Resistance Database):**
 - **Intrinsic**: naturally present in organisms (e.g., AmpC in E. coli)

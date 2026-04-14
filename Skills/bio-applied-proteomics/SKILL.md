@@ -1,6 +1,6 @@
 ---
 name: bio-applied-proteomics
-description: package and adapt the example to match the actual API rather than retrying.
+description: "Proteomics data analysis — peptide identification, quantification, PTM analysis, and protein inference workflows"
 tool_type: python
 primary_tool: Matplotlib
 ---
@@ -23,7 +23,7 @@ from collections import Counter, defaultdict
 plt.rcParams['figure.figsize'] = (12, 5)
 plt.rcParams['font.size'] = 12
 np.random.seed(42)
-```python
+```
 
 ## Part 1: Mass Spectrometry for Proteomics
 
@@ -80,7 +80,7 @@ Where $m_{\text{res},i}$ is the **residue mass** of amino acid $i$ (monoisotopic
 H-AA1-AA2-AA3-AA4-AA5-OH
           ↑    ↑    ↑
           y3   y2   y1
-```python
+```
 
 The mass difference between adjacent b (or y) ions directly reveals the **residue mass** of the intervening amino acid, enabling de novo sequencing. For example: $m_{b_3} - m_{b_2} = m_{\text{res},3}$.
 
@@ -132,7 +132,7 @@ print()
 print(f"{'Ion':<8} {'m/z (b)':<12} {'Ion':<8} {'m/z (y)':<12}")
 for i, (bi, yi) in enumerate(zip(b, y), 1):
     print(f"b{i:<7} {bi:<12.4f} y{len(peptide)-i:<7} {yi:<12.4f}")
-```python
+```
 
 ```python
 # Visualize a simulated MS/MS spectrum
@@ -165,7 +165,7 @@ ax.legend(handles=[b_patch, y_patch])
 ax.set_ylim(0, 130)
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ## Part 2: Protein Identification and Database Searching
 
@@ -189,7 +189,7 @@ MS/MS spectra
 Peptide-spectrum matches (PSMs)
     ↓  (7) FDR filtering → peptide / protein lists
 Quantitative protein abundance table
-```python
+```
 
 **Trypsin** is the enzyme of choice: it cleaves specifically on the C-terminal side of lysine (K) and arginine (R), **except when followed by proline (P)**. This generates peptides of 6–25 residues — the optimal size range for LC-MS/MS.
 
@@ -241,7 +241,7 @@ print(f"{'Peptide':<30} {'Mass (Da)':<12} {'Length':<8}")
 print("-" * 52)
 for pep, mass in sorted(masses, key=lambda x: -x[1]):
     print(f"{pep:<30} {mass:<12.2f} {len(pep):<8}")
-```python
+```
 
 ### Peptide Mass Fingerprinting (PMF)
 

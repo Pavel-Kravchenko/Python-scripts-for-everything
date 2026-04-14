@@ -65,7 +65,7 @@ mageck count \
     --fastq plasmid.fastq.gz d14_rep1.fastq.gz d14_rep2.fastq.gz d14_rep3.fastq.gz \
     --sgrna-len 20 \                      # sgRNA length to extract from read
     --norm-method median                  # normalization: median, total, or none
-```python
+```
 
 **Library file format** (CSV or space-delimited):
 
@@ -170,7 +170,7 @@ count_df = pd.DataFrame({
 
 print(f"\nCount table shape: {count_df.shape}")
 print(count_df.head(8).to_string(index=False))
-```python
+```
 
 ## MAGeCK test: Robust Rank Aggregation
 

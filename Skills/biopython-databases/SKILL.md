@@ -50,7 +50,7 @@ from Bio import SeqIO, Entrez, AlignIO, Align
 from Bio.SeqUtils import gc_fraction, molecular_weight
 
 Entrez.email = "your.email@example.com"  # NCBI requires this — set before any E-utility call
-```python
+```
 
 ### Seq Object
 ```python
@@ -70,7 +70,7 @@ molecular_weight(protein, seq_type="protein")
 # Mutable (in-place editing)
 m = MutableSeq("ATGCGATCG")
 m[3] = "T"  # point mutation
-```python
+```
 
 ### SeqRecord Object
 ```python
@@ -93,7 +93,7 @@ record.letter_annotations["phred_quality"] = [30, 28, 35, ...]
 
 # Extract subsequence from feature
 cds_seq = feature.location.extract(record.seq)
-```python
+```
 
 ### SeqIO: Reading & Writing
 ```python
@@ -113,7 +113,7 @@ d["INS_HUMAN"].seq
 
 # One-liner format conversion (returns count)
 count = SeqIO.convert("reads.fastq", "fastq", "reads.fasta", "fasta")
-```python
+```
 
 ## Code Templates
 
@@ -132,7 +132,7 @@ handle = Entrez.efetch(db="nucleotide", id="NM_000207.3",
                        rettype="gb", retmode="text")
 record = SeqIO.read(handle, "genbank")
 handle.close()
-```python
+```
 
 ### Batch fetch (comma-separated IDs)
 ```python
@@ -142,7 +142,7 @@ handle = Entrez.efetch(db="nucleotide", id=",".join(accessions),
 records = list(SeqIO.parse(handle, "fasta"))
 handle.close()
 SeqIO.write(records, "batch.fasta", "fasta")
-```python
+```
 
 ### elink: cross-database navigation
 ```python
@@ -156,7 +156,7 @@ protein_ids = [link["Id"] for linkset in link_results
 
 # Gene - PubMed (gene ID 7157  TP53)
 handle = Entrez.elink(dbfrom="gene", db="pubmed", id="7157")
-```python
+```
 
 ### Extract CDS and translate from GenBank record
 ```python
@@ -170,7 +170,7 @@ for feature in record.features:
         cds_seq = feature.location.extract(record.seq)
         protein = cds_seq.translate(to_stop=True)
         print(feature.qualifiers.get("product", ["?"])[0], protein)
-```python
+```
 
 ### UniProt REST API
 ```python
@@ -191,7 +191,7 @@ def search_uniprot(query, limit=5):
         return json.loads(r.read())
 
 results = search_uniprot("insulin AND reviewed:true AND organism_id:9606")
-```python
+```
 
 ### PDB REST API
 ```python
@@ -220,7 +220,7 @@ def search_pdb(query_text, max_results=5):
                                  headers={"Content-Type": "application/json"})
     with urllib.request.urlopen(req) as r:
         return json.loads(r.read())
-```python
+```
 
 ### Ensembl REST API
 ```python
@@ -244,7 +244,7 @@ def ensembl_sequence(ensembl_id, seq_type="cds"):
 def get_orthologs(gene_id, target_species):
     ep = f"/homology/id/{gene_id}?target_species={target_species}&type=orthologues"
     return ensembl_get(ep)
-```python
+```
 
 ### Pairwise alignment
 ```python
@@ -253,7 +253,7 @@ aligner.mode = "global"   # Needleman-Wunsch; "local" = Smith-Waterman
 alignments = aligner.align(seq1, seq2)
 print(alignments[0].score)
 print(alignments[0])
-```python
+```
 
 ### ORF finder (all 6 frames)
 ```python
@@ -269,7 +269,7 @@ def find_orfs(seq, min_length=100):
                                 orfs.append((strand, frame, i, j+3, s[i:j+3]))
                             break
     return orfs
-```python
+```
 
 ## Pitfalls
 - **Always set `Entrez.email`** before any E-utility call; NCBI will block unidentified clients.

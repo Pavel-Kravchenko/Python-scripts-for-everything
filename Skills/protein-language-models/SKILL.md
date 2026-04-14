@@ -50,7 +50,7 @@ token_rep = results['representations'][33]
 # Per-sequence embeddings: mean-pool over sequence length
 seq_embeddings = token_rep[:, 1:-1, :].mean(dim=1).numpy()  # exclude BOS/EOS tokens
 print(seq_embeddings.shape)  # (2, 1280)
-```python
+```
 
 ## ESMFold Structure Prediction
 
@@ -76,7 +76,7 @@ with torch.no_grad():
     output_dict = model.infer(sequence)
 plddt = output_dict['plddt'].squeeze().cpu().numpy()  # per-residue confidence
 print(f'Mean pLDDT: {plddt.mean():.2f}')  # > 70 = confident, > 90 = very confident
-```python
+```
 
 ## Zero-Shot Mutation Scoring (ESM-1v)
 
@@ -116,7 +116,7 @@ def score_mutation(wt_seq, position, wt_aa, mut_aa):
 wt_sequence = 'MDLSALRVEEVQNVINAMQKILECPICLELIKEPVSTKCDHIFCKFCMLKLLNQKKGPSQCPLCKNDITKRSLQESTRFSQLVEELLKIICAFQLDTGLEYANSYNFAKKENNSPEHLKDEVSIIQSMGYRNACKESMLCTHSSLNFFPVSLNLNPFQNNRNQLQNELREQLKLRQLEMDLNRFLSEYRSSMSLNHLENSSAAQLKLMQQKELNQIFQELNFQNQNQNQNQNQ'
 delta_llr = score_mutation(wt_sequence, 1, 'D', 'E')  # D2E mutation
 print(f'Delta log-likelihood: {delta_llr:.3f}')  # negative = destabilizing
-```python
+```
 
 ## Contact Map Prediction from Attention
 
@@ -139,7 +139,7 @@ contacts = results['contacts'][0]  # (L, L) contact map
 plt.matshow(contacts.numpy(), cmap='RdYlBu_r')
 plt.title('ESM2 Contact Prediction')
 plt.colorbar()
-```python
+```
 
 ## ESM-IF1 Inverse Folding
 
@@ -158,7 +158,7 @@ coords, seq = esm.inverse_folding.util.extract_coords_from_structure(structure)
 # Sample diverse sequences for the given backbone
 sampled_seqs = model.sample(coords, temperature=1.0, partial_seq=None)
 # temperature: 1.0diverse, 0.1conservative (close to native)
-```python
+```
 
 ## Pitfalls
 - **Padding**: ESM pads to max_len in batch; use attention mask for accurate mean-pooling

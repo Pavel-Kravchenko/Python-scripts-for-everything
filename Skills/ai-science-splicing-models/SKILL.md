@@ -43,7 +43,7 @@ def acceptor_score(window: str) -> float:
     score = 0.7 if center == "AG" else 0.1
     score += 0.02 * window.count("T")
     return min(score, 1.0)
-```python
+```
 
 ## Compute Splice Delta Scores (DS)
 
@@ -84,7 +84,7 @@ for alt in "ACGT":
     if alt == example[pos]:
         continue
     print(example[pos], ">", alt, splice_deltas(example, pos, alt))
-```python
+```
 
 ## Rank Candidate Variants
 
@@ -107,7 +107,7 @@ ranked.sort(key=lambda x: x[3], reverse=True)
 
 for r in ranked:
     print(f"pos={r[0]} {r[1]}>{r[2]} maxDS={r[3]:.3f} details={r[4]}")
-```python
+```
 
 ## Splice-Specialized vs Multi-Task Outputs
 
@@ -130,7 +130,7 @@ for v in demo:
 
 for v in sorted(demo, key=lambda d: d["priority"], reverse=True):
     print(v)
-```python
+```
 
 ## Summary
 

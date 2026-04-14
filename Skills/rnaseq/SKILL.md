@@ -22,7 +22,7 @@ FASTQ → QC (FastQC/fastp) → Alignment (STAR/HISAT2) → Count (featureCounts
                                   OR
                           → Pseudoalignment (Salmon/kallisto) → tximport
 → Count matrix (genes × samples) → Normalization → DESeq2/edgeR → Volcano/MA plots → GSEA
-```python
+```
 
 ### Normalization Formulas
 | Unit | Formula | Use case |
@@ -68,7 +68,7 @@ def deseq2_size_factors(count_matrix: pd.DataFrame) -> pd.Series:
                       for s in filtered.columns})
 
 normalized = counts_df.div(deseq2_size_factors(counts_df), axis=1)
-```python
+```
 
 ### TPM from Raw Counts
 ```python
@@ -76,7 +76,7 @@ def counts_to_tpm(counts: np.ndarray, lengths: np.ndarray) -> np.ndarray:
     """counts: 1-D array per sample; lengths: gene lengths in bp."""
     rate = counts / lengths          # normalize by gene length
     return rate / rate.sum() * 1e6  # scale to 1 M
-```python
+```
 
 ### Simple DE (BH-corrected Mann-Whitney, Python)
 ```python
@@ -102,7 +102,7 @@ def simple_de(count_df, ctrl_samples, treat_samples):
     df['padj'] = 0.0
     df.iloc[idx, df.columns.get_loc('padj')] = adj
     return df.sort_values('pvalue')
-```python
+```
 
 
 ## Code Templates
@@ -117,7 +117,7 @@ dds <- DESeq(dds)
 res <- results(dds, contrast = c("condition", "Treatment", "Control"))
 res_shrunk <- lfcShrink(dds, coef = "condition_Treatment_vs_Control", type = "apeglm")
 sig <- subset(res_shrunk, padj < 0.05 & abs(log2FoldChange) > 1)
-```python
+```
 
 ### PyDESeq2 (Python — production workflow)
 ```python
@@ -130,7 +130,7 @@ dds.deseq2()
 stat_res = DeseqStats(dds, contrast=["condition", "Treatment", "Control"])
 stat_res.summary()
 results_df = stat_res.results_df
-```python
+```
 
 ### STAR + featureCounts (shell)
 ```bash
@@ -144,14 +144,14 @@ STAR --genomeDir star_index/ --readFilesIn R1.fastq R2.fastq \
 
 # Count
 featureCounts -a genes.gtf -o counts.txt -T 4 -p --countReadPairs *.bam
-```python
+```
 
 ### Salmon (alignment-free quantification)
 ```bash
 salmon index -t transcriptome.fa -i salmon_index
 salmon quant -i salmon_index -l A -1 R1.fastq -2 R2.fastq \
              -o sample_quant --validateMappings
-```python
+```
 
 ### Sample PCA (Python)
 ```python
@@ -172,7 +172,7 @@ def rnaseq_pca(norm_counts: pd.DataFrame, metadata: pd.DataFrame,
     ax.set_xlabel(f'PC1 ({ev[0]:.1%})')
     ax.set_ylabel(f'PC2 ({ev[1]:.1%})')
     ax.legend(); plt.tight_layout(); plt.show()
-```python
+```
 
 ### Volcano Plot (Python)
 ```python
@@ -195,7 +195,7 @@ def volcano_plot(results_df: pd.DataFrame,
     plt.ylabel('-log₁₀(adj. p-value)')
     plt.title(f'Volcano — {sig.sum()} significant genes')
     plt.tight_layout(); plt.show()
-```python
+```
 
 
 ## Pitfalls

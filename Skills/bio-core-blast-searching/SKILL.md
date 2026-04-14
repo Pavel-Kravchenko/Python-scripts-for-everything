@@ -42,7 +42,7 @@ print("-" * 100)
 for prog, (query, db, use) in programs.items():
     print(f"{prog:<10} {query:<30} {db:<30} {use}")
 print("\nProceed to Section 1.")
-```python
+```
 
 
 ## How BLAST Works: The Seed-and-Extend Heuristic
@@ -63,7 +63,7 @@ Neighborhood (score >= T=11 with BLOSUM62):
   LEW (exact, score=14), LEF (score=12), LEY (score=11), LKW (score=11), ...
 
 This allows BLAST to find seeds even when the database sequence differs slightly.
-```python
+```
 
 ### Phase 2: Extend Seeds (Ungapped Extension)
 
@@ -176,7 +176,7 @@ print()
 print("The X-drop extension terminates when the running score drops more")
 print("than X below the best score seen — avoiding wasted computation")
 print("on sequences that diverge after a good seed.")
-```python
+```
 
 
 ## BLAST Program Variants
@@ -252,7 +252,7 @@ print("=" * 75)
 for qt, dt, sens, task in scenarios:
     rec = recommend_blast(qt, dt, sens)
     print(f"{task:<35} {rec}")
-```python
+```
 
 ## Pitfalls
 

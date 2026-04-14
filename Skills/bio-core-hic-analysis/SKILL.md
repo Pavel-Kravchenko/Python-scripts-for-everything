@@ -61,7 +61,7 @@ except ImportError:
 import urllib.request, os
 
 plt.rcParams.update({"figure.dpi": 120, "axes.spines.top": False, "axes.spines.right": False})
-```python
+```
 
 ## Loading Hi-C Data with cooler
 
@@ -112,7 +112,7 @@ print(f"Chromosomes: {clr.chromnames}")
 print(f"Matrix shape: {clr.shape}")
 print(f"\nBin table (first 5 rows):")
 print(clr.bins()[:5])
-```python
+```
 
 ## Visualizing the Contact Matrix
 
@@ -143,7 +143,7 @@ axes[1].set_xlabel("Genomic bin")
 plt.tight_layout()
 plt.show()
 print(f"Matrix shape: {mat.shape} | Max: {np.nanmax(mat):.0f} | NaN bins: {np.isnan(mat).sum()}")
-```python
+```
 
 ## Contact Decay Curve (P(s) Curve)
 
@@ -181,7 +181,7 @@ ax.set_title("Contact decay curve (P(s))")
 ax.grid(True, alpha=0.3, which="both")
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ## A/B Compartment Detection
 
@@ -219,7 +219,7 @@ try:
 except Exception as e:
     print(f"Eigenvector computation skipped for synthetic data: {e}")
     print("In real data: cooltools.eigs_cis(clr, view_df=view_df, n_eigs=3)")
-```python
+```
 
 ## Insulation Score and TAD Boundary Detection
 
@@ -257,7 +257,7 @@ try:
 except Exception as e:
     print(f"Insulation score skipped for synthetic data: {e}")
     print("In real data: cooltools.insulation(clr, window_bp=[200_000], view_df=view_df)")
-```python
+```
 
 ## Pitfalls
 

@@ -95,7 +95,7 @@ for i, t in enumerate(types):
 
 expr = pd.DataFrame(X, columns=genes)
 expr.head(3)
-```python
+```
 
 ## Rank-token style embedding
 
@@ -116,7 +116,7 @@ def toy_cell_embedding(token_tuple, n_genes=30):
 
 E = np.vstack([toy_cell_embedding(t, n_genes=len(genes)) for t in tokens])
 print('Embedding matrix:', E.shape)
-```python
+```
 
 ## Cell-type annotation via nearest centroid
 
@@ -138,7 +138,7 @@ def predict_one(vec):
 pred = np.array([predict_one(E[i]) for i in test])
 acc = float((pred == y[test]).mean())
 print('Annotation accuracy:', round(acc, 3))
-```python
+```
 
 ## Perturbation prediction prototype
 
@@ -157,7 +157,7 @@ cell0 = expr.iloc[0].values
 for p in ['KO_G02', 'KO_G09', 'CYTOKINE_X']:
     pred_expr = perturb_predict(cell0, p)
     print(p, 'delta_mean=', round(float((pred_expr - cell0).mean()), 4))
-```python
+```
 
 ## Scaling to atlas data
 

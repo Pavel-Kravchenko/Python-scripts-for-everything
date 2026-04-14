@@ -64,7 +64,7 @@ import warnings
 warnings.filterwarnings("ignore")
 plt.rcParams.update({"figure.dpi":120,"axes.spines.top":False,"axes.spines.right":False})
 print("Libraries loaded.")
-```python
+```
 
 ```python
 rng = np.random.default_rng(42)
@@ -92,7 +92,7 @@ positions = np.concatenate([rng.integers(1e6, 250e6, 1000),
                             rng.integers(1e6, 198e6, 1000)])
 snp_df = pd.DataFrame({"chrom": chrom_ids, "pos": positions, "maf": mafs})
 print(snp_df.head())
-```python
+```
 
 ```python
 def qc_snps(G, snp_df, min_maf=0.01, min_call_rate=0.95):
@@ -113,7 +113,7 @@ def qc_snps(G, snp_df, min_maf=0.01, min_call_rate=0.95):
 
 G_qc, snp_qc, keep_mask = qc_snps(G, snp_df)
 print(f"\nFinal dataset: {G_qc.shape[0]} samples × {G_qc.shape[1]} SNPs")
-```python
+```
 
 ```python
 G_std = StandardScaler().fit_transform(G_qc)
@@ -131,7 +131,7 @@ axes[1].bar(range(1,11), pca.explained_variance_ratio_*100, color="steelblue")
 axes[1].set_xlabel("PC"); axes[1].set_ylabel("% variance explained")
 axes[1].set_title("PCA scree plot")
 plt.tight_layout(); plt.show()
-```python
+```
 
 ```python
 # Per-SNP logistic regression with PC covariates (additive model)
@@ -168,7 +168,7 @@ snp_qc["pval"] = pvals
 snp_qc["-log10p"] = -np.log10(snp_qc["pval"].clip(1e-300))
 print(f"SNPs with p < 5e-8: {(pvals < 5e-8).sum()}")
 print(snp_qc.nsmallest(5, "pval")[["chrom","pos","-log10p","pval"]])
-```python
+```
 
 ```python
 fig, axes = plt.subplots(2, 1, figsize=(14, 8))
@@ -198,7 +198,7 @@ axes[1].set_xlabel("Expected -log₁₀(p)"); axes[1].set_ylabel("Observed -log�
 axes[1].set_title(f"QQ plot  (λ = {lam:.3f})")
 plt.tight_layout(); plt.show()
 print(f"Genomic inflation factor λ = {lam:.3f}  (ideal: 1.0; > 1.1 suggests confounding)")
-```python
+```
 
 ## LD and Clumping
 
@@ -226,7 +226,7 @@ hits = snp_qc[snp_qc["pval"] < 5e-8].copy()
 print(f"\nSignificant hits (p < 5e-8): {len(hits)}")
 if len(hits) > 0:
     print(hits[["chrom","pos","pval"]].to_string(index=False))
-```python
+```
 
 ## Fine-mapping Concept
 
@@ -258,7 +258,7 @@ def query_gwas_catalog(rsid):
 results = query_gwas_catalog("rs429358")
 for pval, traits in results:
     print(f"p={pval}: {', '.join(traits[:2])}")
-```python
+```
 
 ## Summary: GWAS Checklist
 

@@ -47,7 +47,7 @@ picard MarkDuplicates I=sample.bam O=sample_dedup.bam M=metrics.txt REMOVE_DUPLI
 # Call narrow peaks (TF)
 macs3 callpeak -t sample_dedup.bam -c input_dedup.bam \
     -f BAMPE -g hs -n sample --outdir peaks/ -q 0.05
-```python
+```
 
 **Pattern 2: deepTools visualization**
 ```bash
@@ -58,7 +58,7 @@ bamCoverage -b sample_dedup.bam -o sample.bw --normalizeUsing RPKM --binSize 10
 computeMatrix reference-point -S sample.bw -R genes.bed \
     --referencePoint TSS -b 3000 -a 3000 -o matrix.gz
 plotHeatmap -m matrix.gz -out heatmap.png --colorMap RdYlBu_r
-```python
+```
 
 **Pattern 3: DiffBind differential binding (R)**
 ```r
@@ -71,7 +71,7 @@ dba <- dba.contrast(dba, categories=DBA_CONDITION, minMembers=2)
 dba <- dba.analyze(dba)
 db_peaks <- dba.report(dba)
 dba.plotVolcano(dba)
-```python
+```
 
 **Pattern 4: ChIPseeker peak annotation (R)**
 ```r
@@ -86,7 +86,7 @@ plotDistToTSS(anno)
 
 # Get promoter peaks (within 2 kb of TSS)
 promo_peaks <- as.data.frame(anno)[abs(as.data.frame(anno)$distanceToTSS) < 2000, ]
-```python
+```
 
 ## Quality Metrics
 
@@ -115,7 +115,7 @@ bedtools intersect -v -a peaks.narrowPeak -b encode_blacklist.bed > peaks_filter
 # Minimum recommended depth
 # TF ChIP-seq: 20M uniquely mapped reads
 # Histone ChIP-seq: 40-80M uniquely mapped reads
-```python
+```
 
 ## Code Templates
 
@@ -133,7 +133,7 @@ peaks = read_narrowpeak('sample_peaks.narrowPeak')
 # Filter by q-value (column is -log10 q-value 1.3  q0.05)
 sig_peaks = peaks[peaks['qvalue'] >= 1.3]
 print(f"{len(sig_peaks)} significant peaks")
-```python
+```
 
 ### Overlap Two Peak Sets
 ```python
@@ -147,7 +147,7 @@ shared = a.intersect(b, f=0.5, r=True)
 a_only  = a.intersect(b, f=0.5, r=True, v=True)
 b_only  = b.intersect(a, f=0.5, r=True, v=True)
 print(f"Shared: {len(shared)}, A-only: {len(a_only)}, B-only: {len(b_only)}")
-```python
+```
 
 ### Compute FRiP Score
 ```python
@@ -165,7 +165,7 @@ def frip_score(bam, peaks_bed):
 
 frip = frip_score('sample_dedup.bam', 'sample_peaks.narrowPeak')
 print(f"FRiP = {frip:.3f}  ({'PASS' if frip >= 0.05 else 'FAIL'} for TF)")
-```python
+```
 
 ### Load BigWig Signal in Python
 ```python
@@ -177,7 +177,7 @@ bw = pyBigWig.open('sample.bw')
 signal = bw.stats('chr1', 1_000_000, 1_100_000, type='mean', nBins=100)
 signal = np.array([v if v is not None else 0 for v in signal])
 bw.close()
-```python
+```
 
 ## Related Skills
 - `ngs-variant-calling` — FASTQ QC, alignment with BWA, samtools operations

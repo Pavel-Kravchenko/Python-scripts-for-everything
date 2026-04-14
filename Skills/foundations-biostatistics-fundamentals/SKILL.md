@@ -40,7 +40,7 @@ np.random.seed(42)
 # Plot styling
 plt.rcParams['figure.figsize'] = (10, 4)
 plt.rcParams['figure.dpi'] = 100
-```python
+```
 
 
 ## Populations vs. Samples
@@ -113,7 +113,7 @@ sem = np.std(expression, ddof=1) / np.sqrt(len(expression))
 print(f"\nStandard Error of Mean: {sem:.2f}  (SD / sqrt(n))")
 print(f"  This tells us how precisely we know the mean.")
 print(f"  n = {len(expression)}, so SEM << SD")
-```python
+```
 
 
 ```python
@@ -141,7 +141,7 @@ axes[2].set_title('Q-Q Plot (deviation at tails = outliers)')
 
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ### Understanding the Boxplot
 
@@ -185,7 +185,7 @@ ax.legend()
 ax.set_xlim(-4, 4)
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ### Distributions Used in Bioinformatics
 
@@ -229,7 +229,7 @@ for ax in axes.flat:
 plt.suptitle('Distributions in Bioinformatics', fontsize=14, fontweight='bold', y=1.02)
 plt.tight_layout()
 plt.show()
-```python
+```
 
 **Why Negative Binomial for RNA-seq?**
 

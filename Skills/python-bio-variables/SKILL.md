@@ -1,6 +1,6 @@
 ---
 name: python-bio-variables
-description: package and adapt the example to match the actual API rather than retrying.
+description: "Python variables and data types for bioinformatics — naming, mutability, references, numeric and string types"
 tool_type: python
 primary_tool: Python
 ---
@@ -20,7 +20,7 @@ primary_tool: Python
 
 ```python
 variable_name = value
-```python
+```
 
 
 ### Naming rules and conventions
@@ -52,7 +52,7 @@ antisense_strand = "TACGCT"
 
 sense_strand, antisense_strand = antisense_strand, sense_strand
 print(f"After swap -- sense: {sense_strand}, antisense: {antisense_strand}")
-```python
+```
 
 ### Variables are references, not boxes
 
@@ -64,7 +64,7 @@ print(f"id of sequence: {id(sequence)}")
 sequence = sequence + "AAA"
 print(f"id after concatenation: {id(sequence)}")
 print(f"New value: {sequence}")
-```python
+```
 
 
 ## Data Types Overview
@@ -77,7 +77,7 @@ float       0.487                      GC content, E-value, p-value
 str         "ATGCGA"                   DNA/RNA/protein sequences, gene names
 bool        True / False               Is the sequence valid? Has a stop codon?
 NoneType    None                       Missing data, function with no return
-```python
+```
 
 Use `type()` to check a value's type.
 
@@ -98,7 +98,7 @@ chromosome_number = 23                # human haploid chromosome count
 print(f"Human genome:  {sequence_length:,} bp")   # comma-separated formatting
 print(f"Protein-coding genes: ~{num_genes:,}")
 print(f"Target coverage: {read_depth}x")
-```python
+```
 
 
 ## Floating-Point Numbers (`float`)
@@ -118,7 +118,7 @@ print(f"Melting temp: {melting_temp} C")
 print(f"E-value: {e_value}")
 print(f"E-value formatted: {e_value:.2e}")
 print(f"p-value: {p_value}")
-```python
+```
 
 ### Floating-point precision warning
 
@@ -143,7 +143,7 @@ MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGP
 DEAPRMPEAAPPVAPAPAAPTPAAPAPAPSWPLSSSVPSQKTYPQGLNGTVNLPGRNSFEV"""
 
 print(fasta_entry[:80] + "...")
-```python
+```
 
 ### String indexing
 
@@ -151,7 +151,7 @@ print(fasta_entry[:80] + "...")
 Index:    0   1   2   3   4   5   6   7
 Seq:      A   T   G   C   G   A   T   C
 Neg idx: -8  -7  -6  -5  -4  -3  -2  -1
-```python
+```
 
 
 ### String slicing
@@ -184,7 +184,7 @@ print(f"First codon positions: {first_positions}")  # AACGT
 # Reverse the sequence
 reversed_dna = dna[::-1]
 print(f"Reversed: {reversed_dna}")         # AATGGGCCCAAAGTA
-```python
+```
 
 ### String immutability
 
@@ -202,7 +202,7 @@ dna = "ATGCGATCG"
 rna = dna.replace("T", "U")    # DNA to RNA transcription
 print(f"DNA: {dna}")
 print(f"RNA: {rna}")
-```python
+```
 
 ```python
 # startswith() and endswith() -- check sequence boundaries
@@ -213,7 +213,7 @@ print(f"Ends with TAA (stop codon)?    {cds.endswith('TAA')}")
 # Check for any stop codon
 has_stop = cds.endswith(("TAA", "TAG", "TGA"))
 print(f"Ends with any stop codon?      {has_stop}")
-```python
+```
 
 ```python
 # split() and join() -- essential for parsing biological file formats
@@ -229,7 +229,7 @@ print(f"Entry name: {parts[2].split()[0]}")
 codons = ["ATG", "AAA", "CCC", "GGG", "TAA"]
 formatted = " - ".join(codons)
 print(f"\nCodons: {formatted}")
-```python
+```
 
 ```python
 # strip() -- remove whitespace (critical when reading files)
@@ -237,7 +237,7 @@ messy_line = "  ATGCGATCG  \n"
 clean = messy_line.strip()
 print(f"Before strip: '{messy_line}'")
 print(f"After strip:  '{clean}'")
-```python
+```
 
 ## Pitfalls
 

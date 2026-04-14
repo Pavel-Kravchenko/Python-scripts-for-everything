@@ -61,7 +61,7 @@ cfg = TrainConfig(
 )
 
 pd.Series(asdict(cfg))
-```python
+```
 
 ## Tracking setup templates
 
@@ -89,7 +89,7 @@ def simulate_training(epochs=5, base_train=2.2, base_eval=2.4, noise=0.03):
 
 history = simulate_training(epochs=8)
 history
-```python
+```
 
 ```python
 def best_epoch(df: pd.DataFrame):
@@ -98,7 +98,7 @@ def best_epoch(df: pd.DataFrame):
 
 ep, loss, acc = best_epoch(history)
 print(f'Best epoch = {ep}, eval_loss = {loss:.4f}, eval_acc = {acc:.4f}')
-```python
+```
 
 ## Ablation study design
 
@@ -130,12 +130,12 @@ for r in [8, 16, 32]:
 
 ablation_df = pd.DataFrame(rows).sort_values('eval_score', ascending=False)
 ablation_df.head(10)
-```python
+```
 
 ```python
 summary = ablation_df.groupby('lora_rank', as_index=False)['eval_score'].mean().sort_values('eval_score', ascending=False)
 summary
-```python
+```
 
 ## Run registry and experiment memory
 
@@ -152,7 +152,7 @@ registry = pd.DataFrame([
     {'run_id': 'r003', 'commit': 'ghi789', 'change': 'lr 5e-4',     'best_eval_loss': 0.741, 'best_eval_acc': 0.689},
 ])
 registry.sort_values('best_eval_loss')
-```python
+```
 
 ## Practical checklist for real training
 

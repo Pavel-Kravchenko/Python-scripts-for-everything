@@ -122,7 +122,7 @@ plt.colorbar(sc, ax=axes[2], label="Q score")
 plt.suptitle("ONT R10.4.1 — simulated read QC (5,000 reads)", fontweight="bold")
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ## Alignment with Minimap2
 
@@ -138,7 +138,7 @@ Key samtools flagstat fields for long-read BAMs:
   - mapped (%)             → primary mapped reads
   - supplementary          → chimeric/split reads (SV signatures)
   - paired-in-sequencing   → always 0 for long reads (single-end)
-```python
+```
 
 
 ## Pitfalls

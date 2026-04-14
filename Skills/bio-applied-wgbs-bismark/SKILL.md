@@ -95,7 +95,7 @@ bismark_genome_preparation /path/to/genome/hg38/
 
 # This creates CT_conversion/ and GA_conversion/ subdirectories
 # with Bowtie2 indices
-```python
+```
 
 ### Step 2: Quality trimming
 
@@ -104,7 +104,7 @@ Bisulfite-treated libraries require aggressive adapter trimming (Trim Galore wra
 ```bash
 trim_galore --paired --fastqc \
     sample_R1.fastq.gz sample_R2.fastq.gz
-```python
+```
 
 ### Step 3: Alignment
 
@@ -113,7 +113,7 @@ bismark --genome /path/to/genome/hg38/ \
     -1 sample_R1_val_1.fq.gz \
     -2 sample_R2_val_2.fq.gz \
     --output_dir bismark_output/
-```python
+```
 
 Key output: `sample_R1_val_1_bismark_bt2_pe.bam`
 
@@ -123,7 +123,7 @@ PCR duplicates are problematic in bisulfite sequencing because two reads mapping
 
 ```bash
 deduplicate_bismark -p sample_R1_val_1_bismark_bt2_pe.bam
-```python
+```
 
 ### Step 5: Methylation extraction
 
@@ -137,7 +137,7 @@ bismark_methylation_extractor \
     --cytosine_report \
     --genome_folder /path/to/genome/hg38/ \
     sample_R1_val_1_bismark_bt2_pe.deduplicated.bam
-```python
+```
 
 **Output file formats:**
 - `*.bismark.cov.gz`: One line per CpG — chromosome, start, end, % methylated, methylated count, unmethylated count
@@ -211,7 +211,7 @@ print(f"Total CpG sites simulated: {len(cpg_data):,}")
 print(f"\nPer-context summary:")
 print(cpg_data.groupby('context')['beta_from_counts'].describe().round(3))
 print(f"\nFormula:  beta = count_M / (count_M + count_U)")
-```python
+```
 
 ## The Beta Value: Quantifying Methylation
 
@@ -270,7 +270,7 @@ plt.tight_layout()
 plt.savefig('wgbs_methylation_overview.png', dpi=120, bbox_inches='tight')
 plt.show()
 print("Figure saved.")
-```python
+```
 
 ## Pitfalls
 

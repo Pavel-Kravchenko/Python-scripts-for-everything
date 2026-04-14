@@ -60,7 +60,7 @@ def simulate_genotypes(n_samples=1000, n_snps=5000, mafs=None, seed=42):
     freqs = np.column_stack([(1-p)**2, 2*p*(1-p), p**2])
     G = np.array([rng.choice([0,1,2], size=n_samples, p=freqs[j]) for j in range(n_snps)]).T
     return G, mafs
-```python
+```
 
 **Pattern 2: Genotype QC**
 ```python
@@ -70,7 +70,7 @@ def genotype_qc(G, min_maf=0.01, min_call_rate=0.95):
     call_rate = (G >= 0).mean(0)
     keep = (maf >= min_maf) & (call_rate >= min_call_rate)
     return G[:, keep], keep
-```python
+```
 
 **Pattern 3: PCA for stratification**
 ```python
@@ -82,7 +82,7 @@ def pca_stratification(G, n_components=10):
     pca = PCA(n_components=n_components)
     pcs = pca.fit_transform(G_std)
     return pcs, pca.explained_variance_ratio_
-```python
+```
 
 **Pattern 4: Per-SNP logistic regression**
 ```python
@@ -110,7 +110,7 @@ def gwas_logistic(G, phenotype, covariates=None):
         except Exception:
             pass
     return pvals
-```python
+```
 
 **Pattern 5: Manhattan plot**
 ```python
@@ -134,7 +134,7 @@ def manhattan_plot(df, chrom_col="chrom", pos_col="pos", pval_col="pval"):
     ax.set_xlabel("Chromosome"); ax.set_ylabel("-log₁₀(p)")
     ax.set_title("Manhattan plot"); ax.legend(frameon=False)
     return fig, ax
-```python
+```
 
 ## Code Templates
 
@@ -154,7 +154,7 @@ G_qc, keep = genotype_qc(G)
 pcs, _ = pca_stratification(G_qc)
 # 5. GWAS (demo on subset)
 pvals = gwas_logistic(G_qc[:, :200], phenotype, covariates=pcs[:, :5])
-```python
+```
 
 ## Pitfalls
 

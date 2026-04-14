@@ -71,7 +71,7 @@ im = ax2.imshow(pae, cmap='Greens_r', vmin=0, vmax=30)
 plt.colorbar(im, ax=ax2, label='Error (Å)')
 ax2.set(xlabel='Scored residue', ylabel='Aligned residue', title='PAE')
 plt.tight_layout()
-```python
+```
 
 **Pattern 2: ESMFold API prediction**
 ```python
@@ -85,7 +85,7 @@ response = requests.post(
 )
 with open('esmfold_pred.pdb', 'w') as f:
     f.write(response.text)
-```python
+```
 
 **Pattern 3: Download from AlphaFold DB**
 ```python
@@ -96,7 +96,7 @@ url = f'https://alphafold.ebi.ac.uk/files/AF-{uniprot_id}-F1-model_v4.pdb'
 pdb_text = requests.get(url).text
 with open(f'{uniprot_id}_alphafold.pdb', 'w') as f:
     f.write(pdb_text)
-```python
+```
 
 **Pattern 4: RMSD with Biopython**
 ```python
@@ -112,7 +112,7 @@ ca_ref  = [a for a in s2.get_atoms() if a.name == 'CA']
 n = min(len(ca_pred), len(ca_ref))
 sup.set_atoms(ca_ref[:n], ca_pred[:n])
 print(f'Cα RMSD: {sup.rms:.2f} Å')
-```python
+```
 
 **Pattern 5: RFdiffusion binder design**
 ```bash
@@ -130,7 +130,7 @@ python ProteinMPNN/protein_mpnn_run.py \
     --out_folder mpnn_seqs/ \
     --num_seq_per_target 8 \
     --sampling_temp 0.1
-```python
+```
 
 ## pLDDT Interpretation
 
@@ -176,7 +176,7 @@ def fetch_alphafold_pdbs(uniprot_ids, out_dir='af_structures', version=4):
     return out_dir
 
 fetch_alphafold_pdbs(['P00533', 'P04637', 'P01308'])
-```python
+```
 
 ### Extract Disordered Regions (pLDDT < 50)
 ```python
@@ -211,7 +211,7 @@ def get_disordered_regions(pdb_path, plddt_threshold=50):
 regions = get_disordered_regions('AF-P00533-F1-model_v4.pdb')
 for start, end in regions:
     print(f"Disordered: residues {start}–{end}")
-```python
+```
 
 ### TM-score and RMSD Comparison
 ```python
@@ -238,7 +238,7 @@ def compare_structures(pred_pdb, ref_pdb):
     return rmsd, sup
 
 rmsd, superimposer = compare_structures('predicted.pdb', 'crystal.pdb')
-```python
+```
 
 ## Related Skills
 - `structural-bioinformatics` — PDB format, secondary structure, molecular visualization

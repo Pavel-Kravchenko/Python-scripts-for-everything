@@ -120,7 +120,7 @@ print(f"  {N_CLOCK} CpGs have true age associations")
 print(f"  {N_CPGS - N_CLOCK} CpGs are noise")
 print(f"Age range: {chronological_ages.min():.0f}–{chronological_ages.max():.0f} years")
 print(f"\nTransformed age range: {transformed_ages.min():.2f}–{transformed_ages.max():.2f}")
-```python
+```
 
 ## Age Acceleration Analysis
 
@@ -252,7 +252,7 @@ plt.show()
 print("Clock MAE vs chronological age:")
 for name, mae in mae_vals.items():
     print(f"  {name:<12}: {mae:.2f} years")
-```python
+```
 
 ## Pitfalls
 

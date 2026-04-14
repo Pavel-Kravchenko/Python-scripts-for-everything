@@ -36,7 +36,7 @@ import numpy as np
 import pandas as pd
 
 np.random.seed(23)
-```python
+```
 
 ## Variant Triage Table
 
@@ -68,7 +68,7 @@ def structure_priority(row):
 
 variants["structure_priority"] = variants.apply(structure_priority, axis=1)
 variants.sort_values("structure_priority", ascending=False)
-```python
+```
 
 ## Which Structure Model to Use?
 
@@ -94,7 +94,7 @@ print(choose_structure_model(False, False, False))
 print(choose_structure_model(True, False, False))
 print(choose_structure_model(False, True, False))
 print(choose_structure_model(False, False, True))
-```python
+```
 
 ## Integrating Confidence with Variant Priority
 
@@ -114,7 +114,7 @@ merged["confidence_factor"] = (
 )
 merged["final_priority"] = merged["structure_priority"] * merged["confidence_factor"]
 merged.sort_values("final_priority", ascending=False)[["var", "gene", "structure_priority", "confidence_factor", "final_priority"]]
-```python
+```
 
 ## Practical Notes
 

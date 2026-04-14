@@ -38,7 +38,7 @@ FASTQ → QC (FastQC/fastp) → Alignment (STAR/HISAT2) → Count (featureCounts
                                   OR
                           → Pseudoalignment (Salmon/kallisto) → tximport
 → Count matrix (genes × samples) → Normalization → DESeq2/edgeR → Volcano/MA plots → GSEA
-```python
+```
 
 ### Normalization Formulas
 | Unit | Formula | Use case |
@@ -89,14 +89,14 @@ def deseq2_size_factors(count_matrix):
                       for s in filtered.columns})
 
 normalized = counts_df.div(deseq2_size_factors(counts_df), axis=1)
-```python
+```
 
 ### TPM from Raw Counts
 ```python
 def counts_to_tpm(counts, lengths):
     rate = counts / lengths          # normalize by gene length
     return rate / rate.sum() * 1e6  # scale to 1M
-```python
+```
 
 ### Shannon / Simpson (Python)
 ```python
@@ -107,14 +107,14 @@ def shannon_diversity(counts):
 def simpson_diversity(counts):
     p = counts[counts > 0] / counts[counts > 0].sum()
     return 1 - np.sum(p ** 2)
-```python
+```
 
 ### Bray-Curtis Distance
 ```python
 def bray_curtis(s1, s2):
     s1, s2 = np.array(s1, float), np.array(s2, float)
     return np.sum(np.abs(s1 - s2)) / np.sum(s1 + s2)
-```python
+```
 
 ### PCoA (Classical MDS) from Distance Matrix
 ```python
@@ -130,7 +130,7 @@ def pcoa(dm_df):
     prop = eigvals[pos] / eigvals[pos].sum()
     return pd.DataFrame(coords[:, :2], index=dm_df.index,
                         columns=['PC1', 'PC2']), prop
-```python
+```
 
 ### CpG Island Scanner
 ```python
@@ -144,7 +144,7 @@ def cpg_island_scanner(seq, window=200, step=1, gc_thresh=0.5, oe_thresh=0.6):
         if gc >= gc_thresh and oe >= oe_thresh:
             islands.append((i, i+window, gc, oe))
     return islands
-```python
+```
 
 ### PWM Construction and Scanning
 ```python
@@ -171,7 +171,7 @@ def scan_pwm(seq, pwm, threshold=0.0):
         if score >= threshold:
             hits.append((i, kmer, score))
     return hits
-```python
+```
 
 
 ## Code Templates
@@ -195,7 +195,7 @@ def simple_de(count_df, ctrl_samples, treat_samples):
     adj = np.minimum.accumulate((p[idx] * n / (np.arange(n)+1))[::-1])[::-1]
     df['padj'] = 0.0; df.iloc[idx, df.columns.get_loc('padj')] = adj
     return df.sort_values('pvalue')
-```python
+```
 
 ```r
 # R: production DESeq2 workflow
@@ -206,7 +206,7 @@ dds <- DESeq(dds)
 res <- results(dds, contrast=c("condition","Treatment","Control"))
 res_shrunk <- lfcShrink(dds, coef="condition_Treatment_vs_Control", type="apeglm")
 sig <- subset(res_shrunk, padj < 0.05 & abs(log2FoldChange) > 1)
-```python
+```
 
 ```python
 # Python: pydeseq2
@@ -217,7 +217,7 @@ dds.deseq2()
 stat_res = DeseqStats(dds, contrast=["condition","Treatment","Control"])
 stat_res.summary()
 results_df = stat_res.results_df
-```python
+```
 
 ### STAR + featureCounts (shell)
 ```bash
@@ -231,14 +231,14 @@ STAR --genomeDir star_index/ --readFilesIn R1.fastq R2.fastq \
 
 # Count
 featureCounts -a genes.gtf -o counts.txt -T 4 -p --countReadPairs *.bam
-```python
+```
 
 ### Salmon (alignment-free)
 ```bash
 salmon index -t transcriptome.fa -i salmon_index
 salmon quant -i salmon_index -l A -1 R1.fastq -2 R2.fastq \
              -o sample_quant --validateMappings
-```python
+```
 
 ### PERMANOVA (permutation test on distance matrix)
 ```python
@@ -257,7 +257,7 @@ def permanova(dm, grouping, n_perm=999):
     p = (sum(f_stat(np.random.permutation(groups)) >= obs
              for _ in range(n_perm)) + 1) / (n_perm + 1)
     return obs, p
-```python
+```
 
 ### TATA Box Detection
 ```python
@@ -265,7 +265,7 @@ import re
 def find_tata_boxes(seq, strict=True):
     pat = 'TATAAA' if strict else r'TATA[AT]A[AT]'
     return [(m.start(), m.group()) for m in re.finditer(pat, seq.upper())]
-```python
+```
 
 
 ## Pitfalls

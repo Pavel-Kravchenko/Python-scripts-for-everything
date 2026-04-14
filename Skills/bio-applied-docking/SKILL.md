@@ -18,7 +18,7 @@ import pandas as pd
 plt.rcParams['figure.figsize'] = (12, 5)
 plt.rcParams['font.size'] = 12
 np.random.seed(42)
-```python
+```
 
 ## Introduction to Molecular Modeling
 
@@ -88,7 +88,7 @@ ax.annotate('Attractive\n(r⁻⁶ dominates)', xy=(2.0, -0.3), fontsize=10, colo
 ax.grid(True, alpha=0.3)
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ## Force Fields and Molecular Mechanics
 
@@ -174,7 +174,7 @@ axes[1, 1].grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()
-```python
+```
 
 ### Common Force Fields
 
@@ -245,7 +245,7 @@ plt.show()
 print(f"Final position: ({path_sd[-1, 0]:.4f}, {path_sd[-1, 1]:.4f})")
 print(f"Final energy:    {rosenbrock(path_sd[-1, 0], path_sd[-1, 1]):.6f}")
 print(f"True minimum:    (1.0, 1.0) with energy 0.0")
-```python
+```
 
 ## Homology Modeling
 
@@ -281,7 +281,7 @@ Target sequence
 ┌─────────────────┐
 │ Quality check    │  ← Ramachandran, QMEAN, ProSA
 └─────────────────┘
-```python
+```
 
 ## Pitfalls
 

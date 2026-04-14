@@ -180,7 +180,7 @@ print(f"\nBefore Harmony: LISI-batch={lisi_batch.mean():.3f}, LISI-celltype={lis
 print(f"After  Harmony: LISI-batch={lisi_batch_post.mean():.3f}, LISI-celltype={lisi_ct_post.mean():.3f}")
 print(f"  -> LISI-batch increase = better batch mixing")
 print(f"  -> LISI-celltype should remain similar = cell types preserved")
-```python
+```
 
 ## scVI: Deep Generative Integration
 
@@ -203,7 +203,7 @@ The batch label is fed as a covariate to the encoder and decoder. During trainin
 ### scVI installation and usage
 ```bash
 pip install scvi-tools
-```python
+```
 
 ```python
 import scvi
@@ -225,7 +225,7 @@ de_df = model.differential_expression(
     group1='T_cell', group2='B_cell',
     delta=0.25  # minimum effect size (log2FC)
 )
-```python
+```
 
 ### scANVI: labeled integration
 scANVI (scVI + semi-supervision) extends scVI by using available cell type labels as training signal. Labeled cells help anchor the latent space, making integration more biologically meaningful. Used for label transfer between datasets.

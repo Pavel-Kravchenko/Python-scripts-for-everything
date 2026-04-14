@@ -53,7 +53,7 @@ descriptors = {
 }
 ro5_pass = (descriptors['MW'] <= 500 and descriptors['LogP'] <= 5 and
             descriptors['HBD'] <= 5 and descriptors['HBA'] <= 10)
-```python
+```
 
 **Pattern 2: Morgan fingerprints and similarity**
 ```python
@@ -70,7 +70,7 @@ sim = DataStructs.TanimotoSimilarity(fp1, fp2)
 library_fps = [AllChem.GetMorganFingerprintAsBitVect(m, 2, 2048) for m in library_mols]
 similarities = DataStructs.BulkTanimotoSimilarity(query_fp, library_fps)
 top_hits = sorted(enumerate(similarities), key=lambda x: -x[1])[:10]
-```python
+```
 
 **Pattern 3: ChEMBL QSAR dataset**
 ```python
@@ -88,7 +88,7 @@ df = pd.DataFrame(list(data)).dropna()
 df = df[df['standard_value'].astype(float) > 0]
 df['pIC50'] = -np.log10(df['standard_value'].astype(float) * 1e-9)
 df['active'] = (df['pIC50'] >= 6).astype(int)
-```python
+```
 
 **Pattern 4: QSAR model**
 ```python
@@ -106,7 +106,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratif
 rf = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
 rf.fit(X_train, y_train)
 print(f"AUC: {roc_auc_score(y_test, rf.predict_proba(X_test)[:,1]):.3f}")
-```python
+```
 
 **Pattern 5: Molecular docking (AutoDock Vina)**
 ```bash
@@ -121,7 +121,7 @@ vina --receptor receptor.pdbqt --ligand ligand.pdbqt \
     --center_x 22.5 --center_y 5.0 --center_z 18.0 \
     --size_x 20 --size_y 20 --size_z 20 \
     --exhaustiveness 8 --out docked.pdbqt --log docking.log
-```python
+```
 
 ## Lipinski's Rule of Five
 
@@ -173,7 +173,7 @@ def lipinski_filter(smiles_list):
 
 df = lipinski_filter(smiles_list)
 print(f"Ro5 pass rate: {df['ro5_pass'].mean():.1%}")
-```python
+```
 
 ### Scaffold-Based Train/Test Split
 ```python
@@ -197,7 +197,7 @@ gss = GroupShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
 train_idx, test_idx = next(gss.split(X, y, groups=groups))
 X_train, X_test = X[train_idx], X[test_idx]
 y_train, y_test = y[train_idx], y[test_idx]
-```python
+```
 
 ### Parse SDF File with RDKit
 ```python
@@ -221,7 +221,7 @@ def read_sdf_to_df(sdf_path):
 
 compounds = read_sdf_to_df('compound_library.sdf')
 print(f"Loaded {len(compounds)} molecules")
-```python
+```
 
 ### Virtual Screening Results Parser
 ```python
@@ -245,7 +245,7 @@ def parse_vina_log(log_path):
 
 scores = parse_vina_log('docking.log')
 print(f"Best pose: {scores.iloc[0]['affinity_kcal_mol']} kcal/mol")
-```python
+```
 
 ## Related Skills
 - `structural-bioinformatics` — protein structure, PDB parsing, binding sites

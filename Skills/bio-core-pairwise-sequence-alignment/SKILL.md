@@ -39,7 +39,7 @@ print("Global alignment of HBA vs HBB (N-terminal region):")
 print(best)
 print(f"Score: {best.score:.1f}")
 print("\nAll imports ready. Proceed to Section 1.")
-```python
+```
 
 The strong diagonal indicates high similarity between the two hemoglobin sequences. The few off-diagonal dots are noise from individual matching residues.
 
@@ -70,7 +70,7 @@ def windowed_dot_plot(seq1, seq2, window=3, threshold=2, title="Windowed Dot Plo
 
 windowed_dot_plot(hba_human, hba_mouse, window=5, threshold=4,
                   title="Windowed Dot Plot (w=5, t=4)")
-```python
+```
 
 The windowed version dramatically reduces noise: only regions where several consecutive residues match are shown. This makes the alignment signal much clearer.
 
@@ -81,7 +81,7 @@ The windowed version dramatically reduces noise: only regions where several cons
 repeat_seq = "ACGTACGTACGTNNNNACGTACGTACGT"
 windowed_dot_plot(repeat_seq, repeat_seq, window=4, threshold=4,
                   title="Self Dot Plot -- Internal Repeat")
-```python
+```
 
 The parallel diagonals in a self-comparison reveal repeated elements within the sequence.
 
@@ -171,7 +171,7 @@ print("     ", "  ".join(f"{aa:>3}" for aa in aa_subset))
 for aa1 in aa_subset:
     row = [f"{blosum62[aa1, aa2]:>3}" for aa2 in aa_subset]
     print(f"  {aa1}  ", "  ".join(row))
-```python
+```
 
 ```python
 # Compare a few informative pairs
@@ -190,7 +190,7 @@ print("-" * 55)
 for a, b, reason in pairs:
     score = blosum62[a, b]
     print(f"{a} <-> {b}  {score:>+4}    {reason}")
-```python
+```
 
 ```python
 # Visualize the full BLOSUM62 matrix as a heatmap
@@ -210,7 +210,7 @@ ax.set_title("BLOSUM62 Substitution Matrix")
 plt.colorbar(im, label="Score")
 plt.tight_layout()
 plt.show()
-```python
+```
 
 **Observations from the heatmap:**
 - The diagonal (self-substitutions) is always positive: identical residues are rewarded
@@ -261,7 +261,7 @@ plt.show()
 
 print("With affine penalties, short gaps are penalized MORE than linear,")
 print("but long gaps are penalized LESS -- favouring fewer, longer gaps.")
-```python
+```
 
 
 ## Global Alignment: The Needleman-Wunsch Algorithm
