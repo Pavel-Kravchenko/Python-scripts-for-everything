@@ -1,8 +1,8 @@
 # Bioinformatics Skills for Claude Code
 
-208 curated skills extracted from a 197-notebook, 6-tier bioinformatics course. Each skill provides code patterns, explanations, version compatibility notes, and common pitfalls for a focused topic.
+208 compressed skills extracted from a 197-notebook, 6-tier bioinformatics course. Each skill is a dense reference card: code patterns, decision tables, API references, and pitfalls — no tutorial prose.
 
-**All skills scored 70+/100** on a 5-dimension quality rubric (metadata, structure, code quality, content depth, uniqueness). Zero duplicates. Run `python3 scripts/score_skills.py` to re-evaluate.
+**Compressed from 70,710 → 31,560 lines (55% reduction).** Max 300 lines per skill. All frontmatter validated (name, description, tool_type, primary_tool). All code fences balanced.
 
 ---
 
@@ -163,19 +163,12 @@ Consolidated skills from earlier course versions, migrated to directory format.
 
 ---
 
-## Quality Metrics
+## Quality
 
-All skills are scored by `scripts/score_skills.py` across 5 dimensions:
-
-| Dimension | Weight | What it checks |
-|-----------|--------|---------------|
-| Metadata | 20pts | Frontmatter, description quality, tool_type, primary_tool |
-| Structure | 20pts | Version compat, learning objectives, pitfalls section |
-| Code Quality | 25pts | Code blocks, language tags, docstrings, functions |
-| Content Depth | 20pts | Line count, tables, section depth, no stubs |
-| Uniqueness | 15pts | No duplicates across formats |
-
-Current scores: **avg 79.8/100**, all grade B or A, zero C/D/F.
+- All 208 skills have valid YAML frontmatter (name, description, tool_type, primary_tool)
+- All code fences properly balanced
+- 201/208 skills have a Pitfalls section
+- Max skill size: 300 lines, avg ~152 lines
 
 ---
 
