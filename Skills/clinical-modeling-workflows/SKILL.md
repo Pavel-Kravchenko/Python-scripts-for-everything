@@ -1,6 +1,7 @@
 ---
 name: clinical-modeling-workflows
 description: ACMG/AMP variant classification, in silico predictors, AutoDock Vina docking, GROMACS MD setup, and Scanpy single-cell analysis.
+tool_type: python
 primary_tool: scanpy
 ---
 

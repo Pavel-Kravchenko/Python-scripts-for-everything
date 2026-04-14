@@ -1,6 +1,7 @@
 ---
 name: chipseq-epigenomics
 description: ChIP-seq processing pipeline, peak calling with MACS3, differential binding with DiffBind, peak annotation with ChIPseeker, deepTools visualization
+tool_type: mixed
 primary_tool: Pandas
 ---
 

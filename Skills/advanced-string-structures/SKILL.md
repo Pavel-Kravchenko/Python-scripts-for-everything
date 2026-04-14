@@ -1,6 +1,7 @@
 ---
 name: advanced-string-structures
 description: Tries, Aho-Corasick multi-pattern matching, suffix arrays with LCP, and suffix trees for genome indexing
+tool_type: python
 primary_tool: Python
 ---
 

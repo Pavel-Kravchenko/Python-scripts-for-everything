@@ -1,6 +1,7 @@
 ---
 name: genomic-llm-embeddings
 description: DNA tokenization strategies, k-mer baselines, and pretrained sequence embeddings for genomic ML.
+tool_type: python
 primary_tool: NumPy
 ---
 

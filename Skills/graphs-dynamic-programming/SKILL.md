@@ -1,6 +1,7 @@
 ---
 name: graphs-dynamic-programming
 description: Graph algorithms (BFS, DFS, Dijkstra, MST, topological sort) and dynamic programming (memoization, tabulation, knapsack, sequence alignment)
+tool_type: python
 primary_tool: NumPy
 ---
 

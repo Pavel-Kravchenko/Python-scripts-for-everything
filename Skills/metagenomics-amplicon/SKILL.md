@@ -1,6 +1,7 @@
 ---
 name: metagenomics-amplicon
 description: 16S/amplicon metagenomics diversity and community analysis.
+tool_type: mixed
 primary_tool: Python
 ---
 

@@ -1,6 +1,7 @@
 ---
 name: atac-seq-analysis
 description: ATAC-seq quality control and accessibility analysis.
+tool_type: python
 primary_tool: NumPy
 ---
 

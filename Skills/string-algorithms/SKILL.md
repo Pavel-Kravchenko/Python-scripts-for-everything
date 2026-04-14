@@ -1,6 +1,7 @@
 ---
 name: string-algorithms
 description: Pattern matching algorithms — naive, KMP (failure function), Rabin-Karp (rolling hash), and DFA-based matching for sequence search
+tool_type: python
 primary_tool: Python
 ---
 

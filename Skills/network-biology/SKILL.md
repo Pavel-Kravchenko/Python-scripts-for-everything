@@ -1,6 +1,7 @@
 ---
 name: network-biology
 description: Biological network analysis — PPI networks from STRING, NetworkX graph metrics, Louvain community detection, GO enrichment per module, Cytoscape export, gene regulatory network inference with GENIE3
+tool_type: mixed
 primary_tool: NetworkX
 ---
 

@@ -1,6 +1,7 @@
 ---
 name: long-read-sequencing
 description: Oxford Nanopore and PacBio long-read sequencing — basecalling (Dorado), QC (NanoStat), alignment (Minimap2), assembly (Flye, Hifiasm), SV calling (Sniffles2), methylation, isoform analysis
+tool_type: mixed
 primary_tool: Pandas
 ---
 

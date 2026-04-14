@@ -1,6 +1,7 @@
 ---
 name: rnaseq
 description: RNA-seq differential expression — DESeq2, edgeR, normalization strategies (RPKM/TPM/DESeq2 size factors), exploratory PCA, volcano plots, GSEA, STAR/Salmon/featureCounts pipelines
+tool_type: mixed
 primary_tool: Matplotlib
 ---
 

@@ -1,6 +1,7 @@
 ---
 name: metagenomics-shotgun
 description: Shotgun metagenomics — host decontamination, Kraken2 taxonomic profiling, Bracken abundance, HUMAnN3 functional annotation, MEGAHIT assembly, MetaBAT2 binning, CheckM, MAGs, QIIME2 16S
+tool_type: python
 primary_tool: NumPy
 ---
 

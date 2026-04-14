@@ -1,6 +1,7 @@
 ---
 name: linear-tree-hash-structures
 description: Linked lists, stacks, queues, dynamic arrays, BST/AVL/Red-Black trees, hash tables with collision resolution, and Bloom filters
+tool_type: python
 primary_tool: Python
 ---
 

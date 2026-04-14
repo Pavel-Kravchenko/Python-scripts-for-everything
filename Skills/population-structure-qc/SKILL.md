@@ -1,6 +1,7 @@
 ---
 name: population-structure-qc
 description: Population structure correction and stratification-aware QC for association studies.
+tool_type: python
 primary_tool: NumPy
 ---
 

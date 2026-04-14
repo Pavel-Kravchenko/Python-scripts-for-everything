@@ -1,6 +1,7 @@
 ---
 name: python-core-bio
 description: Core Python for bioinformatics — types, bio-string manipulation (codons, reverse complement), functions, and file I/O for FASTA/GenBank
+tool_type: python
 primary_tool: Python
 ---
 

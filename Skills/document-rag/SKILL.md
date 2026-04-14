@@ -1,6 +1,7 @@
 ---
 name: document-rag
 description: Retrieval-augmented generation pipelines for document understanding.
+tool_type: python
 primary_tool: HuggingFace Transformers
 ---
 

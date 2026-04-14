@@ -1,6 +1,7 @@
 ---
 name: vision-language-models
 description: Vision-language model inference patterns for scientific documents.
+tool_type: python
 primary_tool: HuggingFace Transformers
 ---
 

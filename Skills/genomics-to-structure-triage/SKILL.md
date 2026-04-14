@@ -1,6 +1,7 @@
 ---
 name: genomics-to-structure-triage
 description: Route prioritized genomic variants into AlphaFold2/3 or RoseTTAFold structural follow-up.
+tool_type: python
 primary_tool: NumPy
 ---
 

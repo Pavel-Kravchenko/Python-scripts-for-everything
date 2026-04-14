@@ -1,6 +1,7 @@
 ---
 name: bioinformatics-workflows-cicd
 description: Snakemake, Nextflow DSL2, GitHub Actions CI, and pytest patterns for bioinformatics pipelines.
+tool_type: python
 primary_tool: snakemake
 ---
 

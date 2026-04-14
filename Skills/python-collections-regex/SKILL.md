@@ -1,6 +1,7 @@
 ---
 name: python-collections-regex
 description: Python collections (namedtuple, defaultdict, Counter, set) and regex for bioinformatics — k-mer counting, FASTA/FASTQ streaming, restriction maps, PROSITE patterns.
+tool_type: python
 primary_tool: Python
 ---
 

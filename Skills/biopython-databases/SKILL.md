@@ -1,6 +1,7 @@
 ---
 name: biopython-databases
 description: BioPython Seq/SeqRecord/SeqIO, NCBI Entrez API, UniProt queries, and biological format conversion
+tool_type: python
 primary_tool: Python
 ---
 

@@ -1,6 +1,7 @@
 ---
 name: cheminformatics-drug-discovery
 description: Cheminformatics and drug discovery — RDKit molecular representations, fingerprints, Tanimoto similarity, QSAR modeling with ChEMBL data, AutoDock Vina docking, ADMET prediction, graph neural networks for molecules
+tool_type: python
 primary_tool: RDKit
 ---
 

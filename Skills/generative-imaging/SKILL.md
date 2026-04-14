@@ -1,6 +1,7 @@
 ---
 name: generative-imaging
 description: Generative imaging and inverse-problem restoration workflows.
+tool_type: python
 primary_tool: NumPy
 ---
 

@@ -1,6 +1,7 @@
 ---
 name: rnaseq-analysis
 description: RNA-seq differential expression analysis and normalization workflows.
+tool_type: mixed
 primary_tool: Python
 ---
 

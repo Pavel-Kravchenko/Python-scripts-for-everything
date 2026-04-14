@@ -1,6 +1,7 @@
 ---
 name: structural-bioinformatics
 description: Bio.PDB parsing, distance/RMSD/TM-score, DSSP, Ramachandran, PWM/PROSITE, GO enrichment, KEGG REST API.
+tool_type: python
 primary_tool: NumPy
 ---
 

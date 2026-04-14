@@ -1,6 +1,7 @@
 ---
 name: alphafold-structure-prediction
 description: AlphaFold/ESMFold structure prediction and confidence interpretation.
+tool_type: python
 primary_tool: NumPy
 ---
 
